@@ -24,6 +24,6 @@ export async function middleware(req: NextRequest) {
    aluno ter cookie, senão a tela de senha aparece sem imagem. */
 export const config = {
   matcher: [
-    '/((?!login|api/login|img/login\\.webp|_next/static|_next/image|favicon.ico).*)',
+    '/((?!login|api/login|img/login\\.webp|_next/static|_next/image|_vercel|favicon.ico).*)',
   ],
 };

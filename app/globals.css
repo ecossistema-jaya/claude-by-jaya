@@ -1,0 +1,232 @@
+:root {
+  --marsala: #86050c;
+  --marsala-soft: #a32530;
+  --cobre: #df6e36;
+  --areia: #f1dabf;
+  --areia-bg: #faf4ea;
+  --carvao: #2b2320;
+  --carvao-soft: #6b5d53;
+  --card: #fffdf8;
+  --linha: #e7d6be;
+  --font-h: 'Petrona', Georgia, serif;
+  --font-b: 'Jost', system-ui, sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--areia-bg);
+  color: var(--carvao);
+  font-family: var(--font-b);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-h);
+  color: var(--marsala);
+  line-height: 1.1;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ---------- índice ---------- */
+
+.wrap {
+  max-width: 940px;
+  margin: 0 auto;
+  padding: 8vh 24px 12vh;
+}
+
+.eyebrow {
+  font-family: var(--font-b);
+  font-size: 12px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--cobre);
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+
+.wrap > h1 {
+  font-size: clamp(38px, 6vw, 64px);
+  font-weight: 700;
+}
+
+.sub {
+  font-size: clamp(17px, 2.2vw, 21px);
+  color: var(--carvao-soft);
+  margin-top: 16px;
+  max-width: 560px;
+}
+
+.lista {
+  margin-top: 48px;
+  display: grid;
+  gap: 16px;
+}
+
+.aula {
+  display: flex;
+  gap: 22px;
+  align-items: baseline;
+  background: var(--card);
+  border: 1px solid var(--linha);
+  border-radius: 18px;
+  padding: 26px 28px;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.aula:hover {
+  border-color: var(--cobre);
+  box-shadow: 0 10px 30px rgba(134, 5, 12, 0.09);
+  transform: translateY(-2px);
+}
+
+.aula .n {
+  font-family: var(--font-h);
+  font-weight: 700;
+  font-size: 40px;
+  color: var(--areia);
+  -webkit-text-stroke: 1.5px var(--cobre);
+  line-height: 1;
+  flex-shrink: 0;
+  min-width: 46px;
+}
+
+.aula h2 {
+  font-size: clamp(20px, 2.6vw, 26px);
+}
+
+.aula p {
+  color: var(--carvao-soft);
+  margin-top: 6px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.rodape {
+  margin-top: 56px;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--carvao-soft);
+}
+
+/* ---------- login ---------- */
+
+.login {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.login form {
+  background: var(--card);
+  border: 1px solid var(--linha);
+  border-radius: 20px;
+  padding: 40px 36px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 12px 40px rgba(134, 5, 12, 0.07);
+}
+
+.login h1 {
+  font-size: 32px;
+}
+
+.login p {
+  color: var(--carvao-soft);
+  margin-top: 10px;
+  font-size: 15px;
+}
+
+.login input {
+  width: 100%;
+  margin-top: 26px;
+  padding: 14px 16px;
+  border: 1px solid var(--linha);
+  border-radius: 12px;
+  background: var(--areia-bg);
+  font-family: var(--font-b);
+  font-size: 16px;
+  color: var(--carvao);
+}
+
+.login input:focus {
+  outline: 2px solid var(--cobre);
+  outline-offset: 1px;
+}
+
+.login button {
+  width: 100%;
+  margin-top: 14px;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  background: var(--marsala);
+  color: #fff;
+  font-family: var(--font-b);
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.login button:hover:not(:disabled) {
+  background: var(--marsala-soft);
+}
+
+.login button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.erro {
+  color: var(--marsala);
+  font-size: 14px;
+  margin-top: 14px;
+  min-height: 20px;
+}
+
+/* ---------- moldura da aula ---------- */
+
+.frame {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.voltar {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 10;
+  background: rgba(255, 253, 248, 0.88);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--linha);
+  border-radius: 100px;
+  padding: 7px 15px;
+  font-size: 13px;
+  color: var(--marsala);
+  letter-spacing: 0.04em;
+  box-shadow: 0 4px 14px rgba(134, 5, 12, 0.08);
+  transition: background 0.2s, color 0.2s;
+}
+
+.voltar:hover {
+  background: var(--marsala);
+  color: #fff;
+}

@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Psicometria e Genialidade · Shakti Jaya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Petrona:ital,wght@0,400;0,600;0,700;1,400&family=Jost:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Allura&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --marsala:#86050C; --marsala-soft:#A32530;
+    --cobre:#DF6E36; --cobre-soft:#E89664;
+    --dourado:#C9962E;
+    --areia:#F1DABF; --areia-bg:#FAF4EA;
+    --carvao:#2B2320; --carvao-soft:#6B5D53; --muted:#9A8C7E;
+    --card:#FFFDF8; --linha:#E7D6BE;
+    --verde:#5B7A4B; --danger:#B5502F; --warn:#C9962E;
+    --font-h:'Petrona',Georgia,serif; --font-b:'Jost',system-ui,sans-serif; --font-mono:'JetBrains Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--areia-bg);color:var(--carvao);font-family:var(--font-b);line-height:1.6;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 22px;}
+  h1,h2,h3,h4{font-family:var(--font-h);font-weight:700;line-height:1.12;color:var(--marsala);}
+  h1{font-size:clamp(32px,5vw,54px);}
+  h2{font-size:clamp(24px,3.4vw,36px);}
+  h3{font-size:clamp(18px,2.3vw,23px);}
+  p{font-size:clamp(15.5px,1.8vw,17.5px);}
+  strong{color:var(--marsala);font-weight:600;}
+  em{color:var(--cobre);font-style:italic;}
+  .cobre{color:var(--cobre);}
+  .eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:var(--cobre);margin-bottom:12px;}
+  .script{font-family:'Allura',cursive;font-size:clamp(26px,3.6vw,40px);color:var(--marsala-soft);line-height:1;}
+  .hero img{display:block;width:100%;height:auto;}
+  .rule{height:1px;background:var(--linha);}
+  .hide{display:none !important;}
+  .btn{font-family:var(--font-b);font-size:15.5px;font-weight:500;border:1px solid var(--marsala);
+    background:var(--marsala);color:#fff;padding:12px 28px;border-radius:99px;cursor:pointer;transition:.18s;}
+  .btn:hover{background:var(--marsala-soft);}
+  .btn.ghost{background:transparent;color:var(--marsala);}
+  .btn.ghost:hover{background:var(--marsala);color:#fff;}
+  .btn.sm{padding:8px 18px;font-size:14px;}
+  .btn:disabled{opacity:.45;cursor:not-allowed;}
+
+  /* INTRO */
+  #intro{padding:48px 0 56px;text-align:center;}
+  #intro .lead{max-width:680px;margin:16px auto 0;color:var(--carvao-soft);font-size:clamp(16.5px,2vw,19px);}
+  .meta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:26px 0 30px;}
+  .meta{background:var(--card);border:1px solid var(--linha);border-radius:99px;padding:8px 20px;
+    font-family:var(--font-mono);font-size:12.5px;letter-spacing:.06em;color:var(--carvao-soft);}
+  .alt-in{margin-top:34px;font-size:14.5px;color:var(--carvao-soft);}
+  .alt-in a{color:var(--cobre);cursor:pointer;text-decoration:underline;}
+
+  /* PASTE MODE */
+  #paste{padding:40px 0 60px;max-width:760px;margin:0 auto;}
+  #paste textarea{width:100%;min-height:260px;border:1px solid var(--linha);border-radius:14px;
+    background:var(--card);padding:18px;font-family:var(--font-mono);font-size:13px;line-height:1.6;color:var(--carvao);resize:vertical;}
+  #paste .row{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap;align-items:center;}
+
+  /* ASSESSMENT */
+  #assess{padding:38px 0 70px;max-width:760px;margin:0 auto;}
+  .prog-wrap{position:sticky;top:0;background:var(--areia-bg);padding:14px 0 10px;z-index:10;}
+  .prog-info{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:12px;
+    letter-spacing:.1em;color:var(--carvao-soft);margin-bottom:8px;text-transform:uppercase;}
+  .prog{height:6px;background:var(--areia);border-radius:99px;overflow:hidden;}
+  .prog>div{height:100%;background:linear-gradient(90deg,var(--marsala),var(--cobre));width:0;transition:width .4s;}
+  .q-card{background:var(--card);border:1px solid var(--linha);border-radius:18px;padding:30px 32px;
+    margin-top:22px;box-shadow:0 10px 30px rgba(134,5,12,.07);}
+  .q-num{font-family:var(--font-mono);font-size:12px;letter-spacing:.16em;color:var(--cobre);
+    text-transform:uppercase;margin-bottom:10px;}
+  .q-card h3{margin-bottom:6px;font-size:clamp(19px,2.5vw,24px);}
+  .q-hint{font-size:14.5px;color:var(--muted);margin-bottom:16px;font-style:italic;}
+  .opt{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--linha);border-radius:12px;
+    padding:13px 16px;margin-bottom:10px;cursor:pointer;transition:.15s;background:#fff;font-size:15.5px;}
+  .opt:hover{border-color:var(--cobre-soft);}
+  .opt.sel{border-color:var(--cobre);background:#FCF3EA;box-shadow:0 0 0 1px var(--cobre);}
+  .opt .dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--linha);flex-shrink:0;margin-top:2px;transition:.15s;}
+  .opt.sel .dot{border-color:var(--cobre);background:var(--cobre);box-shadow:inset 0 0 0 3.5px #FCF3EA;}
+  .opt.multi .dot{border-radius:5px;}
+  textarea.open-ans{width:100%;min-height:120px;border:1px solid var(--linha);border-radius:12px;
+    padding:14px;font-family:var(--font-b);font-size:15.5px;line-height:1.55;resize:vertical;background:#fff;}
+  textarea.open-ans:focus{outline:none;border-color:var(--cobre);}
+  .q-nav{display:flex;justify-content:space-between;margin-top:22px;gap:12px;}
+  .multi-note{font-size:13px;color:var(--cobre);font-family:var(--font-mono);letter-spacing:.06em;margin-bottom:12px;}
+  .saved-note{text-align:center;font-size:12.5px;color:var(--muted);margin-top:14px;font-family:var(--font-mono);}
+
+  /* LOADING */
+  #loading{padding:90px 0;text-align:center;}
+  .spin{width:54px;height:54px;border-radius:50%;border:4px solid var(--areia);
+    border-top-color:var(--cobre);animation:sp 1s linear infinite;margin:0 auto 26px;}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  #load-msg{font-family:var(--font-h);font-style:italic;font-size:clamp(19px,2.6vw,25px);color:var(--marsala);}
+  #load-sub{color:var(--carvao-soft);margin-top:10px;font-size:15px;}
+
+  /* BLUEPRINT VIEW */
+  #bpview{padding:44px 0 60px;max-width:820px;margin:0 auto;}
+  #bpview .bp-box{background:var(--card);border:1px solid var(--linha);border-radius:16px;
+    max-height:420px;overflow:auto;padding:24px;margin:20px 0;}
+  #bpview .bp-box pre{white-space:pre-wrap;font-family:var(--font-mono);font-size:13px;line-height:1.65;color:var(--carvao);}
+  #bpview .row{display:flex;gap:12px;flex-wrap:wrap;}
+
+  /* DASHBOARD */
+  #dash{padding:44px 0 70px;}
+  .d-head{display:flex;gap:22px;align-items:center;flex-wrap:wrap;margin-bottom:8px;}
+  .avatar{width:76px;height:76px;border-radius:50%;background:linear-gradient(135deg,var(--marsala),var(--cobre));
+    color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-h);
+    font-weight:700;font-size:28px;flex-shrink:0;}
+  .d-head .zone{color:var(--carvao-soft);font-size:15.5px;max-width:640px;}
+  .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .tag-chip{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+    background:var(--areia);color:var(--marsala);border-radius:99px;padding:5px 14px;}
+  .transition-chip{display:inline-block;font-family:var(--font-mono);font-size:12px;letter-spacing:.08em;
+    background:#FCF3EA;border:1px solid var(--cobre-soft);color:var(--cobre);border-radius:99px;padding:6px 16px;margin-top:12px;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:26px;}
+  @media(max-width:840px){.grid2{grid-template-columns:1fr;}}
+  .dcard{background:var(--card);border:1px solid var(--linha);border-radius:18px;padding:26px 28px;
+    box-shadow:0 10px 30px rgba(134,5,12,.06);}
+  .dcard.full{grid-column:1/-1;}
+  .dc-head{display:flex;gap:14px;align-items:center;margin-bottom:6px;}
+  .dc-ico{width:44px;height:44px;border-radius:50%;background:#FCF3EA;border:1px solid var(--cobre-soft);
+    display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+  .dc-sub{font-size:13px;color:var(--muted);font-style:italic;}
+  .explain{background:#F6F0E6;border-radius:12px;padding:14px 18px;font-size:14px;color:var(--carvao-soft);margin:14px 0;}
+  .reading{border-left:4px solid var(--cobre);background:#FDFAF4;border-radius:0 12px 12px 0;
+    padding:16px 20px;font-size:15px;margin-top:16px;}
+  .reading .rl{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.2em;color:var(--cobre);
+    text-transform:uppercase;display:block;margin-bottom:8px;}
+  .bar-row{margin-bottom:14px;}
+  .bar-lab{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px;}
+  .bar-lab b{font-weight:500;color:var(--carvao);}
+  .bar-lab span{font-family:var(--font-mono);font-size:12.5px;color:var(--carvao-soft);}
+  .bar{height:9px;background:var(--areia);border-radius:99px;overflow:hidden;}
+  .bar>div{height:100%;width:0;border-radius:99px;transition:width .9s ease;}
+  .chart-box{position:relative;height:300px;margin-top:8px;}
+  .svg-host{width:100%;height:100%;}
+  .svg-host svg{width:100%;height:100%;display:block;overflow:visible;}
+  .lg{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-top:8px;font-size:13px;color:var(--carvao);}
+  .lg i{display:inline-block;width:14px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle;}
+  .chart-box.tall{height:340px;}
+  .chart-box.short{height:200px;}
+  .score-big{font-family:var(--font-h);font-weight:700;font-size:46px;color:var(--marsala);line-height:1;}
+  .score-big small{font-size:18px;color:var(--muted);font-family:var(--font-b);}
+  .prof-name{font-family:var(--font-h);font-weight:700;font-size:clamp(20px,2.6vw,26px);color:var(--marsala);}
+  .prof-arch{font-size:13.5px;color:var(--cobre);font-family:var(--font-mono);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;}
+  .prof-desc{font-size:14.5px;color:var(--carvao-soft);}
+  .ua-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px;}
+  .ua-stat{text-align:center;background:#FDFAF4;border:1px solid var(--linha);border-radius:12px;padding:14px 8px;}
+  .ua-stat .v{font-family:var(--font-h);font-weight:700;font-size:26px;color:var(--marsala);}
+  .ua-stat .l{font-size:12px;color:var(--muted);}
+  .ins{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px;font-size:14.5px;}
+  .ins .pin{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:6px;}
+  .rec-card{background:linear-gradient(135deg,#86050C,#A32530);color:#F8EBDD;border-radius:18px;
+    padding:30px 32px;margin-top:26px;}
+  .rec-card h3{color:#F1DABF;margin-bottom:10px;}
+  .rec-card p{color:#F8EBDD;font-size:clamp(15.5px,1.9vw,17.5px);}
+  .rec-card strong{color:#fff;} .rec-card em{color:var(--cobre-soft);}
+  .act{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--linha);align-items:flex-start;}
+  .act:last-child{border-bottom:none;}
+  .act .tf{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.06em;color:var(--cobre);
+    background:#FCF3EA;border-radius:8px;padding:5px 10px;white-space:nowrap;flex-shrink:0;margin-top:2px;}
+  .act h4{font-size:16.5px;margin-bottom:2px;}
+  .act .fw{font-size:12px;color:var(--muted);font-family:var(--font-mono);margin-bottom:4px;}
+  .act p{font-size:14.5px;color:var(--carvao-soft);}
+  .cl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:14px;}
+  .cl-col h4{font-size:15px;margin-bottom:10px;padding-bottom:8px;border-bottom:2px solid;}
+  .cl-col ul{list-style:none;}
+  .cl-col li{font-size:14px;padding:7px 0 7px 24px;position:relative;color:var(--carvao);}
+  .cl-col li::before{content:"";position:absolute;left:2px;top:.85em;width:8px;height:8px;border-radius:3px;background:var(--cobre);}
+  .donot{margin-top:20px;border:1px solid #E4C3B2;border-left:4px solid var(--danger);border-radius:0 12px 12px 0;
+    background:#FDF6F1;padding:16px 20px;}
+  .donot h4{color:var(--danger);font-size:15px;margin-bottom:8px;}
+  .donot li{font-size:14px;color:var(--carvao-soft);margin-left:18px;margin-bottom:6px;}
+  .squad-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:14px;}
+  .squad-box{background:#FDFAF4;border:1px solid var(--linha);border-radius:12px;padding:16px 18px;}
+  .squad-box .k{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;}
+  .squad-box .n{font-family:var(--font-h);font-weight:700;font-size:18px;color:var(--marsala);margin:4px 0 4px;}
+  .squad-box .d{font-size:13.5px;color:var(--carvao-soft);}
+  .mode-chip{display:inline-block;background:#EAF1E4;color:#4C6B3D;border:1px solid #CBDCC0;
+    border-radius:99px;padding:6px 18px;font-family:var(--font-mono);font-size:12.5px;letter-spacing:.1em;margin-top:14px;}
+  .dash-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px;justify-content:center;}
+  .callout-warn{background:#FDF6F1;border:1px solid #E4C3B2;border-left:4px solid var(--warn);
+    border-radius:0 12px 12px 0;padding:14px 18px;margin:18px 0;font-size:14.5px;color:var(--carvao);}
+  #err{padding:70px 0;text-align:center;max-width:640px;margin:0 auto;}
+  #err p{color:var(--carvao-soft);margin:14px 0 22px;}
+  footer{padding:40px 0 56px;text-align:center;}
+  footer .fn{font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--carvao-soft);margin-top:12px;}
+  @media print{
+    .btn,.q-nav,.prog-wrap,.dash-actions,.alt-in,.saved-note{display:none !important;}
+    body{background:#fff;}
+    .hero{max-height:150px;overflow:hidden;}
+    .wrap{max-width:100%;padding:0 8mm;}
+    .grid2{display:block;}
+    .dcard{break-inside:avoid;page-break-inside:avoid;box-shadow:none;margin-bottom:14px;
+      border:1px solid #d8c9b2;padding:16px 18px;}
+    .rec-card,.act,.squad-box,.donot,.reading{break-inside:avoid;page-break-inside:avoid;}
+    .chart-box{height:250px;}
+    .chart-box.tall{height:290px;} .chart-box.short{height:180px;}
+    h2{font-size:22px;} h3{font-size:17px;} p,li{font-size:12.5px;}
+    .explain{font-size:11.5px;} .reading{font-size:12.5px;}
+    *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+    @page{margin:12mm;}
+  }
+</style>
+</head>
+<body>
+
+<div class="hero"><img src="/img/aula-04-1.webp" alt="Psicometria e Genialidade · Shakti Jaya"></div>
+
+<!-- ============ INTRO ============ -->
+<section id="intro" class="wrap">
+  <div class="eyebrow">Assessment · 7 frameworks convergentes</div>
+  <h1>Mapa da sua<br>Zona de Genialidade</h1>
+  <p class="lead">Responda o questionário uma única vez. Sete lentes analisam as mesmas respostas — Hendricks, Clifton, Sullivan, Hamilton, Hormozi, Kolbe e Hogshead — e devolvem seu blueprint e um dashboard psicométrico completo.</p>
+  <div class="meta-row">
+    <span class="meta">≈ 30 minutos</span>
+    <span class="meta">43 perguntas</span>
+    <span class="meta">progresso salvo automaticamente</span>
+  </div>
+  <button class="btn" onclick="App.startAssess()">Começar o assessment</button>
+  <p class="alt-in">Já tem seu blueprint pronto? <a onclick="App.showPaste()">Cole aqui e vá direto ao dashboard</a>.</p>
+</section>
+
+<!-- ============ PASTE ============ -->
+<section id="paste" class="wrap hide">
+  <div class="eyebrow">Caminho direto</div>
+  <h2>Cole seu blueprint</h2>
+  <p style="color:var(--carvao-soft);margin-top:8px;">Aceita o texto do seu Genius Zone Blueprint, um documento de posicionamento ou qualquer material denso de autoconhecimento (.md ou .txt também, pelo botão).</p>
+  <textarea id="paste-txt" placeholder="Cole o conteúdo aqui…"></textarea>
+  <div class="row">
+    <button class="btn" onclick="App.analyzePasted()">Gerar dashboard</button>
+    <label class="btn ghost" style="display:inline-block;">Subir arquivo<input type="file" accept=".md,.txt" style="display:none" onchange="App.loadFile(event)"></label>
+    <button class="btn ghost sm" onclick="App.backIntro()">Voltar</button>
+  </div>
+</section>
+
+<!-- ============ ASSESSMENT ============ -->
+<section id="assess" class="wrap hide">
+  <div class="prog-wrap">
+    <div class="prog-info"><span id="p-sec"></span><span id="p-count"></span></div>
+    <div class="prog"><div id="p-bar"></div></div>
+  </div>
+  <div id="q-holder"></div>
+  <p class="saved-note">Suas respostas ficam salvas neste dispositivo. Pode sair e voltar.</p>
+</section>
+
+<!-- ============ LOADING ============ -->
+<section id="loading" class="wrap hide">
+  <div class="spin"></div>
+  <div id="load-msg">Preparando…</div>
+  <div id="load-sub"></div>
+</section>
+
+<!-- ============ BLUEPRINT ============ -->
+<section id="bpview" class="wrap hide">
+  <div class="eyebrow">Etapa 1 de 2 concluída</div>
+  <h2>Seu Genius Zone Blueprint</h2>
+  <p style="color:var(--carvao-soft);margin-top:8px;">Este é o documento-fonte da sua análise. Guarde: ele serve para o dashboard e para qualquer conversa futura com a IA sobre o seu posicionamento.</p>
+  <div class="bp-box"><pre id="bp-text"></pre></div>
+  <div class="row">
+    <button class="btn" onclick="App.analyzeBlueprint()">Gerar meu dashboard psicométrico</button>
+    <button class="btn ghost" onclick="App.copyBP()">Copiar blueprint</button>
+    <button class="btn ghost" onclick="App.downloadBP()">Baixar .md</button>
+  </div>
+</section>
+
+<!-- ============ DASHBOARD ============ -->
+<section id="dash" class="wrap hide">
+  <div class="eyebrow">Dashboard psicométrico</div>
+  <div class="d-head">
+    <div class="avatar" id="d-initials"></div>
+    <div>
+      <h2 id="d-name"></h2>
+      <div class="zone" id="d-zone"></div>
+      <span class="transition-chip" id="d-trans"></span>
+      <div class="tags" id="d-tags"></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="dcard" id="card-zones">
+      <div class="dc-head"><div class="dc-ico">🎯</div><div><h3>As 4 Zonas</h3><div class="dc-sub">Gay Hendricks · O Grande Salto</div></div></div>
+      <div class="explain">Onde seu tempo vive hoje. Genialidade é o que só você faz e te dá energia; Incompetência é o que drena e deveria sair da sua mesa.</div>
+      <div id="zones-bars"></div>
+      <div class="reading" id="zones-read"></div>
+    </div>
+
+    <div class="dcard" id="card-talents">
+      <div class="dc-head"><div class="dc-ico">💪</div><div><h3>Talentos Dominantes</h3><div class="dc-sub">Don Clifton · CliftonStrengths</div></div></div>
+      <div class="explain">Seus cinco padrões naturais de pensamento e ação, na intensidade em que aparecem nas suas respostas.</div>
+      <div class="chart-box"><div id="chart-talents" class="svg-host"></div></div>
+      <div class="reading" id="talents-read"></div>
+    </div>
+
+    <div class="dcard" id="card-kolbe">
+      <div class="dc-head"><div class="dc-ico">⚙️</div><div><h3>Instintos de Ação</h3><div class="dc-sub">Kathy Kolbe · Índice Kolbe A</div></div></div>
+      <div class="explain">Como você naturalmente age quando é livre para agir do seu jeito — não o que você sabe, mas como você faz.</div>
+      <div id="kolbe-bars"></div>
+      <div class="reading" id="kolbe-read"></div>
+    </div>
+
+    <div class="dcard" id="card-hormozi">
+      <div class="dc-head"><div class="dc-ico">💰</div><div><h3>Equação de Valor</h3><div class="dc-sub">Alex Hormozi · $100M Offers</div></div></div>
+      <div class="explain">A força da sua oferta atual: sonho entregue e probabilidade percebida puxam para cima; tempo de espera e esforço do cliente puxam para baixo.</div>
+      <div style="display:flex;align-items:center;gap:20px;margin-bottom:14px;">
+        <div class="score-big" id="hz-score"></div>
+        <div style="font-size:13.5px;color:var(--muted);">score composto<br>da oferta</div>
+      </div>
+      <div id="hz-bars"></div>
+      <div class="reading" id="hz-read"></div>
+    </div>
+
+    <div class="dcard" id="card-profiles">
+      <div class="dc-head"><div class="dc-ico">🧭</div><div><h3>Perfil de Riqueza e Fascínio</h3><div class="dc-sub">Roger Hamilton · Sally Hogshead</div></div></div>
+      <div class="explain">Como você cria valor (Wealth Dynamics) e como o mundo te percebe nos primeiros segundos (Fascination Advantage).</div>
+      <div style="display:grid;gap:16px;">
+        <div>
+          <div class="prof-arch">Wealth Dynamics</div>
+          <div class="prof-name" id="wp-name"></div>
+          <div class="prof-desc" id="wp-desc"></div>
+        </div>
+        <div class="rule"></div>
+        <div>
+          <div class="prof-arch" id="fp-arch"></div>
+          <div class="prof-name" id="fp-name"></div>
+          <div class="prof-desc" id="fp-desc"></div>
+        </div>
+      </div>
+      <div class="reading" id="prof-read"></div>
+    </div>
+
+    <div class="dcard" id="card-ua">
+      <div class="dc-head"><div class="dc-ico">⭐</div><div><h3>Habilidade Única</h3><div class="dc-sub">Dan Sullivan · Unique Ability</div></div></div>
+      <div class="explain">A capacidade que só você tem do jeito que tem — e quanto da sua semana realmente acontece dentro dela.</div>
+      <p id="ua-desc" style="font-family:var(--font-h);font-style:italic;font-size:17.5px;color:var(--marsala);"></p>
+      <div class="ua-stats">
+        <div class="ua-stat"><div class="v" id="ua-align"></div><div class="l">alinhamento</div></div>
+        <div class="ua-stat"><div class="v" id="ua-time"></div><div class="l">tempo na zona</div></div>
+        <div class="ua-stat"><div class="v" id="ua-pot"></div><div class="l">potencial</div></div>
+      </div>
+      <div class="reading" id="ua-read"></div>
+    </div>
+
+    <div class="dcard full" id="card-conv">
+      <div class="dc-head"><div class="dc-ico">🕸️</div><div><h3>Convergência dos Frameworks</h3><div class="dc-sub">Onde você está × onde pode chegar</div></div></div>
+      <div class="explain">Seis eixos que os sete frameworks enxergam em conjunto. A linha tracejada é seu potencial — o maior vão entre as duas linhas é o seu gargalo.</div>
+      <div class="chart-box tall"><div id="chart-conv" class="svg-host"></div></div>
+      <div id="conv-ins" style="margin-top:16px;"></div>
+      <div class="reading" id="conv-read"></div>
+    </div>
+
+    <div class="dcard full" id="card-time">
+      <div class="dc-head"><div class="dc-ico">⏳</div><div><h3>Distribuição do Tempo</h3><div class="dc-sub">Hoje × Meta de 90 dias</div></div></div>
+      <div class="chart-box short"><div id="chart-time" class="svg-host"></div></div>
+      <div class="reading" id="time-read"></div>
+    </div>
+  </div>
+
+  <div class="rec-card" id="card-rec">
+    <h3>Recomendação central</h3>
+    <p id="rec-text"></p>
+  </div>
+
+  <div class="dcard full" style="margin-top:26px;" id="card-actions">
+    <div class="dc-head"><div class="dc-ico">🗺️</div><div><h3>Roadmap de 90 dias</h3><div class="dc-sub">Cinco movimentos, na ordem</div></div></div>
+    <div id="act-list"></div>
+  </div>
+
+  <div class="dcard full" style="margin-top:26px;" id="card-plan">
+    <div class="dc-head"><div class="dc-ico">✅</div><div><h3>Plano de Ação — Checklist</h3><div class="dc-sub">Comece por aqui</div></div></div>
+    <div class="cl-grid">
+      <div class="cl-col"><h4 style="border-color:var(--marsala);color:var(--marsala);">Esta semana</h4><ul id="cl-week"></ul></div>
+      <div class="cl-col"><h4 style="border-color:var(--cobre);color:var(--cobre);">Próximas 2 semanas</h4><ul id="cl-two"></ul></div>
+      <div class="cl-col"><h4 style="border-color:var(--dourado);color:var(--dourado);">Próximo mês</h4><ul id="cl-month"></ul></div>
+    </div>
+    <div class="donot"><h4>O que NÃO fazer</h4><ul id="cl-donot"></ul></div>
+  </div>
+
+  <div class="dcard full" style="margin-top:26px;" id="card-squad">
+    <div class="dc-head"><div class="dc-ico">🤝</div><div><h3>Squad Recomendado</h3><div class="dc-sub">O time de IA que multiplica sua zona</div></div></div>
+    <div class="squad-grid">
+      <div class="squad-box"><div class="k">Domínio</div><div class="n" id="sq-dn"></div><div class="d" id="sq-dd"></div></div>
+      <div class="squad-box"><div class="k">Propósito</div><div class="n" id="sq-pn"></div><div class="d" id="sq-pd"></div></div>
+      <div class="squad-box"><div class="k">Usuário-alvo</div><div class="n" id="sq-tn"></div><div class="d" id="sq-td"></div></div>
+    </div>
+    <span class="mode-chip" id="sq-mode"></span>
+  </div>
+
+  <div class="dash-actions">
+    <button class="btn" onclick="App.exportDash(this)">Baixar dashboard (para PDF)</button>
+    <button class="btn ghost" onclick="App.tryPrint(this)">Imprimir</button>
+    <button class="btn ghost" onclick="App.downloadBP()">Baixar meu blueprint</button>
+    <button class="btn ghost" onclick="App.restart()">Refazer assessment</button>
+  </div>
+  <p style="text-align:center;font-size:14px;color:var(--carvao-soft);margin-top:14px;max-width:620px;margin-left:auto;margin-right:auto;">
+    O arquivo baixado abre no navegador com tudo pronto. Lá dentro, use <strong>Ctrl+P</strong> e escolha <strong>Salvar como PDF</strong>.
+  </p>
+  <div id="raw-box" class="hide" style="margin-top:22px;">
+    <p style="font-size:14.5px;color:var(--carvao-soft);margin-bottom:8px;">O download foi bloqueado pelo navegador. Copie o código abaixo, cole num arquivo com extensão <strong>.html</strong> e abra:</p>
+    <textarea id="raw-txt" readonly style="width:100%;min-height:180px;border:1px solid var(--linha);border-radius:12px;padding:14px;font-family:var(--font-mono);font-size:11.5px;background:var(--card);"></textarea>
+  </div>
+</section>
+
+<!-- ============ ERROR ============ -->
+<section id="err" class="wrap hide">
+  <h2>Algo travou no caminho</h2>
+  <p id="err-msg"></p>
+  <button class="btn" onclick="App.retry()">Tentar de novo</button>
+</section>
+
+<footer class="wrap">
+  <div class="script">inteligência que transforma</div>
+  <div class="fn">Jaya Roberta · Shakti Jaya · Psicometria e Genialidade</div>
+</footer>
+
+<script>
+"use strict";
+/* =========================================================
+   CONFIG
+   - Dentro do claude.ai (artifact): deixe ANALYZE_ENDPOINT = "".
+     A chamada vai direto para a API da Anthropic, sem chave.
+   - Hospedado (Vercel etc.): defina ANALYZE_ENDPOINT = "/api/analyze"
+     e implemente o endpoint que recebe {text, mode} e repassa
+     ao modelo com sua chave no servidor.
+   ========================================================= */
+const ANALYZE_ENDPOINT = "/api/analyze";
+const MAX_CHARS = 60000;
+
+const QUESTIONS = [{"sec": 1, "id": "ctx_nome", "q": "Qual seu nome completo?", "type": "open", "opts": [], "hint": null}, {"sec": 1, "id": "ctx_area", "q": "Qual sua área de atuação principal?", "type": "multiple_choice", "opts": ["Tecnologia / Desenvolvimento", "Marketing / Vendas", "Design / Criação", "Gestão / Liderança", "Educação / Treinamento", "Saúde / Bem-estar", "Finanças / Investimentos", "Consultoria / Serviços Profissionais", "Outro (especificar)"], "hint": null}, {"sec": 1, "id": "ctx_experiencia", "q": "Há quanto tempo você trabalha na sua área principal?", "type": "multiple_choice", "opts": ["Menos de 1 ano", "1 a 3 anos", "3 a 5 anos", "5 a 10 anos", "Mais de 10 anos"], "hint": null}, {"sec": 1, "id": "ctx_oque_faz", "q": "Descreva em 2-3 frases: o que você faz no seu dia a dia profissional?", "type": "open", "opts": [], "hint": "Exemplo: 'Sou gestor de projetos em uma startup de tecnologia. Coordeno equipes de desenvolvimento e faço ponte entre produto e engenharia. Tambem cuido da documentação técnica.'"}, {"sec": 1, "id": "ctx_sem_dinheiro", "q": "Se dinheiro NAO fosse problema, o que você faria da vida?", "type": "open", "opts": [], "hint": "Não existe resposta errada. Pode ser algo totalmente diferente do que faz hoje."}, {"sec": 1, "id": "ctx_intro_extro", "q": "Você se considera mais...", "type": "multiple_choice", "opts": ["Introvertido - prefiro trabalhar sozinho, recarrego energia em silêncio", "Mais introvertido que extrovertido - gosto de pessoas mas preciso de tempo sozinho", "Equilibrado - depende da situação", "Mais extrovertido que introvertido - gosto de tempo sozinho mas prefiro estar com pessoas", "Extrovertido - recarrego energia com pessoas, penso em voz alta"], "hint": null}, {"sec": 1, "id": "ctx_analitico_intuitivo", "q": "Na hora de tomar decisões, você e mais...", "type": "multiple_choice", "opts": ["Analitico - preciso de dados, planilhas, pesquisa antes de decidir", "Mais analitico que intuitivo - prefiro dados mas confio no instinto quando preciso", "Equilibrado - uso dados E intuição igualmente", "Mais intuitivo que analitico - confio no feeling mas valido com dados", "Intuitivo - decido rápido pelo instinto, dados são secundários"], "hint": null}, {"sec": 1, "id": "ctx_estrutura_flex", "q": "Você prefere...", "type": "multiple_choice", "opts": ["Estrutura total - cronogramas, checklists, processos definidos", "Mais estrutura - gosto de flexibilidade dentro de um framework", "Depende do projeto", "Mais flexibilidade - estrutura demais me sufoca", "Flexibilidade total - improviso, adapto, mudo conforme necessário"], "hint": null}, {"sec": 2, "id": "energy_drena", "q": "Quais atividades DRENAM sua energia, mesmo que você saiba fazê-las?", "type": "multiple_choice_multi", "opts": ["Tarefas administrativas e burocráticas", "Reuniões longas sem pauta definida", "Trabalho repetitivo e operacional", "Negociação e confronto direto", "Análise detalhada de números e planilhas", "Atendimento ao cliente / suporte", "Vender e prospectar clientes", "Gerenciar pessoas e dar feedback", "Escrever textos longos e documentação", "Programar / trabalho técnico detalhado"], "hint": null}, {"sec": 2, "id": "energy_carrega", "q": "Quais atividades te ENERGIZAM - você termina com mais energia do que comecou?", "type": "multiple_choice_multi", "opts": ["Resolver problemas complexos", "Ensinar e mentorar pessoas", "Criar coisas novas (produtos, conteúdo, arte)", "Liderar e inspirar equipes", "Analisar dados e encontrar padrões", "Conectar pessoas e fazer networking", "Planejar estratégias e visão de longo prazo", "Executar e entregar resultados concretos", "Negociar e fechar acordos", "Automatizar e otimizar processos"], "hint": null}, {"sec": 2, "id": "energy_agradecem", "q": "Quando outras pessoas te agradecem ou elogiam, geralmente e por...", "type": "multiple_choice", "opts": ["Resolver um problema que ninguém mais conseguia", "Explicar algo complexo de forma simples", "Conectar as pessoas certas entre si", "Trazer energia e motivação para o grupo", "Organizar o caos e criar ordem", "Ter ideias criativas e inovadoras", "Entregar resultados rapidos e confiaveis", "Ouvir com atenção e dar conselhos certeiros"], "hint": null}, {"sec": 2, "id": "energy_flow", "q": "Em qual tipo de atividade você PERDE A NOCAO DO TEMPO (estado de flow)?", "type": "multiple_choice", "opts": ["Escrevendo, criando conteúdo ou arte", "Programando, construindo sistemas ou produtos", "Conversando, ensinando ou fazendo mentoria", "Planejando, desenhando estratégias", "Pesquisando, aprendendo coisas novas", "Liderando reuniões, facilitando discussoes", "Negociando, vendendo, convencendo", "Organizando, sistematizando, criando processos"], "hint": null}, {"sec": 2, "id": "energy_inicio", "q": "Quando começa um projeto novo, sua primeira reação natural e...", "type": "multiple_choice", "opts": ["Pesquisar bastante antes de dar o primeiro passo", "Fazer um plano detalhado com etapas claras", "Comecar a executar logo e ajustar no caminho", "Conversar com outras pessoas para pegar opinioes"], "hint": null}, {"sec": 2, "id": "energy_problemas", "q": "Quando surge um problema inesperado no trabalho, você tende a...", "type": "multiple_choice", "opts": ["Parar e analisar todas as opções antes de agir", "Agir rápido com a melhor opção disponível no momento", "Consultar alguém de confianca antes de decidir", "Criar um sistema ou processo para que o problema não se repita"], "hint": null}, {"sec": 2, "id": "energy_manual_conceitual", "q": "Você prefere trabalhar com...", "type": "multiple_choice", "opts": ["Coisas tangiveis - prototipos, ferramentas, construir fisicamente", "Mais tangivel - gosto de ver resultados concretos", "Tanto faz - depende do projeto", "Mais abstrato - prefiro conceitos, estratégias, ideias", "Coisas abstratas - modelos mentais, frameworks, teorias"], "hint": null}, {"sec": 2, "id": "energy_detalhe", "q": "Quando precisa entregar um trabalho, você...", "type": "multiple_choice", "opts": ["E extremamente detalhista - revisa varias vezes, precisa estar perfeito", "Cuida dos detalhes importantes mas não se perde nos pequenos", "Foca no resultado geral - detalhes podem ser ajustados depois", "Entrega rápido e itera - perfeição e inimiga do progresso"], "hint": null}, {"sec": 2, "id": "energy_delegacao", "q": "Sobre delegar tarefas, você...", "type": "multiple_choice", "opts": ["Tenho muita dificuldade - prefiro fazer eu mesmo", "Delego mas fico monitorando de perto", "Delego com instruções claras e confio no resultado", "Adoro delegar - prefiro focar no que só eu sei fazer"], "hint": null}, {"sec": 2, "id": "energy_ritmo", "q": "Seu ritmo natural de trabalho e...", "type": "multiple_choice", "opts": ["Explosoes intensas seguidas de descanso (sprint/recovery)", "Ritmo constante e previsivel ao longo do dia", "Comeco devagar e vou acelerando até o deadline", "Alta energia de manha, desacelero a tarde"], "hint": null}, {"sec": 2, "id": "energy_inovacao_otimizacao", "q": "O que te da mais satisfação?", "type": "multiple_choice", "opts": ["Criar algo do ZERO que nunca existiu", "Melhorar algo existente e tornar excelente", "Escalar algo que já funciona para mais pessoas", "Conectar coisas existentes de formas novas"], "hint": null}, {"sec": 2, "id": "energy_multitask", "q": "Você funciona melhor...", "type": "multiple_choice", "opts": ["Fazendo uma coisa só com foco total por longos periodos", "Alternando entre 2-3 projetos no mesmo dia", "Gerenciando muitas coisas ao mesmo tempo", "Depende - foco profundo para criar, multitask para executar"], "hint": null}, {"sec": 3, "id": "talent_padrao", "q": "Pense nos seus 3 maiores sucessos profissionais. O que eles têm em COMUM?", "type": "multiple_choice", "opts": ["Em todos eu estava liderando e influenciando pessoas", "Em todos eu estava criando algo novo e inovador", "Em todos eu estava organizando e executando com disciplina", "Em todos eu estava analisando e resolvendo problemas complexos", "Em todos eu estava ensinando e desenvolvendo outros", "Em todos eu estava conectando pessoas e construindo relacionamentos", "Em todos eu estava vendendo e convencendo stakeholders", "Em todos eu estava planejando estrategia de longo prazo"], "hint": null}, {"sec": 3, "id": "talent_descricao", "q": "Se eu perguntasse a 5 pessoas proximas 'qual a principal qualidade dessa pessoa?', a maioria diria...", "type": "multiple_choice", "opts": ["Confiavel e consistente - sempre entrega o que promete", "Criativo e visionario - sempre tem ideias incriveis", "Carismatico e inspirador - todo mundo quer estar perto", "Analitico e profundo - enxerga o que ninguém ve", "Pratico e resolutivo - resolve qualquer pepino", "Cuidadoso e atencioso - se preocupa genuinamente com as pessoas", "Corajoso e ousado - não tem medo de arriscar"], "hint": null}, {"sec": 3, "id": "talent_natural", "q": "O que você faz com FACILIDADE que outras pessoas acham difícil?", "type": "multiple_choice", "opts": ["Falar em publico e apresentar ideias", "Escrever textos claros e persuasivos", "Organizar informações complexas em estruturas simples", "Aprender coisas novas rapidamente", "Ler pessoas e entender motivações", "Enxergar tendencias e oportunidades antes dos outros", "Manter a calma sob pressão", "Transformar ideias abstratas em planos concretos"], "hint": null}, {"sec": 3, "id": "talent_dominio", "q": "Em um time, você naturalmente assume o papel de...", "type": "multiple_choice", "opts": ["EXECUTOR - garanto que as coisas acontecam e sejam entregues", "INFLUENCIADOR - convenco, vendo, inspiro os outros a agir", "CONSTRUTOR DE RELACIONAMENTOS - crio harmonia e conecto pessoas", "PENSADOR ESTRATEGICO - trago visão de futuro e análise profunda"], "hint": null}, {"sec": 3, "id": "talent_frustracao", "q": "O que te FRUSTRA repetidamente no trabalho?", "type": "multiple_choice", "opts": ["Pessoas que não cumprem prazos e compromissos", "Falta de visão estrategica nas decisões", "Processos lentos e burocraticos", "Falta de criatividade e inovação no time", "Pessoas que não se desenvolvem e ficam estagnadas", "Conflitos interpessoais mal resolvidos", "Falta de dados e metricas para decisões", "Microgerenciamento e falta de autonomia"], "hint": null}, {"sec": 3, "id": "talent_comunicacao", "q": "Seu estilo natural de comunicação e...", "type": "multiple_choice", "opts": ["Direto e objetivo - vou ao ponto sem rodeios", "Detalhado e preciso - apresento todos os dados e evidencias", "Inspirador e entusiasmado - uso historias e emoção", "Diplomatico e cuidadoso - considero todos os lados"], "hint": null}, {"sec": 3, "id": "talent_aprendizado", "q": "Quando quer aprender algo novo, você...", "type": "multiple_choice", "opts": ["Le tudo sobre o assunto antes de comecar (livros, artigos, cursos)", "Procura um mentor ou especialista para aprender direto com a pessoa", "Comeca a praticar e aprende fazendo, errando e ajustando", "Assiste videos e tutoriais, depois tenta replicar"], "hint": null}, {"sec": 3, "id": "talent_feedback", "q": "Quando recebe um feedback crítico (negativo), você...", "type": "multiple_choice", "opts": ["Analisa friamente e extrai o que e util", "Fica incomodado mas usa como combustivel para melhorar", "Precisa de um tempo para processar antes de reagir", "Questiona e desafia se o feedback faz sentido"], "hint": null}, {"sec": 3, "id": "talent_contribuicao", "q": "Se você pudesse contribuir com UMA COISA para o mundo, seria...", "type": "multiple_choice", "opts": ["Ensinar e capacitar pessoas a se desenvolverem", "Criar produtos ou soluções que resolvam problemas reais", "Inspirar e liderar movimentos de transformação", "Organizar sistemas que funcionem de forma eficiente", "Conectar pessoas e criar comunidades fortes", "Descobrir verdades e compartilhar conhecimento profundo", "Gerar riqueza e oportunidades economicas para outros"], "hint": null}, {"sec": 3, "id": "talent_competencia_genialidade", "q": "Tem algo que você faz BEM (outros até elogiam) mas que na verdade você NAO gosta de fazer?", "type": "sim_nao_detalhe", "opts": ["Sim", "Não"], "hint": "Isso e CRITICO - separa sua Zona de Excelencia da Zona de Genialidade. Exemplo: 'Sou bom em gestao de projetos mas na verdade detesto. Preferia estar criando.'"}, {"sec": 4, "id": "biz_como_ganha", "q": "Qual modelo de trabalho/negócio te atrai MAIS?", "type": "multiple_choice", "opts": ["Criar produtos digitais (cursos, apps, ferramentas) e vender em escala", "Prestar serviços de alto valor (consultoria, mentoria, done-for-you)", "Construir e gerenciar equipes que entregam resultados", "Fazer parcerias e conectar oportunidades (deals, joint ventures)", "Investir e multiplicar recursos existentes", "Automatizar sistemas que geram receita recorrente"], "hint": null}, {"sec": 4, "id": "biz_risco", "q": "Sobre risco financeiro, você...", "type": "multiple_choice", "opts": ["Evito ao máximo - preciso de previsibilidade e seguranca", "Aceito riscos calculados com rede de proteção", "Tomo riscos moderados se o potencial de retorno justifica", "Amo risco - alto risco, alto retorno e meu mantra"], "hint": null}, {"sec": 4, "id": "biz_solo_time", "q": "Você funciona melhor...", "type": "multiple_choice", "opts": ["Totalmente sozinho - sou mais produtivo sem ninguém por perto", "Sozinho com suporte - um assistente ou VA para operacional", "Em dupla - eu e um sócio complementar", "Liderando um time pequeno (3-5 pessoas)", "Liderando uma organização maior (10+ pessoas)"], "hint": null}, {"sec": 4, "id": "biz_timing", "q": "Você prefere...", "type": "multiple_choice", "opts": ["Ser o PRIMEIRO em algo novo (inovar, criar mercado)", "Entrar cedo mas com algo já validado (fast follower)", "Entrar quando o mercado já e grande e otimizar (melhoria)", "Entrar no final e consolidar (comprar, fusionar, escalar o que existe)"], "hint": null}, {"sec": 4, "id": "biz_receita", "q": "Se pudesse escolher UMA fonte principal de receita, seria...", "type": "multiple_choice", "opts": ["Vender conhecimento (cursos, livros, palestras, mentoria)", "Vender serviços especializados (consultoria, agência, freelance)", "Vender produtos (SaaS, apps, e-commerce, produtos fisicos)", "Vender oportunidades (intermediação, afiliados, parcerias, investimentos)"], "hint": null}, {"sec": 4, "id": "biz_preco", "q": "Qual sua relação com cobrar caro pelo seu trabalho?", "type": "multiple_choice", "opts": ["Tenho dificuldade - sempre acho que deveria cobrar menos", "Cobro um preço justo mas sei que poderia cobrar mais", "Cobro bem e me sinto confortavel com meu preço", "Cobro premium - meu trabalho vale caro e eu sei disso"], "hint": null}, {"sec": 4, "id": "biz_escala", "q": "O que te atrai mais?", "type": "multiple_choice", "opts": ["Atender POUCOS clientes com MUITA profundidade (high-touch)", "Atender um NUMERO MEDIO com boa qualidade (group coaching, turmas)", "Atender MUITAS pessoas com um produto escalavel (cursos, SaaS)", "Não atender ninguém diretamente - criar sistemas que funcionam sem mim"], "hint": null}, {"sec": 4, "id": "biz_wealth_dynamics", "q": "Qual descrição abaixo mais se parece com você?", "type": "multiple_choice", "opts": ["CRIADOR - Tenho muitas ideias, comeco coisas novas, sou visionario", "ESTRELA - Brilho no palco, inspiro pessoas, sou a marca", "APOIADOR - Sou o braço direito perfeito, executo a visão de outros com excelencia", "NEGOCIADOR - Conecto pessoas e oportunidades, faço as coisas acontecerem atraves de outros", "COMERCIANTE - Tenho timing de mercado, compro barato e vendo caro", "ACUMULADOR - Sou paciente, consistente, construo riqueza devagar e com seguranca", "SENHOR DOS SISTEMAS - Amo processos, automação, construir maquinas que funcionam sozinhas", "MECANICO - Pego coisas que já existem e torno muito melhores"], "hint": null}, {"sec": 5, "id": "vision_90dias", "q": "Qual RESULTADO CONCRETO você quer ter alcancado daqui a 90 dias?", "type": "open", "opts": [], "hint": "Seja específico. Não 'ganhar mais dinheiro' mas 'ter 5 clientes pagando R$2k/mês por consultoria'. Não 'crescer no Instagram' mas 'ter 10k seguidores engajados e um funil de vendas funcionando'."}, {"sec": 5, "id": "vision_receita", "q": "Qual sua meta de receita MENSAL nos proximos 6 meses?", "type": "multiple_choice", "opts": ["Até R$5.000/mês (estou comecando)", "R$5.000 a R$15.000/mês (quero uma renda solida)", "R$15.000 a R$50.000/mês (quero escalar)", "R$50.000 a R$100.000/mês (crescimento agressivo)", "Mais de R$100.000/mês (estou pensando grande)"], "hint": null}, {"sec": 5, "id": "vision_bloqueio", "q": "O que está te TRAVANDO agora? Qual o maior obstáculo entre onde você está e onde quer chegar?", "type": "open", "opts": [], "hint": "Pode ser algo interno (medo, inseguranca, falta de clareza) ou externo (falta de dinheiro, de conhecimento técnico, de tempo)."}, {"sec": 5, "id": "vision_tempo", "q": "Quanto tempo por SEMANA você pode dedicar ao seu projeto/negócio (fora do emprego, se aplicavel)?", "type": "multiple_choice", "opts": ["Menos de 5 horas/semana (tenho pouco tempo livre)", "5 a 10 horas/semana (algumas noites e fins de semana)", "10 a 20 horas/semana (dedicação parcial consistente)", "20 a 40 horas/semana (dedicação quase integral)", "40+ horas/semana (dedicação total, full-time)"], "hint": null}, {"sec": 5, "id": "vision_ai", "q": "Qual seu nível de experiência com Inteligência Artificial e automação?", "type": "multiple_choice", "opts": ["Zero - nunca usei ChatGPT ou ferramentas similares", "Basico - uso ChatGPT para perguntas e textos simples", "Intermediario - uso AI no dia a dia para varios fluxos de trabalho", "Avancado - crio automações, uso APIs, construo com AI", "Expert - desenvolvo soluções de AI para mim e/ou para clientes"], "hint": null}];
+const SECTION_TITLES = {"1": "Contexto Pessoal", "2": "Atividades e Energia", "3": "Talentos e Padrões", "4": "Estilo de Negócios", "5": "Visão e Ambição"};
+
+/* ---------- storage adapter: window.storage (artifact) → localStorage → memória ---------- */
+const Store = (() => {
+  const mem = {};
+  const hasWS = typeof window !== 'undefined' && window.storage && window.storage.get;
+  const hasLS = (() => { try { localStorage.setItem('__t','1'); localStorage.removeItem('__t'); return true; } catch(e){ return false; } })();
+  return {
+    async get(k){
+      if (hasWS){ try { const r = await window.storage.get(k); return r ? r.value : null; } catch(e){ return null; } }
+      if (hasLS){ return localStorage.getItem(k); }
+      return mem[k] ?? null;
+    },
+    async set(k,v){
+      if (hasWS){ try { await window.storage.set(k,v); return; } catch(e){} }
+      if (hasLS){ try { localStorage.setItem(k,v); return; } catch(e){} }
+      mem[k]=v;
+    },
+    async del(k){
+      if (hasWS){ try { await window.storage.delete(k); return; } catch(e){} }
+      if (hasLS){ try { localStorage.removeItem(k); return; } catch(e){} }
+      delete mem[k];
+    }
+  };
+})();
+
+/* ---------- guardas da engenharia reversa (§6) ---------- */
+const deep = v => {
+  if (typeof v === 'string'){
+    const s = v.trim();
+    if (/^[{\[]/.test(s) && /[}\]]$/.test(s)){ try { return deep(JSON.parse(s)); } catch(e){} }
+    return v;
+  }
+  if (Array.isArray(v)) return v.map(deep);
+  if (v && typeof v === 'object') return Object.fromEntries(Object.entries(v).map(([k,x])=>[k,deep(x)]));
+  return v;
+};
+const norm = z => { const t = Object.values(z).reduce((a,b)=>a+(+b||0),0) || 1;
+  return Object.fromEntries(Object.entries(z).map(([k,v])=>[k, Math.round((+v||0)*100/t)])); };
+const c10  = n => Math.max(0, Math.min(10, +n || 0));
+const c100 = n => Math.max(0, Math.min(100, +n || 0));
+const esc = s => String(s ?? '').replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+const rich = s => String(s ?? '')
+  .replace(/<(?!\/?(strong|em|span|br)\b)[^>]*>/gi,'')
+  .replace(/on\w+\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/gi,'');
+
+function sanitize(D){
+  D = D || {};
+  D.profile = D.profile || {};
+  D.profile.name = D.profile.name || 'Você';
+  D.profile.initials = String(D.profile.initials || D.profile.name).replace(/[^A-Za-zÀ-ÿ]/g,'').slice(0,2).toUpperCase() || 'VC';
+  D.profile.currentZone = D.profile.currentZone || '';
+  D.profile.zoneTransition = D.profile.zoneTransition || '';
+  D.profile.tags = Array.isArray(D.profile.tags) ? D.profile.tags.slice(0,4) : [];
+  D.zones = norm(Object.assign({genialidade:25,excelencia:25,competencia:25,incompetencia:25}, D.zones || {}));
+  D.zonesReading = D.zonesReading || '';
+  D.talents = D.talents || {};
+  D.talents.labels = (Array.isArray(D.talents.labels)?D.talents.labels:[]).slice(0,5);
+  while (D.talents.labels.length < 5) D.talents.labels.push('—');
+  D.talents.scores = (Array.isArray(D.talents.scores)?D.talents.scores:[]).slice(0,5).map(c10);
+  while (D.talents.scores.length < 5) D.talents.scores.push(5);
+  D.talents.reading = D.talents.reading || '';
+  D.kolbe = Object.assign({investigador:5,seguimento:5,inicioRapido:5,implementador:5,reading:''}, D.kolbe || {});
+  D.hormozi = Object.assign({resultadoSonhado:5,probabilidade:5,tempoEspera:5,esforco:5,reading:''}, D.hormozi || {});
+  if (!(+D.hormozi.score)) D.hormozi.score = +(((c10(D.hormozi.resultadoSonhado)+c10(D.hormozi.probabilidade)+c10(D.hormozi.tempoEspera)+c10(D.hormozi.esforco))/4).toFixed(1));
+  D.wealthProfile = Object.assign({name:'—',description:''}, D.wealthProfile || {});
+  D.fascinationProfile = Object.assign({name:'—',archetype:'',description:''}, D.fascinationProfile || {});
+  D.profilesReading = D.profilesReading || '';
+  D.uniqueAbility = Object.assign({description:'',alignment:0,timeInZone:0,potential:0,reading:''}, D.uniqueAbility || {});
+  if (!(+D.uniqueAbility.timeInZone)) D.uniqueAbility.timeInZone = D.zones.genialidade;
+  if (c100(D.uniqueAbility.potential) < c100(D.uniqueAbility.alignment)) D.uniqueAbility.potential = D.uniqueAbility.alignment;
+  D.convergence = D.convergence || {};
+  D.convergence.labels = (Array.isArray(D.convergence.labels)?D.convergence.labels:[]).slice(0,6);
+  while (D.convergence.labels.length < 6) D.convergence.labels.push('—');
+  const pad6 = a => { a = (Array.isArray(a)?a:[]).slice(0,6).map(c10); while (a.length < 6) a.push(5); return a; };
+  D.convergence.current = pad6(D.convergence.current);
+  D.convergence.potential = pad6(D.convergence.potential);
+  D.convergence.insights = (Array.isArray(D.convergence.insights)?D.convergence.insights:[]).slice(0,4);
+  D.convergence.reading = D.convergence.reading || '';
+  D.timeDistribution = D.timeDistribution || {};
+  D.timeDistribution.current = norm(Object.assign({}, D.zones, D.timeDistribution.current || {}));
+  D.timeDistribution.target = norm(Object.assign({genialidade:60,excelencia:25,competencia:10,incompetencia:5}, D.timeDistribution.target || {}));
+  D.timeDistribution.reading = D.timeDistribution.reading || '';
+  D.recommendation = D.recommendation || '';
+  D.actions = (Array.isArray(D.actions)?D.actions:[]).slice(0,5).map(a => Object.assign({label:'',timeframe:'',frameworks:'',description:''}, a || {}));
+  D.actionPlan = Object.assign({thisWeek:[],nextTwoWeeks:[],nextMonth:[],doNot:[]}, D.actionPlan || {});
+  D.recommendedSquad = D.recommendedSquad || {};
+  ['domain','purpose','targetUser'].forEach(k => D.recommendedSquad[k] = Object.assign({name:'—',description:''}, D.recommendedSquad[k] || {}));
+  D.recommendedSquad.executionMode = D.recommendedSquad.executionMode || 'Sprint';
+  return D;
+}
+
+/* ---------- chamada de IA ---------- */
+const sleep = ms => new Promise(r=>setTimeout(r,ms));
+function withTimeout(p, ms){
+  /* timeout sem AbortSignal: o artifact serializa as opcoes do fetch via postMessage
+     e AbortSignal nao e clonavel, entao a corrida resolve sem tocar no fetch */
+  let t;
+  return Promise.race([
+    p.finally(()=>clearTimeout(t)),
+    new Promise((_,rej)=>{ t = setTimeout(()=>rej(new Error('TIMEOUT')), ms); })
+  ]);
+}
+async function askAI(prompt, maxTok){
+  const budget = maxTok || 4000;
+  let lastErr;
+  for (let tent=0; tent<3; tent++){
+    if (tent > 0) await sleep(tent===1 ? 2500 : 6000);
+    try {
+      let r;
+      if (ANALYZE_ENDPOINT){
+        r = await withTimeout(fetch(ANALYZE_ENDPOINT, {method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({ text: prompt })}), 180000);
+      } else {
+        r = await withTimeout(fetch("https://api.anthropic.com/v1/messages", {method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({ model:"claude-sonnet-4-6", max_tokens:budget,
+            messages:[{role:'user', content: prompt}] })}), 180000);
+      }
+      if (r.status===429 || r.status>=500){
+        lastErr = new Error(r.status===429 ? 'Limite de chamadas atingido. Espere alguns minutos.' : 'O modelo está sobrecarregado ('+r.status+').');
+        continue;
+      }
+      if (!r.ok) throw new Error('A chamada falhou ('+r.status+').'+(ANALYZE_ENDPOINT?'':' Se esta página está fora do claude.ai, configure ANALYZE_ENDPOINT.'));
+      const d = await r.json();
+      if (ANALYZE_ENDPOINT) return typeof d==='string' ? d : (d.text || JSON.stringify(d));
+      return (d.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n');
+    } catch(e){
+      lastErr = e;
+      const msg = String(e && e.message || e);
+      if (/TIMEOUT|fetch|network|load|Failed/i.test(msg)) continue;
+      throw e;
+    }
+  }
+  const m = String(lastErr && lastErr.message || '');
+  if (/TIMEOUT/.test(m)) throw new Error('A análise demorou demais. Clique em Tentar de novo.');
+  if (/Failed to fetch|network/i.test(m)) throw new Error('A conexão com o modelo caiu três vezes seguidas. Verifique a internet e clique em Tentar de novo.');
+  throw lastErr;
+}
+function fixInnerQuotes(x){
+  /* aspa dentro de string: so fecha se o que vem depois for estruturalmente valido.
+     rastreia pilha de containers para saber se apos a virgula deve vir chave (") ou valor. */
+  let out='', inStr=false; const stack=[];
+  for (let i=0;i<x.length;i++){
+    const ch=x[i];
+    if (!inStr){
+      if (ch==='"'){ inStr=true; }
+      else if (ch==='{'||ch==='[') stack.push(ch);
+      else if (ch==='}'||ch===']') stack.pop();
+      out+=ch; continue;
+    }
+    if (ch==='\\'){ out+=ch+(x[i+1]||''); i++; continue; }
+    if (ch==='"'){
+      let j=i+1; while(j<x.length && /\s/.test(x[j])) j++;
+      const nx=x[j];
+      let close=false;
+      if (nx===undefined || nx===':' || nx==='}' || nx===']') close=true;
+      else if (nx===','){
+        let k=j+1; while(k<x.length && /\s/.test(x[k])) k++;
+        const nk=x[k];
+        const top=stack[stack.length-1];
+        if (top==='[') close = (nk==='"'||nk==='{'||nk==='['||nk==='-'||(nk>='0'&&nk<='9')||nk==='t'||nk==='f'||nk==='n');
+        else close = (nk==='"');
+      }
+      if (close){ inStr=false; out+=ch; } else out+='\\"';
+      continue;
+    }
+    out+=ch;
+  }
+  return out;
+}
+function completeJSON(x){
+  /* fecha JSON truncado: se parou no meio de string, fecha a string preservando o parcial;
+     senao corta no ultimo token completo; resolve chave/valor pendente; fecha containers */
+  let inStr=false, escp=false; const stack=[]; let lastGood=-1;
+  for (let i=0;i<x.length;i++){
+    const ch=x[i];
+    if (inStr){
+      if (escp){escp=false;continue;}
+      if (ch==='\\'){escp=true;continue;}
+      if (ch==='"'){inStr=false;lastGood=i;}
+      continue;
+    }
+    if (ch==='"'){inStr=true;continue;}
+    if (ch==='{'||ch==='['){stack.push(ch);continue;}
+    if (ch==='}'||ch===']'){if(stack.length)stack.pop();lastGood=i;continue;}
+    if (/[\w.\-+]/.test(ch)) lastGood=i;
+  }
+  if (!stack.length && !inStr) return x;
+  let out;
+  if (inStr){ out = x.replace(/\\+$/,'') + '"'; }
+  else { out = x.slice(0,lastGood+1); }
+  out = out.replace(/,\s*$/,'');
+  const m = out.match(/"(?:[^"\\]|\\.)*"$/);
+  if (m){
+    const before = out.slice(0, out.length-m[0].length).replace(/\s+$/,'');
+    const prev = before[before.length-1];
+    if (prev==='{'||prev===','||prev===undefined) out += ':null';
+  } else {
+    out = out.replace(/:\s*$/,':null');
+  }
+  for (let i=stack.length-1;i>=0;i--) out += stack[i]==='{'?'}':']';
+  return out;
+}
+function extractJSON(s){
+  s = s.replace(/```json|```/g,'').trim();
+  const a = s.indexOf('{');
+  if (a === -1) throw new Error('Resposta sem JSON.');
+  const b = s.lastIndexOf('}');
+  /* se ha conteudo depois do ultimo }, o payload esta truncado: repara o texto inteiro;
+     o recorte ate o } fica como fallback (caso de prosa apos o JSON) */
+  const tailTxt = b === -1 ? 'x' : s.slice(b+1).trim();
+  const cands = [];
+  if (b !== -1 && tailTxt === '') cands.push(s.slice(a, b+1));
+  else { cands.push(s.slice(a)); if (b !== -1) cands.push(s.slice(a, b+1)); }
+  const ctrl = x => x.replace(/[\u0000-\u001F]+/g,' ');
+  const attr = x => x.replace(/=\s*"([^"]*)"/g, "='$1'");
+  const tail = x => x.replace(/,\s*([}\]])/g,'$1');
+  const lits = x => x.replace(/\b(NaN|undefined|Infinity)\b/g,'null');
+  const tries = [
+    x => x,
+    x => ctrl(x),
+    x => attr(ctrl(x)),
+    x => fixInnerQuotes(attr(ctrl(x))),
+    x => tail(fixInnerQuotes(attr(ctrl(x)))),
+    x => tail(completeJSON(fixInnerQuotes(attr(ctrl(x))))),
+    x => tail(lits(completeJSON(fixInnerQuotes(attr(ctrl(x))))))
+  ];
+  let lastErr;
+  for (const raw of cands){
+    for (const t of tries){
+      try { return JSON.parse(t(raw)); } catch(e){ lastErr = e; }
+    }
+  }
+  throw lastErr;
+}
+
+/* ---------- prompts ---------- */
+function blueprintPrompt(md){
+  return `Você é o orquestrador do squad Zona de Genialidade. Recebe abaixo as respostas completas de um assessment de 43 perguntas (5 seções) e produz o GENIUS ZONE BLUEPRINT da pessoa, em markdown, em português brasileiro.
+
+Estrutura obrigatória (use exatamente estes títulos de seção):
+# GENIUS ZONE BLUEPRINT — [primeiro nome]
+## SEÇÃO 1: VOCÊ EM 30 SEGUNDOS
+## SEÇÃO 2: SUA ZONA DE GENIALIDADE (Gay Hendricks)
+## SEÇÃO 3: SEUS TALENTOS MAPEADOS (Don Clifton)
+## SEÇÃO 4: SUA HABILIDADE ÚNICA (Dan Sullivan)
+## SEÇÃO 5: SEU PERFIL DE RIQUEZA (Roger Hamilton)
+## SEÇÃO 6: OFERTA E MONETIZAÇÃO (Alex Hormozi)
+## SEÇÃO 7: EXECUÇÃO E FASCÍNIO (Kolbe + Hogshead)
+
+Regras: cada afirmação deve ser ancorada em respostas literais do assessment (cite as escolhas da pessoa); nomeie as 4 zonas de Hendricks com exemplos concretos tirados das respostas; identifique o perfil Wealth Dynamics mais provável; descreva a Unique Ability em uma frase densa; aponte o maior bloqueio declarado; nada de elogio genérico. Seja denso e específico. Responda APENAS com o markdown do blueprint.
+
+=== RESPOSTAS DO ASSESSMENT ===
+${md}`.slice(0, MAX_CHARS);
+}
+const BASE_RULES = `Você é um analista psicométrico. Receberá um documento de autoconhecimento/blueprint em texto livre e produzirá EXCLUSIVAMENTE um objeto JSON válido, sem markdown, sem cercas de código, sem texto antes de { nem depois de }.
+
+Aplique os frameworks: Zonas de Gay Hendricks, CliftonStrengths de Don Clifton, Índice Kolbe A de Kathy Kolbe, Value Equation de Alex Hormozi, Wealth Dynamics de Roger Hamilton, Fascination Advantage de Sally Hogshead e Unique Ability de Dan Sullivan.
+
+Regras de voz: cada campo "reading" tem 400–700 caracteres, cita o nome da pessoa, ancora cada afirmação numa evidência literal do documento (produtos, preços, terminologia própria), usa <strong> para o veredicto e <em> para nomes de talentos, e termina com um movimento acionável. Nada de elogio genérico: toda nota precisa de justificativa rastreável ao texto. Tudo em português brasileiro.
+
+REGRAS DE SERIALIZAÇÃO: cada string em uma única linha, sem quebras literais; use apenas as tags <strong>, <em> e <br>, sem atributos; NUNCA use aspas duplas dentro de um valor (para citar, use aspas simples); nenhum campo serializado como string JSON aninhada.`;
+
+const CHUNKS = [
+  { key:'A', label:'perfil, zonas e talentos', tokens:4000, schema:
+`{"profile":{"name":str,"initials":str2,"currentZone":str,"zoneTransition":str,"tags":[str x4]},
+"zones":{"genialidade":n,"excelencia":n,"competencia":n,"incompetencia":n},
+"zonesReading":html,
+"talents":{"labels":[str x5],"scores":[n1-10 x5],"reading":html},
+"kolbe":{"investigador":n1-10,"seguimento":n1-10,"inicioRapido":n1-10,"implementador":n1-10,"reading":html}}`,
+    extra:'zones deve somar exatamente 100. tags são 4 rótulos curtos. initials tem 2 letras.' },
+
+  { key:'B', label:'oferta, perfis e habilidade única', tokens:4000, schema:
+`{"hormozi":{"resultadoSonhado":n1-10,"probabilidade":n1-10,"tempoEspera":n1-10,"esforco":n1-10,"score":n,"reading":html},
+"wealthProfile":{"name":str,"description":str},
+"fascinationProfile":{"name":str,"archetype":str,"description":str},
+"profilesReading":html,
+"uniqueAbility":{"description":str,"alignment":n0-100,"timeInZone":n0-100,"potential":n0-100,"reading":html}}`,
+    extra:'hormozi.score é a média dos quatro fatores com 1 decimal. potential ≥ alignment. uniqueAbility.description é uma frase densa. wealthProfile.name é um dos 8 perfis Wealth Dynamics.' },
+
+  { key:'C', label:'convergência, roadmap e squad', tokens:5000, schema:
+`{"convergence":{"labels":[str x6],"current":[n1-10 x6],"potential":[n1-10 x6],"insights":[{"color":"pink|gold|purple|green","text":str} x4],"reading":html},
+"timeDistribution":{"current":{"genialidade":n,"excelencia":n,"competencia":n,"incompetencia":n},"target":{"genialidade":n,"excelencia":n,"competencia":n,"incompetencia":n},"reading":html},
+"recommendation":str,
+"actions":[{"label":str,"timeframe":str,"frameworks":str,"description":str} x5],
+"actionPlan":{"thisWeek":[str x3],"nextTwoWeeks":[str x3],"nextMonth":[str x3],"doNot":[str x5]},
+"recommendedSquad":{"domain":{"name":str,"description":str},"purpose":{"name":str,"description":str},"targetUser":{"name":str,"description":str},"executionMode":"Burst|Sprint|Marathon"}}`,
+    extra:'timeDistribution.target desloca massa para Genialidade (55–65%) e reduz Incompetência a ≤5%; ambos somam 100. O eixo de convergence com maior gap potential−current é o gargalo citado em recommendation. Uma das actions tem timeframe contínuo e trata delegação. doNot nomeia a armadilha comportamental por trás de cada proibição.' }
+];
+
+function chunkPrompt(bp, ch){
+  return BASE_RULES + `
+
+SCHEMA (responda exatamente estas chaves, nada além):
+` + ch.schema + `
+
+Regras específicas: ` + ch.extra + `
+
+=== DOCUMENTO ===
+` + bp.slice(0,24000);
+}
+
+/* ---------- app state ---------- */
+/* ---------- graficos em SVG puro (sem dependencia externa) ---------- */
+const SVGNS='http://www.w3.org/2000/svg';
+function el(n,a){const e=document.createElementNS(SVGNS,n);for(const k in a)e.setAttribute(k,a[k]);return e;}
+function wrapLabel(txt,max){
+  const w=String(txt).split(/\s+/); const out=[]; let cur='';
+  for(const x of w){ if((cur+' '+x).trim().length<=max) cur=(cur+' '+x).trim(); else {if(cur)out.push(cur); cur=x;} }
+  if(cur)out.push(cur); return out.slice(0,2);
+}
+function radar(host, labels, series){
+  host.innerHTML='';
+  const W=520,H=380,cx=W/2,cy=H/2-6,R=Math.min(W,H)/2-74,N=labels.length,MAX=10;
+  const svg=el('svg',{viewBox:'0 0 '+W+' '+H,preserveAspectRatio:'xMidYMid meet'});
+  const ang=i=>(Math.PI*2*i/N)-Math.PI/2;
+  const pt=(i,v)=>[cx+Math.cos(ang(i))*R*(v/MAX), cy+Math.sin(ang(i))*R*(v/MAX)];
+  for(let r=2;r<=MAX;r+=2){
+    const d=labels.map((_,i)=>pt(i,r).join(',')).join(' ');
+    svg.appendChild(el('polygon',{points:d,fill:'none',stroke:'rgba(43,35,32,.10)','stroke-width':1}));
+  }
+  labels.forEach((_,i)=>{const[x,y]=pt(i,MAX);
+    svg.appendChild(el('line',{x1:cx,y1:cy,x2:x,y2:y,stroke:'rgba(43,35,32,.10)','stroke-width':1}));});
+  series.forEach(s=>{
+    const d=s.data.map((v,i)=>pt(i,Math.max(0,Math.min(MAX,+v||0))).join(',')).join(' ');
+    const poly=el('polygon',{points:d,fill:s.fill,stroke:s.stroke,'stroke-width':s.width||2,
+      'stroke-linejoin':'round'});
+    if(s.dash) poly.setAttribute('stroke-dasharray',s.dash);
+    svg.appendChild(poly);
+    s.data.forEach((v,i)=>{const[x,y]=pt(i,Math.max(0,Math.min(MAX,+v||0)));
+      svg.appendChild(el('circle',{cx:x,cy:y,r:s.dot||4,fill:s.stroke}));});
+  });
+  labels.forEach((lb,i)=>{
+    const[x,y]=pt(i,MAX); const dx=(x-cx)*0.20, dy=(y-cy)*0.20;
+    const lines=wrapLabel(lb,15);
+    const anchor=Math.abs(x-cx)<6?'middle':(x>cx?'start':'end');
+    lines.forEach((ln,k)=>{
+      const t=el('text',{x:x+dx,y:y+dy+(k*13)+(y<cy?-2:10),'text-anchor':anchor,
+        fill:'#6B5D53','font-size':'11.5','font-family':'Jost, sans-serif'});
+      t.textContent=ln; svg.appendChild(t);
+    });
+  });
+  host.appendChild(svg);
+}
+function stackedBars(host, rows, series){
+  host.innerHTML='';
+  const W=760,rowH=52,padL=112,padR=26,padT=14,H=padT+rows.length*rowH+34;
+  const bw=W-padL-padR;
+  const svg=el('svg',{viewBox:'0 0 '+W+' '+H,preserveAspectRatio:'xMidYMid meet'});
+  for(let p=0;p<=100;p+=25){
+    const x=padL+bw*p/100;
+    svg.appendChild(el('line',{x1:x,y1:padT,x2:x,y2:padT+rows.length*rowH,stroke:'rgba(43,35,32,.09)','stroke-width':1}));
+    const t=el('text',{x:x,y:padT+rows.length*rowH+20,'text-anchor':'middle',fill:'#6B5D53','font-size':'11.5','font-family':'Jost, sans-serif'});
+    t.textContent=p+'%'; svg.appendChild(t);
+  }
+  rows.forEach((rw,ri)=>{
+    const y=padT+ri*rowH+12, hgt=rowH-26;
+    const lb=el('text',{x:padL-14,y:y+hgt/2+4,'text-anchor':'end',fill:'#2B2320','font-size':'13','font-family':'Jost, sans-serif'});
+    lb.textContent=rw; svg.appendChild(lb);
+    let acc=0;
+    series.forEach(s=>{
+      const v=Math.max(0,+s.data[ri]||0); if(v<=0){acc+=v;return;}
+      const x=padL+bw*acc/100, w=bw*v/100;
+      svg.appendChild(el('rect',{x:x,y:y,width:Math.max(w,0),height:hgt,fill:s.color,rx:2}));
+      if(w>32){const t=el('text',{x:x+w/2,y:y+hgt/2+4,'text-anchor':'middle',fill:'#fff','font-size':'11.5','font-family':'Jost, sans-serif'});
+        t.textContent=Math.round(v)+'%'; svg.appendChild(t);}
+      acc+=v;
+    });
+  });
+  host.appendChild(svg);
+}
+function legend(host, items){
+  const d=document.createElement('div'); d.className='lg';
+  d.innerHTML=items.map(i=>'<span><i style="background:'+i.color+(i.dash?';height:0;border-top:2px dashed '+i.color:'')+'"></i>'+esc(i.label)+'</span>').join('');
+  host.parentNode.appendChild(d);
+}
+
+const App = {
+  idx: 0, answers: {}, blueprint: '', data: null, _retryFn: null,
+
+  async init(){
+    const saved = await Store.get('zg_answers');
+    if (saved){ try { const o = JSON.parse(saved); this.answers = o.answers||{}; this.idx = o.idx||0; } catch(e){} }
+    const bp = await Store.get('zg_blueprint');
+    if (bp) this.blueprint = bp;
+  },
+  show(id){ ['intro','paste','assess','loading','bpview','dash','err'].forEach(s =>
+    document.getElementById(s).classList.toggle('hide', s !== id));
+    window.scrollTo({top: document.querySelector('.hero').offsetHeight * .92, behavior:'smooth'});
+  },
+  backIntro(){ this.show('intro'); },
+  showPaste(){ this.show('paste'); },
+  loadFile(ev){
+    const f = ev.target.files[0]; if (!f) return;
+    const r = new FileReader();
+    r.onload = () => { document.getElementById('paste-txt').value = r.result; };
+    r.readAsText(f);
+  },
+
+  /* ----- assessment ----- */
+  startAssess(){ this.show('assess'); this.renderQ(); },
+  async save(){ await Store.set('zg_answers', JSON.stringify({answers:this.answers, idx:this.idx})); },
+  renderQ(){
+    const q = QUESTIONS[this.idx];
+    document.getElementById('p-sec').textContent = 'Seção '+q.sec+' · '+SECTION_TITLES[q.sec];
+    document.getElementById('p-count').textContent = (this.idx+1)+' / '+QUESTIONS.length;
+    document.getElementById('p-bar').style.width = ((this.idx)/QUESTIONS.length*100)+'%';
+    const cur = this.answers[q.id];
+    let inner = '<div class="q-num">Pergunta '+(this.idx+1)+'</div><h3>'+esc(q.q)+'</h3>';
+    if (q.hint) inner += '<div class="q-hint">'+esc(q.hint)+'</div>'; else inner += '<div style="height:10px"></div>';
+    if (q.type === 'open'){
+      inner += '<textarea class="open-ans" id="q-open" placeholder="Escreva com detalhe — a análise depende disso.">'+esc(cur||'')+'</textarea>';
+    } else if (q.type === 'multiple_choice_multi'){
+      inner += '<div class="multi-note">PODE MARCAR MAIS DE UMA</div>';
+      const sel = new Set(Array.isArray(cur)?cur:[]);
+      q.opts.forEach((o,i)=>{ inner += '<div class="opt multi'+(sel.has(o)?' sel':'')+'" data-i="'+i+'"><span class="dot"></span><span>'+esc(o)+'</span></div>'; });
+    } else if (q.type === 'sim_nao_detalhe'){
+      q.opts.forEach((o,i)=>{ const isSel = cur && cur.choice === o;
+        inner += '<div class="opt'+(isSel?' sel':'')+'" data-i="'+i+'"><span class="dot"></span><span>'+esc(o)+'</span></div>'; });
+      inner += '<textarea class="open-ans" id="q-det" style="margin-top:8px;min-height:80px;" placeholder="Se sim: o que é?">'+esc(cur&&cur.detail||'')+'</textarea>';
+    } else {
+      q.opts.forEach((o,i)=>{ inner += '<div class="opt'+(cur===o?' sel':'')+'" data-i="'+i+'"><span class="dot"></span><span>'+esc(o)+'</span></div>'; });
+    }
+    inner += '<div class="q-nav">'
+      + '<button class="btn ghost sm" '+(this.idx===0?'disabled':'')+' onclick="App.prev()">← Anterior</button>'
+      + '<button class="btn sm" id="q-next" onclick="App.next()">'+(this.idx===QUESTIONS.length-1?'Concluir assessment ✦':'Próxima →')+'</button></div>';
+    document.getElementById('q-holder').innerHTML = '<div class="q-card">'+inner+'</div>';
+    document.querySelectorAll('.opt').forEach(el => el.onclick = () => this.pick(q, +el.dataset.i, el));
+  },
+  pick(q, i, el){
+    const val = q.opts[i];
+    if (q.type === 'multiple_choice_multi'){
+      const arr = Array.isArray(this.answers[q.id]) ? this.answers[q.id] : [];
+      const at = arr.indexOf(val);
+      if (at>=0) arr.splice(at,1); else arr.push(val);
+      this.answers[q.id] = arr; el.classList.toggle('sel');
+    } else if (q.type === 'sim_nao_detalhe'){
+      const det = document.getElementById('q-det') ? document.getElementById('q-det').value : '';
+      this.answers[q.id] = {choice: val, detail: det};
+      document.querySelectorAll('.opt').forEach(o=>o.classList.remove('sel')); el.classList.add('sel');
+    } else {
+      this.answers[q.id] = val;
+      document.querySelectorAll('.opt').forEach(o=>o.classList.remove('sel')); el.classList.add('sel');
+    }
+    this.save();
+  },
+  collectOpen(){
+    const q = QUESTIONS[this.idx];
+    if (q.type === 'open'){ const t = document.getElementById('q-open'); if (t) this.answers[q.id] = t.value.trim(); }
+    if (q.type === 'sim_nao_detalhe'){ const t = document.getElementById('q-det');
+      const cur = this.answers[q.id] || {}; if (t) this.answers[q.id] = {choice: cur.choice||'', detail: t.value.trim()}; }
+  },
+  validQ(){
+    const q = QUESTIONS[this.idx], a = this.answers[q.id];
+    if (q.type === 'open') return !!(a && a.length >= 3);
+    if (q.type === 'multiple_choice_multi') return Array.isArray(a) && a.length > 0;
+    if (q.type === 'sim_nao_detalhe') return !!(a && a.choice);
+    return !!a;
+  },
+  prev(){ this.collectOpen(); this.save(); if (this.idx>0){ this.idx--; this.renderQ(); } },
+  next(){
+    this.collectOpen();
+    if (!this.validQ()){ const c = document.querySelector('.q-card');
+      c.style.boxShadow = '0 0 0 2px var(--danger)'; setTimeout(()=>c.style.boxShadow='',700); return; }
+    this.save();
+    if (this.idx < QUESTIONS.length-1){ this.idx++; this.renderQ(); }
+    else this.finishAssess();
+  },
+  answersMarkdown(){
+    let md = '# Assessment Zona de Genialidade — respostas\n';
+    let lastSec = 0;
+    for (const q of QUESTIONS){
+      if (q.sec !== lastSec){ md += '\n## Seção '+q.sec+': '+SECTION_TITLES[q.sec]+'\n'; lastSec = q.sec; }
+      const a = this.answers[q.id];
+      let out = '';
+      if (Array.isArray(a)) out = a.join('; ');
+      else if (a && typeof a === 'object') out = a.choice + (a.detail ? ' — '+a.detail : '');
+      else out = a || '(sem resposta)';
+      md += '\n**'+q.q+'**\n'+out+'\n';
+    }
+    return md;
+  },
+  async finishAssess(){
+    this._retryFn = () => this.finishAssess();
+    this.show('loading');
+    document.getElementById('load-msg').textContent = 'Gerando seu blueprint…';
+    document.getElementById('load-sub').textContent = 'Os sete analistas estão lendo suas 43 respostas. Isso leva um ou dois minutos.';
+    try {
+      const bp = await askAI(blueprintPrompt(this.answersMarkdown()), 6000);
+      this.blueprint = bp.trim();
+      await Store.set('zg_blueprint', this.blueprint);
+      document.getElementById('bp-text').textContent = this.blueprint;
+      this.show('bpview');
+    } catch(e){ this.fail(e); }
+  },
+
+  /* ----- análise → dashboard ----- */
+  async analyzePasted(){
+    const t = document.getElementById('paste-txt').value.trim();
+    if (t.length < 200){ alert('Cole um documento mais completo — a análise precisa de substância.'); return; }
+    this.blueprint = t; await Store.set('zg_blueprint', t);
+    this.analyzeBlueprint();
+  },
+  async analyzeBlueprint(){
+    this._retryFn = () => this.analyzeBlueprint();
+    this.show('loading');
+    document.getElementById('load-msg').textContent = 'Convergindo os sete frameworks…';
+    const sub = document.getElementById('load-sub');
+    const merged = {}; const falhas = [];
+    for (let i=0; i<CHUNKS.length; i++){
+      const ch = CHUNKS[i];
+      sub.textContent = 'Analisando ' + ch.label + '  ·  parte ' + (i+1) + ' de ' + CHUNKS.length;
+      try {
+        let obj;
+        try {
+          obj = extractJSON(await askAI(chunkPrompt(this.blueprint, ch), ch.tokens));
+        } catch(e1){
+          obj = extractJSON(await askAI(chunkPrompt(this.blueprint, ch) +
+            '\n\nLEMBRETE: responda somente o objeto JSON, começando com { e terminando com }. Strings em linha única, sem aspas duplas dentro de valores.', ch.tokens));
+        }
+        Object.assign(merged, deep(obj));
+      } catch(e){
+        falhas.push(ch.label);
+        console.warn('bloco', ch.key, 'falhou:', e);
+      }
+    }
+    if (Object.keys(merged).length === 0){
+      this.fail(new Error('Nenhum dos três blocos de análise retornou. Verifique a conexão e clique em Tentar de novo.'));
+      return;
+    }
+    this.data = sanitize(merged);
+    this._falhas = falhas;
+    await Store.set('zg_result', JSON.stringify(this.data));
+    this.renderDash();
+    if (falhas.length){
+      const av = document.createElement('div');
+      av.className = 'callout-warn';
+      av.innerHTML = 'Parte da análise não retornou (' + esc(falhas.join(', ')) +
+        '). O que aparece abaixo está completo; para preencher o resto, clique em <strong>Refazer análise</strong>.' +
+        ' <button class="btn ghost sm" style="margin-left:10px" onclick="App.analyzeBlueprint()">Refazer análise</button>';
+      const dash = document.getElementById('dash');
+      dash.insertBefore(av, dash.children[1]);
+    }
+  },
+
+  /* ----- render dashboard (cada seção em try/catch — §4) ----- */
+  destroyCharts(){ document.querySelectorAll('.lg, .callout-warn').forEach(e=>e.remove()); },
+  renderDash(){
+    const D = this.data;
+    this.destroyCharts();
+    this.show('dash');
+    const S = (id, fn) => { try { fn(); } catch(e){ const el = document.getElementById(id); if (el) el.style.display='none'; console.warn('seção falhou:', id, e); } };
+
+    S('card-zones', () => {
+      const p = D.profile;
+      document.getElementById('d-initials').textContent = esc((p.initials||'').slice(0,2).toUpperCase() || (p.name||'?')[0]);
+      document.getElementById('d-name').textContent = p.name || '';
+      document.getElementById('d-zone').innerHTML = rich(p.currentZone||'');
+      document.getElementById('d-trans').textContent = p.zoneTransition || '';
+      document.getElementById('d-tags').innerHTML = (p.tags||[]).slice(0,4).map(t=>'<span class="tag-chip">'+esc(t)+'</span>').join('');
+      const z = norm(D.zones);
+      const rows = [['Genialidade', z.genialidade, 'var(--marsala)'],['Excelência', z.excelencia, 'var(--cobre)'],
+                    ['Competência', z.competencia, 'var(--dourado)'],['Incompetência', z.incompetencia, 'var(--muted)']];
+      document.getElementById('zones-bars').innerHTML = rows.map(r =>
+        '<div class="bar-row"><div class="bar-lab"><b>'+r[0]+'</b><span>'+r[1]+'%</span></div><div class="bar"><div style="background:'+r[2]+'" data-w="'+r[1]+'"></div></div></div>').join('');
+      document.getElementById('zones-read').innerHTML = '<span class="rl">Sua leitura</span>'+rich(D.zonesReading);
+    });
+
+    S('card-talents', () => {
+      const t = D.talents;
+      document.getElementById('talents-read').innerHTML = '<span class="rl">Sua leitura</span>'+rich(t.reading);
+      radar(document.getElementById('chart-talents'), t.labels.slice(0,5),
+        [{data: t.scores.slice(0,5).map(c10), fill:'rgba(134,5,12,.14)', stroke:'#86050C', width:2, dot:4}]);
+    });
+
+    S('card-kolbe', () => {
+      const k = D.kolbe;
+      const rows = [['Investigador', k.investigador, 'var(--marsala)'],['Seguimento', k.seguimento, 'var(--dourado)'],
+                    ['Início Rápido', k.inicioRapido, 'var(--cobre)'],['Implementador', k.implementador, 'var(--verde)']];
+      document.getElementById('kolbe-bars').innerHTML = rows.map(r =>
+        '<div class="bar-row"><div class="bar-lab"><b>'+r[0]+'</b><span>'+c10(r[1])+'/10</span></div><div class="bar"><div style="background:'+r[2]+'" data-w="'+(c10(r[1])*10)+'"></div></div></div>').join('');
+      document.getElementById('kolbe-read').innerHTML = '<span class="rl">Sua leitura</span>'+rich(k.reading);
+    });
+
+    S('card-hormozi', () => {
+      const h = D.hormozi;
+      document.getElementById('hz-score').innerHTML = (+h.score||0).toFixed(1)+'<small>/10</small>';
+      const rows = [['Resultado Sonhado', h.resultadoSonhado, 'var(--verde)'],['Probabilidade Percebida', h.probabilidade, 'var(--dourado)'],
+                    ['Tempo de Espera', h.tempoEspera, 'var(--danger)'],['Esforço do Cliente', h.esforco, 'var(--warn)']];
+      document.getElementById('hz-bars').innerHTML = rows.map(r =>
+        '<div class="bar-row"><div class="bar-lab"><b>'+r[0]+'</b><span>'+c10(r[1])+'/10</span></div><div class="bar"><div style="background:'+r[2]+'" data-w="'+(c10(r[1])*10)+'"></div></div></div>').join('');
+      document.getElementById('hz-read').innerHTML = '<span class="rl">Sua leitura</span>'+rich(h.reading);
+    });
+
+    S('card-profiles', () => {
+      document.getElementById('wp-name').textContent = D.wealthProfile.name;
+      document.getElementById('wp-desc').textContent = D.wealthProfile.description;
+      document.getElementById('fp-arch').textContent = 'Fascination · '+(D.fascinationProfile.archetype||'');
+      document.getElementById('fp-name').textContent = D.fascinationProfile.name;
+      document.getElementById('fp-desc').textContent = D.fascinationProfile.description;
+      document.getElementById('prof-read').innerHTML = '<span class="rl">Sua leitura</span>'+rich(D.profilesReading);
+    });
+
+    S('card-ua', () => {
+      const u = D.uniqueAbility;
+      document.getElementById('ua-desc').textContent = '“'+u.description+'”';
+      document.getElementById('ua-align').textContent = c100(u.alignment)+'%';
+      document.getElementById('ua-time').textContent = c100(u.timeInZone)+'%';
+      document.getElementById('ua-pot').textContent = c100(u.potential)+'%';
+      document.getElementById('ua-read').innerHTML = '<span class="rl">Sua leitura</span>'+rich(u.reading);
+    });
+
+    S('card-conv', () => {
+      const c = D.convergence;
+      const colors = {pink:'var(--marsala)', gold:'var(--dourado)', purple:'var(--cobre)', green:'var(--verde)'};
+      document.getElementById('conv-ins').innerHTML = (c.insights||[]).slice(0,4).map(i =>
+        '<div class="ins"><span class="pin" style="background:'+(colors[i.color]||'var(--cobre)')+'"></span><span>'+rich(i.text)+'</span></div>').join('');
+      document.getElementById('conv-read').innerHTML = '<span class="rl">Sua leitura</span>'+rich(c.reading);
+      const hostC = document.getElementById('chart-conv');
+      radar(hostC, c.labels.slice(0,6), [
+        {data: c.current.slice(0,6).map(c10), fill:'rgba(134,5,12,.12)', stroke:'#86050C', width:2, dot:3.5},
+        {data: c.potential.slice(0,6).map(c10), fill:'rgba(223,110,54,.08)', stroke:'#DF6E36', width:1.8, dash:'5,4', dot:3.5}
+      ]);
+      legend(hostC, [{label:'Atual', color:'#86050C'}, {label:'Potencial', color:'#DF6E36', dash:true}]);
+    });
+
+    S('card-time', () => {
+      const t = D.timeDistribution, cu = norm(t.current), ta = norm(t.target);
+      document.getElementById('time-read').innerHTML = '<span class="rl">Sua leitura</span>'+rich(t.reading);
+      const hostT = document.getElementById('chart-time');
+      const S4 = [
+        {label:'Genialidade', color:'#86050C', data:[cu.genialidade, ta.genialidade]},
+        {label:'Excelência',  color:'#DF6E36', data:[cu.excelencia,  ta.excelencia]},
+        {label:'Competência', color:'#C9962E', data:[cu.competencia, ta.competencia]},
+        {label:'Incompetência', color:'#9A8C7E', data:[cu.incompetencia, ta.incompetencia]}
+      ];
+      stackedBars(hostT, ['Atual','Meta 90 dias'], S4);
+      legend(hostT, S4.map(s=>({label:s.label, color:s.color})));
+    });
+
+    S('card-rec', () => { document.getElementById('rec-text').innerHTML = rich(D.recommendation); });
+
+    S('card-actions', () => {
+      document.getElementById('act-list').innerHTML = (D.actions||[]).slice(0,5).map(a =>
+        '<div class="act"><span class="tf">'+esc(a.timeframe)+'</span><div><h4>'+esc(a.label)+'</h4>'+
+        '<div class="fw">'+esc(a.frameworks)+'</div><p>'+rich(a.description)+'</p></div></div>').join('');
+    });
+
+    S('card-plan', () => {
+      const p = D.actionPlan;
+      const li = arr => (arr||[]).map(x=>'<li>'+rich(x)+'</li>').join('');
+      document.getElementById('cl-week').innerHTML = li(p.thisWeek);
+      document.getElementById('cl-two').innerHTML = li(p.nextTwoWeeks);
+      document.getElementById('cl-month').innerHTML = li(p.nextMonth);
+      document.getElementById('cl-donot').innerHTML = li(p.doNot);
+    });
+
+    S('card-squad', () => {
+      const s = D.recommendedSquad;
+      document.getElementById('sq-dn').textContent = s.domain.name; document.getElementById('sq-dd').textContent = s.domain.description;
+      document.getElementById('sq-pn').textContent = s.purpose.name; document.getElementById('sq-pd').textContent = s.purpose.description;
+      document.getElementById('sq-tn').textContent = s.targetUser.name; document.getElementById('sq-td').textContent = s.targetUser.description;
+      document.getElementById('sq-mode').textContent = 'Modo de execução · '+(s.executionMode||'');
+    });
+
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      document.querySelectorAll('.bar>div[data-w]').forEach(b => b.style.width = b.dataset.w+'%');
+    }));
+  },
+
+  /* ----- utilidades ----- */
+  copyBP(){ navigator.clipboard && navigator.clipboard.writeText(this.blueprint); },
+  buildExportHTML(){
+    const dash = document.getElementById('dash').cloneNode(true);
+    dash.classList.remove('hide');
+    dash.querySelectorAll('.dash-actions, #raw-box, .callout-warn button, .btn').forEach(e=>e.remove());
+    Array.from(dash.querySelectorAll('p')).forEach(p=>{ if (/Ctrl\+P/.test(p.textContent)) p.remove(); });
+    const css = Array.from(document.querySelectorAll('style')).map(s=>s.textContent).join('\n');
+    const nome = (this.data && this.data.profile && this.data.profile.name) || 'Zona de Genialidade';
+    return '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8">'
+      + '<meta name="viewport" content="width=device-width, initial-scale=1.0">'
+      + '<title>Mapa da Zona de Genialidade — ' + esc(nome) + '</title>'
+      + '<link rel="preconnect" href="https://fonts.googleapis.com">'
+      + '<link href="https://fonts.googleapis.com/css2?family=Petrona:ital,wght@0,400;0,600;0,700;1,400&family=Jost:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Allura&display=swap" rel="stylesheet">'
+      + '<style>' + css + '\n#dash{display:block !important;}'
+      + '\n.tip{max-width:1060px;margin:22px auto 0;padding:14px 22px;background:#FCF3EA;'
+      + 'border:1px solid var(--cobre-soft);border-radius:12px;font-family:var(--font-b);font-size:14.5px;color:var(--carvao);}'
+      + '\n@media print{.tip{display:none;}}</style></head><body>'
+      + '<div class="tip">Para salvar em PDF: pressione <strong>Ctrl+P</strong> (ou <strong>Cmd+P</strong> no Mac) e escolha <strong>Salvar como PDF</strong>.</div>'
+      + dash.outerHTML
+      + '<footer class="wrap" style="padding:36px 0 50px;text-align:center;">'
+      + '<div class="script">inteligência que transforma</div>'
+      + '<div class="fn" style="font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--carvao-soft);margin-top:12px;">Jaya Roberta · Shakti Jaya</div>'
+      + '</footer></body></html>';
+  },
+  exportDash(btn){
+    let html;
+    try { html = this.buildExportHTML(); }
+    catch(e){ alert('Não consegui montar o arquivo: ' + e.message); return; }
+    const nome = ((this.data && this.data.profile && this.data.profile.name) || 'zona-genialidade')
+      .toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+    const blob = new Blob([html], {type:'text/html;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    /* 1) download direto */
+    try {
+      const a = document.createElement('a');
+      a.href = url; a.download = 'dashboard-'+nome+'.html';
+      document.body.appendChild(a); a.click(); a.remove();
+      if (btn){ const o = btn.textContent; btn.textContent = 'Baixado ✓';
+        setTimeout(()=>{btn.textContent = o;}, 2200); }
+      setTimeout(()=>URL.revokeObjectURL(url), 60000);
+      return;
+    } catch(e){}
+    /* 2) abrir em aba nova */
+    try { const w = window.open(url, '_blank'); if (w) return; } catch(e){}
+    /* 3) ultimo recurso: entregar o codigo para copiar */
+    URL.revokeObjectURL(url);
+    this.showRaw(html);
+  },
+  showRaw(html){
+    const box = document.getElementById('raw-box');
+    document.getElementById('raw-txt').value = html;
+    box.classList.remove('hide');
+    document.getElementById('raw-txt').select();
+  },
+  tryPrint(btn){
+    /* dentro do artifact o print e bloqueado pelo sandbox: tenta e cai para a exportacao */
+    let printed = false;
+    try {
+      if (window.self === window.top && typeof window.print === 'function'){ window.print(); printed = true; }
+    } catch(e){}
+    if (!printed) this.exportDash(btn);
+  },
+  downloadBP(){
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([this.blueprint], {type:'text/markdown'}));
+    a.download = 'genius-zone-blueprint.md'; a.click(); URL.revokeObjectURL(a.href);
+  },
+  async restart(){
+    if (!confirm('Isso apaga suas respostas salvas e recomeça do zero. Confirma?')) return;
+    await Store.del('zg_answers'); await Store.del('zg_blueprint'); await Store.del('zg_result');
+    this.idx = 0; this.answers = {}; this.blueprint = ''; this.data = null;
+    this.show('intro');
+  },
+  fail(e){ document.getElementById('err-msg').textContent = e.message || 'Erro inesperado.'; this.show('err'); },
+  retry(){ if (this._retryFn) this._retryFn(); else this.show('intro'); }
+};
+
+App.init().then(async () => {
+  const saved = await Store.get('zg_result');
+  if (saved){ try { App.data = sanitize(deep(JSON.parse(saved))); App.renderDash(); return; } catch(e){} }
+  if (App.blueprint){ document.getElementById('bp-text').textContent = App.blueprint; App.show('bpview'); return; }
+  if (Object.keys(App.answers).length > 0) App.startAssess();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+# Material de trabalho que não precisa ir para o deploy.
+# Nada é apagado — só não sobe.
+docs
+originais
+public/0*.png
+public/1*.png

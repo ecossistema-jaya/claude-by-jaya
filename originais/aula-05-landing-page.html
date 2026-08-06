@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Landing Page com Identidade Visual · Shakti Jaya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Petrona:ital,wght@0,400;0,600;0,700;1,400&family=Jost:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Allura&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --marsala:#86050C; --marsala-soft:#A32530;
+    --cobre:#DF6E36; --cobre-soft:#E89664;
+    --verde:#1E3A2B; --dourado:#C9962E;
+    --areia:#F1DABF; --areia-bg:#FAF4EA;
+    --carvao:#2B2320; --carvao-soft:#6B5D53; --muted:#9A8C7E;
+    --card:#FFFDF8; --linha:#E7D6BE;
+    --font-h:'Petrona',Georgia,serif; --font-b:'Jost',system-ui,sans-serif; --font-mono:'JetBrains Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--areia-bg);color:var(--carvao);font-family:var(--font-b);
+    line-height:1.6;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:900px;margin:0 auto;padding:0 24px;}
+  .wide{max-width:1080px;}
+  h1,h2,h3{font-family:var(--font-h);font-weight:700;line-height:1.12;color:var(--marsala);}
+  h1{font-size:clamp(32px,5.2vw,56px);}
+  h2{font-size:clamp(25px,3.6vw,38px);margin-bottom:14px;}
+  h3{font-size:clamp(18px,2.4vw,23px);}
+  p{font-size:clamp(16px,1.9vw,18px);margin-bottom:16px;}
+  strong{color:var(--marsala);font-weight:600;}
+  .cobre{color:var(--cobre);}
+  .eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.28em;
+    text-transform:uppercase;color:var(--cobre);margin-bottom:14px;}
+  .script{font-family:'Allura',cursive;font-size:clamp(28px,4vw,42px);color:var(--marsala-soft);line-height:1;}
+
+  .hero img{display:block;width:100%;height:auto;}
+  .hero-title{padding:52px 0 8px;text-align:center;}
+  .hero-title .lead{font-size:clamp(17px,2.2vw,21px);color:var(--carvao-soft);max-width:660px;margin:16px auto 0;}
+  section{padding:42px 0;}
+  .rule{height:1px;background:var(--linha);max-width:1080px;margin:0 auto;}
+
+  .slide{border:1px solid var(--linha);border-radius:16px;overflow:hidden;
+    box-shadow:0 14px 36px rgba(43,35,32,.13);margin:22px 0;}
+  .slide img{display:block;width:100%;height:auto;}
+  /* imagens de passo: saem da coluna de 900px e usam a largura da tela,
+     sem alargar o texto junto (linha longa demais cansa a leitura) */
+  .slide.big{width:min(1240px,calc(100vw - 40px));max-width:none;
+    margin-left:50%;transform:translateX(-50%);}
+  .cap{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--carvao-soft);text-align:center;margin-top:-8px;margin-bottom:24px;}
+
+  .callout{background:var(--card);border:1px solid var(--linha);border-left:4px solid var(--cobre);
+    border-radius:14px;padding:20px 24px;margin:22px 0;box-shadow:0 6px 20px rgba(134,5,12,.05);}
+  .callout p:last-child{margin-bottom:0;}
+
+  .step{display:flex;gap:20px;margin-bottom:24px;align-items:flex-start;}
+  .step .n{font-family:var(--font-h);font-weight:700;font-size:36px;line-height:1;
+    color:var(--areia);-webkit-text-stroke:2px var(--cobre);flex-shrink:0;width:50px;}
+  .step .b h3{margin-bottom:4px;}
+  .step .b p:last-child{margin-bottom:0;}
+
+  /* CARDS DE PROMPT */
+  .prompt{background:var(--card);border:1px solid var(--linha);border-radius:16px;
+    margin-bottom:20px;overflow:hidden;box-shadow:0 8px 26px rgba(134,5,12,.06);}
+  .prompt.hi{border-color:var(--cobre);box-shadow:0 10px 30px rgba(223,110,54,.16);}
+  .prompt-head{display:flex;align-items:center;gap:14px;padding:20px 22px;flex-wrap:wrap;}
+  .prompt-head .ttl{flex:1;min-width:190px;cursor:pointer;}
+  .prompt-head .tag{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--cobre);display:block;margin-bottom:3px;}
+  .btn{font-family:var(--font-b);font-size:14.5px;font-weight:500;border:1px solid var(--linha);
+    background:var(--areia-bg);color:var(--marsala);padding:9px 18px;border-radius:99px;
+    cursor:pointer;transition:.18s;white-space:nowrap;text-decoration:none;display:inline-block;}
+  .btn:hover{background:var(--marsala);color:#fff;border-color:var(--marsala);}
+  .btn.ok{background:#EAF1E4;color:#4C6B3D;border-color:#CBDCC0;}
+  .btn.solid{background:var(--cobre);color:#fff;border-color:var(--cobre);font-size:15.5px;padding:12px 26px;}
+  .btn.solid:hover{background:var(--marsala);border-color:var(--marsala);}
+  .btn.toggle{width:40px;height:40px;padding:0;font-size:15px;display:flex;align-items:center;justify-content:center;}
+  .btn.toggle span{transition:transform .25s;display:block;}
+  .prompt.open .btn.toggle span{transform:rotate(180deg);}
+  .prompt-body{display:none;border-top:1px solid var(--linha);}
+  .prompt.open .prompt-body{display:block;}
+  pre{margin:0;padding:22px;overflow-x:auto;background:#FBF7F0;}
+  code{font-family:var(--font-mono);font-size:13.5px;line-height:1.72;color:var(--carvao);
+    white-space:pre-wrap;word-break:break-word;}
+  .fill{background:#FCF3EA;color:var(--marsala);border-radius:4px;padding:0 4px;font-weight:500;}
+
+  /* CARD PINTEREST */
+  .insp{background:linear-gradient(135deg,#86050C,#A32530);color:#F8EBDD;border-radius:18px;
+    padding:30px 34px;margin:26px 0;}
+  .insp h3{color:#F1DABF;margin-bottom:8px;}
+  .insp p{color:#F8EBDD;margin-bottom:20px;}
+  .insp .btn{background:var(--areia);color:var(--marsala);border-color:var(--areia);font-weight:500;}
+  .insp .btn:hover{background:#fff;border-color:#fff;color:var(--marsala);}
+
+  ul.clean{list-style:none;margin-bottom:16px;}
+  ul.clean li{position:relative;padding-left:28px;margin-bottom:11px;font-size:clamp(15.5px,1.9vw,17.5px);}
+  ul.clean li::before{content:"";position:absolute;left:0;top:.62em;width:9px;height:9px;
+    border-radius:50%;background:var(--cobre);}
+  ul.check li::before{content:"✓";background:none;color:var(--verde);font-weight:700;
+    width:auto;height:auto;top:0;font-size:15px;}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:20px;}
+  .box{background:var(--card);border:1px solid var(--linha);border-radius:14px;padding:20px 22px;}
+  .box h3{font-size:18.5px;margin-bottom:6px;}
+  .box p{font-size:15px;margin-bottom:0;color:var(--carvao-soft);}
+
+  footer{padding:44px 0 60px;text-align:center;}
+  footer .fn{font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--carvao-soft);margin-top:14px;}
+  .toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(90px);
+    background:var(--marsala);color:#fff;padding:12px 26px;border-radius:99px;font-size:14.5px;
+    box-shadow:0 10px 30px rgba(134,5,12,.28);transition:transform .3s;z-index:99;}
+  .toast.show{transform:translateX(-50%) translateY(0);}
+  @media print{.btn,.toast{display:none;}.prompt-body{display:block !important;}body{background:#fff;}}
+</style>
+</head>
+<body>
+
+<div class="hero"><img src="/img/aula-05-1.webp" alt="Landing Page com Identidade Visual"></div>
+
+<div class="hero-title wrap">
+  <div class="eyebrow">Módulo 01 · Aula prática</div>
+  <h1>Sua landing page,<br>com a sua cara</h1>
+  <p class="lead">Do estudo de identidade visual até a página no ar. Você descreve, a IA constrói, e o resultado se parece com você — não com um template genérico.</p>
+</div>
+
+<div class="rule"></div>
+
+<section class="wrap">
+  <h2>O caminho inteiro, antes de começar</h2>
+  <p>Muita gente pula direto para "faça uma landing page pra mim" e recebe uma página bonita que não vende, porque não tem identidade nem direção. A ordem importa: primeiro você define quem é, depois a página nasce dessa definição.</p>
+  <div class="slide big"><img src="/img/aula-05-2.webp" alt="Passo a passo: crie com clareza, aplique com propósito"></div>
+  <div class="cap">a lógica dos 7 passos</div>
+  <div class="callout">
+    <p><strong>A regra que sustenta tudo:</strong> sua clareza no prompt define a qualidade da resposta. A IA potencializa, mas quem cria com consciência é você.</p>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<section class="wrap">
+  <div class="eyebrow">Passo 01</div>
+  <h2>Construa sua identidade visual</h2>
+  <p>Antes de qualquer página, você precisa saber que cores, fontes e clima representam o seu negócio. Este primeiro prompt gera esse estudo. Junte a ele suas fotos e as referências visuais que você admira.</p>
+  <div class="slide big"><img src="/img/aula-05-3.webp" alt="Construa sua identidade visual de marca"></div>
+  <div class="cap">o que anexar junto com o prompt</div>
+
+  <div class="prompt open" id="p1">
+    <div class="prompt-head">
+      <div class="ttl" onclick="tog('p1')">
+        <span class="tag">Prompt 1 · estudo visual</span>
+        <h3>Identidade Visual de Marca</h3>
+      </div>
+      <button class="btn" onclick="cp('p1',this)">Copiar</button>
+      <button class="btn toggle" onclick="tog('p1')" aria-label="abrir"><span>⌄</span></button>
+    </div>
+    <div class="prompt-body"><pre><code>Quero criar uma identidade visual para minha marca. Faça um estudo do estilo visual ideal para o meu negócio, com fontes legíveis para o público 40+, cores alinhadas ao meu posicionamento e sugestões visuais coerentes com o que eu faço.</code></pre></div>
+  </div>
+
+  <div class="grid">
+    <div class="box"><h3>Anexe suas fotos</h3><p>Retratos profissionais e imagens que representam você trabalhando.</p></div>
+    <div class="box"><h3>Anexe referências</h3><p>Posts, paletas, tipografias e peças que você admira e com que se identifica.</p></div>
+    <div class="box"><h3>Seja específica</h3><p>Diga seu negócio, público-alvo, valores e o que te diferencia.</p></div>
+  </div>
+
+  <div class="insp">
+    <h3>Ainda não sabe que estilo quer?</h3>
+    <p>Inspire-se em modelos reais de landing pages para montar seu estudo de marca. Salve o que te chama atenção e anexe junto ao prompt.</p>
+    <a class="btn" href="https://br.pinterest.com/search/pins/?q=landing%20pages&rs=typed" target="_blank" rel="noopener">Ver modelos de landing pages</a>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<section class="wrap">
+  <div class="eyebrow">Passos 02 e 03</div>
+  <h2>Essência antes de estética</h2>
+  <p>Identidade visual sem essência vira decoração. Estes dois passos definem o que a página vai dizer: propósito, público, valores e posicionamento, e depois a mensagem principal e o tom de voz.</p>
+  <div class="slide big"><img src="/img/aula-05-4.webp" alt="Defina sua essência"></div>
+  <div class="cap">passo 02 · os quatro pilares</div>
+  <div class="slide big"><img src="/img/aula-05-5.webp" alt="Comunique com clareza e consistência"></div>
+  <div class="cap">passo 03 · mensagem, tom e estilo</div>
+  <div class="callout">
+    <p>Guarde a sua <strong>frase de posicionamento</strong> e o seu <strong>tom de voz</strong>. Os dois entram no prompt da landing page mais adiante, e são eles que impedem a página de sair genérica.</p>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<section class="wrap">
+  <div class="eyebrow">Passo 04 · o prompt principal</div>
+  <h2>Agora sim: a landing page</h2>
+  <p>Este é o prompt que constrói a página. Ele funciona porque chega depois de tudo que você já definiu. Preencha os campos marcados, anexe a imagem de referência do estilo que escolheu e as três fotos que vão aparecer na página.</p>
+
+  <div class="prompt hi" id="p2">
+    <div class="prompt-head">
+      <div class="ttl" onclick="tog('p2')">
+        <span class="tag">Prompt 2 · a página</span>
+        <h3>Landing Page com Identidade Visual</h3>
+      </div>
+      <button class="btn" onclick="cp('p2',this)">Copiar</button>
+      <button class="btn toggle" onclick="tog('p2')" aria-label="abrir"><span>⌄</span></button>
+    </div>
+    <div class="prompt-body"><pre><code>Este é o modelo de página que eu quero que você programe pra mim.
+
+Verifique a imagem de referência que enviei e já comece a construir uma landing page nessa mesma identidade visual (cores, layout, clima, tipografia).
+
+Use as 3 fotos que anexei nas posições mostradas na referência (Hero, Sobre e CTA final).
+
+Sobre mim:
+— Nome:
+— Profissão:
+— Instagram:
+— Público:
+— Transformação que entrego: [TRANSFORMAÇÃO QUE VOCÊ ENTREGA]
+— Tom de comunicação:
+
+🗣️ Tom de comunicação
+Transmite: clareza, autoridade, praticidade, inteligência, segurança, direcionamento, objetividade e domínio.
+
+💡 Parece uma marca que: explica com lógica, mas não para na teoria — entrega o caminho pronto e faz a pessoa sentir que já pode executar.
+
+Características: didática, prática, estratégica, objetiva, segura, orientadora e aplicável.
+
+Todos os botões devem apontar para: [LINK DO WHATSAPP]
+
+Faça em React + Tailwind, mobile-first, responsiva, pronta pra publicar.</code></pre></div>
+  </div>
+
+  <h3 style="margin-top:28px;">O que você precisa ter em mãos</h3>
+  <ul class="clean" style="margin-top:12px;">
+    <li><strong>1 imagem de referência</strong> do estilo visual que você escolheu</li>
+    <li><strong>3 fotos suas</strong>: uma para o topo, uma para a seção Sobre, uma para o fechamento</li>
+    <li><strong>Seu link do WhatsApp</strong>, já pronto, para colar no lugar do campo marcado</li>
+    <li><strong>Sua frase de posicionamento</strong> e o tom de voz definidos no passo 03</li>
+  </ul>
+  <div class="callout">
+    <p>Os campos entre colchetes existem para serem substituídos. <span class="fill">[TRANSFORMAÇÃO QUE VOCÊ ENTREGA]</span> e <span class="fill">[LINK DO WHATSAPP]</span> precisam sair do prompt antes de você enviar, senão a IA inventa no lugar.</p>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<section class="wrap">
+  <div class="eyebrow">Passo 05</div>
+  <h2>Veja como fica no celular</h2>
+  <p>A maior parte do seu público vai abrir a página pelo telefone. Antes de publicar, confira a versão mobile: o título continua legível, o botão continua visível sem rolar muito, e as fotos não cortam o rosto.</p>
+  <div class="slide"><img src="/img/aula-05-6.webp" alt="Como fica no celular"></div>
+  <div class="cap">visualização responsiva</div>
+  <div class="callout">
+    <p>Peça o ajuste conversando, do mesmo jeito que pediu a página: <em>"deixa o título menor no celular"</em>, <em>"sobe o botão para aparecer antes de rolar"</em>, <em>"troca a foto da seção Sobre"</em>.</p>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<section class="wide wrap">
+  <div class="eyebrow">Passos 06 e 07</div>
+  <h2>Isso tem nome: Vibe Coding</h2>
+  <p>O que você acabou de fazer é criar tecnologia funcional descrevendo o que quer, em vez de programar. E landing page é só o começo do que essa lógica constrói.</p>
+  <div class="slide"><img src="/img/aula-05-7.webp" alt="Vibe Coding: criando aplicativos"></div>
+  <div class="slide"><img src="/img/aula-05-8.webp" alt="Vibe Coding: você descreve, a IA constrói"></div>
+  <div class="slide"><img src="/img/aula-05-9.webp" alt="O que dá pra criar"></div>
+  <div class="cap">o mesmo método, outros produtos</div>
+</section>
+
+<div class="rule"></div>
+
+<section class="wrap">
+  <h2>Antes de publicar</h2>
+  <p>Passe por esta lista. Ela evita os erros que mais aparecem em página de primeira viagem.</p>
+  <ul class="clean check">
+    <li>Todos os botões apontam para o link certo, e o link foi testado</li>
+    <li>A promessa do topo diz o que a pessoa ganha, não o que você faz</li>
+    <li>Existe um único caminho de ação, repetido, e não cinco opções</li>
+    <li>As fotos são suas e estão nas posições que você pediu</li>
+    <li>A página abre bem no celular e não corta nada</li>
+    <li>Não sobrou nenhum texto de exemplo nem campo entre colchetes</li>
+  </ul>
+  <div class="callout">
+    <p><strong>E o mais importante:</strong> publique antes de estar perfeita. Página no ar com ajuste pendente vale mais que página impecável esperando no rascunho.</p>
+  </div>
+</section>
+
+<footer class="wrap">
+  <div class="script">inteligência que transforma</div>
+  <div class="fn">Jaya Roberta · Shakti Jaya · @jayaroberta.ai</div>
+</footer>
+
+<div class="toast" id="toast">Prompt copiado</div>
+
+<script>
+  function tog(id){ document.getElementById(id).classList.toggle('open'); }
+  function cp(id, btn){
+    var txt = document.querySelector('#'+id+' code').innerText;
+    var done = function(){
+      var old = btn.textContent;
+      btn.textContent = 'Copiado'; btn.classList.add('ok');
+      var t = document.getElementById('toast'); t.classList.add('show');
+      setTimeout(function(){ btn.textContent = old; btn.classList.remove('ok'); t.classList.remove('show'); }, 1900);
+    };
+    if (navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(txt).then(done).catch(function(){ fb(txt, done); });
+    } else { fb(txt, done); }
+  }
+  function fb(txt, done){
+    var ta = document.createElement('textarea');
+    ta.value = txt; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); done(); }
+    catch(e){ alert('Não consegui copiar. Selecione o texto e use Ctrl+C.'); }
+    document.body.removeChild(ta);
+  }
+</script>
+</body>
+</html>

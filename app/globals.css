@@ -38,116 +38,162 @@ a {
   text-decoration: none;
 }
 
-/* ---------- índice ---------- */
+/* ---------- capa ----------
+   A arte já traz logo, título, subtítulo e assinatura. Aqui só entram os 5
+   cards, posicionados sobre ela. Tudo é medido em % do próprio container e a
+   tipografia usa cqw, então a página inteira escala junto com a imagem — em
+   qualquer tela os cards caem exatamente no mesmo ponto da arte. */
 
-.wrap {
-  max-width: 940px;
-  margin: 0 auto;
-  padding: 8vh 24px 12vh;
+.capa {
+  position: relative;
+  container-type: inline-size;
+  width: 100%;
+  aspect-ratio: 1024 / 1536;
+  background: url('/img/capa.webp') top center / 100% auto no-repeat;
 }
 
-.eyebrow {
-  font-family: var(--font-b);
-  font-size: 12px;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--cobre);
-  font-weight: 500;
-  margin-bottom: 16px;
-}
-
-.wrap > h1 {
-  font-size: clamp(38px, 6vw, 64px);
-  font-weight: 700;
-}
-
-.sub {
-  font-size: clamp(17px, 2.2vw, 21px);
-  color: var(--carvao-soft);
-  margin-top: 16px;
-  max-width: 560px;
-}
-
-.lista {
-  margin-top: 48px;
-  display: grid;
-  gap: 16px;
-}
-
-.aula {
+.cartao {
+  position: absolute;
+  left: 7.9%;
+  width: 35.6%;
   display: flex;
-  gap: 22px;
+  align-items: center;
+  gap: 1.6cqw;
+  padding: 0 2cqw 0 1.4cqw;
+  border-radius: 1.4cqw;
+  background: rgba(253, 248, 240, 0.82);
+  box-shadow: 0 0.5cqw 1.6cqw rgba(94, 60, 40, 0.13);
+  transition: background 0.22s, box-shadow 0.22s, transform 0.22s;
+}
+
+.cartao:hover {
+  background: rgba(255, 253, 248, 0.95);
+  box-shadow: 0 0.9cqw 2.4cqw rgba(134, 5, 12, 0.2);
+  transform: translateY(-0.35cqw);
+}
+
+.cartao .ico {
+  width: 5.4cqw;
+  height: 5.4cqw;
+  flex-shrink: 0;
+  fill: none;
+  stroke: var(--cobre);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.cartao .txt {
+  min-width: 0;
+}
+
+.cartao .cab {
+  display: flex;
   align-items: baseline;
-  background: var(--card);
-  border: 1px solid var(--linha);
-  border-radius: 18px;
-  padding: 26px 28px;
-  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+  gap: 1.1cqw;
 }
 
-.aula:hover {
-  border-color: var(--cobre);
-  box-shadow: 0 10px 30px rgba(134, 5, 12, 0.09);
-  transform: translateY(-2px);
-}
-
-.aula .n {
+.cartao .num {
   font-family: var(--font-h);
-  font-weight: 700;
-  font-size: 40px;
-  color: var(--areia);
-  -webkit-text-stroke: 1.5px var(--cobre);
+  font-weight: 400;
+  font-size: 2.85cqw;
+  color: var(--marsala);
   line-height: 1;
   flex-shrink: 0;
-  min-width: 46px;
 }
 
-.aula h2 {
-  font-size: clamp(20px, 2.6vw, 26px);
-}
-
-.aula p {
-  color: var(--carvao-soft);
-  margin-top: 6px;
-  font-size: 16px;
-  line-height: 1.5;
-}
-
-.rodape {
-  margin-top: 56px;
-  font-size: 12px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--carvao-soft);
-}
-
-.rodape a {
-  color: var(--cobre);
-  transition: color 0.2s;
-}
-
-.rodape a:hover {
+.cartao h2 {
+  font-family: var(--font-h);
+  font-weight: 700;
+  font-size: 1.95cqw;
+  line-height: 1.16;
   color: var(--marsala);
 }
 
-/* ---------- login ---------- */
+.cartao p {
+  margin-top: 0.6cqw;
+  font-size: 1.42cqw;
+  line-height: 1.36;
+  color: var(--carvao-soft);
+}
+
+/* Celular: sobrepor não funciona — a 414px de largura o card teria 147px e o
+   título cairia para 8px. A arte aparece inteira e os cards viram lista. */
+@media (max-width: 700px) {
+  .capa {
+    aspect-ratio: auto;
+    padding-bottom: 28px;
+    background-size: 100% auto;
+  }
+
+  .capa::before {
+    content: '';
+    display: block;
+    padding-top: 150%;
+  }
+
+  .cartao {
+    position: static;
+    width: auto;
+    height: auto !important;
+    margin: 0 16px 12px;
+    gap: 14px;
+    padding: 16px 18px;
+    border-radius: 16px;
+    background: rgba(253, 248, 240, 0.94);
+  }
+
+  .cartao .ico {
+    width: 34px;
+    height: 34px;
+  }
+
+  .cartao .cab {
+    gap: 10px;
+  }
+
+  .cartao .num {
+    font-size: 26px;
+  }
+
+  .cartao h2 {
+    font-size: 18px;
+  }
+
+  .cartao p {
+    margin-top: 5px;
+    font-size: 14px;
+  }
+}
+
+/* ---------- login ----------
+   A arte já traz o título e a assinatura à esquerda; o formulário fica à
+   direita para não cobrir o texto nem o rosto. */
 
 .login {
   min-height: 100dvh;
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 24px;
+  justify-content: flex-end;
+  padding: 24px clamp(24px, 5vw, 90px);
+  background: url('/img/login.webp') center / cover no-repeat;
 }
 
 .login form {
-  background: var(--card);
-  border: 1px solid var(--linha);
+  background: rgba(255, 253, 248, 0.9);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(231, 214, 190, 0.8);
   border-radius: 20px;
   padding: 40px 36px;
   width: 100%;
-  max-width: 400px;
-  box-shadow: 0 12px 40px rgba(134, 5, 12, 0.07);
+  max-width: 380px;
+  box-shadow: 0 18px 50px rgba(94, 60, 40, 0.28);
+}
+
+@media (max-width: 720px) {
+  .login {
+    justify-content: center;
+  }
 }
 
 .login h1 {

@@ -121,6 +121,15 @@ a {
   color: var(--carvao-soft);
 }
 
+.rodape a {
+  color: var(--cobre);
+  transition: color 0.2s;
+}
+
+.rodape a:hover {
+  color: var(--marsala);
+}
+
 /* ---------- login ---------- */
 
 .login {

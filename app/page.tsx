@@ -31,7 +31,7 @@ const AULAS = [
 export default function Home() {
   return (
     <main className="wrap">
-      <div className="eyebrow">Série Claude do Zero</div>
+      <div className="eyebrow">Jaya Roberta · Série Claude do Zero</div>
       <h1>O curso</h1>
       <p className="sub">
         Cinco aulas na ordem. Cada uma é pra fazer junto — abra o Claude do lado.
@@ -49,7 +49,12 @@ export default function Home() {
         ))}
       </div>
 
-      <div className="rodape">Shakti Jaya · @jayaroberta.shakti</div>
+      <div className="rodape">
+        Jaya Roberta ·{' '}
+        <a href="https://instagram.com/jayaroberta.ai" target="_blank" rel="noopener">
+          @jayaroberta.ai
+        </a>
+      </div>
     </main>
   );
 }

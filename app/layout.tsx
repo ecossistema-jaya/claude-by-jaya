@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Claude do Zero · Shakti Jaya',
+  title: 'Claude do Zero · Jaya Roberta',
   description: 'Curso Claude do Zero — cinco aulas práticas.',
 };
 

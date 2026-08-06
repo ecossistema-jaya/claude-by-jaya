@@ -18,12 +18,13 @@ export async function middleware(req: NextRequest) {
   return NextResponse.redirect(new URL('/login', req.url));
 }
 
-/* Protege TUDO menos o login e os assets que a própria tela de login precisa.
-   Os HTML em /aulas e as imagens em /img passam por aqui de propósito — a
-   única exceção é a arte de fundo do login, que precisa carregar antes de o
-   aluno ter cookie, senão a tela de senha aparece sem imagem. */
+/* Protege TUDO menos o login e o que precisa ser lido sem cookie:
+   - img/login.webp: a arte de fundo da própria tela de senha;
+   - img/og.jpg: a prévia dos links; os robôs do WhatsApp, Facebook e afins
+     nunca têm cookie, então uma imagem protegida vira link sem imagem.
+   Os HTML em /aulas e todas as outras imagens seguem fechados. */
 export const config = {
   matcher: [
-    '/((?!login|api/login|img/login\\.webp|_next/static|_next/image|_vercel|favicon.ico).*)',
+    '/((?!login|api/login|img/login\\.webp|img/og\\.jpg|_next/static|_next/image|_vercel|favicon.ico).*)',
   ],
 };

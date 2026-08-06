@@ -2,9 +2,34 @@ import type { Metadata } from 'next';
 import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
 
+const TITULO = 'Claude do Zero · Jaya Roberta';
+const DESCRICAO = 'Cinco aulas na ordem. Cada uma é pra fazer junto — abra o Claude do lado.';
+
+/* A URL precisa ser absoluta na prévia das redes sociais. A Vercel expõe o
+   domínio de produção em VERCEL_PROJECT_PRODUCTION_URL, então isto continua
+   certo se um domínio próprio for apontado depois. */
+const BASE = process.env.VERCEL_PROJECT_PRODUCTION_URL
+  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  : 'http://localhost:3000';
+
 export const metadata: Metadata = {
-  title: 'Claude do Zero · Jaya Roberta',
-  description: 'Curso Claude do Zero — cinco aulas práticas.',
+  metadataBase: new URL(BASE),
+  title: TITULO,
+  description: DESCRICAO,
+  openGraph: {
+    type: 'website',
+    locale: 'pt_BR',
+    siteName: 'Claude do Zero',
+    title: TITULO,
+    description: DESCRICAO,
+    images: [{ url: '/img/og.jpg', width: 1254, height: 1254, alt: TITULO }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: TITULO,
+    description: DESCRICAO,
+    images: ['/img/og.jpg'],
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

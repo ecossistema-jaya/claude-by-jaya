@@ -19,7 +19,11 @@ export async function middleware(req: NextRequest) {
 }
 
 /* Protege TUDO menos o login e os assets que a própria tela de login precisa.
-   Os HTML em /aulas e as imagens em /img passam por aqui de propósito. */
+   Os HTML em /aulas e as imagens em /img passam por aqui de propósito — a
+   única exceção é a arte de fundo do login, que precisa carregar antes de o
+   aluno ter cookie, senão a tela de senha aparece sem imagem. */
 export const config = {
-  matcher: ['/((?!login|api/login|_next/static|_next/image|favicon.ico).*)'],
+  matcher: [
+    '/((?!login|api/login|img/login\\.webp|_next/static|_next/image|favicon.ico).*)',
+  ],
 };

@@ -167,15 +167,15 @@ a {
 }
 
 /* ---------- login ----------
-   A arte já traz o título e a assinatura à esquerda; o formulário fica à
-   direita para não cobrir o texto nem o rosto. */
+   A arte já traz o título à esquerda e a figura à direita; o formulário fica
+   centralizado embaixo, sobre a estrada, que é a faixa limpa da composição. */
 
 .login {
   min-height: 100dvh;
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 24px clamp(24px, 5vw, 90px);
+  align-items: flex-end;
+  justify-content: center;
+  padding: 24px 24px clamp(28px, 5vh, 60px);
   background: url('/img/login.webp') center / cover no-repeat;
 }
 
@@ -190,11 +190,6 @@ a {
   box-shadow: 0 18px 50px rgba(94, 60, 40, 0.28);
 }
 
-@media (max-width: 720px) {
-  .login {
-    justify-content: center;
-  }
-}
 
 .login h1 {
   font-size: 32px;

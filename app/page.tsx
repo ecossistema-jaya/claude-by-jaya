@@ -1,13 +1,13 @@
 import Link from 'next/link';
 
 /* Posições medidas na arte de referência (inicial_com_cards.png, 1024x1536) e
-   reescaladas por 0.88 para caber no vão livre da capa sem cards, que é menor
+   reescaladas por 0.85 para caber no vão livre da capa sem cards, que é menor
    porque o logo empurra o conteúdo. As proporções entre os cards são as da arte. */
 const AULAS = [
   {
     n: 1,
-    top: 43.0,
-    alt: 7.30,
+    top: 45.50,
+    alt: 7.06,
     titulo: 'Conversar com o Claude',
     desc: 'Planos, modelos, a fórmula OCAS e como deixar o Claude te conhecer.',
     icone: (
@@ -20,8 +20,8 @@ const AULAS = [
   },
   {
     n: 2,
-    top: 51.09,
-    alt: 7.30,
+    top: 53.32,
+    alt: 7.06,
     titulo: 'Botar o Claude pra Trabalhar',
     desc: 'Artefatos, Projetos, Conectores, Skills, Cowork e Design.',
     icone: (
@@ -34,8 +34,8 @@ const AULAS = [
   },
   {
     n: 3,
-    top: 59.18,
-    alt: 7.30,
+    top: 61.14,
+    alt: 7.06,
     titulo: 'Documento Mestre',
     desc: 'O documento que ensina o Claude quem você é — com os prompts prontos.',
     icone: (
@@ -48,8 +48,8 @@ const AULAS = [
   },
   {
     n: 4,
-    top: 67.27,
-    alt: 8.10,
+    top: 68.96,
+    alt: 7.82,
     titulo: 'Psicometria e Zona de Genialidade',
     desc: '43 perguntas que viram o seu blueprint e o seu dashboard psicométrico.',
     icone: (
@@ -62,8 +62,8 @@ const AULAS = [
   },
   {
     n: 5,
-    top: 76.16,
-    alt: 7.22,
+    top: 77.55,
+    alt: 6.97,
     titulo: 'Landing Page com Identidade Visual',
     desc: 'Os prompts para criar uma página com a sua cara, do zero.',
     icone: (

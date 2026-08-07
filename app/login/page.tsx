@@ -1,51 +1,28 @@
-'use client';
+import BotaoGoogle from './BotaoGoogle';
 
-import { useState } from 'react';
+const RECADOS: Record<string, string> = {
+  google: 'O Google não completou a entrada. Tente de novo.',
+  saiu: 'Você saiu. Entre de novo quando quiser.',
+};
 
-export default function Login() {
-  const [senha, setSenha] = useState('');
-  const [erro, setErro] = useState('');
-  const [enviando, setEnviando] = useState(false);
-
-  async function entrar(e: React.FormEvent) {
-    e.preventDefault();
-    setEnviando(true);
-    setErro('');
-
-    const r = await fetch('/api/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password: senha }),
-    });
-
-    if (r.ok) {
-      window.location.href = '/';
-      return;
-    }
-    setErro(r.status === 401 ? 'Senha incorreta.' : 'Algo travou. Tente de novo.');
-    setEnviando(false);
-  }
+export default async function Login({
+  searchParams,
+}: {
+  searchParams: Promise<{ erro?: string }>;
+}) {
+  const { erro } = await searchParams;
 
   return (
     <main className="login">
-      <form onSubmit={entrar}>
+      <div className="caixa">
         <div className="eyebrow">Série Claude do Zero</div>
         <h1>Área do aluno</h1>
-        <p>Digite a senha que você recebeu para entrar.</p>
+        <p>Entre com a conta Google que você usou na inscrição.</p>
 
-        <input
-          type="password"
-          value={senha}
-          onChange={(e) => setSenha(e.target.value)}
-          placeholder="Senha"
-          autoFocus
-          autoComplete="current-password"
-        />
-        <button type="submit" disabled={enviando || !senha}>
-          {enviando ? 'Entrando…' : 'Entrar'}
-        </button>
-        <p className="erro">{erro}</p>
-      </form>
+        <BotaoGoogle />
+
+        <p className="erro">{erro ? RECADOS[erro] ?? RECADOS.google : ''}</p>
+      </div>
     </main>
   );
 }

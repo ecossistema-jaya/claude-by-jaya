@@ -1,5 +1,7 @@
 import Link from 'next/link';
 import Sair from '@/app/Sair';
+import { buscarAluno } from '@/app/lib/aluno';
+import { clienteServidor } from '@/app/lib/supabase/servidor';
 
 /* Posições medidas na arte de referência (inicial_com_cards.png, 1024x1536) e
    reescaladas por 0.85 para caber no vão livre da capa sem cards, que é menor
@@ -78,10 +80,21 @@ const AULAS = [
   },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const supabase = await clienteServidor();
+  const { data } = await supabase.auth.getUser();
+  const eu = data.user?.email ? await buscarAluno(supabase, data.user.email) : null;
+
   return (
     <main className="capa">
-      <Sair />
+      <div className="topo">
+        {eu?.papel === 'admin' && (
+          <Link href="/admin" className="sair">
+            Alunos
+          </Link>
+        )}
+        <Sair />
+      </div>
       {AULAS.map((a) => (
         <Link
           key={a.n}

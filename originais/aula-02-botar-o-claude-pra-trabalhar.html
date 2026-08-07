@@ -78,9 +78,51 @@
   .fade>*:nth-child(1){animation-delay:.05s;} .fade>*:nth-child(2){animation-delay:.15s;}
   .fade>*:nth-child(3){animation-delay:.25s;} .fade>*:nth-child(4){animation-delay:.35s;} .fade>*:nth-child(5){animation-delay:.45s;}
   @keyframes up{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+
+  /* --- ícones vetoriais (Lucide) --- */
+  .ico{width:1em;height:1em;display:inline-block;vertical-align:middle;flex-shrink:0;
+    fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  /* chip mono em caixa alta: flex resolve o alinhamento sem número mágico */
+  .tag{display:inline-flex;align-items:center;gap:.5em;}
+  .tag .ico{width:1.3em;height:1.3em;}
+  td .ico{width:1.3em;height:1.3em;margin-right:.45em;color:var(--cobre);}
+  .dc-ico .ico{width:22px;height:22px;color:var(--cobre);vertical-align:baseline;}
+  .num .ico{width:.78em;height:.78em;fill:var(--areia);stroke:var(--cobre);stroke-width:1.4;
+    vertical-align:-.06em;}
 </style>
 </head>
 <body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true"><symbol id="ic-building-2" viewBox="0 0 24 24"><path d="M10 12h4" />
+  <path d="M10 8h4" />
+  <path d="M14 21v-3a2 2 0 0 0-4 0v3" />
+  <path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2" />
+  <path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16" /></symbol><symbol id="ic-calendar" viewBox="0 0 24 24"><path d="M8 2v3" />
+  <path d="M16 2v3" />
+  <rect x="3" y="3" width="18" height="18" rx="2" />
+  <path d="M3 9h18" /></symbol><symbol id="ic-chart-column" viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16" />
+  <path d="M18 17V9" />
+  <path d="M13 17V5" />
+  <path d="M8 17v-3" /></symbol><symbol id="ic-folder" viewBox="0 0 24 24"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" /></symbol><symbol id="ic-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" />
+  <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
+  <path d="M2 12h20" /></symbol><symbol id="ic-graduation-cap" viewBox="0 0 24 24"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" />
+  <path d="M22 10v6" />
+  <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" /></symbol><symbol id="ic-mail" viewBox="0 0 24 24"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" />
+  <rect x="2" y="4" width="20" height="16" rx="2" /></symbol><symbol id="ic-notebook-text" viewBox="0 0 24 24"><path d="M2 6h4" />
+  <path d="M2 10h4" />
+  <path d="M2 14h4" />
+  <path d="M2 18h4" />
+  <rect width="16" height="20" x="4" y="2" rx="2" />
+  <path d="M9.5 8h5" />
+  <path d="M9.5 12H16" />
+  <path d="M9.5 16H14" /></symbol><symbol id="ic-package" viewBox="0 0 24 24"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z" />
+  <path d="M12 22V12" />
+  <polyline points="3.29 7 12 12 20.71 7" />
+  <path d="m7.5 4.27 9 5.15" /></symbol><symbol id="ic-play" viewBox="0 0 24 24"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" /></symbol><symbol id="ic-presentation" viewBox="0 0 24 24"><path d="M2 3h20" />
+  <path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3" />
+  <path d="m7 21 5-5 5 5" /></symbol><symbol id="ic-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+  <path d="M16 3.128a4 4 0 0 1 0 7.744" />
+  <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+  <circle cx="9" cy="7" r="4" /></symbol><symbol id="ic-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z" /></symbol></svg>
 <div class="progress" id="prog"></div>
 <div class="deck">
 
@@ -121,12 +163,12 @@
   <div class="slide-inner fade">
     <div class="eyebrow">O que dá pra criar</div>
     <div class="row">
-      <div class="card"><div class="tag">📊 dados</div><h3 style="font-size:21px;">Dashboards</h3><p>Métricas de forma clara e interativa.</p></div>
-      <div class="card"><div class="tag">🧰 automação</div><h3 style="font-size:21px;">Ferramentas</h3><p>Calculadoras e mini-processos.</p></div>
+      <div class="card"><div class="tag"><svg class="ico" aria-hidden="true"><use href="#ic-chart-column"/></svg> dados</div><h3 style="font-size:21px;">Dashboards</h3><p>Métricas de forma clara e interativa.</p></div>
+      <div class="card"><div class="tag"><svg class="ico" aria-hidden="true"><use href="#ic-wrench"/></svg> automação</div><h3 style="font-size:21px;">Ferramentas</h3><p>Calculadoras e mini-processos.</p></div>
     </div>
     <div class="row" style="margin-top:22px;">
-      <div class="card"><div class="tag">🌐 web</div><h3 style="font-size:21px;">Páginas / sites</h3><p>Landing pages completas e responsivas.</p></div>
-      <div class="card"><div class="tag">📽️ pitch</div><h3 style="font-size:21px;">Apresentações</h3><p>Slides prontos pra apresentar.</p></div>
+      <div class="card"><div class="tag"><svg class="ico" aria-hidden="true"><use href="#ic-globe"/></svg> web</div><h3 style="font-size:21px;">Páginas / sites</h3><p>Landing pages completas e responsivas.</p></div>
+      <div class="card"><div class="tag"><svg class="ico" aria-hidden="true"><use href="#ic-presentation"/></svg> pitch</div><h3 style="font-size:21px;">Apresentações</h3><p>Slides prontos pra apresentar.</p></div>
     </div>
   </div>
 </div>
@@ -134,7 +176,7 @@
 <!-- 5 DEMO -->
 <div class="slide center">
   <div class="slide-inner fade">
-    <div class="num">▶</div>
+    <div class="num"><svg class="ico" aria-hidden="true"><use href="#ic-play"/></svg></div>
     <h2 style="margin-top:10px;">Demo ao vivo</h2>
     <p class="lead" style="margin-top:16px;max-width:700px;">Vamos fazer <strong>uma coisa real agora</strong> — uma calculadora, uma página, um painel. Montando o OCAS da Aula 1.</p>
   </div>
@@ -165,10 +207,10 @@
     <div class="eyebrow">Pra que usar</div>
     <table>
       <tr><th>Projeto pra…</th><th>O que centraliza</th></tr>
-      <tr><td>👥 <strong>Clientes</strong></td><td>Informações e conversas de cada cliente</td></tr>
-      <tr><td>🏢 <strong>Empresas</strong></td><td>Dados, processos e estratégias por empresa</td></tr>
-      <tr><td>📦 <strong>Produtos</strong></td><td>Ideias, desenvolvimento, posicionamento</td></tr>
-      <tr><td>🎓 <strong>Estudos</strong></td><td>Pesquisas, aprendizados e referências</td></tr>
+      <tr><td><svg class="ico" aria-hidden="true"><use href="#ic-users"/></svg> <strong>Clientes</strong></td><td>Informações e conversas de cada cliente</td></tr>
+      <tr><td><svg class="ico" aria-hidden="true"><use href="#ic-building-2"/></svg> <strong>Empresas</strong></td><td>Dados, processos e estratégias por empresa</td></tr>
+      <tr><td><svg class="ico" aria-hidden="true"><use href="#ic-package"/></svg> <strong>Produtos</strong></td><td>Ideias, desenvolvimento, posicionamento</td></tr>
+      <tr><td><svg class="ico" aria-hidden="true"><use href="#ic-graduation-cap"/></svg> <strong>Estudos</strong></td><td>Pesquisas, aprendizados e referências</td></tr>
     </table>
   </div>
 </div>
@@ -198,10 +240,10 @@
     <div class="eyebrow">Os principais</div>
     <table>
       <tr><th>Conector</th><th>O que o Claude passa a fazer</th></tr>
-      <tr><td>✉️ <strong>Gmail</strong></td><td>Ler, escrever e organizar e-mails</td></tr>
-      <tr><td>📁 <strong>Google Drive</strong></td><td>Acessar e encontrar seus arquivos</td></tr>
-      <tr><td>📅 <strong>Google Agenda</strong></td><td>Ver e gerenciar compromissos</td></tr>
-      <tr><td>📓 <strong>Notion</strong></td><td>Puxar e organizar suas páginas e bases</td></tr>
+      <tr><td><svg class="ico" aria-hidden="true"><use href="#ic-mail"/></svg> <strong>Gmail</strong></td><td>Ler, escrever e organizar e-mails</td></tr>
+      <tr><td><svg class="ico" aria-hidden="true"><use href="#ic-folder"/></svg> <strong>Google Drive</strong></td><td>Acessar e encontrar seus arquivos</td></tr>
+      <tr><td><svg class="ico" aria-hidden="true"><use href="#ic-calendar"/></svg> <strong>Google Agenda</strong></td><td>Ver e gerenciar compromissos</td></tr>
+      <tr><td><svg class="ico" aria-hidden="true"><use href="#ic-notebook-text"/></svg> <strong>Notion</strong></td><td>Puxar e organizar suas páginas e bases</td></tr>
     </table>
     <p class="footnote">Ex.: "resume meus 3 e-mails mais importantes de hoje e sugere resposta pra cada um."</p>
   </div>

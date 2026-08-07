@@ -142,9 +142,27 @@
   .fade>*:nth-child(4){animation-delay:.35s;}
   .fade>*:nth-child(5){animation-delay:.45s;}
   @keyframes up{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+
+  /* --- ícones vetoriais (Lucide) --- */
+  .ico{width:1em;height:1em;display:inline-block;vertical-align:middle;flex-shrink:0;
+    fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+  /* chip mono em caixa alta: flex resolve o alinhamento sem número mágico */
+  .tag{display:inline-flex;align-items:center;gap:.5em;}
+  .tag .ico{width:1.3em;height:1.3em;}
+  td .ico{width:1.3em;height:1.3em;margin-right:.45em;color:var(--cobre);}
+  .dc-ico .ico{width:22px;height:22px;color:var(--cobre);vertical-align:baseline;}
+  .num .ico{width:.78em;height:.78em;fill:var(--areia);stroke:var(--cobre);stroke-width:1.4;
+    vertical-align:-.06em;}
 </style>
 </head>
 <body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true"><symbol id="ic-gem" viewBox="0 0 24 24"><path d="M10.5 3 8 9l4 13 4-13-2.5-6" />
+  <path d="M17 3a2 2 0 0 1 1.6.8l3 4a2 2 0 0 1 .013 2.382l-7.99 10.986a2 2 0 0 1-3.247 0l-7.99-10.986A2 2 0 0 1 2.4 7.8l2.998-3.997A2 2 0 0 1 7 3z" />
+  <path d="M2 9h20" /></symbol><symbol id="ic-play" viewBox="0 0 24 24"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" /></symbol><symbol id="ic-scale" viewBox="0 0 24 24"><path d="M12 3v18" />
+  <path d="m19 8 3 8a5 5 0 0 1-6 0zV7" />
+  <path d="M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1" />
+  <path d="m5 8 3 8a5 5 0 0 1-6 0zV7" />
+  <path d="M7 21h10" /></symbol><symbol id="ic-zap" viewBox="0 0 24 24"><path d="M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z" /></symbol></svg>
 <div class="progress" id="prog"></div>
 <div class="deck">
 
@@ -227,17 +245,17 @@
     <div class="eyebrow">As três famílias</div>
     <div class="row" style="margin-top:8px;">
       <div class="card">
-        <div class="tag">⚡ o mais rápido</div>
+        <div class="tag"><svg class="ico" aria-hidden="true"><use href="#ic-zap"/></svg> o mais rápido</div>
         <h3>Haiku</h3>
         <p>Resposta rápida, tarefa simples, economia.</p>
       </div>
       <div class="card hi">
-        <div class="tag">⚖️ o do dia a dia</div>
+        <div class="tag"><svg class="ico" aria-hidden="true"><use href="#ic-scale"/></svg> o do dia a dia</div>
         <h3>Sonnet</h3>
         <p>Escrever, estudar, planejar. O arroz com feijão.</p>
       </div>
       <div class="card">
-        <div class="tag">💎 o mais potente</div>
+        <div class="tag"><svg class="ico" aria-hidden="true"><use href="#ic-gem"/></svg> o mais potente</div>
         <h3>Opus</h3>
         <p>Estratégia, projeto complexo, análise pesada.</p>
       </div>
@@ -293,7 +311,7 @@
 <!-- 11 PRATICA -->
 <div class="slide center">
   <div class="slide-inner fade">
-    <div class="num">▶</div>
+    <div class="num"><svg class="ico" aria-hidden="true"><use href="#ic-play"/></svg></div>
     <h2 style="margin-top:10px;">Prática ao vivo</h2>
     <p class="lead" style="margin-top:16px;max-width:680px;">Pega <strong>uma coisa real</strong> que você precisa agora. Monta o OCAS junto comigo. Manda no Claude.</p>
     <p style="margin-top:18px;max-width:680px;">E o segredo: <strong>não precisa acertar de primeira.</strong> "Deixa mais curto", "muda o tom", "me dá 3 versões". É conversa, não sorte.</p>

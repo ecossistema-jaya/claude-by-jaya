@@ -87,11 +87,14 @@ function herdarCookies(destino: NextResponse, origem: NextResponse) {
 /* Protege TUDO menos o que precisa ser lido sem sessão:
    - login, auth/callback e sem-acesso: as próprias telas da porta de entrada;
    - img/login.webp: a arte de fundo da tela de login;
+   - icones/claude.svg: os asteriscos que flutuam atrás dessa mesma tela — quem
+     está no login ainda não tem cookie, então o asset protegido virava um 307
+     para /login e a animação ficava invisível;
    - img/og.jpg: a prévia dos links; os robôs do WhatsApp, Facebook e afins
      nunca têm cookie, então uma imagem protegida vira link sem imagem.
    Os HTML em /aulas e todas as outras imagens seguem fechados. */
 export const config = {
   matcher: [
-    '/((?!login|auth/callback|sem-acesso|img/login\\.webp|img/og\\.jpg|_next/static|_next/image|_vercel|favicon.ico).*)',
+    '/((?!login|auth/callback|sem-acesso|img/login\\.webp|icones/claude\\.svg|img/og\\.jpg|_next/static|_next/image|_vercel|favicon.ico).*)',
   ],
 };

@@ -14,6 +14,9 @@ export default async function Login({
 
   return (
     <main className="login">
+      <span className="claude-float f1" aria-hidden="true" />
+      <span className="claude-float f2" aria-hidden="true" />
+      <span className="claude-float f3" aria-hidden="true" />
       <div className="caixa">
         <div className="eyebrow">Série Claude do Zero</div>
         <h1>Área do aluno</h1>

@@ -50,6 +50,65 @@ a {
   width: 100%;
   aspect-ratio: 1024 / 1536;
   background: url('/img/capa.webp') top center / 100% auto no-repeat;
+  overflow: hidden;
+}
+
+/* ---------- asteriscos flutuantes ----------
+   Mesma receita do hero de jayaroberta.com.br: três asteriscos do Claude
+   girando e subindo em 8s, com atrasos escalonados para nunca sincronizarem.
+   Opacidade baixa — são textura de fundo, não elemento de leitura. */
+
+@keyframes claudeFloatRotate {
+  0% {
+    transform: translateY(-15px) rotate(-15deg);
+  }
+  50% {
+    transform: translateY(30px) rotate(15deg);
+  }
+  100% {
+    transform: translateY(-30px) rotate(-15deg);
+  }
+}
+
+.claude-float {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  aspect-ratio: 1 / 1;
+  background: url('/icones/claude.svg') 50% center / contain no-repeat;
+  animation: claudeFloatRotate 8s ease-in-out infinite;
+}
+
+/* sobre a capa: fora do rosto, do logo e da coluna dos cards */
+.capa .claude-float.f1 {
+  opacity: 0.16;
+  width: clamp(70px, 7cqw, 124px);
+  animation-delay: 0s;
+  top: 33%;
+  left: 1%;
+}
+
+.capa .claude-float.f2 {
+  opacity: 0.12;
+  width: clamp(88px, 9cqw, 150px);
+  animation-delay: 1.5s;
+  bottom: 4%;
+  right: 3%;
+}
+
+.capa .claude-float.f3 {
+  opacity: 0.18;
+  width: clamp(40px, 4cqw, 72px);
+  animation-delay: 3s;
+  top: 11%;
+  right: 9%;
+}
+
+/* quem pediu menos movimento não recebe movimento nenhum */
+@media (prefers-reduced-motion: reduce) {
+  .claude-float {
+    animation: none;
+  }
 }
 
 .topo {
@@ -84,6 +143,7 @@ a {
 
 .cartao {
   position: absolute;
+  z-index: 1; /* acima dos asteriscos de fundo */
   left: 7.9%;
   width: 35.6%;
   display: flex;
@@ -111,6 +171,11 @@ a {
   stroke-width: 1.5;
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+
+/* cards que usam asset de marca no lugar do ícone desenhado */
+.cartao img.ico {
+  object-fit: contain;
 }
 
 .cartao .txt {
@@ -201,15 +266,44 @@ a {
    fica centralizada embaixo, sobre a estrada, que é a faixa limpa da composição. */
 
 .login {
+  position: relative;
   min-height: 100dvh;
   display: flex;
   align-items: flex-end;
   justify-content: center;
   padding: 24px 24px clamp(28px, 5vh, 60px);
   background: url('/img/login.webp') center / cover no-repeat;
+  overflow: hidden;
+}
+
+/* no login a caixa ocupa o rodapé; os asteriscos ficam na metade de cima */
+.login .claude-float.f1 {
+  opacity: 0.16;
+  width: clamp(70px, 7vw, 124px);
+  animation-delay: 0s;
+  top: 12%;
+  left: 4%;
+}
+
+.login .claude-float.f2 {
+  opacity: 0.12;
+  width: clamp(88px, 9vw, 150px);
+  animation-delay: 1.5s;
+  top: 26%;
+  right: 5%;
+}
+
+.login .claude-float.f3 {
+  opacity: 0.2;
+  width: clamp(40px, 4vw, 72px);
+  animation-delay: 3s;
+  top: 6%;
+  right: 26%;
 }
 
 .login .caixa {
+  position: relative;
+  z-index: 1;
   background: rgba(255, 253, 248, 0.9);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(231, 214, 190, 0.8);

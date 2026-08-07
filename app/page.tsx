@@ -13,13 +13,7 @@ const AULAS = [
     alt: 7.06,
     titulo: 'Conversar com o Claude',
     desc: 'Planos, modelos, a fórmula OCAS e como deixar o Claude te conhecer.',
-    icone: (
-      <>
-        <rect x="3" y="4" width="13" height="10" rx="2.5" />
-        <path d="M8 18v-4" />
-        <rect x="11" y="9" width="10" height="8" rx="2.5" />
-      </>
-    ),
+    imagem: '/icones/claude-asterisco.png',
   },
   {
     n: 2,
@@ -27,13 +21,7 @@ const AULAS = [
     alt: 7.06,
     titulo: 'Botar o Claude pra Trabalhar',
     desc: 'Artefatos, Projetos, Conectores, Skills, Cowork e Design.',
-    icone: (
-      <>
-        <path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9z" />
-        <path d="M18.5 15l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9z" />
-        <path d="M5 16.5l.6 1.4 1.4.6-1.4.6-.6 1.4-.6-1.4-1.4-.6 1.4-.6z" />
-      </>
-    ),
+    imagem: '/icones/claude.svg',
   },
   {
     n: 3,
@@ -55,13 +43,7 @@ const AULAS = [
     alt: 7.82,
     titulo: 'Psicometria e Zona de Genialidade',
     desc: '43 perguntas que viram o seu blueprint e o seu dashboard psicométrico.',
-    icone: (
-      <>
-        <circle cx="12" cy="12" r="8.5" />
-        <circle cx="12" cy="12" r="3.5" />
-        <path d="M12 1v4M12 19v4M1 12h4M19 12h4" />
-      </>
-    ),
+    imagem: '/icones/cerebro.png',
   },
   {
     n: 5,
@@ -87,6 +69,9 @@ export default async function Home() {
 
   return (
     <main className="capa">
+      <span className="claude-float f1" aria-hidden="true" />
+      <span className="claude-float f2" aria-hidden="true" />
+      <span className="claude-float f3" aria-hidden="true" />
       <div className="topo">
         {eu?.papel === 'admin' && (
           <Link href="/admin" className="sair">
@@ -102,9 +87,13 @@ export default async function Home() {
           className="cartao"
           style={{ top: `${a.top}%`, height: `${a.alt}%` }}
         >
-          <svg className="ico" viewBox="0 0 24 24" aria-hidden="true">
-            {a.icone}
-          </svg>
+          {a.imagem ? (
+            <img className="ico" src={a.imagem} alt="" />
+          ) : (
+            <svg className="ico" viewBox="0 0 24 24" aria-hidden="true">
+              {a.icone}
+            </svg>
+          )}
           <div className="txt">
             <div className="cab">
               <span className="num">{String(a.n).padStart(2, '0')}</span>

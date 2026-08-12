@@ -261,6 +261,84 @@ a {
   }
 }
 
+/* ---------- faixa do bônus ----------
+   Vem depois da arte, no fundo areia, com a mesma linguagem dos cards da capa
+   mas sem número: quem chega no fim da lista entende que é outra categoria de
+   coisa, não a aula seguinte. */
+
+.bonus {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  max-width: 640px;
+  margin: 40px auto 56px;
+  padding: 24px 26px 26px;
+  border: 1px solid var(--linha);
+  border-radius: 18px;
+  background: var(--card);
+  box-shadow: 0 8px 26px rgba(94, 60, 40, 0.1);
+  transition: box-shadow 0.22s, transform 0.22s, border-color 0.22s;
+}
+
+.bonus:hover {
+  border-color: var(--cobre);
+  box-shadow: 0 12px 34px rgba(134, 5, 12, 0.16);
+  transform: translateY(-2px);
+}
+
+.bonus .selo {
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin-top: 3px;
+  padding: 5px 14px;
+  border-radius: 100px;
+  background: var(--areia);
+  color: var(--marsala);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.bonus h2 {
+  font-size: 21px;
+}
+
+.bonus p {
+  margin-top: 6px;
+  font-size: 14.5px;
+  line-height: 1.45;
+  color: var(--carvao-soft);
+}
+
+.bonus .seta {
+  flex-shrink: 0;
+  align-self: center;
+  font-size: 20px;
+  color: var(--cobre);
+  transition: transform 0.22s;
+}
+
+.bonus:hover .seta {
+  transform: translateX(4px);
+}
+
+@media (max-width: 700px) {
+  .bonus {
+    margin: 4px 16px 40px;
+    padding: 20px 20px 22px;
+    gap: 14px;
+  }
+
+  .bonus h2 {
+    font-size: 18px;
+  }
+
+  .bonus .seta {
+    display: none;
+  }
+}
+
 /* ---------- login ----------
    A arte já traz o título à esquerda e a figura à direita; a caixa de entrada
    fica centralizada embaixo, sobre a estrada, que é a faixa limpa da composição. */

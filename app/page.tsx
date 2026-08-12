@@ -68,7 +68,8 @@ export default async function Home() {
   const eu = data.user?.email ? await buscarAluno(supabase, data.user.email) : null;
 
   return (
-    <main className="capa">
+    <>
+      <main className="capa">
       <span className="claude-float f1" aria-hidden="true" />
       <span className="claude-float f2" aria-hidden="true" />
       <span className="claude-float f3" aria-hidden="true" />
@@ -103,6 +104,23 @@ export default async function Home() {
           </div>
         </Link>
       ))}
-    </main>
+      </main>
+      {/* Fora da .capa de propósito: a arte é 1024x1536 fechada, com a assinatura
+          logo abaixo do último card e "Cinco aulas na ordem" estampado no pixel.
+          O bônus não é uma sexta aula — é um brinde, e mora depois da arte. */}
+      <Link href="/aula-3" className="bonus">
+        <span className="selo">Bônus</span>
+        <div className="txt">
+          <h2>A skill Minha Personalidade</h2>
+          <p>
+            O arquivo que entrevista você e escreve o seu Documento Mestre. Instala no Claude ou
+            cola no ChatGPT — está dentro da Aula 3.
+          </p>
+        </div>
+        <span className="seta" aria-hidden="true">
+          →
+        </span>
+      </Link>
+    </>
   );
 }

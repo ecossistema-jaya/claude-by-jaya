@@ -17,11 +17,18 @@
         "source": "github",
         "repo": "anthropics/claude-plugins-official"
       }
+    },
+    "openai-codex": {
+      "source": {
+        "source": "github",
+        "repo": "openai/codex-plugin-cc"
+      }
     }
   },
   "enabledPlugins": {
     "frontend-design@claude-code-plugins": true,
     "dx@ykdojo": true,
-    "security-guidance@claude-plugins-official": true
+    "security-guidance@claude-plugins-official": true,
+    "codex@openai-codex": true
   }
 }

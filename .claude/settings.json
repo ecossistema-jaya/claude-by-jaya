@@ -11,10 +11,17 @@
         "source": "github",
         "repo": "ykdojo/claude-code-tips"
       }
+    },
+    "claude-plugins-official": {
+      "source": {
+        "source": "github",
+        "repo": "anthropics/claude-plugins-official"
+      }
     }
   },
   "enabledPlugins": {
     "frontend-design@claude-code-plugins": true,
-    "dx@ykdojo": true
+    "dx@ykdojo": true,
+    "security-guidance@claude-plugins-official": true
   }
 }

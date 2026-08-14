@@ -559,10 +559,15 @@ footer .legal{margin-top:1rem;font-size:0.8125rem;color:var(--grafite-suave);
            alt="Um homem de costas na mesma paisagem, diante do mesmo sol, com as mesmas raízes sob os pés.">
     </div>
     <div>
-      <h2>Para onde mando seu mapa?</h2>
-      <p class="apoio" style="margin-top:0.8rem;">A análise começa assim que você confirmar.
-        Leva perto de um minuto e meio, e o resultado aparece aqui mesmo. O e-mail é para
-        você conseguir voltar nele depois.</p>
+      <!-- Nada é enviado por e-mail: não há serviço de envio nesta página. O título
+           anterior ("Para onde mando seu mapa?") prometia entrega e a pessoa ficaria
+           esperando um e-mail que nunca chega. O texto agora diz onde o mapa aparece
+           e para que serve o endereço. -->
+      <h2>Falta só uma coisa</h2>
+      <p class="apoio" style="margin-top:0.8rem;">Seu mapa aparece <strong>aqui nesta
+        tela</strong> em cerca de um minuto e meio, e você pode baixá-lo no fim. O e-mail
+        não é para receber o resultado: é para a Jaya poder te escrever sobre o que vem
+        depois dele.</p>
       <form id="gate-form" onsubmit="return App.enviarLead(event)">
         <label for="gate-email">Seu e-mail</label>
         <input type="email" id="gate-email" name="email" required autocomplete="email"
@@ -791,6 +796,23 @@ footer .legal{margin-top:1rem;font-size:0.8125rem;color:var(--grafite-suave);
       que guardamos, e só depois que você autoriza.</p>
   </div>
 </footer>
+
+<!-- ============ MEDIÇÃO ============
+     O <Analytics /> de app/layout.tsx não alcança esta página: ela é HTML
+     estático servido por rewrite e nunca passa pelo layout do Next. Por isso o
+     script entra aqui na mão.
+
+     Só existe quando servido pela Vercel; em localhost o arquivo dá 404 e o
+     `defer` garante que isso não atrapalha nada. -->
+<script defer src="/_vercel/insights/script.js"></script>
+<script>
+  /* Etapas do funil. Sem dado pessoal: só o nome do passo, nunca o e-mail nem
+     as respostas. window.va só existe depois que o script acima carrega, então
+     toda chamada é opcional e a página funciona igual sem ele. */
+  function zgEtapa(nome){
+    try { window.va && window.va('event', { name: nome }); } catch(e) {}
+  }
+</script>
 
 <script>
 "use strict";
@@ -1213,7 +1235,7 @@ const App = {
   },
 
   /* ----- assessment ----- */
-  startAssess(){ this.show('assess'); this.renderQ(); },
+  startAssess(){ zgEtapa('zg_assessment_iniciado'); this.show('assess'); this.renderQ(); },
   async save(){ await Store.set('zgp_answers', JSON.stringify({answers:this.answers, idx:this.idx})); },
   renderQ(){
     const q = QUESTIONS[this.idx];
@@ -1302,6 +1324,7 @@ const App = {
   async exigirLead(proximo){
     this._apos = proximo;
     if (await Store.get('zgp_lead')) return proximo();
+    zgEtapa('zg_porta_email');
     document.getElementById('gate-erro').textContent = '';
     this.show('gate');
     const campo = document.getElementById('gate-email');
@@ -1350,6 +1373,7 @@ const App = {
         return false;
       }
       await Store.set('zgp_lead', '1');
+      zgEtapa('zg_lead_cadastrado');
       /* Retoma exatamente o que a porta interrompeu, seja gerar o blueprint ou
          analisar um que já existia. */
       (this._apos || (() => this.gerarBlueprint()))();
@@ -1378,6 +1402,7 @@ const App = {
     const t = document.getElementById('paste-txt').value.trim();
     if (t.length < 200){ alert('Cole um documento mais completo — a análise precisa de substância.'); return; }
     this.blueprint = t; await Store.set('zgp_blueprint', t);
+    zgEtapa('zg_blueprint_colado');
     this.exigirLead(() => this.analyzeBlueprint());
   },
   async analyzeBlueprint(){
@@ -1427,6 +1452,7 @@ const App = {
   /* ----- render dashboard (cada seção em try/catch — §4) ----- */
   destroyCharts(){ document.querySelectorAll('.lg, .callout-warn').forEach(e=>e.remove()); },
   renderDash(){
+    zgEtapa('zg_dashboard_gerado');
     const D = this.data;
     this.destroyCharts();
     this.show('dash');

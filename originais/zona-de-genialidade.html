@@ -781,8 +781,14 @@ footer .legal{margin-top:1rem;font-size:0.8125rem;color:var(--grafite-suave);
     <img src="/zona/arte/jaya-logo-horizontal-bege-remasterizado.webp" width="500" height="120"
          loading="lazy" alt="Jaya Roberta">
     <div class="fn">Arquitetura da Consciência</div>
-    <p class="legal">Suas respostas ficam no seu aparelho e não são enviadas para lugar nenhum.
-      Só o e-mail é guardado, e só depois que você autoriza.</p>
+    <!-- Precisão importa aqui: "não é guardado" e "não é enviado" são promessas
+         diferentes. As respostas não ficam em servidor nenhum, mas vão para o
+         modelo de IA no momento da análise. Dizer menos que isso seria obter o
+         consentimento com informação errada. -->
+    <p class="legal">Suas respostas ficam salvas apenas neste aparelho. Para gerar a
+      análise, elas são enviadas ao modelo de inteligência artificial que a produz, e
+      não ficam guardadas em servidor nenhum depois disso. O e-mail é a única coisa
+      que guardamos, e só depois que você autoriza.</p>
   </div>
 </footer>
 

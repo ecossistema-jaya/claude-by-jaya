@@ -25,7 +25,9 @@ export const runtime = 'nodejs';
    Teto próprio de 20 por IP por hora, para o formulário não virar torneira de
    escrita no banco. */
 const TETO = 20;
-const TABELA = 'leads_zona';
+/* O sufixo _zng marca a procedência: leads nascidos na Zona de Genialidade,
+   separados de qualquer outra captura que venha a existir no mesmo banco. */
+const TABELA = 'leads_zng';
 const ORIGEM_PADRAO = 'zona-de-genialidade';
 
 export async function POST(req: Request) {

@@ -604,7 +604,7 @@ footer .legal{margin-top:1rem;font-size:0.8125rem;color:var(--grafite-suave);
   </div>
   <div class="bp-box"><pre id="bp-text"></pre></div>
   <div class="row linha-botoes">
-    <button class="btn" onclick="App.analyzeBlueprint()">Gerar meu dashboard</button>
+    <button class="btn" onclick="App.pedirDashboard()">Gerar meu dashboard</button>
     <button class="btn ghost" onclick="App.copyBP()">Copiar blueprint</button>
     <button class="btn ghost" onclick="App.downloadBP()">Baixar .md</button>
   </div>
@@ -926,6 +926,7 @@ async function askAI(prompt, maxTok){
         lastErr = new Error(r.status===429 ? 'Limite de chamadas atingido. Espere alguns minutos.' : 'O modelo está sobrecarregado ('+r.status+').');
         continue;
       }
+      if (r.status === 401) throw new Error('SEM_AUTORIZACAO');
       if (!r.ok) throw new Error('A chamada falhou ('+r.status+').'+(ANALYZE_ENDPOINT?'':' Se esta página está fora do claude.ai, configure ANALYZE_ENDPOINT.'));
       const d = await r.json();
       if (ANALYZE_ENDPOINT) return typeof d==='string' ? d : (d.text || JSON.stringify(d));
@@ -1288,14 +1289,35 @@ const App = {
     }
     return md;
   },
-  /* Fim do questionário. Antes de gastar a primeira chamada de IA, a porta:
-     quem já passou por ela nesta sessão segue direto. */
-  async finishAssess(){
-    if (await Store.get('zgp_lead')) return this.gerarBlueprint();
+  /* A PORTA. Três caminhos chegam a gastar IA — terminar o questionário, colar
+     um blueprint pronto, e voltar num blueprint já salvo — e todos passam por
+     aqui. Prendê-la só no fim do questionário deixava os outros dois baterem em
+     401, e a tela final ainda culpava a conexão. */
+  async exigirLead(proximo){
+    this._apos = proximo;
+    if (await Store.get('zgp_lead')) return proximo();
     document.getElementById('gate-erro').textContent = '';
     this.show('gate');
     const campo = document.getElementById('gate-email');
     if (campo) setTimeout(() => campo.focus(), 300);
+  },
+  /* O cookie de autorização vive 24h e o servidor pode recusá-lo no meio do
+     caminho. Quando isso acontece, a marca local vira mentira: apagá-la e
+     reabrir a porta é o único jeito de a pessoa retomar de onde parou. */
+  async semAutorizacao(){
+    await Store.del('zgp_lead');
+    const erro = document.getElementById('gate-erro');
+    if (erro) erro.textContent = 'Seu acesso expirou. Confirme o e-mail de novo para retomar de onde parou.';
+    const btn = document.getElementById('gate-btn');
+    if (btn){ btn.disabled = false; btn.textContent = 'Começar a análise'; }
+    this.show('gate');
+  },
+  async finishAssess(){
+    return this.exigirLead(() => this.gerarBlueprint());
+  },
+  /* O botão do blueprint não chama a análise direto: passa pela porta antes. */
+  async pedirDashboard(){
+    return this.exigirLead(() => this.analyzeBlueprint());
   },
   voltarAssess(){ this.show('assess'); this.renderQ(); },
   async enviarLead(ev){
@@ -1322,7 +1344,9 @@ const App = {
         return false;
       }
       await Store.set('zgp_lead', '1');
-      this.gerarBlueprint();
+      /* Retoma exatamente o que a porta interrompeu, seja gerar o blueprint ou
+         analisar um que já existia. */
+      (this._apos || (() => this.gerarBlueprint()))();
     } catch(e){
       erro.textContent = 'Sem conexão com o servidor. Verifique a internet e tente de novo.';
       btn.disabled = false; btn.textContent = 'Começar a análise';
@@ -1348,14 +1372,14 @@ const App = {
     const t = document.getElementById('paste-txt').value.trim();
     if (t.length < 200){ alert('Cole um documento mais completo — a análise precisa de substância.'); return; }
     this.blueprint = t; await Store.set('zgp_blueprint', t);
-    this.analyzeBlueprint();
+    this.exigirLead(() => this.analyzeBlueprint());
   },
   async analyzeBlueprint(){
     this._retryFn = () => this.analyzeBlueprint();
     this.show('loading');
     document.getElementById('load-msg').textContent = 'Convergindo os sete frameworks…';
     const sub = document.getElementById('load-sub');
-    const merged = {}; const falhas = [];
+    const merged = {}; const falhas = []; let semAuth = false;
     for (let i=0; i<CHUNKS.length; i++){
       const ch = CHUNKS[i];
       sub.textContent = 'Analisando ' + ch.label + '  ·  parte ' + (i+1) + ' de ' + CHUNKS.length;
@@ -1370,10 +1394,12 @@ const App = {
         Object.assign(merged, deep(obj));
       } catch(e){
         falhas.push(ch.label);
+        if (/SEM_AUTORIZACAO/.test(String(e && e.message || e))) semAuth = true;
         console.warn('bloco', ch.key, 'falhou:', e);
       }
     }
     if (Object.keys(merged).length === 0){
+      if (semAuth) return this.semAutorizacao();
       this.fail(new Error('Nenhum dos três blocos de análise retornou. Verifique a conexão e clique em Tentar de novo.'));
       return;
     }
@@ -1591,7 +1617,13 @@ const App = {
     this.idx = 0; this.answers = {}; this.blueprint = ''; this.data = null;
     this.show('intro');
   },
-  fail(e){ document.getElementById('err-msg').textContent = e.message || 'Erro inesperado.'; this.show('err'); },
+  fail(e){
+    /* Autorização expirada não é falha de análise: manda para a porta, não para
+       a tela de erro, senão a pessoa perde o blueprint que já pagou para ter. */
+    if (/SEM_AUTORIZACAO/.test(String(e && e.message || e))) return this.semAutorizacao();
+    document.getElementById('err-msg').textContent = e.message || 'Erro inesperado.';
+    this.show('err');
+  },
   retry(){ if (this._retryFn) this._retryFn(); else this.show('intro'); }
 };
 

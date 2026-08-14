@@ -13,3 +13,9 @@ tsconfig.tsbuildinfo
 # repositório para sempre. O que a aplicação realmente usa é copiado para
 # public/img e public/icones, e esses sim são versionados.
 public/imagens/
+
+# Mesma regra, outro caso: 42 MB de PNG como saíram do gerador. O que a página
+# serve são os WebP de public/zona/arte (5,4 MB), derivados por
+# scripts/build-artes.mjs e versionados. Peso no histórico do Git é para sempre;
+# os PNGs ficam fora do repositório, e o script os reconverte quando voltarem.
+originais/zona-genialidade/

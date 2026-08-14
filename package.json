@@ -4,8 +4,10 @@
   "private": true,
   "scripts": {
     "aulas": "node scripts/build-aulas.mjs",
-    "dev": "npm run aulas && next dev",
-    "build": "npm run aulas && next build",
+    "artes": "node scripts/build-artes.mjs",
+    "zona": "node scripts/build-zona.mjs",
+    "dev": "npm run aulas && npm run artes && npm run zona && next dev",
+    "build": "npm run aulas && npm run artes && npm run zona && next build",
     "start": "next start"
   },
   "dependencies": {

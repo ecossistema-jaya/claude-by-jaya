@@ -7,6 +7,17 @@ import type { NextConfig } from 'next';
    Fixar a raiz no próprio projeto resolve, sem mexer no lockfile alheio. */
 const nextConfig: NextConfig = {
   outputFileTracingRoot: path.resolve(import.meta.dirname),
+
+  /* A Zona de Genialidade é um HTML autocontido em public/zona/, servido numa URL
+     limpa. Sem iframe: a página é pública e o <head> dela precisa ser o <head> real
+     do documento — é de lá que saem título, descrição e a prévia dos links. Dentro
+     de um iframe nada disso chega ao robô do WhatsApp. */
+  async rewrites() {
+    return [
+      { source: '/zona-de-genialidade', destination: '/zona/index.html' },
+      { source: '/zona-de-genialidade/', destination: '/zona/index.html' },
+    ];
+  },
 };
 
 export default nextConfig;

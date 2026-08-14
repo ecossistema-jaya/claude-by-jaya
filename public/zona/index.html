@@ -326,8 +326,19 @@ textarea::placeholder{color:#6B6259;}
 .bar{height:0.5rem;background:#E7E3D7;}
 .bar>div{height:100%;width:0;transition:width .7s var(--saida);}
 
-.chart-box{position:relative;height:19rem;margin-top:0.5rem;}
-.chart-box.tall{height:22rem;}
+/* Um radar precisa de espaço quadrado: os rótulos vivem além das pontas, e numa
+   coluna estreita eles não cabem em tamanho de leitura. Talentos passa a ocupar
+   duas colunas onde houver largura; abaixo disso a grade já o deixa inteiro. */
+/* Em px de propósito: `rem` num media query segue a fonte-padrão do navegador,
+   que varia por pessoa. Num root de 20px, 62rem daria 1240px — mais largo que o
+   próprio invólucro de 1080, e o radar voltaria a ficar espremido justamente nas
+   telas médias. Com 760px o span vale sempre que houver duas colunas; numa só,
+   a grade trunca o span sozinha. */
+@media (min-width:760px){
+  #card-talents{grid-column:span 2;}
+}
+.chart-box{position:relative;height:clamp(19rem,26vw,25rem);margin-top:0.5rem;}
+.chart-box.tall{height:clamp(22rem,32vw,30rem);}
 .chart-box.short{height:13rem;}
 .svg-host{width:100%;height:100%;}
 .svg-host svg{width:100%;height:100%;display:block;overflow:visible;}
@@ -1146,7 +1157,19 @@ function wrapLabel(txt,max){
 }
 function radar(host, labels, series){
   host.innerHTML='';
-  const W=520,H=380,cx=W/2,cy=H/2-6,R=Math.min(W,H)/2-74,N=labels.length,MAX=10;
+  const W = Math.max(host.clientWidth || 0, 300);
+  const H = Math.max(host.clientHeight || 0, 300);
+  /* No celular o cartão é uma coluna só: os rótulos comem quase toda a largura e
+     sobra pouco raio. Dois pontos a menos na fonte devolvem espaço ao gráfico e
+     ainda ficam confortáveis de ler. */
+  const FONTE = W < 420 ? 13 : 15;
+  const N = labels.length, MAX = 10;
+  /* Espaço que os rótulos ocupam além das pontas: na horizontal é a largura do
+     maior deles (limitada, para não sufocar o gráfico); na vertical, duas linhas. */
+  const maiorRotulo = Math.max(...labels.map(l => wrapLabel(l, 14).reduce((a, b) => Math.max(a, b.length), 0)));
+  const reservaH = Math.min(maiorRotulo * FONTE * 0.55, W * 0.3);
+  const R = Math.max(Math.min(W / 2 - reservaH - FONTE, H / 2 - FONTE * 2.6), 40);
+  const cx = W / 2, cy = H / 2;
   const svg=el('svg',{viewBox:'0 0 '+W+' '+H,preserveAspectRatio:'xMidYMid meet'});
   const ang=i=>(Math.PI*2*i/N)-Math.PI/2;
   const pt=(i,v)=>[cx+Math.cos(ang(i))*R*(v/MAX), cy+Math.sin(ang(i))*R*(v/MAX)];
@@ -1163,15 +1186,15 @@ function radar(host, labels, series){
     if(s.dash) poly.setAttribute('stroke-dasharray',s.dash);
     svg.appendChild(poly);
     s.data.forEach((v,i)=>{const[x,y]=pt(i,Math.max(0,Math.min(MAX,+v||0)));
-      svg.appendChild(el('circle',{cx:x,cy:y,r:s.dot||4,fill:s.stroke}));});
+      svg.appendChild(el('circle',{cx:x,cy:y,r:(s.dot||4)*1.15,fill:s.stroke}));});
   });
   labels.forEach((lb,i)=>{
-    const[x,y]=pt(i,MAX); const dx=(x-cx)*0.20, dy=(y-cy)*0.20;
-    const lines=wrapLabel(lb,15);
+    const[x,y]=pt(i,MAX); const dx=(x-cx)*0.13, dy=(y-cy)*0.13;
+    const lines=wrapLabel(lb,14);
     const anchor=Math.abs(x-cx)<6?'middle':(x>cx?'start':'end');
     lines.forEach((ln,k)=>{
-      const t=el('text',{x:x+dx,y:y+dy+(k*13)+(y<cy?-2:10),'text-anchor':anchor,
-        fill:'#6B6259','font-size':'11.5','font-family':'Jost, system-ui, sans-serif'});
+      const t=el('text',{x:x+dx,y:y+dy+(k*(FONTE*1.15))+(y<cy?-FONTE*0.2:FONTE*0.75),'text-anchor':anchor,
+        fill:'#6B6259','font-size':String(FONTE),'font-family':'Jost, system-ui, sans-serif'});
       t.textContent=ln; svg.appendChild(t);
     });
   });

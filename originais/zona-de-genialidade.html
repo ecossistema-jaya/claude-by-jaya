@@ -822,11 +822,22 @@ footer .legal{margin-top:1rem;font-size:0.8125rem;color:var(--grafite-suave);
 
      Só existe quando servido pela Vercel; em localhost o arquivo dá 404 e o
      `defer` garante que isso não atrapalha nada. -->
+<script>
+  /* Fila de eventos. O coletor abaixo tem `defer`, então só executa depois do
+     HTML: sem esta fila, quem clicasse em "Começar o assessment" nos primeiros
+     instantes perderia o evento, porque window.va ainda não existiria. O stub
+     acumula em window.vaq e o coletor processa a fila ao carregar.
+
+     Vale saber: o coletor sai na primeira linha quando detecta navegador
+     automatizado (navigator.webdriver). Isso é proposital, para robô não sujar
+     a métrica — e é por isso que nenhum teste automatizado consegue confirmar
+     que os eventos chegaram. Só tráfego humano aparece no painel. */
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
 <script defer src="/_vercel/insights/script.js"></script>
 <script>
   /* Etapas do funil. Sem dado pessoal: só o nome do passo, nunca o e-mail nem
-     as respostas. window.va só existe depois que o script acima carrega, então
-     toda chamada é opcional e a página funciona igual sem ele. */
+     as respostas. */
   function zgEtapa(nome){
     try { window.va && window.va('event', { name: nome }); } catch(e) {}
   }

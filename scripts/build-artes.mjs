@@ -86,3 +86,26 @@ for (const arquivo of fontes) {
 }
 
 console.log(`artes: ${convertidas} convertidas, ${pulos} já em dia`);
+
+/* ---------- prévia dos links ----------
+   A arte 13 é a escolhida para prévia. Sendo horizontal (1672x941), ela já está
+   quase na proporção que WhatsApp, Facebook e afins esperam (1200x630): o
+   recorte tira uns 30px de cada borda horizontal e nada do que importa se perde.
+   A capa (02) não serve aqui: é vertical, e o robô cortaria pelo meio levando
+   junto o título que fica no topo dela.
+
+   Corte centrado, porque a figura e o círculo solar vivem no centro da cena.
+   JPEG em vez de WebP porque alguns leitores de prévia ainda tropeçam em WebP,
+   e prévia quebrada não tem segunda chance. */
+const ARTE_OG = path.join(ORIG, '13.png');
+const OG = path.join(ROOT, 'public', 'zona', 'og.jpg');
+
+if (fs.existsSync(ARTE_OG) && precisa(ARTE_OG, OG)) {
+  await sharp(ARTE_OG)
+    .resize(1200, 630, { fit: 'cover', position: 'center' })
+    .jpeg({ quality: 82, mozjpeg: true })
+    .toFile(OG);
+  console.log(`→ zona/og.jpg ${Math.round(fs.statSync(OG).size / 1024)}KB (prévia dos links)`);
+} else if (fs.existsSync(OG)) {
+  console.log('= zona/og.jpg já em dia');
+}

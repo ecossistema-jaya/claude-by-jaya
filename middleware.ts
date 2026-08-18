@@ -92,8 +92,9 @@ function herdarCookies(destino: NextResponse, origem: NextResponse) {
      para /login e a animação ficava invisível;
    - img/og.jpg: a prévia dos links; os robôs do WhatsApp, Facebook e afins
      nunca têm cookie, então uma imagem protegida vira link sem imagem;
-   - zona-de-genialidade e zona/: a única superfície pública do projeto. Quem chega
-     nela não é aluno e não pode ser mandado para o login;
+   - zona-de-genialidade e zona/, deck-arquitetura-da-consciencia e deck/: as
+     superfícies públicas do projeto. Quem chega nelas não é aluno e não pode ser
+     mandado para o login;
    - api/zona/: as rotas que essa página chama. Não ficam sem portaria — trocam a
      sessão de aluno por uma autorização própria, o cookie assinado de
      app/lib/lead.ts, conferida dentro do próprio handler. Ficam separadas de
@@ -102,6 +103,6 @@ function herdarCookies(destino: NextResponse, origem: NextResponse) {
    Os HTML em /aulas e todas as outras imagens seguem fechados. */
 export const config = {
   matcher: [
-    '/((?!login|auth/callback|sem-acesso|zona-de-genialidade|zona/|api/zona/|img/login\\.webp|icones/claude\\.svg|img/og\\.jpg|_next/static|_next/image|_vercel|favicon.ico).*)',
+    '/((?!login|auth/callback|sem-acesso|zona-de-genialidade|zona/|deck-arquitetura-da-consciencia|deck/|api/zona/|img/login\\.webp|icones/claude\\.svg|img/og\\.jpg|_next/static|_next/image|_vercel|favicon.ico).*)',
   ],
 };

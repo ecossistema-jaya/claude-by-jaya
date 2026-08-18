@@ -19,3 +19,10 @@ public/imagens/
 # scripts/build-artes.mjs e versionados. Peso no histórico do Git é para sempre;
 # os PNGs ficam fora do repositório, e o script os reconverte quando voltarem.
 originais/zona-genialidade/
+
+# Terceiro caso da mesma regra: o HTML exportado do deck da palestra tem 5,4 MB
+# (React, fontes e imagens embutidos em base64). O que a página serve é
+# public/deck/index.html, derivado por scripts/build-deck.mjs e versionado.
+# Guardar as duas cópias dobraria o peso no histórico para sempre; a fonte fica
+# na máquina e o script a reconverte quando ela voltar.
+originais/arquitetura-da-consciencia/

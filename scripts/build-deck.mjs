@@ -61,6 +61,19 @@ const CABECA = `<title>${TITULO}</title>
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Uma mulher sentada de costas em postura de meditação diante de um vale, com cérebro, nervo vago e coração desenhados sobre o corpo e uma onda azul de respiração saindo em direção ao horizonte.">
   <meta name="twitter:card" content="summary_large_image">
+  <!-- Vercel Analytics. O componente <Analytics /> de app/layout.tsx não alcança
+       esta página: ela é HTML estático servido por rewrite e nunca passa pelo
+       layout do Next. Mesma situação da Zona de Genialidade, mesmo remédio.
+
+       Sem a fila window.vaq que a Zona precisa: lá existem eventos de funil que
+       um clique precoce perderia. Aqui só interessa o pageview, e "defer" já
+       garante que ele acontece — script defer executa antes do DOMContentLoaded,
+       que é quando o bundler troca o documento e apaga este <head>. O coletor
+       registra a visita; a tag some depois, com o evento já enviado.
+
+       Só existe quando servido pela Vercel; em localhost dá 404 e o "defer"
+       garante que isso não atrapalha nada. -->
+  <script defer src="/_vercel/insights/script.js"></script>
   <script>
     (function () {
       var titulo = ${JSON.stringify(TITULO)};

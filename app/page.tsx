@@ -3,7 +3,7 @@ import Sair from '@/app/Sair';
 import { buscarAluno } from '@/app/lib/aluno';
 import { clienteServidor } from '@/app/lib/supabase/servidor';
 
-/* Posições medidas na arte de referência (inicial_com_cards.png, 1024x1536) e
+/* Posições medidas na arte de referência (inicial_com_cards.png, 1023x1537) e
    reescaladas por 0.85 para caber no vão livre da capa sem cards, que é menor
    porque o logo empurra o conteúdo. As proporções entre os cards são as da arte. */
 const AULAS = [

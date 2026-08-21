@@ -344,13 +344,22 @@ textarea::placeholder{color:#6B6259;}
 @media (min-width:760px){
   #card-talents{grid-column:span 2;}
 }
-.chart-box{position:relative;height:clamp(19rem,26vw,25rem);margin-top:0.5rem;}
-.chart-box.tall{height:clamp(22rem,32vw,30rem);}
-.chart-box.short{height:13rem;}
-.svg-host{width:100%;height:100%;}
+/* A legenda é filha do .chart-box, injetada por legend() depois do .svg-host.
+   Com altura fixa e o host ocupando 100%, ela transbordava e cobria o texto do
+   cartão. Em coluna flex o SVG fica com o espaço que sobra e a legenda ocupa a
+   altura própria — nada escapa da caixa. As caixas de radar cresceram o tanto que
+   a legenda consome, para o gráfico não encolher; a de barras passou a se medir
+   sozinha, já que o viewBox dela tem proporção fixa. */
+.chart-box{position:relative;display:flex;flex-direction:column;
+  height:clamp(21rem,26vw,27rem);margin-top:0.5rem;}
+.chart-box.tall{height:clamp(24rem,32vw,32rem);}
+.chart-box.short{height:auto;}
+.chart-box.short .svg-host{flex:0 0 auto;}
+.chart-box.short .svg-host svg{height:auto;}
+.svg-host{flex:1 1 auto;min-height:0;width:100%;}
 .svg-host svg{width:100%;height:100%;display:block;overflow:visible;}
-.lg{display:flex;gap:1.15rem;justify-content:center;flex-wrap:wrap;margin-top:0.6rem;
-  font-size:0.8125rem;color:var(--grafite-suave);}
+.lg{flex:0 0 auto;display:flex;gap:1.15rem;justify-content:center;flex-wrap:wrap;
+  margin-top:0.6rem;font-size:0.8125rem;color:var(--grafite-suave);}
 .lg i{display:inline-block;width:0.9rem;height:2px;margin-right:0.45em;vertical-align:middle;}
 
 .score-big{font-family:var(--fonte-display);font-size:2.75rem;color:var(--petroleo);line-height:1;}
@@ -390,6 +399,10 @@ textarea::placeholder{color:#6B6259;}
   margin-bottom:0.3rem;}
 .act p{font-size:0.9375rem;color:var(--grafite-suave);}
 @media(max-width:560px){.act{flex-direction:column;gap:0.3rem;}.act .tf{margin-top:0;}}
+@media(max-width:560px){
+  .chart-box{height:calc(54vw + 3.5rem);}
+  .chart-box.tall{height:calc(56vw + 3.5rem);}
+}
 
 .cl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(12rem,1fr));
   gap:1.25rem;margin-top:1rem;}
@@ -458,7 +471,7 @@ footer .legal{margin-top:1rem;font-size:0.8125rem;color:var(--grafite-suave);
   .rec-card,.act,.squad-box,.donot,.reading{break-inside:avoid;page-break-inside:avoid;}
   .rec-card{background:#fff;color:#292929;border:1px solid var(--petroleo);}
   .rec-card h3,.rec-card strong{color:var(--petroleo);}
-  .chart-box{height:230px;} .chart-box.tall{height:270px;} .chart-box.short{height:160px;}
+  .chart-box{height:250px;} .chart-box.tall{height:300px;} .chart-box.short{height:auto;}
   *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
   @page{margin:12mm;}
 }
@@ -1185,8 +1198,12 @@ function radar(host, labels, series){
   /* Espaço que os rótulos ocupam além das pontas: na horizontal é a largura do
      maior deles (limitada, para não sufocar o gráfico); na vertical, duas linhas. */
   const maiorRotulo = Math.max(...labels.map(l => wrapLabel(l, 14).reduce((a, b) => Math.max(a, b.length), 0)));
-  const reservaH = Math.min(maiorRotulo * FONTE * 0.55, W * 0.3);
-  const R = Math.max(Math.min(W / 2 - reservaH - FONTE, H / 2 - FONTE * 2.6), 40);
+  const reservaH = Math.min(maiorRotulo * FONTE * 0.55, W * (W < 420 ? 0.26 : 0.3));
+  /* Na vertical o rótulo sai a 1.13R do centro (o R da ponta mais 13% de folga) e
+     ainda desce até duas linhas de texto. Sem dividir por esse 1.13 o rótulo de baixo
+     escapa do host e vai parar em cima da legenda. */
+  const reservaV = (H / 2 - FONTE * 2.2) / 1.13;
+  const R = Math.max(Math.min(W / 2 - reservaH - FONTE, reservaV), 40);
   const cx = W / 2, cy = H / 2;
   const svg=el('svg',{viewBox:'0 0 '+W+' '+H,preserveAspectRatio:'xMidYMid meet'});
   const ang=i=>(Math.PI*2*i/N)-Math.PI/2;
@@ -1220,25 +1237,33 @@ function radar(host, labels, series){
 }
 function stackedBars(host, rows, series){
   host.innerHTML='';
-  const W=760,rowH=52,padL=112,padR=26,padT=14,H=padT+rows.length*rowH+34;
+  /* O SVG escala pelo viewBox: num viewBox de 760 numa tela de 320 tudo encolhe
+     para menos da metade e os rótulos somem. Em tela estreita o desenho nasce
+     estreito, então a escala fica perto de 1:1 e o texto continua legível. */
+  const estreito=(host.clientWidth||760)<520;
+  const W=estreito?390:760, rowH=estreito?48:52;
+  const padL=estreito?86:112, padR=estreito?20:26, padT=14;
+  const fEixo=estreito?11:11.5, fLinha=estreito?12.5:13, fValor=estreito?11:11.5;
+  const minRotulo=estreito?24:32;
+  const H=padT+rows.length*rowH+34;
   const bw=W-padL-padR;
   const svg=el('svg',{viewBox:'0 0 '+W+' '+H,preserveAspectRatio:'xMidYMid meet'});
   for(let p=0;p<=100;p+=25){
     const x=padL+bw*p/100;
     svg.appendChild(el('line',{x1:x,y1:padT,x2:x,y2:padT+rows.length*rowH,stroke:'rgba(0,47,59,.12)','stroke-width':1}));
-    const t=el('text',{x:x,y:padT+rows.length*rowH+20,'text-anchor':'middle',fill:'#6B6259','font-size':'11.5','font-family':'Jost, system-ui, sans-serif'});
+    const t=el('text',{x:x,y:padT+rows.length*rowH+20,'text-anchor':'middle',fill:'#6B6259','font-size':String(fEixo),'font-family':'Jost, system-ui, sans-serif'});
     t.textContent=p+'%'; svg.appendChild(t);
   }
   rows.forEach((rw,ri)=>{
     const y=padT+ri*rowH+12, hgt=rowH-26;
-    const lb=el('text',{x:padL-14,y:y+hgt/2+4,'text-anchor':'end',fill:'#292929','font-size':'13','font-family':'Jost, system-ui, sans-serif'});
+    const lb=el('text',{x:padL-14,y:y+hgt/2+4,'text-anchor':'end',fill:'#292929','font-size':String(fLinha),'font-family':'Jost, system-ui, sans-serif'});
     lb.textContent=rw; svg.appendChild(lb);
     let acc=0;
     series.forEach(s=>{
       const v=Math.max(0,+s.data[ri]||0); if(v<=0){acc+=v;return;}
       const x=padL+bw*acc/100, w=bw*v/100;
       svg.appendChild(el('rect',{x:x,y:y,width:Math.max(w,0),height:hgt,fill:s.color,rx:2}));
-      if(w>32){const t=el('text',{x:x+w/2,y:y+hgt/2+4,'text-anchor':'middle',fill:'#fff','font-size':'11.5','font-family':'Jost, system-ui, sans-serif'});
+      if(w>minRotulo){const t=el('text',{x:x+w/2,y:y+hgt/2+4,'text-anchor':'middle',fill:'#fff','font-size':String(fValor),'font-family':'Jost, system-ui, sans-serif'});
         t.textContent=Math.round(v)+'%'; svg.appendChild(t);}
       acc+=v;
     });
@@ -1565,11 +1590,13 @@ const App = {
         '<div class="ins"><span class="pin" style="background:'+(colors[i.color]||'var(--terracota)')+'"></span><span>'+rich(i.text)+'</span></div>').join('');
       document.getElementById('conv-read').innerHTML = '<span class="rl">Sua leitura</span>'+rich(c.reading);
       const hostC = document.getElementById('chart-conv');
+      /* Legenda primeiro: ela ocupa parte do .chart-box e o radar mede o host
+         já descontado, em vez de desenhar com a altura de antes. */
+      legend(hostC, [{label:'Atual', color:'#002F3B'}, {label:'Potencial', color:'#B85F3F', dash:true}]);
       radar(hostC, c.labels.slice(0,6), [
         {data: c.current.slice(0,6).map(c10), fill:'rgba(0,47,59,.12)', stroke:'#002F3B', width:2, dot:3.5},
         {data: c.potential.slice(0,6).map(c10), fill:'rgba(184,95,63,.10)', stroke:'#B85F3F', width:1.8, dash:'5,4', dot:3.5}
       ]);
-      legend(hostC, [{label:'Atual', color:'#002F3B'}, {label:'Potencial', color:'#B85F3F', dash:true}]);
     });
 
     S('card-time', () => {
@@ -1582,8 +1609,8 @@ const App = {
         {label:'Competência', color:'#A35337', data:[cu.competencia, ta.competencia]},
         {label:'Incompetência', color:'#6B6259', data:[cu.incompetencia, ta.incompetencia]}
       ];
-      stackedBars(hostT, ['Atual','Meta 90 dias'], S4);
       legend(hostT, S4.map(s=>({label:s.label, color:s.color})));
+      stackedBars(hostT, ['Atual','Meta 90 dias'], S4);
     });
 
     S('card-rec', () => { document.getElementById('rec-text').innerHTML = rich(D.recommendation); });

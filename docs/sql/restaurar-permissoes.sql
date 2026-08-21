@@ -38,6 +38,12 @@ alter table public.leads_zng      enable row level security;
 -- 42P17 (infinite recursion detected in policy). SECURITY DEFINER executa como dono da
 -- função, não passa pela RLS, e resolve o ciclo. O search_path fixo impede que alguém
 -- desvie a consulta criando um schema de mesmo nome.
+--
+-- Ela só é usada pelas políticas que a seção 3 cria. Se as políticas originais tiverem
+-- sobrevivido — que foi o caso em 21/08/2026, quando faltavam apenas os GRANTs —, esta
+-- função fica no banco sem ninguém chamar. É inofensiva (só `authenticated` executa),
+-- e some com `drop function if exists public.eh_admin();`. Se o drop reclamar de
+-- dependência, então alguma política passou a usá-la: aí não é resíduo, é peça.
 create or replace function public.eh_admin()
 returns boolean
 language sql

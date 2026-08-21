@@ -918,6 +918,44 @@ const rich = s => String(s ?? '')
   .replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>')
   .replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, '$1<em>$2</em>');
 
+/* O que o modelo realmente devolveu.
+
+   O sanitize() abaixo existe para o dashboard não quebrar com JSON incompleto, e
+   faz isso preenchendo buracos: zonas em 25/25/25/25, notas em 5, rótulos em '—'.
+   Na tela esses valores são indistinguíveis de análise — num teste real o bloco A
+   não devolveu o Kolbe e a página mostrou quatro instintos em 5/10, com barra
+   colorida e tudo. Por isso a checagem roda ANTES do preenchimento, sobre o objeto
+   cru: o que não veio do modelo não vira card. */
+const CARD_APURADO = {
+  'card-zones':    D => nums(D.zones, ['genialidade','excelencia','competencia','incompetencia']),
+  'card-talents':  D => lista(D.talents && D.talents.labels) && lista(D.talents && D.talents.scores),
+  'card-kolbe':    D => nums(D.kolbe, ['investigador','seguimento','inicioRapido','implementador']),
+  'card-hormozi':  D => nums(D.hormozi, ['resultadoSonhado','probabilidade','tempoEspera','esforco']),
+  'card-profiles': D => texto(D.wealthProfile && D.wealthProfile.name) && texto(D.fascinationProfile && D.fascinationProfile.name),
+  'card-ua':       D => !!D.uniqueAbility && (texto(D.uniqueAbility.description) || nums(D.uniqueAbility, ['alignment','potential'])),
+  'card-conv':     D => !!D.convergence && lista(D.convergence.labels) && lista(D.convergence.current) && lista(D.convergence.potential),
+  'card-time':     D => !!D.timeDistribution && nums(D.timeDistribution.current, ['genialidade']) && nums(D.timeDistribution.target, ['genialidade']),
+  'card-rec':      D => texto(D.recommendation),
+  'card-actions':  D => lista(D.actions),
+  'card-plan':     D => !!D.actionPlan && ['thisWeek','nextTwoWeeks','nextMonth','doNot'].some(k => lista(D.actionPlan[k])),
+  'card-squad':    D => !!D.recommendedSquad && texto(D.recommendedSquad.targetUser && D.recommendedSquad.targetUser.name)
+};
+/* Nome de gente para o aviso do topo: quem lê precisa saber o que ficou de fora. */
+const CARD_ROTULO = {
+  'card-zones':'as quatro zonas', 'card-talents':'os talentos', 'card-kolbe':'os instintos de ação',
+  'card-hormozi':'a equação de valor', 'card-profiles':'os perfis de riqueza e fascínio',
+  'card-ua':'a habilidade única', 'card-conv':'a convergência dos frameworks',
+  'card-time':'a distribuição do tempo', 'card-rec':'a recomendação central',
+  'card-actions':'as ações prioritárias', 'card-plan':'o plano de 30 dias', 'card-squad':'o squad recomendado'
+};
+const texto = v => typeof v === 'string' && v.trim().length > 0;
+const lista = v => Array.isArray(v) && v.length > 0;
+const nums = (o, chaves) => !!o && typeof o === 'object' && chaves.every(k => Number.isFinite(+o[k]) && o[k] !== null && o[k] !== '');
+function apurados(bruto){
+  const D = bruto || {};
+  return Object.keys(CARD_APURADO).filter(id => { try { return !!CARD_APURADO[id](D); } catch(e){ return false; } });
+}
+
 function sanitize(D){
   D = D || {};
   D.profile = D.profile || {};
@@ -953,7 +991,16 @@ function sanitize(D){
   D.convergence.reading = D.convergence.reading || '';
   D.timeDistribution = D.timeDistribution || {};
   D.timeDistribution.current = norm(Object.assign({}, D.zones, D.timeDistribution.current || {}));
-  D.timeDistribution.target = norm(Object.assign({genialidade:60,excelencia:25,competencia:10,incompetencia:5}, D.timeDistribution.target || {}));
+  /* Fallback com a mesma regra do prompt: a meta sai do ponto de partida. Um 60 fixo
+     aqui reintroduziria, no silêncio do modelo, o salto que o prompt acabou de proibir. */
+  const at = D.timeDistribution.current;
+  const alvoGen = Math.min(60, c100(at.genialidade) + 15);
+  const alvoInc = Math.max(3, Math.round(c100(at.incompetencia) / 2));
+  const resto = Math.max(0, 100 - alvoGen - alvoInc);
+  D.timeDistribution.target = norm(Object.assign({
+    genialidade: alvoGen, excelencia: Math.round(resto * 0.65),
+    competencia: resto - Math.round(resto * 0.65), incompetencia: alvoInc
+  }, D.timeDistribution.target || {}));
   D.timeDistribution.reading = D.timeDistribution.reading || '';
   D.recommendation = D.recommendation || '';
   D.actions = (Array.isArray(D.actions)?D.actions:[]).slice(0,5).map(a => Object.assign({label:'',timeframe:'',frameworks:'',description:''}, a || {}));
@@ -1112,6 +1159,41 @@ function extractJSON(s){
 }
 
 /* ---------- prompts ---------- */
+/* O blueprint é um resumo: o que ele não carregar some antes de virar recomendação.
+   Estes fatos vão literais para os três analistas, ao lado do blueprint, para que a
+   recomendação parta do que a pessoa já faz — e não do retrato ideal dela. Quem cola
+   um blueprint pronto não tem respostas; aí o bloco sai vazio e o prompt segue sem ele. */
+const PARTIDA_CAMPOS = [
+  ['ctx_oque_faz',      'Faz hoje, no dia a dia'],
+  ['ctx_area',          'Área principal'],
+  ['ctx_experiencia',   'Tempo de estrada na área'],
+  ['talent_competencia_genialidade', 'Faz bem mas não gosta'],
+  ['energy_delegacao',  'Relação com delegar'],
+  ['biz_escala',        'Modelo de atendimento que atrai'],
+  ['biz_preco',         'Relação com cobrar caro'],
+  ['biz_wealth_dynamics', 'Perfil de riqueza que ela mesma escolheu'],
+  ['vision_90dias',     'Resultado concreto que quer em 90 dias'],
+  ['vision_receita',    'Meta de receita mensal em 6 meses'],
+  ['vision_tempo',      'Tempo disponível por semana'],
+  ['vision_ai',         'Nível com IA e automação'],
+  ['vision_bloqueio',   'Bloqueio declarado']
+];
+function pontoDePartida(answers){
+  if (!answers) return '';
+  const linhas = [];
+  for (const [id, rotulo] of PARTIDA_CAMPOS){
+    const a = answers[id];
+    let v = '';
+    if (Array.isArray(a)) v = a.join('; ');
+    else if (a && typeof a === 'object') v = a.choice + (a.detail ? ' — ' + a.detail : '');
+    else v = a || '';
+    v = String(v).replace(/\s+/g, ' ').trim();
+    if (!v) continue;
+    linhas.push(rotulo + ': ' + (v.length > 320 ? v.slice(0, 317) + '...' : v));
+  }
+  if (!linhas.length) return '';
+  return '\n=== PONTO DE PARTIDA (respostas literais da pessoa) ===\n' + linhas.join('\n') + '\n';
+}
 function blueprintPrompt(md){
   return `Você é o orquestrador do squad Zona de Genialidade. Recebe abaixo as respostas completas de um assessment de 43 perguntas (5 seções) e produz o GENIUS ZONE BLUEPRINT da pessoa, em markdown, em português brasileiro.
 
@@ -1125,7 +1207,7 @@ Estrutura obrigatória (use exatamente estes títulos de seção):
 ## SEÇÃO 6: OFERTA E MONETIZAÇÃO (Alex Hormozi)
 ## SEÇÃO 7: EXECUÇÃO E FASCÍNIO (Kolbe + Hogshead)
 
-Regras: cada afirmação deve ser ancorada em respostas literais do assessment (cite as escolhas da pessoa); nomeie as 4 zonas de Hendricks com exemplos concretos tirados das respostas; identifique o perfil Wealth Dynamics mais provável; descreva a Unique Ability em uma frase densa; aponte o maior bloqueio declarado; nada de elogio genérico. Seja denso e específico. Responda APENAS com o markdown do blueprint.
+Regras: a SEÇÃO 1 registra literalmente o que a pessoa faz hoje, há quanto tempo, quantas horas por semana tem disponíveis, quanto cobra hoje e qual meta declarou — esses fatos precisam sobreviver no documento, porque as recomendações partem deles; cada afirmação deve ser ancorada em respostas literais do assessment (cite as escolhas da pessoa); nomeie as 4 zonas de Hendricks com exemplos concretos tirados das respostas; identifique o perfil Wealth Dynamics mais provável; descreva a Unique Ability em uma frase densa; aponte o maior bloqueio declarado; nada de elogio genérico. Seja denso e específico. Responda APENAS com o markdown do blueprint.
 
 === RESPOSTAS DO ASSESSMENT ===
 ${md}`.slice(0, MAX_CHARS);
@@ -1135,6 +1217,8 @@ const BASE_RULES = `Você é um analista psicométrico. Receberá um documento d
 Aplique os frameworks: Zonas de Gay Hendricks, CliftonStrengths de Don Clifton, Índice Kolbe A de Kathy Kolbe, Value Equation de Alex Hormozi, Wealth Dynamics de Roger Hamilton, Fascination Advantage de Sally Hogshead e Unique Ability de Dan Sullivan.
 
 Regras de voz: cada campo "reading" tem 400–700 caracteres, cita o nome da pessoa, ancora cada afirmação numa evidência literal do documento (produtos, preços, terminologia própria), usa <strong> para o veredicto e <em> para nomes de talentos, e termina com um movimento acionável. Nada de elogio genérico: toda nota precisa de justificativa rastreável ao texto. Tudo em português brasileiro.
+
+Regra de ponto de partida: quando o bloco PONTO DE PARTIDA vier preenchido, ele é o presente da pessoa e prevalece sobre qualquer leitura do documento. Toda recomendação nasce de uma capacidade que já existe ali — cite-a — ou nomeia explicitamente o que falta adquirir antes. É proibido tratar o alvo declarado como ponto de chegada imediato: entre o hoje e o alvo existe pelo menos um degrau intermediário. wealthProfile.name usa o nome em português do perfil, como aparece no assessment (Criador, Estrela, Apoiador, Negociador, Comerciante, Acumulador, Senhor dos Sistemas, Mecânico); divergir do perfil que a própria pessoa escolheu é permitido, mas então profilesReading precisa dizer qual evidência contradiz a escolha dela — divergência silenciosa, não.
 
 REGRAS DE SERIALIZAÇÃO: cada string em uma única linha, sem quebras literais; use apenas as tags <strong>, <em> e <br>, sem atributos; NUNCA use aspas duplas dentro de um valor (para citar, use aspas simples); nenhum campo serializado como string JSON aninhada.`;
 
@@ -1162,17 +1246,30 @@ const CHUNKS = [
 "actions":[{"label":str,"timeframe":str,"frameworks":str,"description":str} x5],
 "actionPlan":{"thisWeek":[str x3],"nextTwoWeeks":[str x3],"nextMonth":[str x3],"doNot":[str x5]},
 "recommendedSquad":{"domain":{"name":str,"description":str},"purpose":{"name":str,"description":str},"targetUser":{"name":str,"description":str},"executionMode":"Burst|Sprint|Marathon"}}`,
-    extra:'timeDistribution.target desloca massa para Genialidade (55–65%) e reduz Incompetência a ≤5%; ambos somam 100. O eixo de convergence com maior gap potential−current é o gargalo citado em recommendation. Uma das actions tem timeframe contínuo e trata delegação. doNot nomeia a armadilha comportamental por trás de cada proibição.' }
+    extra:'timeDistribution.target é derivado do current, não é um ideal fixo: Genialidade sobe de 12 a 18 pontos acima do current (teto de 60) e Incompetência cai no máximo pela metade, nunca abaixo de 3; ambos somam 100 — é a meta de 90 dias de quem parte de onde essa pessoa parte, não o retrato final. recommendation traz três degraus numerados, separados por <br>: 1 o que já sustenta hoje, com a evidência; 2 o degrau intermediário de preparo; 3 o alvo declarado — e cada passagem de degrau traz o sinal objetivo que autoriza subir (número de clientes, casos entregues, receita, entrega repetida). O eixo de convergence com maior gap potential−current é o gargalo citado no degrau 2. Cada action nomeia, em description, a capacidade atual em que se apoia ou o que precisa ser adquirido antes dela; nenhuma action pula direto ao alvo do degrau 3. Uma das actions tem timeframe contínuo e trata delegação. actionPlan.thisWeek só contém o que cabe no tempo semanal declarado. doNot nomeia a armadilha comportamental por trás de cada proibição.' }
 ];
 
-function chunkPrompt(bp, ch){
+/* Os três blocos são chamadas separadas: nenhum vê o resultado do outro. Foi assim
+   que uma análise real mostrou 45% de Genialidade no cartão das zonas e 25% no da
+   distribuição do tempo — mesma grandeza, dois números, na mesma tela. O que já foi
+   apurado viaja para os blocos seguintes como número dado. */
+function jaApurado(merged){
+  if (!merged || !merged.zones) return '';
+  const z = merged.zones;
+  const linha = ['genialidade','excelencia','competencia','incompetencia']
+    .filter(k => Number.isFinite(+z[k])).map(k => k + ' ' + Math.round(+z[k]) + '%').join(', ');
+  if (!linha) return '';
+  return '\n=== JÁ APURADO NESTA ANÁLISE (não recalcule) ===\nZonas de Hendricks: ' + linha +
+    '\ntimeDistribution.current repete exatamente esses números; divergir exige explicar a diferença no reading.\n';
+}
+function chunkPrompt(bp, ch, partida, apurado){
   return BASE_RULES + `
 
 SCHEMA (responda exatamente estas chaves, nada além):
 ` + ch.schema + `
 
 Regras específicas: ` + ch.extra + `
-
+` + (partida || '') + (apurado || '') + `
 === DOCUMENTO ===
 ` + bp.slice(0,24000);
 }
@@ -1277,7 +1374,7 @@ function legend(host, items){
 }
 
 const App = {
-  idx: 0, answers: {}, blueprint: '', data: null, _retryFn: null,
+  idx: 0, answers: {}, blueprint: '', data: null, apurados: null, _retryFn: null,
 
   async init(){
     const saved = await Store.get('zgp_answers');
@@ -1477,15 +1574,16 @@ const App = {
     document.getElementById('load-msg').textContent = 'Convergindo os sete frameworks…';
     const sub = document.getElementById('load-sub');
     const merged = {}; const falhas = []; let semAuth = false;
+    const partida = pontoDePartida(this.answers);
     for (let i=0; i<CHUNKS.length; i++){
       const ch = CHUNKS[i];
       sub.textContent = 'Analisando ' + ch.label + '  ·  parte ' + (i+1) + ' de ' + CHUNKS.length;
       try {
         let obj;
         try {
-          obj = extractJSON(await askAI(chunkPrompt(this.blueprint, ch), ch.tokens));
+          obj = extractJSON(await askAI(chunkPrompt(this.blueprint, ch, partida, jaApurado(merged)), ch.tokens));
         } catch(e1){
-          obj = extractJSON(await askAI(chunkPrompt(this.blueprint, ch) +
+          obj = extractJSON(await askAI(chunkPrompt(this.blueprint, ch, partida, jaApurado(merged)) +
             '\n\nLEMBRETE: responda somente o objeto JSON, começando com { e terminando com }. Strings em linha única, sem aspas duplas dentro de valores.', ch.tokens));
         }
         Object.assign(merged, deep(obj));
@@ -1500,15 +1598,25 @@ const App = {
       this.fail(new Error('Nenhum dos três blocos de análise retornou. Verifique a conexão e clique em Tentar de novo.'));
       return;
     }
+    /* A ordem importa: apurar antes de sanitizar. Depois do preenchimento não há
+       mais como saber o que era resposta do modelo e o que era buraco tapado. */
+    this.apurados = apurados(merged);
     this.data = sanitize(merged);
     this._falhas = falhas;
-    await Store.set('zgp_result', JSON.stringify(this.data));
+    await Store.set('zgp_result', JSON.stringify({ data: this.data, apurados: this.apurados }));
     this.renderDash();
-    if (falhas.length){
+    const omitidos = Object.keys(CARD_ROTULO).filter(id => this.apurados.indexOf(id) === -1);
+    /* Só há o que avisar se algum bloco ficou de fora. Bloco que falhou na chamada
+       sempre deixa buraco aqui — o contrário (falha sem buraco) não existe, mas o
+       aviso não pode sair com a lista vazia se um dia existir. */
+    if (omitidos.length){
       const av = document.createElement('div');
       av.className = 'callout-warn';
-      av.innerHTML = 'Parte da análise não retornou (' + esc(falhas.join(', ')) +
-        '). O que aparece abaixo está completo; para preencher o resto, clique em <strong>Refazer análise</strong>.' +
+      const quais = omitidos.map(id => CARD_ROTULO[id]);
+      av.innerHTML = 'Esta análise saiu incompleta: ' + esc(quais.join(', ')) +
+        (quais.length === 1 ? ' não retornou' : ' não retornaram') +
+        ' e por isso ' + (quais.length === 1 ? 'esse bloco não aparece' : 'esses blocos não aparecem') +
+        ' abaixo. O que está na tela veio da análise; nada foi preenchido por conta.' +
         ' <button class="btn ghost sm" style="margin-left:10px" onclick="App.analyzeBlueprint()">Refazer análise</button>';
       const dash = document.getElementById('dash');
       dash.insertBefore(av, dash.children[1]);
@@ -1522,7 +1630,15 @@ const App = {
     const D = this.data;
     this.destroyCharts();
     this.show('dash');
-    const S = (id, fn) => { try { fn(); } catch(e){ const el = document.getElementById(id); if (el) el.style.display='none'; console.warn('seção falhou:', id, e); } };
+    /* Sem lista de apurados (resultado salvo antes desta versão) o dashboard segue
+       como era: some só o que falhar em tempo de render. */
+    const conhecido = Array.isArray(this.apurados);
+    const S = (id, fn) => {
+      const el = document.getElementById(id);
+      if (conhecido && this.apurados.indexOf(id) === -1){ if (el) el.style.display = 'none'; return; }
+      if (el) el.style.display = '';
+      try { fn(); } catch(e){ if (el) el.style.display='none'; console.warn('seção falhou:', id, e); }
+    };
 
     S('card-zones', () => {
       const p = D.profile;
@@ -1729,7 +1845,16 @@ const App = {
 
 App.init().then(async () => {
   const saved = await Store.get('zgp_result');
-  if (saved){ try { App.data = sanitize(deep(JSON.parse(saved))); App.renderDash(); return; } catch(e){} }
+  if (saved){ try {
+    const guardado = deep(JSON.parse(saved));
+    /* Formato novo: { data, apurados }. Formato antigo: o próprio D, e aí não há
+       como saber o que foi apurado — renderiza como antes. */
+    const bruto = guardado && guardado.data ? guardado.data : guardado;
+    App.apurados = guardado && Array.isArray(guardado.apurados) ? guardado.apurados : null;
+    App.data = sanitize(bruto);
+    App.renderDash();
+    return;
+  } catch(e){} }
   if (App.blueprint){ document.getElementById('bp-text').textContent = App.blueprint; App.show('bpview'); return; }
   if (Object.keys(App.answers).length > 0) App.startAssess();
 });

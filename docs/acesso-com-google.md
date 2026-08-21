@@ -72,3 +72,32 @@ local):
 Entre no site com a sua conta Google (`betinha.potter@gmail.com`, já cadastrada
 como admin), abra **Alunos** no canto superior da capa e adicione os emails.
 O email precisa ser o mesmo da conta Google que a pessoa vai usar.
+
+## Quando ninguém consegue entrar
+
+Em 21/08/2026 o banco passou a devolver `42501 permission denied for table` nas três
+tabelas, durante a migração das chaves de API antigas (JWT `anon`/`service_role`) para
+as novas (`sb_publishable_…`). As políticas RLS estavam intactas, com os nomes
+originais: o que se perdeu foram os privilégios de tabela (`GRANT`) dos roles `anon` e
+`authenticated` — a camada abaixo da RLS.
+
+O sintoma engana dos dois lados, porque nenhum deles mostra erro:
+
+- o gate faz `SELECT` em `alunos_claude`; sem privilégio o retorno é nulo, e o código
+  não distingue isso de "não está na lista". O aluno cai em `/sem-acesso` achando que o
+  problema é a conta dele.
+- `/api/zona/lead` tolera falha de gravação de propósito, para não travar quem acabou de
+  responder o assessment. A Zona segue funcionando de ponta a ponta e todo lead se perde,
+  deixando só um `console.error` nos logs da Vercel.
+
+O caminho de volta é [`sql/restaurar-permissoes.sql`](sql/restaurar-permissoes.sql).
+É idempotente: devolve os `GRANT`s mínimos, cria apenas as políticas que estiverem
+faltando — preservando as que sobreviveram — e termina imprimindo o estado final.
+
+Duas coisas que economizam tempo no diagnóstico:
+
+- `42501` é privilégio de tabela e acontece **depois** da autenticação. Trocar a chave de
+  API não causa nem resolve. Se a chave estivesse errada, a resposta seria
+  `Invalid API key`, e a requisição nem chegaria à tabela.
+- Se o erro fosse `PGRST106`, o problema seria outro: o schema `public` deixou de estar
+  exposto no Data API, e o conserto é em Settings → API, não no SQL.

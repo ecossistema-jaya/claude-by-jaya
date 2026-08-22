@@ -907,10 +907,14 @@ footer .legal{margin-top:1rem;font-size:0.8125rem;color:var(--grafite-suave);
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
 <script>
-  /* Etapas do funil. Sem dado pessoal: só o nome do passo, nunca o e-mail nem
-     as respostas. */
-  function zgEtapa(nome){
-    try { window.va && window.va('event', { name: nome }); } catch(e) {}
+  /* Etapas do funil. Sem dado pessoal: só o nome do passo e, quando faz diferença,
+     um rótulo que já está na tela — nunca o e-mail nem as respostas.
+
+     O segundo argumento existe para a carta: sem saber qual arcano saiu, não há como
+     distinguir "o público todo precisa mesmo do Mago" de "o modelo escolhe sempre um
+     item do começo da lista". São diagnósticos opostos e pedem correções opostas. */
+  function zgEtapa(nome, props){
+    try { window.va && window.va('event', Object.assign({ name: nome }, props || {})); } catch(e) {}
   }
 </script>
 
@@ -1764,6 +1768,17 @@ const App = {
        mais como saber o que era resposta do modelo e o que era buraco tapado. */
     this.apurados = apurados(merged);
     this.data = sanitize(merged);
+
+    /* Registrado aqui, e não só no clique de revelar: quem abre a carta é um recorte
+       de quem a recebe, e medir a distribuição pela amostra de quem clicou responderia
+       "qual arcano dá vontade de abrir", não "qual arcano o modelo escolhe". Uma
+       análise, um evento. Arcano fora do corpus vira 'invalido' em vez de sumir — é
+       justamente o caso que precisa aparecer no painel. */
+    const escolhido = merged.carta && merged.carta.arcano;
+    if (escolhido != null && String(escolhido).trim()) {
+      const a = arcanoDe(escolhido);
+      zgEtapa('zg_carta_gerada', { arcano: a ? a.n : 'invalido' });
+    }
     this._falhas = falhas;
     await Store.set('zgp_result', JSON.stringify({ data: this.data, apurados: this.apurados }));
     this.renderDash();
@@ -1956,7 +1971,8 @@ const App = {
   revelarCarta(){
     document.getElementById('carta-fechada').classList.add('hide');
     document.getElementById('carta-aberta').classList.remove('hide');
-    zgEtapa('zg_carta_revelada');
+    const a = this.data && this.data.carta && arcanoDe(this.data.carta.arcano);
+    zgEtapa('zg_carta_revelada', a ? { arcano: a.n } : null);
   },
 
   /* ----- utilidades ----- */

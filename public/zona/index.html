@@ -389,6 +389,40 @@ textarea::placeholder{color:#6B6259;}
 .rec-card strong{color:var(--ambar);font-weight:500;}
 .rec-card em{color:var(--terracota-clara);}
 
+/* carta de travessia: o fecho simbólico do dashboard. Nasce fechada e só abre a
+   clique — parte do público chegou aqui pelos frameworks e não quer tarô no
+   relatório; quem quer, pede. O clique também vira métrica (zg_carta_revelada). */
+.carta-fechada{text-align:center;padding:clamp(1.25rem,3vw,2rem) 0 0.5rem;}
+.carta-fechada p{font-size:1.0625rem;color:var(--grafite-suave);
+  margin-bottom:1.1rem;max-width:34rem;margin-inline:auto;}
+/* A carta aberta é duas colunas no desktop: a arte à esquerda, a leitura à direita.
+   Abaixo de 720px vira uma coluna só, com a arte em cima — é a ordem em que a pessoa
+   quer receber: ver o arcano, depois ler o que ele pede. */
+.carta-aberta{padding-top:1.25rem;display:grid;grid-template-columns:minmax(0,38%) minmax(0,1fr);
+  gap:clamp(1.25rem,3vw,2.25rem);align-items:start;}
+@media (max-width:720px){.carta-aberta{grid-template-columns:1fr;}}
+.carta-arte{margin:0;}
+/* A proporção é 2:3, a mesma em que as 22 foram geradas. Fixá-la reserva o espaço
+   antes de a imagem chegar e evita o salto de layout ao carregar. */
+.carta-arte img{display:block;width:100%;aspect-ratio:2/3;object-fit:cover;
+  border:1px solid var(--fio);background:var(--papel);}
+@media (max-width:720px){.carta-arte{max-width:22rem;margin-inline:auto;}}
+.carta-selo{display:flex;align-items:center;gap:0.75rem;margin-bottom:0.55rem;}
+.carta-rom{font-family:var(--fonte-dado);font-size:0.75rem;letter-spacing:0.16em;
+  background:var(--petroleo);color:var(--papel);padding:0.22rem 0.6rem;}
+.carta-astro{font-family:var(--fonte-dado);font-size:0.6875rem;letter-spacing:0.14em;
+  text-transform:uppercase;color:var(--musgo);}
+.carta-nome{font-family:var(--fonte-display);font-size:clamp(1.75rem,5vw,2.5rem);
+  line-height:1.1;color:var(--terracota-ink);margin-bottom:0.4rem;}
+.carta-eixo{font-family:var(--fonte-display);font-size:clamp(1rem,2vw,1.125rem);
+  color:var(--grafite);padding-bottom:0.9rem;margin-bottom:0.9rem;
+  border-bottom:1px solid var(--fio);}
+.carta-travessia{font-size:0.9375rem;line-height:1.62;color:var(--grafite);}
+.carta-convite{margin-top:1.1rem;padding:0.95rem 1.15rem;background:#EFEDE4;
+  font-family:var(--fonte-display);font-size:clamp(1rem,2vw,1.125rem);color:var(--petroleo);}
+.carta-nota{margin-top:1.1rem;font-size:0.75rem;line-height:1.5;color:var(--grafite-suave);}
+@media print{.carta-fechada{display:none;}}
+
 .act{display:flex;gap:1.1rem;padding:1.1rem 0;border-top:1px solid var(--fio);align-items:flex-start;}
 .act:first-child{border-top:0;}
 .act .tf{font-family:var(--fonte-dado);font-size:0.6875rem;letter-spacing:0.1em;
@@ -785,6 +819,30 @@ footer .legal{margin-top:1rem;font-size:0.8125rem;color:var(--grafite-suave);
       <span class="mode-chip" id="sq-mode"></span>
     </div>
 
+    <div class="dcard full" id="card-carta" style="margin-top:1.5rem;">
+      <div class="dc-head"><div class="dc-ico"></div><div><h3>Sua carta de travessia</h3><div class="dc-sub">Um arcano para os próximos 90 dias</div></div></div>
+      <div class="carta-fechada" id="carta-fechada">
+        <p>Os cards acima mostram onde você está. Este mostra o que atravessar para
+          chegar onde disse que quer chegar. Leitura simbólica, opcional.</p>
+        <button class="btn" onclick="App.revelarCarta()">Revelar minha carta</button>
+      </div>
+      <div class="carta-aberta hide" id="carta-aberta">
+        <figure class="carta-arte" id="ct-arte"><img id="ct-img" alt="" loading="lazy" decoding="async"></figure>
+        <div class="carta-leitura">
+          <div class="carta-selo"><span class="carta-rom" id="ct-rom"></span><span class="carta-astro" id="ct-astro"></span></div>
+          <h4 class="carta-nome" id="ct-nome"></h4>
+          <p class="carta-eixo" id="ct-eixo"></p>
+          <p class="carta-travessia" id="ct-travessia"></p>
+          <p class="carta-convite" id="ct-convite"></p>
+          <!-- "Leitura", não "Nomenclatura e leitura": os nomes seguem a forma corrente em
+               português (O Mago, A Justiça, Força/Luxúria), que não é a de Thoth. O que vem
+               de Crowley é a leitura de cada arcano, e é só isso que a nota reivindica. -->
+          <p class="carta-nota">Leitura na linhagem do Tarô de Thoth, de Aleister Crowley.
+            Símbolo para pensar, não previsão: o que decide os próximos 90 dias é o plano acima.</p>
+        </div>
+      </div>
+    </div>
+
     <div class="dash-actions">
       <button class="btn" onclick="App.exportDash(this)">Baixar dashboard</button>
       <button class="btn ghost" onclick="App.tryPrint(this)">Imprimir</button>
@@ -938,7 +996,8 @@ const CARD_APURADO = {
   'card-rec':      D => texto(D.recommendation),
   'card-actions':  D => lista(D.actions),
   'card-plan':     D => !!D.actionPlan && ['thisWeek','nextTwoWeeks','nextMonth','doNot'].some(k => lista(D.actionPlan[k])),
-  'card-squad':    D => !!D.recommendedSquad && texto(D.recommendedSquad.targetUser && D.recommendedSquad.targetUser.name)
+  'card-squad':    D => !!D.recommendedSquad && texto(D.recommendedSquad.targetUser && D.recommendedSquad.targetUser.name),
+  'card-carta':    D => !!D.carta && !!arcanoDe(D.carta.arcano) && texto(D.carta.travessia)
 };
 /* Nome de gente para o aviso do topo: quem lê precisa saber o que ficou de fora. */
 const CARD_ROTULO = {
@@ -946,11 +1005,19 @@ const CARD_ROTULO = {
   'card-hormozi':'a equação de valor', 'card-profiles':'os perfis de riqueza e fascínio',
   'card-ua':'a habilidade única', 'card-conv':'a convergência dos frameworks',
   'card-time':'a distribuição do tempo', 'card-rec':'a recomendação central',
-  'card-actions':'as ações prioritárias', 'card-plan':'o plano de 30 dias', 'card-squad':'o squad recomendado'
+  'card-actions':'as ações prioritárias', 'card-plan':'o plano de 30 dias', 'card-squad':'o squad recomendado',
+  'card-carta':'a carta de travessia'
 };
 const texto = v => typeof v === 'string' && v.trim().length > 0;
 const lista = v => Array.isArray(v) && v.length > 0;
 const nums = (o, chaves) => !!o && typeof o === 'object' && chaves.every(k => Number.isFinite(+o[k]) && o[k] !== null && o[k] !== '');
+/* "A Torre" -> "a-torre"; "O Éon" -> "o-eon". Mesma normalização que build-artes.mjs e
+   assinar-arcanos.mjs aplicam aos arquivos: os três precisam concordar, senão a imagem
+   existe no disco e a página pede outro nome. */
+function slugArcano(nome){
+  return (nome||'').normalize('NFD').replace(/[̀-ͯ]/g,'')
+    .replace(/[^a-zA-Z0-9]+/g,'-').replace(/^-|-$/g,'').toLowerCase();
+}
 function apurados(bruto){
   const D = bruto || {};
   return Object.keys(CARD_APURADO).filter(id => { try { return !!CARD_APURADO[id](D); } catch(e){ return false; } });
@@ -1008,6 +1075,8 @@ function sanitize(D){
   D.recommendedSquad = D.recommendedSquad || {};
   ['domain','purpose','targetUser'].forEach(k => D.recommendedSquad[k] = Object.assign({name:'—',description:''}, D.recommendedSquad[k] || {}));
   D.recommendedSquad.executionMode = D.recommendedSquad.executionMode || 'Sprint';
+  /* Sem default de arcano: carta inventada aqui seria indistinguível de leitura. */
+  D.carta = Object.assign({arcano:'', travessia:'', convite:''}, D.carta || {});
   return D;
 }
 
@@ -1222,6 +1291,76 @@ Regra de ponto de partida: quando o bloco PONTO DE PARTIDA vier preenchido, ele 
 
 REGRAS DE SERIALIZAÇÃO: cada string em uma única linha, sem quebras literais; use apenas as tags <strong>, <em> e <br>, sem atributos; NUNCA use aspas duplas dentro de um valor (para citar, use aspas simples); nenhum campo serializado como string JSON aninhada.`;
 
+/* ---------- os 22 Arcanos Maiores ---------- */
+/* Nomenclatura e sistema interpretativo de Aleister Crowley (morto em 1947: obra em
+   domínio público no Brasil desde 2018, art. 41 da LDA). A arte de Lady Frieda Harris
+   segue protegida até 2033 — por isso aqui não há imagem, só o nome e a correspondência.
+
+   O corpus vive no cliente, não na resposta do modelo. Ele escolhe APENAS o nome do
+   arcano; numeral e correspondência astrológica saem daqui. Sem isso o modelo inventa
+   metadado — 'A Torre, regida por Vênus' — e a carta perde o único lastro que tem.
+
+   'eixo' é a travessia que a carta pede. É o critério de escolha e a direção do texto,
+   nunca o texto em si: a leitura precisa ser escrita com as evidências da pessoa. */
+const ARCANOS = [
+  {n:'O Louco',       rom:'0',     astro:'Ar',          eixo:'Começar sem currículo. Serve a quem tem tudo mapeado e nada iniciado; a travessia é dar o primeiro passo sem a garantia.'},
+  {n:'O Mago',        rom:'I',     astro:'Mercúrio',    eixo:'Nomear o que faz. Serve a quem tem capacidade real e nenhuma frase que a venda; a travessia é converter habilidade em oferta dita em voz alta.'},
+  {n:'A Sacerdotisa', rom:'II',    astro:'Lua',         eixo:'Escutar antes de produzir. Serve a quem responde rápido demais; a travessia é suportar o não-saber até o material próprio aparecer.'},
+  {n:'A Imperatriz',  rom:'III',   astro:'Vênus',       eixo:'Deixar crescer o que já foi plantado. Serve a quem recomeça toda semana; a travessia é nutrir uma coisa só até dar fruto.'},
+  {n:'O Imperador',   rom:'IV',    astro:'Áries',       eixo:'Assumir a autoridade que já exerce. Serve a quem decide por todos mas não se apresenta como dono; a travessia é ocupar a cadeira.'},
+  {n:'O Hierofante',  rom:'V',     astro:'Touro',       eixo:'Ensinar o que já sabe. Serve a quem acumula método e não transmite; a travessia é virar prática em doutrina transmissível.'},
+  {n:'Os Amantes',    rom:'VI',    astro:'Gêmeos',      eixo:'Escolher entre dois caminhos igualmente possíveis. Serve a quem mantém as duas portas abertas; a travessia é a escolha que fecha uma.'},
+  {n:'O Carro',       rom:'VII',   astro:'Câncer',      eixo:'Avançar carregando a própria casa. Serve a quem espera condições melhores; a travessia é mover-se com o peso que já tem.'},
+  {n:'A Justiça',     rom:'VIII',  astro:'Libra',       eixo:'Corrigir o preço, o prazo, a troca. Serve a quem entrega mais do que recebe; a travessia é reequilibrar sem pedir licença.'},
+  {n:'O Eremita',     rom:'IX',    astro:'Virgem',      eixo:'Recolher-se para lapidar. Serve a quem se dispersa em oportunidades; a travessia é o período fechado que produz a coisa boa.'},
+  {n:'A Fortuna',     rom:'X',     astro:'Júpiter',     eixo:'Aceitar o ciclo em vez de forçar a linha reta. Serve a quem trava porque o resultado não veio no prazo; a travessia é jogar mais rodadas.'},
+  {n:'Força/Luxúria', rom:'XI',    astro:'Leão',        eixo:'Querer em público. Serve a quem pede desculpa pela própria ambição; a travessia é sustentar o apetite sem disfarce.'},
+  {n:'O Enforcado',   rom:'XII',   astro:'Água',        eixo:'Inverter a posição. Serve a quem tenta mais do mesmo com mais esforço; a travessia é a rendição que muda o ângulo.'},
+  {n:'A Morte',       rom:'XIII',  astro:'Escorpião',   eixo:'Encerrar o que ainda funciona mal. Serve a quem carrega cliente, produto ou papel vencido; a travessia é o corte.'},
+  {n:'A Arte',        rom:'XIV',   astro:'Sagitário',   eixo:'Fundir os dois lados que parecem incompatíveis. Serve a quem se divide entre duas identidades profissionais; a travessia é a liga.'},
+  {n:'O Diabo',       rom:'XV',    astro:'Capricórnio', eixo:'Olhar para o que prende. Serve a quem chama de escolha o que é dependência — de dinheiro, de aprovação, de rotina; a travessia é nomear a corrente.'},
+  {n:'A Torre',       rom:'XVI',   astro:'Marte',       eixo:'Derrubar a estrutura que já não sustenta. Serve a quem remenda o que precisa cair; a travessia é a demolição escolhida antes da forçada.'},
+  {n:'A Estrela',     rom:'XVII',  astro:'Aquário',     eixo:'Confiar no que ainda não tem prova. Serve a quem exige certeza antes de investir; a travessia é apostar na direção com evidência parcial.'},
+  {n:'A Lua',         rom:'XVIII', astro:'Peixes',      eixo:'Atravessar o trecho sem visibilidade. Serve a quem para no meio porque o caminho sumiu; a travessia é seguir no escuro sem desistir.'},
+  {n:'O Sol',         rom:'XIX',   astro:'Sol',         eixo:'Mostrar-se inteiro. Serve a quem trabalha bem e escondido; a travessia é a exposição do que já está pronto.'},
+  {n:'O Aeon',        rom:'XX',    astro:'Fogo',        eixo:'Julgar-se por outro critério. Serve a quem se mede por régua herdada; a travessia é adotar o próprio padrão de sucesso.'},
+  {n:'O Universo',    rom:'XXI',   astro:'Saturno',     eixo:'Fechar o ciclo e entregar. Serve a quem está a um passo do fim e recomeça; a travessia é terminar.'}
+];
+/* O modelo devolve um nome; aqui ele vira o arcano do corpus ou nada. Nome que não
+   existe na lista não vira carta — a checagem de CARD_APURADO usa isto. */
+function arcanoDe(nome){
+  return ARCANO_POR_NOME[String(nome || '').trim().toLowerCase()] || null;
+}
+const ARCANO_POR_NOME = {};
+ARCANOS.forEach(a => { ARCANO_POR_NOME[a.n.toLowerCase()] = a; });
+const MENU_ARCANOS = ARCANOS.map(a => a.rom + '. ' + a.n + ' (' + a.astro + ') — ' + a.eixo).join('\n');
+
+/* A carta é prescritiva: aponta o que a pessoa precisa atravessar, não o que ela é.
+   Esse recorte já está decidido — o diagnóstico é trabalho dos onze cards acima. */
+const REGRA_CARTA = `
+
+=== CARTA DE TRAVESSIA (campo carta) ===
+Escolha UM arcano da lista abaixo. A escolha é prescritiva: o arcano nomeia o que esta
+pessoa precisa ATRAVESSAR nos próximos 90 dias, nunca o retrato de quem ela já é.
+
+Critério de escolha, nesta ordem: 1) o bloqueio que ela declarou no PONTO DE PARTIDA;
+2) o eixo de convergence com maior gap entre potential e current; 3) a distância entre
+timeDistribution.current e timeDistribution.target. Se dois arcanos servirem, fique com
+o que trata do bloqueio declarado — é o que ela reconhece como seu.
+
+carta.arcano é o nome exato de um item da lista, copiado sem alteração e sem numeral.
+carta.travessia tem 400 a 700 caracteres, cita o nome que consta em JÁ APURADO — e nenhum
+outro nome do documento, que são de terceiros —, ancora a leitura em pelo
+menos duas evidências literais do documento e explica por que ESTE arcano e não outro. Usa
+o eixo como direção, jamais copia a frase do eixo. Não prevê o futuro, não promete resultado
+e não repete a recommendation com outras palavras: diz o que ela vai ter de largar ou
+encarar para o plano de 90 dias acontecer.
+carta.convite tem no máximo 120 caracteres: uma pergunta que ela leva para a semana.
+
+LISTA DOS 22 ARCANOS (nome — correspondência — travessia que cada um pede):
+` + MENU_ARCANOS + `
+`;
+
 const CHUNKS = [
   { key:'A', label:'perfil, zonas e talentos', tokens:4000, schema:
 `{"profile":{"name":str,"initials":str2,"currentZone":str,"zoneTransition":str,"tags":[str x4]},
@@ -1239,28 +1378,51 @@ const CHUNKS = [
 "uniqueAbility":{"description":str,"alignment":n0-100,"timeInZone":n0-100,"potential":n0-100,"reading":html}}`,
     extra:'hormozi.score é a média dos quatro fatores com 1 decimal. potential ≥ alignment. uniqueAbility.description é uma frase densa. wealthProfile.name é um dos 8 perfis Wealth Dynamics.' },
 
-  { key:'C', label:'convergência, roadmap e squad', tokens:5000, schema:
+  { key:'C', label:'convergência, roadmap e squad', tokens:5800, schema:
 `{"convergence":{"labels":[str x6],"current":[n1-10 x6],"potential":[n1-10 x6],"insights":[{"color":"pink|gold|purple|green","text":str} x4],"reading":html},
 "timeDistribution":{"current":{"genialidade":n,"excelencia":n,"competencia":n,"incompetencia":n},"target":{"genialidade":n,"excelencia":n,"competencia":n,"incompetencia":n},"reading":html},
 "recommendation":str,
 "actions":[{"label":str,"timeframe":str,"frameworks":str,"description":str} x5],
 "actionPlan":{"thisWeek":[str x3],"nextTwoWeeks":[str x3],"nextMonth":[str x3],"doNot":[str x5]},
-"recommendedSquad":{"domain":{"name":str,"description":str},"purpose":{"name":str,"description":str},"targetUser":{"name":str,"description":str},"executionMode":"Burst|Sprint|Marathon"}}`,
-    extra:'timeDistribution.target é derivado do current, não é um ideal fixo: Genialidade sobe de 12 a 18 pontos acima do current (teto de 60) e Incompetência cai no máximo pela metade, nunca abaixo de 3; ambos somam 100 — é a meta de 90 dias de quem parte de onde essa pessoa parte, não o retrato final. recommendation traz três degraus numerados, separados por <br>: 1 o que já sustenta hoje, com a evidência; 2 o degrau intermediário de preparo; 3 o alvo declarado — e cada passagem de degrau traz o sinal objetivo que autoriza subir (número de clientes, casos entregues, receita, entrega repetida). O eixo de convergence com maior gap potential−current é o gargalo citado no degrau 2. Cada action nomeia, em description, a capacidade atual em que se apoia ou o que precisa ser adquirido antes dela; nenhuma action pula direto ao alvo do degrau 3. Uma das actions tem timeframe contínuo e trata delegação. actionPlan.thisWeek só contém o que cabe no tempo semanal declarado. doNot nomeia a armadilha comportamental por trás de cada proibição.' }
+"recommendedSquad":{"domain":{"name":str,"description":str},"purpose":{"name":str,"description":str},"targetUser":{"name":str,"description":str},"executionMode":"Burst|Sprint|Marathon"},
+"carta":{"arcano":str,"travessia":html,"convite":str}}`,
+    extra:'timeDistribution.target é derivado do current, não é um ideal fixo: Genialidade sobe de 12 a 18 pontos acima do current (teto de 60) e Incompetência cai no máximo pela metade, nunca abaixo de 3; ambos somam 100 — é a meta de 90 dias de quem parte de onde essa pessoa parte, não o retrato final. recommendation traz três degraus numerados, separados por <br>: 1 o que já sustenta hoje, com a evidência; 2 o degrau intermediário de preparo; 3 o alvo declarado — e cada passagem de degrau traz o sinal objetivo que autoriza subir (número de clientes, casos entregues, receita, entrega repetida). O eixo de convergence com maior gap potential−current é o gargalo citado no degrau 2. Cada action nomeia, em description, a capacidade atual em que se apoia ou o que precisa ser adquirido antes dela; nenhuma action pula direto ao alvo do degrau 3. Uma das actions tem timeframe contínuo e trata delegação. actionPlan.thisWeek só contém o que cabe no tempo semanal declarado. doNot nomeia a armadilha comportamental por trás de cada proibição.' + REGRA_CARTA }
 ];
 
 /* Os três blocos são chamadas separadas: nenhum vê o resultado do outro. Foi assim
    que uma análise real mostrou 45% de Genialidade no cartão das zonas e 25% no da
    distribuição do tempo — mesma grandeza, dois números, na mesma tela. O que já foi
    apurado viaja para os blocos seguintes como número dado. */
+/* O que o bloco A apurou e os blocos seguintes precisam respeitar.
+
+   O nome está aqui por um motivo específico: o documento é o blueprint de uma pessoa,
+   mas pode citar outras — quem aplicou o assessment, quem escreveu o template, um
+   cliente mencionado de passagem. Sem o nome do dono declarado, o bloco C escolhe o
+   nome mais saliente do texto e escreve a carta para a pessoa errada. Aconteceu: o
+   dashboard era de um, a carta falava com outra. */
 function jaApurado(merged){
-  if (!merged || !merged.zones) return '';
+  if (!merged) return '';
+  const linhas = [];
+
+  const nome = merged.profile && merged.profile.name;
+  if (typeof nome === 'string' && nome.trim()) {
+    linhas.push('Nome da pessoa: ' + nome.trim() +
+      '\nTodo texto endereçado a ela usa ESTE nome. Outros nomes que apareçam no documento ' +
+      'são de terceiros e nunca são o destinatário.');
+  }
+
   const z = merged.zones;
-  const linha = ['genialidade','excelencia','competencia','incompetencia']
-    .filter(k => Number.isFinite(+z[k])).map(k => k + ' ' + Math.round(+z[k]) + '%').join(', ');
-  if (!linha) return '';
-  return '\n=== JÁ APURADO NESTA ANÁLISE (não recalcule) ===\nZonas de Hendricks: ' + linha +
-    '\ntimeDistribution.current repete exatamente esses números; divergir exige explicar a diferença no reading.\n';
+  if (z) {
+    const linha = ['genialidade','excelencia','competencia','incompetencia']
+      .filter(k => Number.isFinite(+z[k])).map(k => k + ' ' + Math.round(+z[k]) + '%').join(', ');
+    if (linha) {
+      linhas.push('Zonas de Hendricks: ' + linha +
+        '\ntimeDistribution.current repete exatamente esses números; divergir exige explicar a diferença no reading.');
+    }
+  }
+
+  if (!linhas.length) return '';
+  return '\n=== JÁ APURADO NESTA ANÁLISE (não recalcule) ===\n' + linhas.join('\n') + '\n';
 }
 function chunkPrompt(bp, ch, partida, apurado){
   return BASE_RULES + `
@@ -1754,9 +1916,47 @@ const App = {
       document.getElementById('sq-mode').textContent = 'Modo de execução · '+(s.executionMode||'');
     });
 
+    S('card-carta', () => {
+      const c = D.carta, a = arcanoDe(c.arcano);
+      /* O arquivo da arte é derivado do nome, não guardado num campo à parte: um campo
+         a mais nos 22 seria uma segunda fonte de verdade, livre para divergir do nome
+         no dia em que um deles fosse corrigido e o outro não. */
+      /* Caminho absoluto, como o resto da página: a URL pública é /zona-de-genialidade
+         mas o arquivo é servido de /zona/index.html, então relativo resolveria contra
+         a raiz do site e daria 404. */
+      const arte = '/zona/arte/arcano-' + slugArcano(a.n);
+      const img = document.getElementById('ct-img');
+      img.src = arte + '.webp';
+      img.srcset = arte + '-sm.webp 640w, ' + arte + '.webp 1024w';
+      img.sizes = '(max-width:720px) 90vw, 38vw';
+      img.alt = 'Arcano ' + a.rom + ' — ' + a.n;
+      /* Arte faltando não pode derrubar a leitura: some a figura e o texto ocupa a
+         largura toda. É o mesmo princípio dos cards, que somem em vez de quebrar. */
+      img.onerror = () => { document.getElementById('ct-arte').style.display = 'none'; };
+      document.getElementById('ct-rom').textContent = a.rom;
+      document.getElementById('ct-astro').textContent = a.astro;
+      document.getElementById('ct-nome').textContent = a.n;
+      /* Só a primeira frase do eixo: o resto é critério de escolha, escrito para o
+         modelo ler, não para a pessoa. A leitura dela é a travessia. */
+      document.getElementById('ct-eixo').textContent = a.eixo.split('. ')[0] + '.';
+      document.getElementById('ct-travessia').innerHTML = rich(c.travessia);
+      const cv = document.getElementById('ct-convite');
+      cv.textContent = c.convite || '';
+      cv.style.display = c.convite ? '' : 'none';
+      /* Volta fechada a cada render: refazer o assessment não entrega a carta aberta. */
+      document.getElementById('carta-fechada').classList.remove('hide');
+      document.getElementById('carta-aberta').classList.add('hide');
+    });
+
     requestAnimationFrame(()=>requestAnimationFrame(()=>{
       document.querySelectorAll('.bar>div[data-w]').forEach(b => b.style.width = b.dataset.w+'%');
     }));
+  },
+
+  revelarCarta(){
+    document.getElementById('carta-fechada').classList.add('hide');
+    document.getElementById('carta-aberta').classList.remove('hide');
+    zgEtapa('zg_carta_revelada');
   },
 
   /* ----- utilidades ----- */
@@ -1764,6 +1964,45 @@ const App = {
   buildExportHTML(){
     const dash = document.getElementById('dash').cloneNode(true);
     dash.classList.remove('hide');
+    /* No arquivo baixado não roda JS: o convite fechado viraria um botão morto.
+       Quem baixou já tem o dashboard inteiro — a carta vai aberta junto. */
+    const cFec = dash.querySelector('#carta-fechada');
+    const cAbr = dash.querySelector('#carta-aberta');
+    if (cFec) cFec.remove();
+    if (cAbr) cAbr.classList.remove('hide');
+    /* O arquivo baixado é autocontido e vive em qualquer pasta: um src relativo para
+       zona/arte/ apontaria para o nada. A arte vai embutida em base64, redesenhada num
+       canvas a partir da imagem que já está na tela — a origem é a mesma, então o
+       canvas não fica marcado e o toDataURL funciona.
+
+       640px de largura: é a versão que a pessoa provavelmente já baixou, e é suficiente
+       para tela e impressão do dashboard. Acrescenta cerca de 180KB ao arquivo. */
+    const imgOrig = document.getElementById('ct-img');
+    const imgCopia = dash.querySelector('#ct-img');
+    if (imgCopia) {
+      let dado = '';
+      try {
+        if (imgOrig && imgOrig.complete && imgOrig.naturalWidth) {
+          const larg = Math.min(640, imgOrig.naturalWidth);
+          const cv = document.createElement('canvas');
+          cv.width = larg;
+          cv.height = Math.round(larg * imgOrig.naturalHeight / imgOrig.naturalWidth);
+          cv.getContext('2d').drawImage(imgOrig, 0, 0, cv.width, cv.height);
+          dado = cv.toDataURL('image/webp', 0.82);
+        }
+      } catch(e){}
+      /* Sem conversão, tirar a figura inteira: melhor a leitura em largura cheia do que
+         o ícone de imagem quebrada no arquivo que a pessoa guardou. */
+      if (dado && dado.indexOf('data:image') === 0) {
+        imgCopia.removeAttribute('srcset');
+        imgCopia.removeAttribute('sizes');
+        imgCopia.removeAttribute('loading');
+        imgCopia.src = dado;
+      } else {
+        const fig = dash.querySelector('#ct-arte');
+        if (fig) fig.remove();
+      }
+    }
     dash.querySelectorAll('.dash-actions, #raw-box, .callout-warn button, .btn').forEach(e=>e.remove());
     Array.from(dash.querySelectorAll('p')).forEach(p=>{ if (/Ctrl\+P/.test(p.textContent)) p.remove(); });
     const css = Array.from(document.querySelectorAll('style')).map(s=>s.textContent).join('\n');

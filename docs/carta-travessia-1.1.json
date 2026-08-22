@@ -1,0 +1,716 @@
+{
+  "versao": "1.1.1",
+  "status": "congelada",
+  "descricao": "Taxonomia prescritiva dos 22 Arcanos Maiores (Thoth). Sinais = sintomas da ausência da função. Scoring após A+B+C, normalizado 0–10, com 8 famílias de evidência. Bloco D arbitra.",
+
+  "notas_de_traducao": {
+    "resumo": "Correções mecânicas aplicadas na passagem da spec em prosa para JSON. Nenhuma altera a taxonomia; todas consertam condições que não seriam avaliáveis por máquina.",
+    "aplicadas": [
+      "max_positivo_possivel removido de cada arcano: era escrito à mão e estava errado em 20 dos 22, e com famílias de evidência o máximo não é a soma dos pesos. Passa a ser calculado — ver calculo_max_positivo.",
+      "vision_receita, vision_tempo e ctx_experiencia são strings de múltipla escolha, não números. Comparação numérica contra string falha em silêncio. Ver escalas.",
+      "Comparações campo-contra-campo (ctx_sem_dinheiro x ctx_oque_faz, biz_como_ganha x biz_receita, ctx_area x energy_flow) não existem na DSL e são semânticas, não de igualdade literal. Movidas para avaliacao_bloco_d.",
+      "Sinais inertes corrigidos: sol_p2 exigia 'vision_receita exists', sempre verdadeiro; amantes_s2 procurava a string literal 'duas frentes'; torre_p2 usava convergence.gaps_altos, que não existe como campo bruto. Ver campos_derivados."
+    ]
+  },
+
+  "resolucoes_1_1_1": [
+    {
+      "id": "imperatriz_carencia_dupla",
+      "arcano": "III",
+      "decisao": "O eixo 'planta muito e colhe pouco' está correto e permanece. 'Escalar algo que já funciona' descreve quem já está em modo de manutenção — o oposto da carência da Imperatriz — e deixa de ser primário para virar contra-sinal de -2."
+    },
+    {
+      "id": "initiative_stage_colisao",
+      "arcanos": ["0", "III", "IX", "XXI"],
+      "decisao": "Propriedade clara por estágio, declarada em initiative_stage_propriedade. Muitas coisas rasas é Eremita; coisas que avançaram e não são nutridas até o fim é Imperatriz; praticamente pronto e abandonado é Universo."
+    }
+  ],
+
+  "regras_globais": {
+    "orientacao": "prescritiva",
+    "principio": "Os sinais de um arcano não são características do arcano. São sintomas da ausência da função psicológica que ele simboliza.",
+    "pipeline": "A → B → C → pontuarArcanos() → D",
+    "finalistas": {
+      "top": 4,
+      "wildcard_max": 1,
+      "wildcard_origem": "texto_livre que aponta fortemente para arcano fora do top 4",
+      "piso_entrada": "duas famílias de evidência distintas; carta com uma família só não entra no top 4, qualquer que seja o score"
+    },
+    "hierarquia_evidencia": {
+      "estruturado": "única fonte de score; monta o Top 4",
+      "narrativa": "apenas desempate (delta <= 0.5) ou introdução de 1 wildcard"
+    },
+    "pesos_brutos": {
+      "primario": 3,
+      "secundario": 1,
+      "contra_sinal": -2,
+      "veto": "zera_o_arcano"
+    },
+    "familias_evidencia": {
+      "regra": "primeira evidência da família = peso integral; segunda fonte independente = +0.5 de corroboração; demais da mesma família = ignoradas",
+      "lista": [
+        {"id": "iniciacao_e_ritmo", "nome": "Iniciação e Ritmo", "agrupa": "começar, preparar, Quick Start, agir cedo/tarde, velocidade de resposta", "nao_absorve": "conclusão e persistência"},
+        {"id": "foco_e_portfolio", "nome": "Foco e Portfólio", "agrupa": "número de frentes, multitarefa, priorização, escolha entre projetos", "nao_absorve": "estágio de conclusão"},
+        {"id": "fechamento_e_persistencia", "nome": "Fechamento e Persistência", "agrupa": "Follow-Through, estágio das iniciativas, abandono, maturação de ciclo", "nao_absorve": "facilidade para começar"},
+        {"id": "agencia_e_autoridade", "nome": "Agência e Autoridade", "agrupa": "delegação, autonomia, assumir decisão, esperar condições externas, posse da direção", "nao_absorve": "ambição financeira"},
+        {"id": "expressao_e_transmissao", "nome": "Expressão e Transmissão", "agrupa": "vender, nomear oferta, ensinar, comunicar, aparecer, visibilidade", "nao_absorve": "preço/valor da troca"},
+        {"id": "valor_potencia_e_seguranca", "nome": "Valor, Potência e Segurança", "agrupa": "preço, receita desejada, ambição, risco, segurança, recompensa do vínculo", "nao_absorve": "clareza de direção"},
+        {"id": "direcao_e_incerteza", "nome": "Direção e Incerteza", "agrupa": "clareza, próximo passo, dúvida, opções, necessidade de certeza, orientação", "nao_absorve": "velocidade de execução"},
+        {"id": "alinhamento_e_estrutura", "nome": "Alinhamento e Estrutura", "agrupa": "identidade atual x desejada, zonas, Unique Ability, modelo de trabalho, convergence, estrutura que serve ou não serve", "nao_absorve": "simples dispersão operacional"}
+      ]
+    },
+    "calculo_max_positivo": {
+      "motivo": "Com famílias de evidência o máximo não é a soma dos pesos: quatro sinais primários da mesma família valem 3 + 0.5, não 12. Escrito à mão, o denominador errava em 20 dos 22 arcanos e distorcia a normalização inteira.",
+      "algoritmo": [
+        "agrupar todos os sinais positivos da carta por familia_evidencia",
+        "por família: pegar o maior peso disponível (3 se houver primário, 1 caso contrário)",
+        "somar +0.5 se a família tiver duas ou mais fontes distintas entre assessment, A, B, C, D e texto_livre",
+        "somar o resultado de todas as famílias"
+      ],
+      "exemplo": "O Louco tem três primários em iniciacao_e_ritmo (3 + 0.5, porque há fontes assessment e A), um primário em fechamento_e_persistencia (3), mais valor_potencia_e_seguranca (1) e direcao_e_incerteza (1). Máximo = 8.5."
+    },
+    "normalizacao": {
+      "formula": "(pontos_positivos - penalidades) / maxPositivo(carta) * 10",
+      "escala": "0 a 10",
+      "clamp": "resultado abaixo de 0 vira 0",
+      "empate": "delta <= 0.5 vai ao Bloco D"
+    },
+    "fallback": {
+      "quando": "nenhum score acima do limiar_minimo (1.5)",
+      "selection_mode": "low_evidence",
+      "acao": "Bloco D recebe primary_gap, transicao_central e roadmap; confidence obrigatoriamente baixa; selection_basis = diagnostic_fallback"
+    },
+    "veto_regra": "Um veto só pode zerar um arcano quando a evidência observada contradiz diretamente seu estado de carência. Evidência de força adjacente ou de função relacionada deve ser tratada apenas como contra-sinal. Quando um único campo não prova a ausência da carência, o veto deve exigir condição composta.",
+    "veto_classes": {
+      "veto_funcao_presente": "a evidência comprova a presença da própria função prescrita",
+      "veto_pre_requisito": "não existe o objeto de que a carta trata"
+    },
+    "initiative_stage_propriedade": {
+      "motivo": "Sem propriedade declarada, o campo mais discriminativo do sistema vira empate entre três cartas. Cada estágio tem um dono com peso cheio; as demais recebem peso reduzido ou nada.",
+      "none_started": {"forte": ["0"], "fraco": []},
+      "one_active": {"forte": [], "fraco": []},
+      "many_early": {"forte": ["IX"], "fraco": ["III"]},
+      "many_mid_late": {"forte": ["III"], "fraco": ["IX", "XXI"]},
+      "near_done_abandoned": {"forte": ["XXI"], "fraco": []},
+      "leitura": "Muitas coisas rasas é Eremita. Coisas que avançaram mas não são nutridas até o fruto é Imperatriz. Praticamente pronto e adiado é Universo."
+    },
+    "escalas": {
+      "motivo": "Campos de múltipla escolha cujo texto precisa virar número antes de qualquer comparação. Toda condição numérica sobre eles resolve pelo valor mapeado, nunca pelo texto.",
+      "vision_receita": [
+        {"texto": "Até R$5.000/mês", "valor": 5000},
+        {"texto": "R$5.000 a R$15.000/mês", "valor": 15000},
+        {"texto": "R$15.000 a R$50.000/mês", "valor": 50000},
+        {"texto": "R$50.000 a R$100.000/mês", "valor": 100000},
+        {"texto": "Mais de R$100.000/mês", "valor": 150000}
+      ],
+      "vision_tempo": [
+        {"texto": "Menos de 5 horas/semana", "valor": 5},
+        {"texto": "5 a 10 horas/semana", "valor": 10},
+        {"texto": "10 a 20 horas/semana", "valor": 20},
+        {"texto": "20 a 40 horas/semana", "valor": 40},
+        {"texto": "40+ horas/semana", "valor": 60}
+      ],
+      "ctx_experiencia": [
+        {"texto": "Menos de 1 ano", "valor": 1},
+        {"texto": "1 a 3 anos", "valor": 3},
+        {"texto": "3 a 5 anos", "valor": 5},
+        {"texto": "5 a 10 anos", "valor": 10},
+        {"texto": "Mais de 10 anos", "valor": 15}
+      ]
+    },
+    "campos_derivados": {
+      "motivo": "Condições que a spec descreve em prosa e que não correspondem a nenhum campo bruto.",
+      "convergence.gaps_altos": {"definicao": "quantidade de eixos de convergence em que (potential - current) >= 25", "fonte": "C"},
+      "energy_drena.count": {"definicao": "número de itens marcados em energy_drena", "fonte": "assessment"},
+      "uniqueAbility.receita_nao_realizada": {"definicao": "vision_receita mapeada acima de 15000 e hormozi.probabilidade <= 4", "fonte": "B"}
+    },
+    "avaliacao_bloco_d": {
+      "motivo": "Condições genuinamente semânticas: comparam dois campos de texto livre ou julgam compatibilidade entre escolhas. Entram como pergunta fechada ao árbitro, respondida sim ou não.",
+      "condicoes": [
+        {"id": "divergencia_vocacional", "pergunta": "O que a pessoa faria se dinheiro não fosse problema (ctx_sem_dinheiro) diverge substancialmente do que ela faz hoje (ctx_oque_faz)?", "usada_por": ["XX", "XV", "XIII"]},
+        {"id": "conflito_modelo_receita", "pergunta": "O modelo de negócio que a atrai (biz_como_ganha) e a fonte de receita escolhida (biz_receita) são mutuamente incompatíveis?", "usada_por": ["VI"]},
+        {"id": "duas_trajetorias", "pergunta": "ctx_oque_faz ou ctx_area evidencia duas trajetórias profissionais distintas?", "usada_por": ["XIV"]},
+        {"id": "area_diverge_do_flow", "pergunta": "A área de atuação (ctx_area) diverge da atividade em que a pessoa entra em flow (energy_flow)?", "usada_por": ["XX", "XIV"]}
+      ]
+    },
+    "campos_canonicos_novos": {
+      "clarity_next_step": {
+        "pergunta": "Pensando nos próximos 30 dias, qual frase descreve melhor sua situação?",
+        "opcoes": [
+          {"valor": 0, "texto": "Não sei nem qual direção seguir"},
+          {"valor": 2, "texto": "Tenho algumas possibilidades, mas não sei qual escolher"},
+          {"valor": 4, "texto": "Sei a direção, mas ainda não sei qual é o próximo passo concreto"},
+          {"valor": 7, "texto": "Sei qual é o próximo passo, mas ainda não defini quando ou como executá-lo"},
+          {"valor": 10, "texto": "Sei exatamente o próximo passo, quando vou executá-lo e o que contará como concluído"}
+        ]
+      },
+      "initiative_stage": {
+        "pergunta": "Pensando apenas nos projetos que você considera ativos hoje, qual cenário mais se aproxima da realidade?",
+        "opcoes": [
+          {"codigo": "none_started", "texto": "Não tenho nenhum projeto realmente iniciado"},
+          {"codigo": "one_active", "texto": "Tenho uma frente principal em andamento"},
+          {"codigo": "many_early", "texto": "Tenho várias frentes, mas a maioria ainda está no começo"},
+          {"codigo": "many_mid_late", "texto": "Tenho 2 ou mais frentes que já passaram da metade, mas ainda não concluí"},
+          {"codigo": "near_done_abandoned", "texto": "Tenho pelo menos uma frente praticamente pronta que continuo adiando finalizar"}
+        ]
+      }
+    },
+    "saida_auditavel": {
+      "campos": ["carta", "score_deterministico", "segundo_colocado", "evidencias_decisivas", "evidencia_textual", "confianca", "selection_basis"],
+      "confianca": {"alta": "margem > 1.5", "media": "margem entre 0.5 e 1.5", "baixa": "margem < 0.5, ou wildcard, ou diagnostic_fallback"},
+      "selection_basis_valores": ["scored", "wildcard", "diagnostic_fallback"]
+    },
+    "operadores_dsl": ["eq", "neq", "gt", "gte", "lt", "lte", "in", "contains", "between", "exists"],
+    "combinadores": ["all", "any"],
+    "nota_dsl": "contains sobre string é comparação por substring, insensível a caixa e a acento. contains sobre array verifica presença do item. Condições com a chave escala resolvem o valor pela tabela antes de comparar. Condições com a chave avaliacao_bloco_d não pontuam no scorer: são resolvidas pelo árbitro."
+  },
+
+  "arcanos": [
+    {
+      "id": "0",
+      "nome": "O Louco",
+      "romano": "0",
+      "elemento": "Ar",
+      "funcao_prescrita": "Iniciar sem garantia.",
+      "estado_de_carencia": "Tem tudo mapeado e nada iniciado. Reduz incerteza indefinidamente em vez de testar.",
+      "sinais": [
+        {"id": "louco_p1", "tipo": "primario", "fonte": "assessment", "familia_evidencia": "iniciacao_e_ritmo", "condicao": {"campo": "energy_inicio", "op": "contains", "valor": "Pesquisar bastante antes"}, "peso": 3},
+        {"id": "louco_p2", "tipo": "primario", "fonte": "assessment", "familia_evidencia": "iniciacao_e_ritmo", "condicao": {"campo": "talent_aprendizado", "op": "contains", "valor": "Lê tudo sobre o assunto antes"}, "peso": 3},
+        {"id": "louco_p3", "tipo": "primario", "fonte": "A", "familia_evidencia": "iniciacao_e_ritmo", "condicao": {"campo": "kolbe.inicioRapido", "op": "lte", "valor": 4}, "peso": 3},
+        {"id": "louco_p4", "tipo": "primario", "fonte": "assessment", "familia_evidencia": "fechamento_e_persistencia", "condicao": {"campo": "initiative_stage", "op": "eq", "valor": "none_started"}, "peso": 3},
+        {"id": "louco_s1", "tipo": "secundario", "fonte": "assessment", "familia_evidencia": "valor_potencia_e_seguranca", "condicao": {"campo": "biz_risco", "op": "contains", "valor": "Evito ao máximo"}, "peso": 1},
+        {"id": "louco_s2", "tipo": "secundario", "fonte": "assessment", "familia_evidencia": "direcao_e_incerteza", "condicao": {"campo": "clarity_next_step", "op": "lte", "valor": 2}, "peso": 1}
+      ],
+      "contra_sinais": [
+        {"id": "louco_cs1", "fonte": "A", "condicao": {"campo": "kolbe.inicioRapido", "op": "gte", "valor": 8}, "efeito": "veto", "classe": "veto_funcao_presente"},
+        {"id": "louco_cs2", "fonte": "assessment", "condicao": {"campo": "energy_inicio", "op": "contains", "valor": "executar logo e ajustar"}, "efeito": "veto", "classe": "veto_funcao_presente"},
+        {"id": "louco_cs3", "fonte": "assessment", "condicao": {"campo": "biz_timing", "op": "contains", "valor": "PRIMEIRO em algo novo"}, "efeito": -2}
+      ],
+      "pares": [{"arcano": "XXI", "relacao": "polo_oposto", "criterio": "Não conseguir começar contra não conseguir terminar. Nunca devem pontuar juntos."}],
+      "eixo_exibido": "Começar sem currículo. Serve a quem tem tudo mapeado e nada iniciado.",
+      "saida": {"pergunta": "Qual é o menor passo irreversível que você pode dar esta semana sem precisar de mais uma pesquisa?"}
+    },
+
+    {
+      "id": "I",
+      "nome": "O Mago",
+      "romano": "I",
+      "elemento": "Mercúrio",
+      "funcao_prescrita": "Nomear e ofertar o que já sabe fazer.",
+      "estado_de_carencia": "Capacidade real, nenhuma frase que a venda.",
+      "sinais": [
+        {"id": "mago_p1", "tipo": "primario", "fonte": "assessment", "familia_evidencia": "expressao_e_transmissao", "condicao": {"campo": "energy_drena", "op": "contains", "valor": "Vender e prospectar clientes"}, "peso": 3},
+        {"id": "mago_p2", "tipo": "primario", "fonte": "B", "familia_evidencia": "expressao_e_transmissao", "condicao": {"campo": "wealthProfile.name", "op": "in", "valor": ["Apoiador", "Mecânico"]}, "peso": 3},
+        {"id": "mago_p3", "tipo": "primario", "fonte": "assessment", "familia_evidencia": "valor_potencia_e_seguranca", "condicao": {"campo": "biz_preco", "op": "contains", "valor": "dificuldade"}, "peso": 3},
+        {"id": "mago_s1", "tipo": "secundario", "fonte": "B", "familia_evidencia": "alinhamento_e_estrutura", "condicao": {"all": [{"campo": "uniqueAbility.alignment", "op": "gte", "valor": 70}, {"campo": "uniqueAbility.timeInZone", "op": "lte", "valor": 40}]}, "peso": 1}
+      ],
+      "contra_sinais": [
+        {"id": "mago_cs1", "fonte": "assessment", "condicao": {"campo": "talent_dominio", "op": "contains", "valor": "INFLUENCIADOR"}, "efeito": -2},
+        {"id": "mago_cs2", "fonte": "assessment", "condicao": {"campo": "energy_carrega", "op": "contains", "valor": "Negociar e fechar acordos"}, "efeito": -2},
+        {"id": "mago_cs3", "fonte": "B", "condicao": {"campo": "wealthProfile.name", "op": "eq", "valor": "Estrela"}, "efeito": "veto", "classe": "veto_funcao_presente"}
+      ],
+      "pares": [
+        {"arcano": "II", "relacao": "complementar", "criterio": "Manifestar contra escutar."},
+        {"arcano": "V", "relacao": "confusao", "criterio": "Mago nomeia a própria oferta. Hierofante transmite método a terceiros."}
+      ],
+      "eixo_exibido": "Nomear o que faz. Serve a quem já tem o poder e ainda não deu nome nem preço a ele.",
+      "saida": {"pergunta": "Você está pronta para dar nome e preço ao seu poder em vez de se esconder atrás de novos estudos?"}
+    },
+
+    {
+      "id": "II",
+      "nome": "A Sacerdotisa",
+      "romano": "II",
+      "elemento": "Lua",
+      "funcao_prescrita": "Escutar antes de produzir; suportar o não-saber.",
+      "estado_de_carencia": "Responde rápido demais; produz resposta antes de ter percepção.",
+      "sinais": [
+        {"id": "sacerdotisa_p1", "tipo": "primario", "fonte": "assessment", "familia_evidencia": "iniciacao_e_ritmo", "condicao": {"campo": "energy_inicio", "op": "contains", "valor": "executar logo e ajustar"}, "peso": 3},
+        {"id": "sacerdotisa_p2", "tipo": "primario", "fonte": "assessment", "familia_evidencia": "direcao_e_incerteza", "condicao": {"campo": "energy_problemas", "op": "contains", "valor": "Agir rápido com a melhor opção"}, "peso": 3},
+        {"id": "sacerdotisa_p3", "tipo": "primario", "fonte": "A", "familia_evidencia": "iniciacao_e_ritmo", "condicao": {"all": [{"campo": "kolbe.inicioRapido", "op": "gte", "valor": 8}, {"campo": "kolbe.investigador", "op": "lte", "valor": 4}]}, "peso": 3},
+        {"id": "sacerdotisa_s1", "tipo": "secundario", "fonte": "assessment", "familia_evidencia": "iniciacao_e_ritmo", "condicao": {"campo": "energy_detalhe", "op": "contains", "valor": "Entrega rápido e itera"}, "peso": 1}
+      ],
+      "contra_sinais": [
+        {"id": "sacerdotisa_cs1", "fonte": "assessment", "condicao": {"campo": "energy_inicio", "op": "contains", "valor": "Pesquisar bastante antes"}, "efeito": "veto", "classe": "veto_funcao_presente"},
+        {"id": "sacerdotisa_cs2", "fonte": "A", "condicao": {"campo": "kolbe.investigador", "op": "gte", "valor": 8}, "efeito": -2}
+      ],
+      "pares": [
+        {"arcano": "I", "relacao": "complementar", "criterio": "Ver Mago."},
+        {"arcano": "IX", "relacao": "confusao", "criterio": "Sacerdotisa é silêncio para ouvir. Eremita é silêncio para lapidar."}
+      ],
+      "eixo_exibido": "Escutar antes de produzir. Serve a quem age antes de escutar.",
+      "saida": {"pergunta": "O que você já sabe por dentro e ainda não se permitiu ouvir?"}
+    },
+
+    {
+      "id": "III",
+      "nome": "A Imperatriz",
+      "romano": "III",
+      "elemento": "Vênus",
+      "funcao_prescrita": "Nutrir uma coisa só até dar fruto.",
+      "estado_de_carencia": "Planta muito e colhe pouco. As frentes avançam mas nenhuma é nutrida até o fruto.",
+      "sinais": [
+        {"id": "imperatriz_p1", "tipo": "primario", "fonte": "assessment", "familia_evidencia": "foco_e_portfolio", "condicao": {"campo": "energy_multitask", "op": "contains", "valor": "Gerenciando muitas coisas"}, "peso": 3},
+        {"id": "imperatriz_p2", "tipo": "primario", "fonte": "assessment", "familia_evidencia": "fechamento_e_persistencia", "condicao": {"campo": "initiative_stage", "op": "eq", "valor": "many_mid_late"}, "peso": 3},
+        {"id": "imperatriz_s1", "tipo": "secundario", "fonte": "A", "familia_evidencia": "fechamento_e_persistencia", "condicao": {"campo": "kolbe.seguimento", "op": "lte", "valor": 4}, "peso": 1},
+        {"id": "imperatriz_s2", "tipo": "secundario", "fonte": "assessment", "familia_evidencia": "foco_e_portfolio", "condicao": {"campo": "initiative_stage", "op": "eq", "valor": "many_early"}, "peso": 1},
+        {"id": "imperatriz_s3", "tipo": "secundario", "fonte": "B", "familia_evidencia": "alinhamento_e_estrutura", "condicao": {"campo": "wealthProfile.name", "op": "eq", "valor": "Criador"}, "peso": 1}
+      ],
+      "contra_sinais": [
+        {"id": "imperatriz_cs1", "fonte": "assessment", "condicao": {"campo": "energy_multitask", "op": "contains", "valor": "uma coisa só com foco total"}, "efeito": "veto", "classe": "veto_funcao_presente"},
+        {"id": "imperatriz_cs2", "fonte": "assessment", "condicao": {"campo": "energy_inovacao_otimizacao", "op": "contains", "valor": "Escalar algo que já funciona"}, "efeito": -2, "nota": "Descreve quem já está em modo de manutenção, o oposto da carência de nutrir algo generativo até o fruto."}
+      ],
+      "pares": [
+        {"arcano": "IV", "relacao": "complementar", "criterio": "Gerar e expandir contra estruturar e limitar."},
+        {"arcano": "XXI", "relacao": "confusao", "criterio": "Imperatriz nunca terminou de nutrir uma. Universo tem várias quase prontas e abre outra."}
+      ],
+      "eixo_exibido": "Nutrir uma coisa só até dar fruto. Serve a quem planta muito e colhe pouco.",
+      "saida": {"pergunta": "O que você está nutrindo que ainda não nasceu — e o que precisa de menos manutenção para nascer?"}
+    },
+
+    {
+      "id": "IV",
+      "nome": "O Imperador",
+      "romano": "IV",
+      "elemento": "Áries",
+      "funcao_prescrita": "Assumir a autoridade que já exerce.",
+      "estado_de_carencia": "Decide por todos e carrega a responsabilidade, mas age como quem ainda precisa de permissão.",
+      "sinais": [
+        {"id": "imperador_p1", "tipo": "primario", "fonte": "assessment", "familia_evidencia": "agencia_e_autoridade", "condicao": {"campo": "energy_delegacao", "op": "contains", "valor": "muita dificuldade"}, "peso": 3},
+        {"id": "imperador_p2", "tipo": "primario", "fonte": "assessment", "familia_evidencia": "agencia_e_autoridade", "condicao": {"all": [{"campo": "talent_dominio", "op": "contains", "valor": "EXECUTOR"}, {"campo": "biz_solo_time", "op": "contains", "valor": "Liderando"}]}, "peso": 3},
+        {"id": "imperador_s1", "tipo": "secundario", "fonte": "assessment", "familia_evidencia": "agencia_e_autoridade", "condicao": {"campo": "talent_frustracao", "op": "contains", "valor": "Microgerenciamento"}, "peso": 1},
+        {"id": "imperador_s2", "tipo": "secundario", "fonte": "assessment", "familia_evidencia": "alinhamento_e_estrutura", "condicao": {"campo": "ctx_experiencia", "op": "gte", "valor": 10, "escala": "ctx_experiencia"}, "peso": 1}
+      ],
+      "contra_sinais": [
+        {"id": "imperador_cs1", "fonte": "assessment", "condicao": {"campo": "energy_delegacao", "op": "contains", "valor": "Adoro delegar"}, "efeito": "veto", "classe": "veto_funcao_presente"},
+        {"id": "imperador_cs2", "fonte": "B", "condicao": {"campo": "wealthProfile.name", "op": "eq", "valor": "Estrela"}, "efeito": -2}
+      ],
+      "pares": [
+        {"arcano": "III", "relacao": "complementar", "criterio": "Ver Imperatriz."},
+        {"arcano": "VII", "relacao": "confusao", "criterio": "Imperador não assume a direção. Carro assume mas espera condições melhores."}
+      ],
+      "eixo_exibido": "Assumir a autoridade que já exerce. Serve a quem já manda na prática e ainda não ocupou o trono.",
+      "saida": {"pergunta": "Onde você já decide por todos sem se declarar dona — e o que muda quando assume publicamente?"}
+    },
+
+    {
+      "id": "V",
+      "nome": "O Hierofante",
+      "romano": "V",
+      "elemento": "Touro",
+      "funcao_prescrita": "Converter prática em doutrina transmissível.",
+      "estado_de_carencia": "Acumula método e não transmite.",
+      "sinais": [
+        {"id": "hierofante_p1", "tipo": "primario", "fonte": "assessment", "familia_evidencia": "expressao_e_transmissao", "condicao": {"campo": "energy_carrega", "op": "contains", "valor": "Ensinar e mentorar"}, "peso": 3},
+        {"id": "hierofante_p2", "tipo": "primario", "fonte": "assessment", "familia_evidencia": "alinhamento_e_estrutura", "condicao": {"all": [{"campo": "ctx_experiencia", "op": "gte", "valor": 10, "escala": "ctx_experiencia"}, {"campo": "biz_receita", "op": "neq", "valor": "Vender conhecimento (cursos, livros, palestras, mentoria)"}]}, "peso": 3},
+        {"id": "hierofante_s1", "tipo": "secundario", "fonte": "assessment", "familia_evidencia": "expressao_e_transmissao", "condicao": {"campo": "talent_contribuicao", "op": "contains", "valor": "Ensinar e capacitar"}, "peso": 1},
+        {"id": "hierofante_s2", "tipo": "secundario", "fonte": "assessment", "familia_evidencia": "expressao_e_transmissao", "condicao": {"campo": "energy_agradecem", "op": "contains", "valor": "Explicar algo complexo"}, "peso": 1}
+      ],
+      "contra_sinais": [
+        {"id": "hierofante_cs1", "fonte": "assessment", "condicao": {"campo": "biz_receita", "op": "contains", "valor": "Vender conhecimento"}, "efeito": -2},
+        {"id": "hierofante_cs2", "fonte": "assessment", "condicao": {"campo": "ctx_experiencia", "op": "lte", "valor": 3, "escala": "ctx_experiencia"}, "efeito": -2}
+      ],
+      "pares": [
+        {"arcano": "I", "relacao": "confusao", "criterio": "Mago nomeia a própria oferta. Hierofante transmite método."},
+        {"arcano": "XIX", "relacao": "confusao", "criterio": "Hierofante transmite. Sol aparece."}
+      ],
+      "eixo_exibido": "Converter prática em doutrina transmissível. Serve a quem já transmite e ainda não monetiza essa transmissão.",
+      "saida": {"pergunta": "Qual sabedoria sua já está pronta para ser transmitida de forma estruturada e cobrada?"}
+    },
+
+    {
+      "id": "VI",
+      "nome": "Os Amantes",
+      "romano": "VI",
+      "elemento": "Gêmeos",
+      "funcao_prescrita": "Escolher, fechando uma porta.",
+      "estado_de_carencia": "Mantém dois caminhos igualmente vivos e não decide.",
+      "sinais": [
+        {"id": "amantes_p1", "tipo": "primario", "fonte": "assessment", "familia_evidencia": "foco_e_portfolio", "condicao": {"campo": "energy_multitask", "op": "contains", "valor": "Alternando entre 2-3 projetos"}, "peso": 3},
+        {"id": "amantes_p2", "tipo": "primario", "fonte": "assessment", "familia_evidencia": "direcao_e_incerteza", "condicao": {"campo": "clarity_next_step", "op": "eq", "valor": 2}, "peso": 3},
+        {"id": "amantes_p3", "tipo": "primario", "fonte": "D", "familia_evidencia": "alinhamento_e_estrutura", "condicao": {"avaliacao_bloco_d": "conflito_modelo_receita"}, "peso": 3},
+        {"id": "amantes_s1", "tipo": "secundario", "fonte": "assessment", "familia_evidencia": "foco_e_portfolio", "condicao": {"campo": "ctx_estrutura_flex", "op": "contains", "valor": "Depende do projeto"}, "peso": 1}
+      ],
+      "contra_sinais": [
+        {"id": "amantes_cs1", "fonte": "assessment", "condicao": {"campo": "energy_multitask", "op": "contains", "valor": "uma coisa só com foco total"}, "efeito": "veto", "classe": "veto_funcao_presente"},
+        {"id": "amantes_cs2", "fonte": "assessment", "condicao": {"campo": "clarity_next_step", "op": "eq", "valor": 10}, "efeito": -2},
+        {"id": "amantes_cs3", "fonte": "mista", "condicao": {"all": [{"campo": "clarity_next_step", "op": "eq", "valor": 10}, {"avaliacao_bloco_d": "conflito_modelo_receita", "esperado": false}]}, "efeito": "veto", "classe": "veto_funcao_presente", "nota": "Veto composto: clareza total mais ausência de conflito estrutural entre modelos. Nenhuma das duas condições veta sozinha."}
+      ],
+      "pares": [
+        {"arcano": "IX", "relacao": "confusao", "criterio": "Amantes escolhe entre duas. Eremita concentra entre muitas."},
+        {"arcano": "XIV", "relacao": "confusao", "criterio": "Amantes escolhe A ou B. Arte cria C com A e B."}
+      ],
+      "eixo_exibido": "Escolher, fechando uma porta. Serve a quem mantém duas portas abertas.",
+      "saida": {"pergunta": "Qual caminho você precisa escolher — e qual precisa deixar morrer — para os próximos 90 dias?"}
+    },
+
+    {
+      "id": "VII",
+      "nome": "O Carro",
+      "romano": "VII",
+      "elemento": "Câncer",
+      "funcao_prescrita": "Mover-se com o peso que já tem.",
+      "estado_de_carencia": "Sabe o passo e espera condições melhores para dá-lo.",
+      "sinais": [
+        {"id": "carro_p1", "tipo": "primario", "fonte": "assessment", "familia_evidencia": "agencia_e_autoridade", "condicao": {"all": [{"campo": "vision_tempo", "op": "lte", "valor": 10, "escala": "vision_tempo"}, {"campo": "vision_receita", "op": "gte", "valor": 50000, "escala": "vision_receita"}]}, "peso": 3},
+        {"id": "carro_p2", "tipo": "primario", "fonte": "assessment", "familia_evidencia": "direcao_e_incerteza", "condicao": {"campo": "clarity_next_step", "op": "eq", "valor": 7}, "peso": 3},
+        {"id": "carro_p3", "tipo": "primario", "fonte": "texto_livre", "familia_evidencia": "valor_potencia_e_seguranca", "condicao": {"any": [{"campo": "vision_bloqueio", "op": "contains", "valor": "tempo"}, {"campo": "vision_bloqueio", "op": "contains", "valor": "dinheiro"}, {"campo": "vision_bloqueio", "op": "contains", "valor": "equipe"}]}, "peso": 3}
+      ],
+      "contra_sinais": [
+        {"id": "carro_cs1", "fonte": "assessment", "condicao": {"campo": "vision_tempo", "op": "gte", "valor": 60, "escala": "vision_tempo"}, "efeito": -2, "nota": "É o sinal primário do Enforcado; o par se resolve sozinho."},
+        {"id": "carro_cs2", "fonte": "assessment", "condicao": {"campo": "energy_inicio", "op": "contains", "valor": "executar logo e ajustar"}, "efeito": -2}
+      ],
+      "pares": [{"arcano": "XII", "relacao": "polo_oposto", "criterio": "Carro está parado esperando. Enforcado empurra muito sem sair do lugar."}],
+      "eixo_exibido": "Mover-se com o peso que já tem. Serve a quem espera condições melhores para andar.",
+      "saida": {"pergunta": "Qual meta precisa ser redimensionada — ou qual energia precisa ser liberada — para o veículo andar?"}
+    },
+
+    {
+      "id": "VIII",
+      "nome": "A Justiça",
+      "romano": "VIII",
+      "elemento": "Libra",
+      "funcao_prescrita": "Reequilibrar a troca.",
+      "estado_de_carencia": "Entrega mais do que recebe e não corrige.",
+      "sinais": [
+        {"id": "justica_p1", "tipo": "primario", "fonte": "assessment", "familia_evidencia": "valor_potencia_e_seguranca", "condicao": {"campo": "biz_preco", "op": "contains", "valor": "deveria cobrar menos"}, "peso": 3},
+        {"id": "justica_p2", "tipo": "primario", "fonte": "B", "familia_evidencia": "fechamento_e_persistencia", "condicao": {"all": [{"campo": "hormozi.esforco", "op": "gte", "valor": 7}, {"campo": "hormozi.resultadoSonhado", "op": "gte", "valor": 7}]}, "peso": 3},
+        {"id": "justica_s1", "tipo": "secundario", "fonte": "assessment", "familia_evidencia": "valor_potencia_e_seguranca", "condicao": {"campo": "biz_escala", "op": "contains", "valor": "POUCOS clientes"}, "peso": 1},
+        {"id": "justica_s2", "tipo": "secundario", "fonte": "assessment", "familia_evidencia": "expressao_e_transmissao", "condicao": {"campo": "energy_drena", "op": "contains", "valor": "Negociação e confronto direto"}, "peso": 1}
+      ],
+      "contra_sinais": [
+        {"id": "justica_cs1", "fonte": "assessment", "condicao": {"campo": "biz_preco", "op": "contains", "valor": "Cobro premium"}, "efeito": "veto", "classe": "veto_funcao_presente"},
+        {"id": "justica_cs2", "fonte": "assessment", "condicao": {"campo": "energy_carrega", "op": "contains", "valor": "Negociar e fechar acordos"}, "efeito": -2}
+      ],
+      "pares": [{"arcano": "XI", "relacao": "desempate_critico", "criterio": "Justiça trata equivalência de troca. Luxúria trata autorização da potência."}],
+      "eixo_exibido": "Reequilibrar a troca. Serve a quem entrega muito e ainda se sente desconfortável em receber o equivalente.",
+      "saida": {"pergunta": "Quanto você precisa cobrar para que a troca fique justa — e o que impede esse número de sair da boca?"}
+    },
+
+    {
+      "id": "IX",
+      "nome": "O Eremita",
+      "romano": "IX",
+      "elemento": "Virgem",
+      "funcao_prescrita": "Recolher-se e concentrar força numa frente.",
+      "estado_de_carencia": "Dispersa em oportunidades; ruído operacional impede profundidade.",
+      "sinais": [
+        {"id": "eremita_p1", "tipo": "primario", "fonte": "assessment", "familia_evidencia": "foco_e_portfolio", "condicao": {"campo": "energy_multitask", "op": "contains", "valor": "Gerenciando muitas coisas"}, "peso": 3},
+        {"id": "eremita_p2", "tipo": "primario", "fonte": "A", "familia_evidencia": "alinhamento_e_estrutura", "condicao": {"all": [{"campo": "zones.genialidade", "op": "lte", "valor": 25}, {"campo": "zones.competencia", "op": "gte", "valor": 30}]}, "peso": 3},
+        {"id": "eremita_p3", "tipo": "primario", "fonte": "assessment", "familia_evidencia": "fechamento_e_persistencia", "condicao": {"campo": "initiative_stage", "op": "eq", "valor": "many_early"}, "peso": 3},
+        {"id": "eremita_s1", "tipo": "secundario", "fonte": "B", "familia_evidencia": "alinhamento_e_estrutura", "condicao": {"campo": "uniqueAbility.timeInZone", "op": "lte", "valor": 40}, "peso": 1},
+        {"id": "eremita_s2", "tipo": "secundario", "fonte": "assessment", "familia_evidencia": "fechamento_e_persistencia", "condicao": {"campo": "initiative_stage", "op": "eq", "valor": "many_mid_late"}, "peso": 1}
+      ],
+      "contra_sinais": [
+        {"id": "eremita_cs1", "fonte": "assessment", "condicao": {"campo": "energy_multitask", "op": "contains", "valor": "uma coisa só com foco total"}, "efeito": "veto", "classe": "veto_funcao_presente"}
+      ],
+      "pares": [
+        {"arcano": "XIX", "relacao": "polo_oposto", "criterio": "Recolher contra expor."},
+        {"arcano": "XXI", "relacao": "confusao", "criterio": "Eremita é estratégia de foco. Universo é movimento de conclusão."}
+      ],
+      "eixo_exibido": "Recolher-se e concentrar força numa frente. Serve a quem está espalhado e precisa de foco solitário.",
+      "saida": {"pergunta": "O que você precisa deixar de gerenciar para ouvir a próxima verdade que só aparece no silêncio?"}
+    },
+
+    {
+      "id": "X",
+      "nome": "A Fortuna",
+      "romano": "X",
+      "elemento": "Júpiter",
+      "funcao_prescrita": "Aceitar o ciclo em vez de forçar a linha reta.",
+      "estado_de_carencia": "Lê variação como fracasso e muda o plano antes de o ciclo maturar.",
+      "sinais": [
+        {"id": "fortuna_p1", "tipo": "primario", "fonte": "A", "familia_evidencia": "fechamento_e_persistencia", "condicao": {"all": [{"campo": "kolbe.seguimento", "op": "lte", "valor": 4}, {"campo": "kolbe.inicioRapido", "op": "gte", "valor": 7}]}, "peso": 3},
+        {"id": "fortuna_p2", "tipo": "primario", "fonte": "texto_livre", "familia_evidencia": "direcao_e_incerteza", "condicao": {"any": [{"campo": "vision_bloqueio", "op": "contains", "valor": "prazo"}, {"campo": "vision_bloqueio", "op": "contains", "valor": "não vem resultado"}, {"campo": "vision_bloqueio", "op": "contains", "valor": "demora"}]}, "peso": 3},
+        {"id": "fortuna_s1", "tipo": "secundario", "fonte": "B", "familia_evidencia": "valor_potencia_e_seguranca", "condicao": {"campo": "hormozi.probabilidade", "op": "lte", "valor": 4}, "peso": 1},
+        {"id": "fortuna_s2", "tipo": "secundario", "fonte": "assessment", "familia_evidencia": "iniciacao_e_ritmo", "condicao": {"campo": "biz_timing", "op": "contains", "valor": "fast follower"}, "peso": 1}
+      ],
+      "contra_sinais": [
+        {"id": "fortuna_cs1", "fonte": "A", "condicao": {"campo": "kolbe.seguimento", "op": "gte", "valor": 7}, "efeito": "veto", "classe": "veto_funcao_presente"},
+        {"id": "fortuna_cs2", "fonte": "assessment", "condicao": {"campo": "biz_risco", "op": "contains", "valor": "Amo risco"}, "efeito": -2}
+      ],
+      "pares": [
+        {"arcano": "XXI", "relacao": "confusao", "criterio": "Fortuna abandona por impaciência com o ciclo. Universo abandona por atração pelo novo."},
+        {"arcano": "XX", "relacao": "confusao", "criterio": "Fortuna muda o plano. Aeon muda a régua."}
+      ],
+      "eixo_exibido": "Aceitar o ciclo em vez de forçar a linha reta. Serve a quem lê variação como fracasso.",
+      "saida": {"pergunta": "O que você precisa continuar fazendo mesmo sem ver o resultado ainda?"}
+    },
+
+    {
+      "id": "XI",
+      "nome": "Força / Luxúria",
+      "romano": "XI",
+      "elemento": "Leão",
+      "funcao_prescrita": "Autorizar-se a querer, em público e sem disfarce.",
+      "estado_de_carencia": "Encolhe o próprio desejo; pede desculpa pela ambição.",
+      "sinais": [
+        {"id": "forca_p1", "tipo": "primario", "fonte": "assessment", "familia_evidencia": "valor_potencia_e_seguranca", "condicao": {"all": [{"campo": "vision_receita", "op": "gte", "valor": 100000, "escala": "vision_receita"}, {"any": [{"campo": "biz_preco", "op": "contains", "valor": "dificuldade"}, {"campo": "biz_preco", "op": "contains", "valor": "poderia cobrar mais"}]}]}, "peso": 3},
+        {"id": "forca_p2", "tipo": "primario", "fonte": "texto_livre", "familia_evidencia": "expressao_e_transmissao", "condicao": {"any": [{"campo": "vision_bloqueio", "op": "contains", "valor": "ganancios"}, {"campo": "vision_bloqueio", "op": "contains", "valor": "não é para mim"}, {"campo": "vision_bloqueio", "op": "contains", "valor": "medo de aparecer"}, {"campo": "vision_bloqueio", "op": "contains", "valor": "exposição"}]}, "peso": 3},
+        {"id": "forca_s1", "tipo": "secundario", "fonte": "assessment", "familia_evidencia": "expressao_e_transmissao", "condicao": {"campo": "energy_drena", "op": "contains", "valor": "Vender e prospectar clientes"}, "peso": 1},
+        {"id": "forca_s2", "tipo": "secundario", "fonte": "assessment", "familia_evidencia": "agencia_e_autoridade", "condicao": {"campo": "ctx_intro_extro", "op": "contains", "valor": "Introvertido"}, "peso": 1}
+      ],
+      "contra_sinais": [
+        {"id": "forca_cs1", "fonte": "assessment", "condicao": {"campo": "biz_preco", "op": "contains", "valor": "Cobro premium"}, "efeito": -2},
+        {"id": "forca_cs2", "fonte": "B", "condicao": {"campo": "wealthProfile.name", "op": "eq", "valor": "Estrela"}, "efeito": -2},
+        {"id": "forca_cs3", "fonte": "assessment", "condicao": {"campo": "vision_receita", "op": "lte", "valor": 5000, "escala": "vision_receita"}, "efeito": -2}
+      ],
+      "pares": [
+        {"arcano": "VIII", "relacao": "desempate_critico", "criterio": "Ver Justiça."},
+        {"arcano": "XIX", "relacao": "confusao", "criterio": "Luxúria é permitir-se querer. Sol é permitir-se ser visto."}
+      ],
+      "eixo_exibido": "Autorizar-se a querer, em público e sem disfarce. Serve a quem quer mais e ainda pede desculpas por querer.",
+      "saida": {"pergunta": "Quanto você realmente deseja — e o que muda quando para de pedir licença para desejar?"}
+    },
+
+    {
+      "id": "XII",
+      "nome": "O Enforcado",
+      "romano": "XII",
+      "elemento": "Água",
+      "funcao_prescrita": "Inverter a posição; render-se para mudar o ângulo.",
+      "estado_de_carencia": "Tenta mais do mesmo com mais esforço.",
+      "sinais": [
+        {"id": "enforcado_p1", "tipo": "primario", "fonte": "assessment", "familia_evidencia": "agencia_e_autoridade", "condicao": {"all": [{"campo": "vision_tempo", "op": "gte", "valor": 60, "escala": "vision_tempo"}, {"campo": "vision_receita", "op": "lte", "valor": 15000, "escala": "vision_receita"}]}, "peso": 3},
+        {"id": "enforcado_p2", "tipo": "primario", "fonte": "B", "familia_evidencia": "valor_potencia_e_seguranca", "condicao": {"all": [{"campo": "hormozi.esforco", "op": "gte", "valor": 7}, {"campo": "hormozi.probabilidade", "op": "lte", "valor": 4}]}, "peso": 3},
+        {"id": "enforcado_s1", "tipo": "secundario", "fonte": "A", "familia_evidencia": "alinhamento_e_estrutura", "condicao": {"campo": "zones.incompetencia", "op": "gte", "valor": 20}, "peso": 1},
+        {"id": "enforcado_s2", "tipo": "secundario", "fonte": "assessment", "familia_evidencia": "iniciacao_e_ritmo", "condicao": {"campo": "energy_ritmo", "op": "contains", "valor": "acelerando até o deadline"}, "peso": 1}
+      ],
+      "contra_sinais": [
+        {"id": "enforcado_cs1", "fonte": "assessment", "condicao": {"campo": "vision_tempo", "op": "lte", "valor": 10, "escala": "vision_tempo"}, "efeito": -2, "nota": "É o sinal primário do Carro; o par se resolve sozinho."}
+      ],
+      "pares": [
+        {"arcano": "VII", "relacao": "polo_oposto", "criterio": "Ver Carro."},
+        {"arcano": "XVI", "relacao": "confusao", "criterio": "Enforcado muda o ângulo. Torre derruba a estrutura."}
+      ],
+      "eixo_exibido": "Inverter a posição. Serve a quem tenta mais do mesmo com mais esforço.",
+      "saida": {"pergunta": "O que você está sacrificando que já não precisa mais ser sacrificado?"}
+    },
+
+    {
+      "id": "XIII",
+      "nome": "A Morte",
+      "romano": "XIII",
+      "elemento": "Escorpião",
+      "funcao_prescrita": "Encerrar o que ainda funciona mal.",
+      "estado_de_carencia": "Carrega cliente, produto ou papel vencido.",
+      "sinais": [
+        {"id": "morte_p1", "tipo": "primario", "fonte": "assessment", "familia_evidencia": "alinhamento_e_estrutura", "condicao": {"all": [{"campo": "talent_competencia_genialidade.choice", "op": "eq", "valor": "Sim"}, {"campo": "talent_competencia_genialidade.detail", "op": "exists", "valor": true}]}, "peso": 3},
+        {"id": "morte_p2", "tipo": "primario", "fonte": "A", "familia_evidencia": "foco_e_portfolio", "condicao": {"all": [{"campo": "zones.excelencia", "op": "gte", "valor": 30}, {"campo": "zones.genialidade", "op": "lte", "valor": 25}]}, "peso": 3},
+        {"id": "morte_s1", "tipo": "secundario", "fonte": "assessment", "familia_evidencia": "valor_potencia_e_seguranca", "condicao": {"campo": "energy_drena.count", "op": "gte", "valor": 4}, "peso": 1},
+        {"id": "morte_s2", "tipo": "secundario", "fonte": "D", "familia_evidencia": "direcao_e_incerteza", "condicao": {"avaliacao_bloco_d": "divergencia_vocacional"}, "peso": 1}
+      ],
+      "contra_sinais": [
+        {"id": "morte_cs1", "fonte": "assessment", "condicao": {"campo": "talent_competencia_genialidade.choice", "op": "eq", "valor": "Não"}, "efeito": "veto", "classe": "veto_pre_requisito"},
+        {"id": "morte_cs2", "fonte": "A", "condicao": {"campo": "zones.genialidade", "op": "gte", "valor": 40}, "efeito": -2}
+      ],
+      "pares": [
+        {"arcano": "XIV", "relacao": "desempate_limpo", "criterio": "Morte: algo precisa terminar. Arte: duas partes precisam ser integradas."},
+        {"arcano": "XVI", "relacao": "confusao", "criterio": "Morte encerra uma parte. Torre derruba o todo."}
+      ],
+      "eixo_exibido": "Encerrar o que ainda funciona mal. Serve a quem carrega o que já deveria ter sido enterrado.",
+      "saida": {"pergunta": "O que você faz muito bem e já não ama — e que precisa morrer para o próximo ciclo começar?"}
+    },
+
+    {
+      "id": "XIV",
+      "nome": "A Arte",
+      "romano": "XIV",
+      "elemento": "Sagitário",
+      "funcao_prescrita": "Fundir os dois lados numa terceira coisa.",
+      "estado_de_carencia": "Divide-se entre duas identidades profissionais e trata como escolha o que é matéria-prima de integração.",
+      "sinais": [
+        {"id": "arte_p1", "tipo": "primario", "fonte": "D", "familia_evidencia": "alinhamento_e_estrutura", "condicao": {"avaliacao_bloco_d": "duas_trajetorias"}, "peso": 3},
+        {"id": "arte_p2", "tipo": "primario", "fonte": "B", "familia_evidencia": "foco_e_portfolio", "condicao": {"campo": "uniqueAbility.timeInZone", "op": "lte", "valor": 40}, "peso": 3},
+        {"id": "arte_s1", "tipo": "secundario", "fonte": "assessment", "familia_evidencia": "alinhamento_e_estrutura", "condicao": {"campo": "energy_inovacao_otimizacao", "op": "contains", "valor": "Conectar coisas existentes"}, "peso": 1},
+        {"id": "arte_s2", "tipo": "secundario", "fonte": "D", "familia_evidencia": "direcao_e_incerteza", "condicao": {"avaliacao_bloco_d": "area_diverge_do_flow"}, "peso": 1}
+      ],
+      "contra_sinais": [
+        {"id": "arte_cs1", "fonte": "D", "condicao": {"avaliacao_bloco_d": "duas_trajetorias", "esperado": false}, "efeito": "veto", "classe": "veto_pre_requisito"},
+        {"id": "arte_cs2", "fonte": "B", "condicao": {"campo": "uniqueAbility.timeInZone", "op": "gte", "valor": 70}, "efeito": -2, "nota": "Se a integração já é a prática, a travessia é outra."}
+      ],
+      "pares": [
+        {"arcano": "XIII", "relacao": "desempate_limpo", "criterio": "Ver Morte."},
+        {"arcano": "VI", "relacao": "confusao", "criterio": "Ver Amantes."}
+      ],
+      "eixo_exibido": "Fundir os dois lados numa terceira coisa. Serve a quem carrega duas identidades e ainda não as integrou.",
+      "saida": {"pergunta": "Como suas duas identidades podem se tornar uma só obra — em vez de duas carreiras em disputa?"}
+    },
+
+    {
+      "id": "XV",
+      "nome": "O Diabo",
+      "romano": "XV",
+      "elemento": "Capricórnio",
+      "funcao_prescrita": "Nomear o vínculo que limita a escolha desejada.",
+      "estado_de_carencia": "Chama de escolha o que é vínculo com uma estrutura que recompensa de verdade.",
+      "sinais": [
+        {"id": "diabo_p1", "tipo": "primario", "fonte": "assessment", "familia_evidencia": "valor_potencia_e_seguranca", "condicao": {"all": [{"campo": "vision_receita", "op": "gte", "valor": 50000, "escala": "vision_receita"}, {"campo": "vision_tempo", "op": "lte", "valor": 10, "escala": "vision_tempo"}]}, "peso": 3},
+        {"id": "diabo_p2", "tipo": "primario", "fonte": "mista", "familia_evidencia": "alinhamento_e_estrutura", "condicao": {"all": [{"campo": "biz_risco", "op": "contains", "valor": "Evito ao máximo"}, {"avaliacao_bloco_d": "divergencia_vocacional"}]}, "peso": 3},
+        {"id": "diabo_s1", "tipo": "secundario", "fonte": "texto_livre", "familia_evidencia": "direcao_e_incerteza", "condicao": {"any": [{"campo": "vision_bloqueio", "op": "contains", "valor": "segurança"}, {"campo": "vision_bloqueio", "op": "contains", "valor": "estabilidade"}, {"campo": "vision_bloqueio", "op": "contains", "valor": "dependência"}]}, "peso": 1}
+      ],
+      "contra_sinais": [
+        {"id": "diabo_cs1", "fonte": "D", "condicao": {"avaliacao_bloco_d": "divergencia_vocacional", "esperado": false}, "efeito": "veto", "classe": "veto_pre_requisito"},
+        {"id": "diabo_cs2", "fonte": "assessment", "condicao": {"campo": "biz_risco", "op": "contains", "valor": "Amo risco"}, "efeito": -2}
+      ],
+      "pares": [
+        {"arcano": "XII", "relacao": "confusao", "criterio": "Diabo trata do vínculo. Enforcado trata do método."},
+        {"arcano": "VII", "relacao": "confusao", "criterio": "Diabo trata do que prende. Carro trata do que falta."}
+      ],
+      "eixo_exibido": "Nomear o vínculo que limita a escolha desejada. Serve a quem está preso a algo que ainda alimenta.",
+      "saida": {"pergunta": "Qual vínculo ainda te dá algo real e ao mesmo tempo limita a liberdade que você diz querer?"}
+    },
+
+    {
+      "id": "XVI",
+      "nome": "A Torre",
+      "romano": "XVI",
+      "elemento": "Marte",
+      "funcao_prescrita": "Demolir por escolha antes da demolição forçada.",
+      "estado_de_carencia": "Remenda o que precisa cair.",
+      "sinais": [
+        {"id": "torre_p1", "tipo": "primario", "fonte": "mista", "familia_evidencia": "alinhamento_e_estrutura", "condicao": {"all": [{"campo": "ctx_experiencia", "op": "gte", "valor": 15, "escala": "ctx_experiencia"}, {"campo": "zones.genialidade", "op": "lte", "valor": 25}]}, "peso": 3},
+        {"id": "torre_p2", "tipo": "primario", "fonte": "C", "familia_evidencia": "foco_e_portfolio", "condicao": {"campo": "convergence.gaps_altos", "op": "gte", "valor": 3}, "peso": 3},
+        {"id": "torre_s1", "tipo": "secundario", "fonte": "assessment", "familia_evidencia": "valor_potencia_e_seguranca", "condicao": {"campo": "talent_frustracao", "op": "contains", "valor": "Processos lentos"}, "peso": 1},
+        {"id": "torre_s2", "tipo": "secundario", "fonte": "texto_livre", "familia_evidencia": "direcao_e_incerteza", "condicao": {"any": [{"campo": "vision_bloqueio", "op": "contains", "valor": "estrutura"}, {"campo": "vision_bloqueio", "op": "contains", "valor": "modelo"}, {"campo": "vision_bloqueio", "op": "contains", "valor": "formato"}]}, "peso": 1}
+      ],
+      "contra_sinais": [
+        {"id": "torre_cs1", "fonte": "A", "condicao": {"campo": "zones.genialidade", "op": "gte", "valor": 40}, "efeito": -2}
+      ],
+      "pares": [
+        {"arcano": "XIII", "relacao": "confusao", "criterio": "Ver Morte."},
+        {"arcano": "XII", "relacao": "confusao", "criterio": "Ver Enforcado."}
+      ],
+      "eixo_exibido": "Demolir por escolha antes da demolição forçada. Serve a quem remenda o que precisa cair.",
+      "saida": {"pergunta": "O que já está caindo — e o que você ainda insiste em segurar?"}
+    },
+
+    {
+      "id": "XVII",
+      "nome": "A Estrela",
+      "romano": "XVII",
+      "elemento": "Aquário",
+      "funcao_prescrita": "Apostar na direção com evidência parcial.",
+      "estado_de_carencia": "Exige certeza completa antes de investir; a visão fica comprimida pela necessidade de prova.",
+      "sinais": [
+        {"id": "estrela_p1", "tipo": "primario", "fonte": "assessment", "familia_evidencia": "direcao_e_incerteza", "condicao": {"campo": "clarity_next_step", "op": "eq", "valor": 4}, "peso": 3},
+        {"id": "estrela_p2", "tipo": "primario", "fonte": "assessment", "familia_evidencia": "valor_potencia_e_seguranca", "condicao": {"campo": "biz_risco", "op": "contains", "valor": "Evito ao máximo"}, "peso": 3},
+        {"id": "estrela_s1", "tipo": "secundario", "fonte": "assessment", "familia_evidencia": "direcao_e_incerteza", "condicao": {"campo": "ctx_analitico_intuitivo", "op": "contains", "valor": "Analítico"}, "peso": 1},
+        {"id": "estrela_s2", "tipo": "secundario", "fonte": "assessment", "familia_evidencia": "iniciacao_e_ritmo", "condicao": {"campo": "energy_problemas", "op": "contains", "valor": "Parar e analisar todas as opções"}, "peso": 1}
+      ],
+      "contra_sinais": [
+        {"id": "estrela_cs1", "fonte": "assessment", "condicao": {"any": [{"campo": "biz_risco", "op": "contains", "valor": "riscos moderados"}, {"campo": "biz_risco", "op": "contains", "valor": "Amo risco"}]}, "efeito": "veto", "classe": "veto_funcao_presente"},
+        {"id": "estrela_cs2", "fonte": "assessment", "condicao": {"campo": "ctx_analitico_intuitivo", "op": "contains", "valor": "decido rápido pelo instinto"}, "efeito": -2}
+      ],
+      "pares": [
+        {"arcano": "XVIII", "relacao": "polo_oposto", "criterio": "Estrela sabe para onde ir e não se autoriza. Lua não sabe para onde ir."},
+        {"arcano": "0", "relacao": "confusao", "criterio": "Louco não dá o primeiro passo. Estrela dá o passo mas perde a fé sem prova contínua."}
+      ],
+      "eixo_exibido": "Apostar na direção com evidência parcial. Serve a quem enxerga a estrela e ainda precisa de lanterna a cada metro.",
+      "saida": {"pergunta": "Qual visão você precisa sustentar mesmo quando os dados ainda não confirmaram?"}
+    },
+
+    {
+      "id": "XVIII",
+      "nome": "A Lua",
+      "romano": "XVIII",
+      "elemento": "Peixes",
+      "funcao_prescrita": "Atravessar o trecho sem visibilidade.",
+      "estado_de_carencia": "O caminho sumiu; medo e imaginação ocupam a lacuna.",
+      "status_especial": "wildcard_only_until_clarity_question",
+      "nota_status": "Enquanto clarity_next_step não existir no assessment, A Lua só entra via wildcard textual. Depois da pergunta 44, o status especial desaparece.",
+      "sinais": [
+        {"id": "lua_p1", "tipo": "primario", "fonte": "assessment", "familia_evidencia": "direcao_e_incerteza", "condicao": {"campo": "clarity_next_step", "op": "eq", "valor": 0}, "peso": 3},
+        {"id": "lua_p2", "tipo": "primario", "fonte": "texto_livre", "familia_evidencia": "direcao_e_incerteza", "condicao": {"any": [{"campo": "vision_bloqueio", "op": "contains", "valor": "não sei"}, {"campo": "vision_bloqueio", "op": "contains", "valor": "perdid"}, {"campo": "vision_bloqueio", "op": "contains", "valor": "confus"}, {"campo": "vision_bloqueio", "op": "contains", "valor": "sumiu"}, {"campo": "vision_bloqueio", "op": "contains", "valor": "não faço ideia"}]}, "peso": 3},
+        {"id": "lua_s1", "tipo": "secundario", "fonte": "C", "familia_evidencia": "foco_e_portfolio", "condicao": {"campo": "convergence.gaps_altos", "op": "lte", "valor": 1}, "peso": 1},
+        {"id": "lua_s2", "tipo": "secundario", "fonte": "assessment", "familia_evidencia": "agencia_e_autoridade", "condicao": {"campo": "energy_problemas", "op": "contains", "valor": "Consultar alguém de confian"}, "peso": 1}
+      ],
+      "contra_sinais": [
+        {"id": "lua_cs1", "fonte": "assessment", "condicao": {"campo": "clarity_next_step", "op": "gte", "valor": 7}, "efeito": "veto", "classe": "veto_funcao_presente"},
+        {"id": "lua_cs2", "fonte": "texto_livre", "condicao": {"campo": "vision_bloqueio", "op": "eq", "valor": ""}, "efeito": -2, "nota": "Sem texto não há sinal, mas a ausência não contradiz a carência — por isso -2 e não veto."}
+      ],
+      "pares": [{"arcano": "XVII", "relacao": "polo_oposto", "criterio": "Ver Estrela."}],
+      "eixo_exibido": "Atravessar o trecho sem visibilidade. Serve a quem está no escuro e ainda não consegue nomear o que há no escuro.",
+      "saida": {"pergunta": "O que você ainda não consegue nomear — e o que muda quando para de exigir clareza imediata?"}
+    },
+
+    {
+      "id": "XIX",
+      "nome": "O Sol",
+      "romano": "XIX",
+      "elemento": "Sol",
+      "funcao_prescrita": "Mostrar-se inteiro.",
+      "estado_de_carencia": "Trabalha bem e escondido; o que já está pronto não é visto.",
+      "sinais": [
+        {"id": "sol_p1", "tipo": "primario", "fonte": "assessment", "familia_evidencia": "expressao_e_transmissao", "condicao": {"campo": "energy_drena", "op": "contains", "valor": "Vender e prospectar clientes"}, "peso": 3},
+        {"id": "sol_p2", "tipo": "primario", "fonte": "B", "familia_evidencia": "valor_potencia_e_seguranca", "condicao": {"all": [{"campo": "uniqueAbility.alignment", "op": "gte", "valor": 70}, {"campo": "uniqueAbility.receita_nao_realizada", "op": "eq", "valor": true}]}, "peso": 3},
+        {"id": "sol_s1", "tipo": "secundario", "fonte": "assessment", "familia_evidencia": "expressao_e_transmissao", "condicao": {"campo": "biz_escala", "op": "contains", "valor": "POUCOS clientes"}, "peso": 1},
+        {"id": "sol_s2", "tipo": "secundario", "fonte": "assessment", "familia_evidencia": "agencia_e_autoridade", "condicao": {"campo": "ctx_intro_extro", "op": "contains", "valor": "Introvertido"}, "peso": 1}
+      ],
+      "contra_sinais": [
+        {"id": "sol_cs1", "fonte": "B", "condicao": {"campo": "wealthProfile.name", "op": "eq", "valor": "Estrela"}, "efeito": "veto", "classe": "veto_funcao_presente"},
+        {"id": "sol_cs2", "fonte": "assessment", "condicao": {"campo": "talent_natural", "op": "contains", "valor": "Falar em público"}, "efeito": -2},
+        {"id": "sol_cs3", "fonte": "assessment", "condicao": {"campo": "energy_flow", "op": "contains", "valor": "Liderando reuniões"}, "efeito": -2}
+      ],
+      "pares": [
+        {"arcano": "IX", "relacao": "polo_oposto", "criterio": "Expor contra recolher."},
+        {"arcano": "I", "relacao": "confusao", "criterio": "Sol tem a oferta pronta e não aparece. Mago não tem a frase."}
+      ],
+      "eixo_exibido": "Mostrar-se inteiro. Serve a quem já tem luz e ainda prefere trabalhar na sombra.",
+      "saida": {"pergunta": "Onde você está escondendo o que já é luminoso — e o que acontece quando deixa ser visto?"}
+    },
+
+    {
+      "id": "XX",
+      "nome": "O Aeon",
+      "romano": "XX",
+      "elemento": "Fogo",
+      "funcao_prescrita": "Adotar o próprio padrão de sucesso.",
+      "estado_de_carencia": "Mede-se por régua herdada; a identidade antiga já não explica a próxima vida.",
+      "sinais": [
+        {"id": "aeon_p1", "tipo": "primario", "fonte": "D", "familia_evidencia": "alinhamento_e_estrutura", "condicao": {"avaliacao_bloco_d": "divergencia_vocacional"}, "peso": 3},
+        {"id": "aeon_p2", "tipo": "primario", "fonte": "texto_livre", "familia_evidencia": "valor_potencia_e_seguranca", "condicao": {"any": [{"campo": "vision_bloqueio", "op": "contains", "valor": "deveria"}, {"campo": "vision_bloqueio", "op": "contains", "valor": "esperam"}, {"campo": "vision_bloqueio", "op": "contains", "valor": "sempre fui"}]}, "peso": 3},
+        {"id": "aeon_s1", "tipo": "secundario", "fonte": "mista", "familia_evidencia": "direcao_e_incerteza", "condicao": {"all": [{"campo": "ctx_experiencia", "op": "gte", "valor": 15, "escala": "ctx_experiencia"}, {"avaliacao_bloco_d": "area_diverge_do_flow"}]}, "peso": 1},
+        {"id": "aeon_s2", "tipo": "secundario", "fonte": "assessment", "familia_evidencia": "agencia_e_autoridade", "condicao": {"campo": "talent_feedback", "op": "contains", "valor": "Questiona e desafia"}, "peso": 1}
+      ],
+      "contra_sinais": [
+        {"id": "aeon_cs1", "fonte": "D", "condicao": {"avaliacao_bloco_d": "divergencia_vocacional", "esperado": false}, "efeito": "veto", "classe": "veto_pre_requisito"},
+        {"id": "aeon_cs2", "fonte": "assessment", "condicao": {"campo": "ctx_experiencia", "op": "lte", "valor": 3, "escala": "ctx_experiencia"}, "efeito": -2}
+      ],
+      "pares": [
+        {"arcano": "XIII", "relacao": "confusao", "criterio": "Aeon muda a régua. Morte encerra a prática."},
+        {"arcano": "X", "relacao": "confusao", "criterio": "Aeon muda o critério. Fortuna muda o plano."}
+      ],
+      "eixo_exibido": "Adotar o próprio padrão de sucesso. Serve a quem ainda vive sob uma régua que não escolheu.",
+      "saida": {"pergunta": "De quem é a voz que você ainda obedece — e qual é a sua?"}
+    },
+
+    {
+      "id": "XXI",
+      "nome": "O Universo",
+      "romano": "XXI",
+      "elemento": "Saturno",
+      "funcao_prescrita": "Fechar o ciclo e entregar.",
+      "estado_de_carencia": "Está a um passo do fim e abre outra frente.",
+      "sinais": [
+        {"id": "universo_p1", "tipo": "primario", "fonte": "A", "familia_evidencia": "fechamento_e_persistencia", "condicao": {"all": [{"campo": "kolbe.seguimento", "op": "lte", "valor": 4}, {"campo": "kolbe.inicioRapido", "op": "gte", "valor": 7}]}, "peso": 3},
+        {"id": "universo_p2", "tipo": "primario", "fonte": "assessment", "familia_evidencia": "fechamento_e_persistencia", "condicao": {"campo": "initiative_stage", "op": "eq", "valor": "near_done_abandoned"}, "peso": 3},
+        {"id": "universo_p3", "tipo": "primario", "fonte": "C", "familia_evidencia": "fechamento_e_persistencia", "condicao": {"any": [{"campo": "actionPlan.doNot", "op": "contains", "valor": "concluir"}, {"campo": "recommendation", "op": "contains", "valor": "concluir antes"}]}, "peso": 3},
+        {"id": "universo_s1", "tipo": "secundario", "fonte": "assessment", "familia_evidencia": "foco_e_portfolio", "condicao": {"campo": "energy_multitask", "op": "contains", "valor": "Gerenciando muitas coisas"}, "peso": 1},
+        {"id": "universo_s2", "tipo": "secundario", "fonte": "B", "familia_evidencia": "alinhamento_e_estrutura", "condicao": {"campo": "wealthProfile.name", "op": "eq", "valor": "Criador"}, "peso": 1},
+        {"id": "universo_s3", "tipo": "secundario", "fonte": "assessment", "familia_evidencia": "fechamento_e_persistencia", "condicao": {"campo": "initiative_stage", "op": "eq", "valor": "many_mid_late"}, "peso": 1}
+      ],
+      "contra_sinais": [
+        {"id": "universo_cs1", "fonte": "A", "condicao": {"campo": "kolbe.seguimento", "op": "gte", "valor": 7}, "efeito": "veto", "classe": "veto_funcao_presente"},
+        {"id": "universo_cs2", "fonte": "assessment", "condicao": {"campo": "initiative_stage", "op": "eq", "valor": "none_started"}, "efeito": "veto", "classe": "veto_pre_requisito"}
+      ],
+      "pares": [
+        {"arcano": "0", "relacao": "polo_oposto", "criterio": "Louco: falta começar. Universo: sobra começo e falta terminar. Nunca devem pontuar juntos."},
+        {"arcano": "IX", "relacao": "confusao", "criterio": "Universo conclui. Eremita concentra."},
+        {"arcano": "III", "relacao": "confusao", "criterio": "Universo termina as avançadas. Imperatriz nutre a primeira."}
+      ],
+      "eixo_exibido": "Fechar o ciclo e entregar. Serve a quem está a um passo do fim e recomeça.",
+      "saida": {"pergunta": "O que precisa ser concluído antes que você tenha permissão para começar outra coisa?"}
+    }
+  ]
+}

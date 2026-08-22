@@ -1,0 +1,7 @@
+A hyper-realistic portrait photograph featuring a photorealistic clone of the woman from reference images image_0.png through image_7.png. She is a woman in her late 40s with a distinct physical identity. Her skin tone is olive and naturally textured, showing authentic, fine age lines, laugh lines around the eyes and mouth, and light facial moles, including one prominent mole on her left cheek and one on her right jawline. Her most striking feature is her vibrant, naturally curly, voluminous coppery-red hair (reddish-auburn), worn shoulder-length with definition. She has warm, medium brown eyes and a wide, genuine, authentic smile that shows her teeth. Her build is fit and athletic, with strong, muscular, and well-defined upper arms and core muscles, consistent with the images in green tanks and bikinis.
+
+A critical requirement is the reproduction of her extensive black ink tattoos, specifically on her left arm. These must include detailed, intricate geometric, repeating tribal patterns, and cultural motifs that cover her entire left bicep and shoulder area, wrapping the muscle. Her forearms also feature intricate black ink script and bird/animal-like designs.
+
+Additionally, she must be wearing specific, distinctive accessories: a prominent, wide, native indigenous-style beadwork bracelet in geometric red, yellow, and orange patterns on her right wrist, and her signature multi-layered thin gold necklaces.
+
+The model must capture her genuine, open, and confident essence as seen in all photos.

@@ -1,0 +1,7 @@
+Cartas dos arcanos como sairam do gerador, sem selo.
+
+Salve aqui com os nomes da tabela em docs/arcanos-prompts.md (ou -carta-selada.md).
+Depois rode, da raiz do projeto:
+
+  node scripts/assinar-arcanos.mjs
+  npm run artes

@@ -26,3 +26,19 @@ originais/zona-genialidade/
 # Guardar as duas cópias dobraria o peso no histórico para sempre; a fonte fica
 # na máquina e o script a reconverte quando ela voltar.
 originais/arquitetura-da-consciencia/
+
+# Descarte do processo de geração das 22 cartas: tentativas, variações de nome e
+# seleções intermediárias. originais/arcanos-brutos/ é a exceção deliberada à regra
+# acima — fica versionado, porque arte gerada por modelo não é reprodutível: o mesmo
+# prompt não devolve a mesma carta, então o PNG mestre não tem como ser "reconvertido
+# quando voltar". Estes quatro, sim, são descartáveis.
+originais/arcanos-iniciais/
+originais/arcanos-nomes/
+originais/arcanos-nomes-2/
+originais/arcanos-prontos/
+
+# Capturas e logs do Playwright, gerados a cada sessão de teste no navegador.
+.playwright-mcp/
+
+# Rascunho de sistema de design, fora do que a página usa.
+originais/sanddesignsystem.html

@@ -6,6 +6,7 @@
     "aulas": "node scripts/build-aulas.mjs",
     "artes": "node scripts/build-artes.mjs",
     "zona": "node scripts/build-zona.mjs",
+    "audit:taxonomia": "node scripts/audit-taxonomia.mjs",
     "deck": "node scripts/build-deck.mjs",
     "dev": "npm run aulas && npm run artes && npm run zona && npm run deck && next dev",
     "build": "npm run aulas && npm run artes && npm run zona && npm run deck && next build",

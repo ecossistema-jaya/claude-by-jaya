@@ -12,6 +12,7 @@
    injetarTaxonomia() abaixo. */
 import fs from 'node:fs';
 import path from 'node:path';
+import { auditarTaxonomia, formatarAchados } from './audit-taxonomia.mjs';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const FONTE = path.join(ROOT, 'originais', 'zona-de-genialidade.html');
@@ -67,8 +68,20 @@ function injetarTaxonomia(html) {
   if (i === -1 || f === -1 || f < i) {
     throw new Error(`marcadores ${ABRE}…${FECHA} não encontrados em originais/zona-de-genialidade.html`);
   }
-  const podada = podar(JSON.parse(fs.readFileSync(TAXONOMIA, 'utf8')));
-  return html.slice(0, i + ABRE.length) + JSON.stringify(podada) + html.slice(f);
+  const tax = JSON.parse(fs.readFileSync(TAXONOMIA, 'utf8'));
+
+  /* Sinal que não consegue disparar não quebra nada — só faz o arcano nunca pontuar,
+     e o sintoma chega como "o scorer não gosta d'A Torre". Falhar o build aqui é o
+     que separa taxonomia com defeito de taxonomia com julgamento discutível. */
+  const { total, achados } = auditarTaxonomia({ tax, html });
+  if (achados.length) {
+    throw new Error(
+      `taxonomia da carta com ${achados.length} problema(s) em ${total} sinais:\n${formatarAchados(achados)}`
+    );
+  }
+  console.log(`  ✓ ${total} sinais da carta auditados contra as perguntas reais`);
+
+  return html.slice(0, i + ABRE.length) + JSON.stringify(podar(tax)) + html.slice(f);
 }
 
 if (!fs.existsSync(FONTE)) {

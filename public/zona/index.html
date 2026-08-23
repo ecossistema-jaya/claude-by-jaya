@@ -1241,8 +1241,8 @@ function extractJSON(s){
    texto das opções mora em QUESTIONS: se uma delas for reescrita, a divergência aparece
    neste arquivo, não num JSON à parte que ninguém abre.
 
-   Especificação completa em docs/carta-travessia-1.1.json. Ainda sem consumidor: o
-   scorer que vai usá-la não existe. */
+   Especificação completa em docs/carta-travessia-1.1.json. Quem consome é
+   contextoDaCarta(), no scorer da carta mais abaixo. */
 const ESCALAS = {
   clarity_next_step: {
     'Não sei nem qual direção seguir': 0,
@@ -1464,6 +1464,287 @@ Regras específicas: ` + ch.extra + `
 ` + (partida || '') + (apurado || '') + `
 === DOCUMENTO ===
 ` + bp.slice(0,24000);
+}
+
+/* ---------- carta de travessia: scorer determinístico (MODO SOMBRA) ---------- */
+/* Spec em docs/carta-travessia-spec.md, taxonomia em docs/carta-travessia-1.1.json.
+
+   Modo sombra: isto roda, calcula o top 4 e registra um evento — e não decide nada.
+   A carta que a pessoa recebe continua saindo do bloco C, escolhida pelo modelo. O
+   scorer existe para que, quando o bloco D for ligado, a troca seja feita contra
+   dados reais: "a taxonomia teria escolhido o mesmo?" é pergunta que só o tráfego
+   responde, e responder antes de trocar é mais barato que descobrir depois.
+
+   Nada aqui pode derrubar o dashboard. Quem chama envolve em try/catch, e null é
+   resposta legítima. */
+
+/* Injetada no build a partir de docs/carta-travessia-1.1.json — ver
+   scripts/build-zona.mjs. No arquivo-fonte fica null de propósito: originais/ aberto
+   direto no browser continua funcionando, só sem o scorer. */
+const TAXONOMIA_CARTA = /*__TAX__*/{"versao":"1.1.1","escalas":{"motivo":"Campos de múltipla escolha cujo texto precisa virar número antes de qualquer comparação. Toda condição numérica sobre eles resolve pelo valor mapeado, nunca pelo texto.","vision_receita":[{"texto":"Até R$5.000/mês","valor":5000},{"texto":"R$5.000 a R$15.000/mês","valor":15000},{"texto":"R$15.000 a R$50.000/mês","valor":50000},{"texto":"R$50.000 a R$100.000/mês","valor":100000},{"texto":"Mais de R$100.000/mês","valor":150000}],"vision_tempo":[{"texto":"Menos de 5 horas/semana","valor":5},{"texto":"5 a 10 horas/semana","valor":10},{"texto":"10 a 20 horas/semana","valor":20},{"texto":"20 a 40 horas/semana","valor":40},{"texto":"40+ horas/semana","valor":60}],"ctx_experiencia":[{"texto":"Menos de 1 ano","valor":1},{"texto":"1 a 3 anos","valor":3},{"texto":"3 a 5 anos","valor":5},{"texto":"5 a 10 anos","valor":10},{"texto":"Mais de 10 anos","valor":15}]},"arcanos":[{"id":"0","nome":"O Louco","romano":"0","sinais":[{"id":"louco_p1","tipo":"primario","fonte":"assessment","familia_evidencia":"iniciacao_e_ritmo","peso":3,"condicao":{"campo":"energy_inicio","op":"contains","valor":"Pesquisar bastante antes"}},{"id":"louco_p2","tipo":"primario","fonte":"assessment","familia_evidencia":"iniciacao_e_ritmo","peso":3,"condicao":{"campo":"talent_aprendizado","op":"contains","valor":"Lê tudo sobre o assunto antes"}},{"id":"louco_p3","tipo":"primario","fonte":"A","familia_evidencia":"iniciacao_e_ritmo","peso":3,"condicao":{"campo":"kolbe.inicioRapido","op":"lte","valor":4}},{"id":"louco_p4","tipo":"primario","fonte":"assessment","familia_evidencia":"fechamento_e_persistencia","peso":3,"condicao":{"campo":"initiative_stage","op":"eq","valor":"none_started"}},{"id":"louco_s1","tipo":"secundario","fonte":"assessment","familia_evidencia":"valor_potencia_e_seguranca","peso":1,"condicao":{"campo":"biz_risco","op":"contains","valor":"Evito ao máximo"}},{"id":"louco_s2","tipo":"secundario","fonte":"assessment","familia_evidencia":"direcao_e_incerteza","peso":1,"condicao":{"campo":"clarity_next_step","op":"lte","valor":2}}],"contra_sinais":[{"id":"louco_cs1","fonte":"A","efeito":"veto","classe":"veto_funcao_presente","condicao":{"campo":"kolbe.inicioRapido","op":"gte","valor":8}},{"id":"louco_cs2","fonte":"assessment","efeito":"veto","classe":"veto_funcao_presente","condicao":{"campo":"energy_inicio","op":"contains","valor":"executar logo e ajustar"}},{"id":"louco_cs3","fonte":"assessment","efeito":-2,"condicao":{"campo":"biz_timing","op":"contains","valor":"PRIMEIRO em algo novo"}}]},{"id":"I","nome":"O Mago","romano":"I","sinais":[{"id":"mago_p1","tipo":"primario","fonte":"assessment","familia_evidencia":"expressao_e_transmissao","peso":3,"condicao":{"campo":"energy_drena","op":"contains","valor":"Vender e prospectar clientes"}},{"id":"mago_p2","tipo":"primario","fonte":"B","familia_evidencia":"expressao_e_transmissao","peso":3,"condicao":{"campo":"wealthProfile.name","op":"in","valor":["Apoiador","Mecânico"]}},{"id":"mago_p3","tipo":"primario","fonte":"assessment","familia_evidencia":"valor_potencia_e_seguranca","peso":3,"condicao":{"campo":"biz_preco","op":"contains","valor":"dificuldade"}},{"id":"mago_s1","tipo":"secundario","fonte":"B","familia_evidencia":"alinhamento_e_estrutura","peso":1,"condicao":{"all":[{"campo":"uniqueAbility.alignment","op":"gte","valor":70},{"campo":"uniqueAbility.timeInZone","op":"lte","valor":40}]}}],"contra_sinais":[{"id":"mago_cs1","fonte":"assessment","efeito":-2,"condicao":{"campo":"talent_dominio","op":"contains","valor":"INFLUENCIADOR"}},{"id":"mago_cs2","fonte":"assessment","efeito":-2,"condicao":{"campo":"energy_carrega","op":"contains","valor":"Negociar e fechar acordos"}},{"id":"mago_cs3","fonte":"B","efeito":"veto","classe":"veto_funcao_presente","condicao":{"campo":"wealthProfile.name","op":"eq","valor":"Estrela"}}]},{"id":"II","nome":"A Sacerdotisa","romano":"II","sinais":[{"id":"sacerdotisa_p1","tipo":"primario","fonte":"assessment","familia_evidencia":"iniciacao_e_ritmo","peso":3,"condicao":{"campo":"energy_inicio","op":"contains","valor":"executar logo e ajustar"}},{"id":"sacerdotisa_p2","tipo":"primario","fonte":"assessment","familia_evidencia":"direcao_e_incerteza","peso":3,"condicao":{"campo":"energy_problemas","op":"contains","valor":"Agir rápido com a melhor opção"}},{"id":"sacerdotisa_p3","tipo":"primario","fonte":"A","familia_evidencia":"iniciacao_e_ritmo","peso":3,"condicao":{"all":[{"campo":"kolbe.inicioRapido","op":"gte","valor":8},{"campo":"kolbe.investigador","op":"lte","valor":4}]}},{"id":"sacerdotisa_s1","tipo":"secundario","fonte":"assessment","familia_evidencia":"iniciacao_e_ritmo","peso":1,"condicao":{"campo":"energy_detalhe","op":"contains","valor":"Entrega rápido e itera"}}],"contra_sinais":[{"id":"sacerdotisa_cs1","fonte":"assessment","efeito":"veto","classe":"veto_funcao_presente","condicao":{"campo":"energy_inicio","op":"contains","valor":"Pesquisar bastante antes"}},{"id":"sacerdotisa_cs2","fonte":"A","efeito":-2,"condicao":{"campo":"kolbe.investigador","op":"gte","valor":8}}]},{"id":"III","nome":"A Imperatriz","romano":"III","sinais":[{"id":"imperatriz_p1","tipo":"primario","fonte":"assessment","familia_evidencia":"foco_e_portfolio","peso":3,"condicao":{"campo":"energy_multitask","op":"contains","valor":"Gerenciando muitas coisas"}},{"id":"imperatriz_p2","tipo":"primario","fonte":"assessment","familia_evidencia":"fechamento_e_persistencia","peso":3,"condicao":{"campo":"initiative_stage","op":"eq","valor":"many_mid_late"}},{"id":"imperatriz_s1","tipo":"secundario","fonte":"A","familia_evidencia":"fechamento_e_persistencia","peso":1,"condicao":{"campo":"kolbe.seguimento","op":"lte","valor":4}},{"id":"imperatriz_s2","tipo":"secundario","fonte":"assessment","familia_evidencia":"foco_e_portfolio","peso":1,"condicao":{"campo":"initiative_stage","op":"eq","valor":"many_early"}},{"id":"imperatriz_s3","tipo":"secundario","fonte":"B","familia_evidencia":"alinhamento_e_estrutura","peso":1,"condicao":{"campo":"wealthProfile.name","op":"eq","valor":"Criador"}}],"contra_sinais":[{"id":"imperatriz_cs1","fonte":"assessment","efeito":"veto","classe":"veto_funcao_presente","condicao":{"campo":"energy_multitask","op":"contains","valor":"uma coisa só com foco total"}},{"id":"imperatriz_cs2","fonte":"assessment","efeito":-2,"condicao":{"campo":"energy_inovacao_otimizacao","op":"contains","valor":"Escalar algo que já funciona"}}]},{"id":"IV","nome":"O Imperador","romano":"IV","sinais":[{"id":"imperador_p1","tipo":"primario","fonte":"assessment","familia_evidencia":"agencia_e_autoridade","peso":3,"condicao":{"campo":"energy_delegacao","op":"contains","valor":"muita dificuldade"}},{"id":"imperador_p2","tipo":"primario","fonte":"assessment","familia_evidencia":"agencia_e_autoridade","peso":3,"condicao":{"all":[{"campo":"talent_dominio","op":"contains","valor":"EXECUTOR"},{"campo":"biz_solo_time","op":"contains","valor":"Liderando"}]}},{"id":"imperador_s1","tipo":"secundario","fonte":"assessment","familia_evidencia":"agencia_e_autoridade","peso":1,"condicao":{"campo":"talent_frustracao","op":"contains","valor":"Microgerenciamento"}},{"id":"imperador_s2","tipo":"secundario","fonte":"assessment","familia_evidencia":"alinhamento_e_estrutura","peso":1,"condicao":{"campo":"ctx_experiencia","op":"gte","valor":10,"escala":"ctx_experiencia"}}],"contra_sinais":[{"id":"imperador_cs1","fonte":"assessment","efeito":"veto","classe":"veto_funcao_presente","condicao":{"campo":"energy_delegacao","op":"contains","valor":"Adoro delegar"}},{"id":"imperador_cs2","fonte":"B","efeito":-2,"condicao":{"campo":"wealthProfile.name","op":"eq","valor":"Estrela"}}]},{"id":"V","nome":"O Hierofante","romano":"V","sinais":[{"id":"hierofante_p1","tipo":"primario","fonte":"assessment","familia_evidencia":"expressao_e_transmissao","peso":3,"condicao":{"campo":"energy_carrega","op":"contains","valor":"Ensinar e mentorar"}},{"id":"hierofante_p2","tipo":"primario","fonte":"assessment","familia_evidencia":"alinhamento_e_estrutura","peso":3,"condicao":{"all":[{"campo":"ctx_experiencia","op":"gte","valor":10,"escala":"ctx_experiencia"},{"campo":"biz_receita","op":"neq","valor":"Vender conhecimento (cursos, livros, palestras, mentoria)"}]}},{"id":"hierofante_s1","tipo":"secundario","fonte":"assessment","familia_evidencia":"expressao_e_transmissao","peso":1,"condicao":{"campo":"talent_contribuicao","op":"contains","valor":"Ensinar e capacitar"}},{"id":"hierofante_s2","tipo":"secundario","fonte":"assessment","familia_evidencia":"expressao_e_transmissao","peso":1,"condicao":{"campo":"energy_agradecem","op":"contains","valor":"Explicar algo complexo"}}],"contra_sinais":[{"id":"hierofante_cs1","fonte":"assessment","efeito":-2,"condicao":{"campo":"biz_receita","op":"contains","valor":"Vender conhecimento"}},{"id":"hierofante_cs2","fonte":"assessment","efeito":-2,"condicao":{"campo":"ctx_experiencia","op":"lte","valor":3,"escala":"ctx_experiencia"}}]},{"id":"VI","nome":"Os Amantes","romano":"VI","sinais":[{"id":"amantes_p1","tipo":"primario","fonte":"assessment","familia_evidencia":"foco_e_portfolio","peso":3,"condicao":{"campo":"energy_multitask","op":"contains","valor":"Alternando entre 2-3 projetos"}},{"id":"amantes_p2","tipo":"primario","fonte":"assessment","familia_evidencia":"direcao_e_incerteza","peso":3,"condicao":{"campo":"clarity_next_step","op":"eq","valor":2}},{"id":"amantes_p3","tipo":"primario","fonte":"D","familia_evidencia":"alinhamento_e_estrutura","peso":3,"condicao":{"avaliacao_bloco_d":"conflito_modelo_receita"}},{"id":"amantes_s1","tipo":"secundario","fonte":"assessment","familia_evidencia":"foco_e_portfolio","peso":1,"condicao":{"campo":"ctx_estrutura_flex","op":"contains","valor":"Depende do projeto"}}],"contra_sinais":[{"id":"amantes_cs1","fonte":"assessment","efeito":"veto","classe":"veto_funcao_presente","condicao":{"campo":"energy_multitask","op":"contains","valor":"uma coisa só com foco total"}},{"id":"amantes_cs2","fonte":"assessment","efeito":-2,"condicao":{"campo":"clarity_next_step","op":"eq","valor":10}},{"id":"amantes_cs3","fonte":"mista","efeito":"veto","classe":"veto_funcao_presente","condicao":{"all":[{"campo":"clarity_next_step","op":"eq","valor":10},{"avaliacao_bloco_d":"conflito_modelo_receita","esperado":false}]}}]},{"id":"VII","nome":"O Carro","romano":"VII","sinais":[{"id":"carro_p1","tipo":"primario","fonte":"assessment","familia_evidencia":"agencia_e_autoridade","peso":3,"condicao":{"all":[{"campo":"vision_tempo","op":"lte","valor":10,"escala":"vision_tempo"},{"campo":"vision_receita","op":"gte","valor":50000,"escala":"vision_receita"}]}},{"id":"carro_p2","tipo":"primario","fonte":"assessment","familia_evidencia":"direcao_e_incerteza","peso":3,"condicao":{"campo":"clarity_next_step","op":"eq","valor":7}},{"id":"carro_p3","tipo":"primario","fonte":"texto_livre","familia_evidencia":"valor_potencia_e_seguranca","peso":3,"condicao":{"any":[{"campo":"vision_bloqueio","op":"contains","valor":"tempo"},{"campo":"vision_bloqueio","op":"contains","valor":"dinheiro"},{"campo":"vision_bloqueio","op":"contains","valor":"equipe"}]}}],"contra_sinais":[{"id":"carro_cs1","fonte":"assessment","efeito":-2,"condicao":{"campo":"vision_tempo","op":"gte","valor":60,"escala":"vision_tempo"}},{"id":"carro_cs2","fonte":"assessment","efeito":-2,"condicao":{"campo":"energy_inicio","op":"contains","valor":"executar logo e ajustar"}}]},{"id":"VIII","nome":"A Justiça","romano":"VIII","sinais":[{"id":"justica_p1","tipo":"primario","fonte":"assessment","familia_evidencia":"valor_potencia_e_seguranca","peso":3,"condicao":{"campo":"biz_preco","op":"contains","valor":"deveria cobrar menos"}},{"id":"justica_p2","tipo":"primario","fonte":"B","familia_evidencia":"fechamento_e_persistencia","peso":3,"condicao":{"all":[{"campo":"hormozi.esforco","op":"gte","valor":7},{"campo":"hormozi.resultadoSonhado","op":"gte","valor":7}]}},{"id":"justica_s1","tipo":"secundario","fonte":"assessment","familia_evidencia":"valor_potencia_e_seguranca","peso":1,"condicao":{"campo":"biz_escala","op":"contains","valor":"POUCOS clientes"}},{"id":"justica_s2","tipo":"secundario","fonte":"assessment","familia_evidencia":"expressao_e_transmissao","peso":1,"condicao":{"campo":"energy_drena","op":"contains","valor":"Negociação e confronto direto"}}],"contra_sinais":[{"id":"justica_cs1","fonte":"assessment","efeito":"veto","classe":"veto_funcao_presente","condicao":{"campo":"biz_preco","op":"contains","valor":"Cobro premium"}},{"id":"justica_cs2","fonte":"assessment","efeito":-2,"condicao":{"campo":"energy_carrega","op":"contains","valor":"Negociar e fechar acordos"}}]},{"id":"IX","nome":"O Eremita","romano":"IX","sinais":[{"id":"eremita_p1","tipo":"primario","fonte":"assessment","familia_evidencia":"foco_e_portfolio","peso":3,"condicao":{"campo":"energy_multitask","op":"contains","valor":"Gerenciando muitas coisas"}},{"id":"eremita_p2","tipo":"primario","fonte":"A","familia_evidencia":"alinhamento_e_estrutura","peso":3,"condicao":{"all":[{"campo":"zones.genialidade","op":"lte","valor":25},{"campo":"zones.competencia","op":"gte","valor":30}]}},{"id":"eremita_p3","tipo":"primario","fonte":"assessment","familia_evidencia":"fechamento_e_persistencia","peso":3,"condicao":{"campo":"initiative_stage","op":"eq","valor":"many_early"}},{"id":"eremita_s1","tipo":"secundario","fonte":"B","familia_evidencia":"alinhamento_e_estrutura","peso":1,"condicao":{"campo":"uniqueAbility.timeInZone","op":"lte","valor":40}},{"id":"eremita_s2","tipo":"secundario","fonte":"assessment","familia_evidencia":"fechamento_e_persistencia","peso":1,"condicao":{"campo":"initiative_stage","op":"eq","valor":"many_mid_late"}}],"contra_sinais":[{"id":"eremita_cs1","fonte":"assessment","efeito":"veto","classe":"veto_funcao_presente","condicao":{"campo":"energy_multitask","op":"contains","valor":"uma coisa só com foco total"}}]},{"id":"X","nome":"A Fortuna","romano":"X","sinais":[{"id":"fortuna_p1","tipo":"primario","fonte":"A","familia_evidencia":"fechamento_e_persistencia","peso":3,"condicao":{"all":[{"campo":"kolbe.seguimento","op":"lte","valor":4},{"campo":"kolbe.inicioRapido","op":"gte","valor":7}]}},{"id":"fortuna_p2","tipo":"primario","fonte":"texto_livre","familia_evidencia":"direcao_e_incerteza","peso":3,"condicao":{"any":[{"campo":"vision_bloqueio","op":"contains","valor":"prazo"},{"campo":"vision_bloqueio","op":"contains","valor":"não vem resultado"},{"campo":"vision_bloqueio","op":"contains","valor":"demora"}]}},{"id":"fortuna_s1","tipo":"secundario","fonte":"B","familia_evidencia":"valor_potencia_e_seguranca","peso":1,"condicao":{"campo":"hormozi.probabilidade","op":"lte","valor":4}},{"id":"fortuna_s2","tipo":"secundario","fonte":"assessment","familia_evidencia":"iniciacao_e_ritmo","peso":1,"condicao":{"campo":"biz_timing","op":"contains","valor":"fast follower"}}],"contra_sinais":[{"id":"fortuna_cs1","fonte":"A","efeito":"veto","classe":"veto_funcao_presente","condicao":{"campo":"kolbe.seguimento","op":"gte","valor":7}},{"id":"fortuna_cs2","fonte":"assessment","efeito":-2,"condicao":{"campo":"biz_risco","op":"contains","valor":"Amo risco"}}]},{"id":"XI","nome":"Força / Luxúria","romano":"XI","sinais":[{"id":"forca_p1","tipo":"primario","fonte":"assessment","familia_evidencia":"valor_potencia_e_seguranca","peso":3,"condicao":{"all":[{"campo":"vision_receita","op":"gte","valor":100000,"escala":"vision_receita"},{"any":[{"campo":"biz_preco","op":"contains","valor":"dificuldade"},{"campo":"biz_preco","op":"contains","valor":"poderia cobrar mais"}]}]}},{"id":"forca_p2","tipo":"primario","fonte":"texto_livre","familia_evidencia":"expressao_e_transmissao","peso":3,"condicao":{"any":[{"campo":"vision_bloqueio","op":"contains","valor":"ganancios"},{"campo":"vision_bloqueio","op":"contains","valor":"não é para mim"},{"campo":"vision_bloqueio","op":"contains","valor":"medo de aparecer"},{"campo":"vision_bloqueio","op":"contains","valor":"exposição"}]}},{"id":"forca_s1","tipo":"secundario","fonte":"assessment","familia_evidencia":"expressao_e_transmissao","peso":1,"condicao":{"campo":"energy_drena","op":"contains","valor":"Vender e prospectar clientes"}},{"id":"forca_s2","tipo":"secundario","fonte":"assessment","familia_evidencia":"agencia_e_autoridade","peso":1,"condicao":{"campo":"ctx_intro_extro","op":"contains","valor":"Introvertido"}}],"contra_sinais":[{"id":"forca_cs1","fonte":"assessment","efeito":-2,"condicao":{"campo":"biz_preco","op":"contains","valor":"Cobro premium"}},{"id":"forca_cs2","fonte":"B","efeito":-2,"condicao":{"campo":"wealthProfile.name","op":"eq","valor":"Estrela"}},{"id":"forca_cs3","fonte":"assessment","efeito":-2,"condicao":{"campo":"vision_receita","op":"lte","valor":5000,"escala":"vision_receita"}}]},{"id":"XII","nome":"O Enforcado","romano":"XII","sinais":[{"id":"enforcado_p1","tipo":"primario","fonte":"assessment","familia_evidencia":"agencia_e_autoridade","peso":3,"condicao":{"all":[{"campo":"vision_tempo","op":"gte","valor":60,"escala":"vision_tempo"},{"campo":"vision_receita","op":"lte","valor":15000,"escala":"vision_receita"}]}},{"id":"enforcado_p2","tipo":"primario","fonte":"B","familia_evidencia":"valor_potencia_e_seguranca","peso":3,"condicao":{"all":[{"campo":"hormozi.esforco","op":"gte","valor":7},{"campo":"hormozi.probabilidade","op":"lte","valor":4}]}},{"id":"enforcado_s1","tipo":"secundario","fonte":"A","familia_evidencia":"alinhamento_e_estrutura","peso":1,"condicao":{"campo":"zones.incompetencia","op":"gte","valor":20}},{"id":"enforcado_s2","tipo":"secundario","fonte":"assessment","familia_evidencia":"iniciacao_e_ritmo","peso":1,"condicao":{"campo":"energy_ritmo","op":"contains","valor":"acelerando até o deadline"}}],"contra_sinais":[{"id":"enforcado_cs1","fonte":"assessment","efeito":-2,"condicao":{"campo":"vision_tempo","op":"lte","valor":10,"escala":"vision_tempo"}}]},{"id":"XIII","nome":"A Morte","romano":"XIII","sinais":[{"id":"morte_p1","tipo":"primario","fonte":"assessment","familia_evidencia":"alinhamento_e_estrutura","peso":3,"condicao":{"all":[{"campo":"talent_competencia_genialidade.choice","op":"eq","valor":"Sim"},{"campo":"talent_competencia_genialidade.detail","op":"exists","valor":true}]}},{"id":"morte_p2","tipo":"primario","fonte":"A","familia_evidencia":"foco_e_portfolio","peso":3,"condicao":{"all":[{"campo":"zones.excelencia","op":"gte","valor":30},{"campo":"zones.genialidade","op":"lte","valor":25}]}},{"id":"morte_s1","tipo":"secundario","fonte":"assessment","familia_evidencia":"valor_potencia_e_seguranca","peso":1,"condicao":{"campo":"energy_drena.count","op":"gte","valor":4}},{"id":"morte_s2","tipo":"secundario","fonte":"D","familia_evidencia":"direcao_e_incerteza","peso":1,"condicao":{"avaliacao_bloco_d":"divergencia_vocacional"}}],"contra_sinais":[{"id":"morte_cs1","fonte":"assessment","efeito":"veto","classe":"veto_pre_requisito","condicao":{"campo":"talent_competencia_genialidade.choice","op":"eq","valor":"Não"}},{"id":"morte_cs2","fonte":"A","efeito":-2,"condicao":{"campo":"zones.genialidade","op":"gte","valor":40}}]},{"id":"XIV","nome":"A Arte","romano":"XIV","sinais":[{"id":"arte_p1","tipo":"primario","fonte":"D","familia_evidencia":"alinhamento_e_estrutura","peso":3,"condicao":{"avaliacao_bloco_d":"duas_trajetorias"}},{"id":"arte_p2","tipo":"primario","fonte":"B","familia_evidencia":"foco_e_portfolio","peso":3,"condicao":{"campo":"uniqueAbility.timeInZone","op":"lte","valor":40}},{"id":"arte_s1","tipo":"secundario","fonte":"assessment","familia_evidencia":"alinhamento_e_estrutura","peso":1,"condicao":{"campo":"energy_inovacao_otimizacao","op":"contains","valor":"Conectar coisas existentes"}},{"id":"arte_s2","tipo":"secundario","fonte":"D","familia_evidencia":"direcao_e_incerteza","peso":1,"condicao":{"avaliacao_bloco_d":"area_diverge_do_flow"}}],"contra_sinais":[{"id":"arte_cs1","fonte":"D","efeito":"veto","classe":"veto_pre_requisito","condicao":{"avaliacao_bloco_d":"duas_trajetorias","esperado":false}},{"id":"arte_cs2","fonte":"B","efeito":-2,"condicao":{"campo":"uniqueAbility.timeInZone","op":"gte","valor":70}}]},{"id":"XV","nome":"O Diabo","romano":"XV","sinais":[{"id":"diabo_p1","tipo":"primario","fonte":"assessment","familia_evidencia":"valor_potencia_e_seguranca","peso":3,"condicao":{"all":[{"campo":"vision_receita","op":"gte","valor":50000,"escala":"vision_receita"},{"campo":"vision_tempo","op":"lte","valor":10,"escala":"vision_tempo"}]}},{"id":"diabo_p2","tipo":"primario","fonte":"mista","familia_evidencia":"alinhamento_e_estrutura","peso":3,"condicao":{"all":[{"campo":"biz_risco","op":"contains","valor":"Evito ao máximo"},{"avaliacao_bloco_d":"divergencia_vocacional"}]}},{"id":"diabo_s1","tipo":"secundario","fonte":"texto_livre","familia_evidencia":"direcao_e_incerteza","peso":1,"condicao":{"any":[{"campo":"vision_bloqueio","op":"contains","valor":"segurança"},{"campo":"vision_bloqueio","op":"contains","valor":"estabilidade"},{"campo":"vision_bloqueio","op":"contains","valor":"dependência"}]}}],"contra_sinais":[{"id":"diabo_cs1","fonte":"D","efeito":"veto","classe":"veto_pre_requisito","condicao":{"avaliacao_bloco_d":"divergencia_vocacional","esperado":false}},{"id":"diabo_cs2","fonte":"assessment","efeito":-2,"condicao":{"campo":"biz_risco","op":"contains","valor":"Amo risco"}}]},{"id":"XVI","nome":"A Torre","romano":"XVI","sinais":[{"id":"torre_p1","tipo":"primario","fonte":"mista","familia_evidencia":"alinhamento_e_estrutura","peso":3,"condicao":{"all":[{"campo":"ctx_experiencia","op":"gte","valor":15,"escala":"ctx_experiencia"},{"campo":"zones.genialidade","op":"lte","valor":25}]}},{"id":"torre_p2","tipo":"primario","fonte":"C","familia_evidencia":"foco_e_portfolio","peso":3,"condicao":{"campo":"convergence.gaps_altos","op":"gte","valor":3}},{"id":"torre_s1","tipo":"secundario","fonte":"assessment","familia_evidencia":"valor_potencia_e_seguranca","peso":1,"condicao":{"campo":"talent_frustracao","op":"contains","valor":"Processos lentos"}},{"id":"torre_s2","tipo":"secundario","fonte":"texto_livre","familia_evidencia":"direcao_e_incerteza","peso":1,"condicao":{"any":[{"campo":"vision_bloqueio","op":"contains","valor":"estrutura"},{"campo":"vision_bloqueio","op":"contains","valor":"modelo"},{"campo":"vision_bloqueio","op":"contains","valor":"formato"}]}}],"contra_sinais":[{"id":"torre_cs1","fonte":"A","efeito":-2,"condicao":{"campo":"zones.genialidade","op":"gte","valor":40}}]},{"id":"XVII","nome":"A Estrela","romano":"XVII","sinais":[{"id":"estrela_p1","tipo":"primario","fonte":"assessment","familia_evidencia":"direcao_e_incerteza","peso":3,"condicao":{"campo":"clarity_next_step","op":"eq","valor":4}},{"id":"estrela_p2","tipo":"primario","fonte":"assessment","familia_evidencia":"valor_potencia_e_seguranca","peso":3,"condicao":{"campo":"biz_risco","op":"contains","valor":"Evito ao máximo"}},{"id":"estrela_s1","tipo":"secundario","fonte":"assessment","familia_evidencia":"direcao_e_incerteza","peso":1,"condicao":{"campo":"ctx_analitico_intuitivo","op":"contains","valor":"Analítico"}},{"id":"estrela_s2","tipo":"secundario","fonte":"assessment","familia_evidencia":"iniciacao_e_ritmo","peso":1,"condicao":{"campo":"energy_problemas","op":"contains","valor":"Parar e analisar todas as opções"}}],"contra_sinais":[{"id":"estrela_cs1","fonte":"assessment","efeito":"veto","classe":"veto_funcao_presente","condicao":{"any":[{"campo":"biz_risco","op":"contains","valor":"riscos moderados"},{"campo":"biz_risco","op":"contains","valor":"Amo risco"}]}},{"id":"estrela_cs2","fonte":"assessment","efeito":-2,"condicao":{"campo":"ctx_analitico_intuitivo","op":"contains","valor":"decido rápido pelo instinto"}}]},{"id":"XVIII","nome":"A Lua","romano":"XVIII","sinais":[{"id":"lua_p1","tipo":"primario","fonte":"assessment","familia_evidencia":"direcao_e_incerteza","peso":3,"condicao":{"campo":"clarity_next_step","op":"eq","valor":0}},{"id":"lua_p2","tipo":"primario","fonte":"texto_livre","familia_evidencia":"direcao_e_incerteza","peso":3,"condicao":{"any":[{"campo":"vision_bloqueio","op":"contains","valor":"não sei"},{"campo":"vision_bloqueio","op":"contains","valor":"perdid"},{"campo":"vision_bloqueio","op":"contains","valor":"confus"},{"campo":"vision_bloqueio","op":"contains","valor":"sumiu"},{"campo":"vision_bloqueio","op":"contains","valor":"não faço ideia"}]}},{"id":"lua_s1","tipo":"secundario","fonte":"C","familia_evidencia":"foco_e_portfolio","peso":1,"condicao":{"campo":"convergence.gaps_altos","op":"lte","valor":1}},{"id":"lua_s2","tipo":"secundario","fonte":"assessment","familia_evidencia":"agencia_e_autoridade","peso":1,"condicao":{"campo":"energy_problemas","op":"contains","valor":"Consultar alguém de confian"}}],"contra_sinais":[{"id":"lua_cs1","fonte":"assessment","efeito":"veto","classe":"veto_funcao_presente","condicao":{"campo":"clarity_next_step","op":"gte","valor":7}},{"id":"lua_cs2","fonte":"texto_livre","efeito":-2,"condicao":{"campo":"vision_bloqueio","op":"eq","valor":""}}]},{"id":"XIX","nome":"O Sol","romano":"XIX","sinais":[{"id":"sol_p1","tipo":"primario","fonte":"assessment","familia_evidencia":"expressao_e_transmissao","peso":3,"condicao":{"campo":"energy_drena","op":"contains","valor":"Vender e prospectar clientes"}},{"id":"sol_p2","tipo":"primario","fonte":"B","familia_evidencia":"valor_potencia_e_seguranca","peso":3,"condicao":{"all":[{"campo":"uniqueAbility.alignment","op":"gte","valor":70},{"campo":"uniqueAbility.receita_nao_realizada","op":"eq","valor":true}]}},{"id":"sol_s1","tipo":"secundario","fonte":"assessment","familia_evidencia":"expressao_e_transmissao","peso":1,"condicao":{"campo":"biz_escala","op":"contains","valor":"POUCOS clientes"}},{"id":"sol_s2","tipo":"secundario","fonte":"assessment","familia_evidencia":"agencia_e_autoridade","peso":1,"condicao":{"campo":"ctx_intro_extro","op":"contains","valor":"Introvertido"}}],"contra_sinais":[{"id":"sol_cs1","fonte":"B","efeito":"veto","classe":"veto_funcao_presente","condicao":{"campo":"wealthProfile.name","op":"eq","valor":"Estrela"}},{"id":"sol_cs2","fonte":"assessment","efeito":-2,"condicao":{"campo":"talent_natural","op":"contains","valor":"Falar em público"}},{"id":"sol_cs3","fonte":"assessment","efeito":-2,"condicao":{"campo":"energy_flow","op":"contains","valor":"Liderando reuniões"}}]},{"id":"XX","nome":"O Aeon","romano":"XX","sinais":[{"id":"aeon_p1","tipo":"primario","fonte":"D","familia_evidencia":"alinhamento_e_estrutura","peso":3,"condicao":{"avaliacao_bloco_d":"divergencia_vocacional"}},{"id":"aeon_p2","tipo":"primario","fonte":"texto_livre","familia_evidencia":"valor_potencia_e_seguranca","peso":3,"condicao":{"any":[{"campo":"vision_bloqueio","op":"contains","valor":"deveria"},{"campo":"vision_bloqueio","op":"contains","valor":"esperam"},{"campo":"vision_bloqueio","op":"contains","valor":"sempre fui"}]}},{"id":"aeon_s1","tipo":"secundario","fonte":"mista","familia_evidencia":"direcao_e_incerteza","peso":1,"condicao":{"all":[{"campo":"ctx_experiencia","op":"gte","valor":15,"escala":"ctx_experiencia"},{"avaliacao_bloco_d":"area_diverge_do_flow"}]}},{"id":"aeon_s2","tipo":"secundario","fonte":"assessment","familia_evidencia":"agencia_e_autoridade","peso":1,"condicao":{"campo":"talent_feedback","op":"contains","valor":"Questiona e desafia"}}],"contra_sinais":[{"id":"aeon_cs1","fonte":"D","efeito":"veto","classe":"veto_pre_requisito","condicao":{"avaliacao_bloco_d":"divergencia_vocacional","esperado":false}},{"id":"aeon_cs2","fonte":"assessment","efeito":-2,"condicao":{"campo":"ctx_experiencia","op":"lte","valor":3,"escala":"ctx_experiencia"}}]},{"id":"XXI","nome":"O Universo","romano":"XXI","sinais":[{"id":"universo_p1","tipo":"primario","fonte":"A","familia_evidencia":"fechamento_e_persistencia","peso":3,"condicao":{"all":[{"campo":"kolbe.seguimento","op":"lte","valor":4},{"campo":"kolbe.inicioRapido","op":"gte","valor":7}]}},{"id":"universo_p2","tipo":"primario","fonte":"assessment","familia_evidencia":"fechamento_e_persistencia","peso":3,"condicao":{"campo":"initiative_stage","op":"eq","valor":"near_done_abandoned"}},{"id":"universo_p3","tipo":"primario","fonte":"C","familia_evidencia":"fechamento_e_persistencia","peso":3,"condicao":{"any":[{"campo":"actionPlan.doNot","op":"contains","valor":"concluir"},{"campo":"recommendation","op":"contains","valor":"concluir antes"}]}},{"id":"universo_s1","tipo":"secundario","fonte":"assessment","familia_evidencia":"foco_e_portfolio","peso":1,"condicao":{"campo":"energy_multitask","op":"contains","valor":"Gerenciando muitas coisas"}},{"id":"universo_s2","tipo":"secundario","fonte":"B","familia_evidencia":"alinhamento_e_estrutura","peso":1,"condicao":{"campo":"wealthProfile.name","op":"eq","valor":"Criador"}},{"id":"universo_s3","tipo":"secundario","fonte":"assessment","familia_evidencia":"fechamento_e_persistencia","peso":1,"condicao":{"campo":"initiative_stage","op":"eq","valor":"many_mid_late"}}],"contra_sinais":[{"id":"universo_cs1","fonte":"A","efeito":"veto","classe":"veto_funcao_presente","condicao":{"campo":"kolbe.seguimento","op":"gte","valor":7}},{"id":"universo_cs2","fonte":"assessment","efeito":"veto","classe":"veto_pre_requisito","condicao":{"campo":"initiative_stage","op":"eq","valor":"none_started"}}]}]}/*__/TAX__*/;
+
+/* O JSON define convergence.gaps_altos como (potential − current) >= 25, escala de 0
+   a 100. O SCHEMA do bloco C devolve current e potential em 1–10 (veja CHUNKS). Do
+   jeito escrito, torre_p2 (>= 3 eixos) nunca dispara e lua_s1 (<= 1 eixo) dispara
+   sempre, dando um ponto grátis à Lua em toda análise. 25/100 é 2.5/10; a conversão
+   mora aqui, no consumidor, e a taxonomia continua congelada. */
+const GAP_ALTO = 2.5;
+
+/* Constantes da spec que não têm forma machine-readable no JSON — lá são prosa. */
+const LIMIAR_MINIMO = 1.5;   // abaixo disso: selection_mode = low_evidence
+const PISO_FAMILIAS = 2;     // nenhuma carta entra no top 4 com uma família só
+const CORROBORACAO = 0.5;    // segunda fonte independente da mesma família
+
+/** Minúscula, sem acento, sem espaço nas pontas. Base de toda comparação textual. */
+function txtNorm(v){
+  return String(v == null ? '' : v).normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase().trim();
+}
+/** Chave de identidade de arcano. Existe porque o JSON diz 'Força / Luxúria' e o
+    corpus ARCANOS diz 'Força/Luxúria' — mesma carta, dois espaços de diferença. */
+function chaveArcano(nome){ return txtNorm(nome).replace(/\s+/g, ''); }
+
+function valorEm(obj, caminho){
+  return String(caminho || '').split('.').reduce((o, k) => (o == null ? undefined : o[k]), obj);
+}
+
+/* Campos de múltipla escolha cujo texto precisa virar número antes de comparar. A
+   tabela do JSON guarda o rótulo curto ('Até R$5.000/mês') e o assessment guarda a
+   opção inteira ('Até R$5.000/mês (estou comecando)') — daí exato, depois prefixo,
+   depois substring. Prefixo antes de substring importa: 'R$5.000' aparece em duas
+   faixas, e só o começo da string desempata. */
+function porEscala(tabela, valor){
+  if (typeof valor === 'number') return valor;
+  const alvo = txtNorm(valor);
+  if (!alvo || !Array.isArray(tabela)) return undefined;
+  const linhas = tabela.map(l => ({ n: txtNorm(l.texto), v: l.valor }));
+  for (const l of linhas) if (alvo === l.n) return l.v;
+  for (const l of linhas) if (l.n && alvo.indexOf(l.n) === 0) return l.v;
+  for (const l of linhas) if (l.n && alvo.indexOf(l.n) !== -1) return l.v;
+  return undefined;
+}
+
+/** Quantos eixos de convergence têm gap alto. undefined quando o bloco C não veio —
+    e undefined nunca satisfaz comparação numérica, que é o desejado: bloco ausente
+    não vira evidência. */
+function gapsAltos(conv){
+  if (!conv || !Array.isArray(conv.current) || !Array.isArray(conv.potential)) return undefined;
+  let n = 0;
+  const len = Math.min(conv.current.length, conv.potential.length);
+  for (let i = 0; i < len; i++){
+    const gap = (+conv.potential[i]) - (+conv.current[i]);
+    if (Number.isFinite(gap) && gap >= GAP_ALTO) n++;
+  }
+  return n;
+}
+
+/** vision_receita acima de 15k com hormozi.probabilidade baixa: a receita desejada
+    não está no radar de quem analisou. Definição em campos_derivados. */
+function receitaNaoRealizada(ctx, escalas){
+  const r = porEscala(escalas && escalas.vision_receita, ctx.vision_receita);
+  const p = +(ctx.hormozi && ctx.hormozi.probabilidade);
+  if (!Number.isFinite(r) || !Number.isFinite(p)) return false;
+  return r > 15000 && p <= 4;
+}
+
+/* Os três campos que a spec descreve em prosa e não existem como campo bruto.
+   Resolvidos aqui em vez de materializados no contexto porque o nome deles tem ponto
+   e colidiria com a leitura de caminho aninhado. */
+function campoDaCarta(ctx, campo, escalas){
+  if (campo === 'convergence.gaps_altos') return gapsAltos(ctx.convergence);
+  if (campo === 'energy_drena.count') return Array.isArray(ctx.energy_drena) ? ctx.energy_drena.length : undefined;
+  if (campo === 'uniqueAbility.receita_nao_realizada') return receitaNaoRealizada(ctx, escalas);
+  return valorEm(ctx, campo);
+}
+
+function comparar(op, atual, esperado){
+  switch (op){
+    case 'exists': {
+      const tem = atual != null && atual !== '' && !(Array.isArray(atual) && !atual.length);
+      return esperado === false ? !tem : tem;
+    }
+    case 'eq': case 'neq': {
+      let igual;
+      if (typeof esperado === 'boolean') igual = (atual === esperado);
+      else if (typeof esperado === 'number') igual = (Number.isFinite(+atual) && +atual === esperado);
+      else igual = (txtNorm(atual) === txtNorm(esperado));
+      return op === 'eq' ? igual : !igual;
+    }
+    case 'gt': case 'gte': case 'lt': case 'lte': {
+      const a = +atual, b = +esperado;
+      if (!Number.isFinite(a) || !Number.isFinite(b)) return false;
+      return op === 'gt' ? a > b : op === 'gte' ? a >= b : op === 'lt' ? a < b : a <= b;
+    }
+    case 'between': {
+      const a = +atual;
+      if (!Number.isFinite(a) || !Array.isArray(esperado)) return false;
+      return a >= +esperado[0] && a <= +esperado[1];
+    }
+    case 'in': {
+      if (!Array.isArray(esperado)) return false;
+      const n = txtNorm(atual);
+      return esperado.some(v => txtNorm(v) === n);
+    }
+    /* Em array é presença do item; em string é substring. Nos dois casos sem acento e
+       sem caixa, porque a acentuação dos rótulos do assessment é irregular. */
+    case 'contains': {
+      const alvo = txtNorm(esperado);
+      if (!alvo) return false;
+      if (Array.isArray(atual)) return atual.some(x => txtNorm(x).indexOf(alvo) !== -1);
+      return txtNorm(atual).indexOf(alvo) !== -1;
+    }
+    default: return false;
+  }
+}
+
+/** Condição que depende de julgamento semântico do árbitro. O scorer não resolve — e
+    devolve false, não "desconhecido". É isso que desarma arte_cs1, diabo_cs1 e
+    aeon_cs1, que são vetos condicionados a `esperado: false`: sem resposta do bloco D,
+    nenhum deles zera a carta por engano. */
+function condicaoEhDoBlocoD(cond){
+  if (!cond || typeof cond !== 'object') return false;
+  if (cond.avaliacao_bloco_d) return true;
+  if (Array.isArray(cond.all)) return cond.all.some(condicaoEhDoBlocoD);
+  if (Array.isArray(cond.any)) return cond.any.some(condicaoEhDoBlocoD);
+  return false;
+}
+
+function avaliarCondicao(cond, ctx, escalas){
+  if (!cond || typeof cond !== 'object') return false;
+  if (Array.isArray(cond.all)) return cond.all.every(c => avaliarCondicao(c, ctx, escalas));
+  if (Array.isArray(cond.any)) return cond.any.some(c => avaliarCondicao(c, ctx, escalas));
+  if (cond.avaliacao_bloco_d) return false;
+  let atual = campoDaCarta(ctx, cond.campo, escalas);
+  if (cond.escala) atual = porEscala(escalas && escalas[cond.escala], atual);
+  return comparar(cond.op, atual, cond.valor);
+}
+
+/* Máximo positivo da própria carta, algoritmo calculo_max_positivo do JSON: por
+   família, o maior peso disponível mais 0.5 se houver duas fontes distintas. Não é a
+   soma dos pesos — quatro primários da mesma família valem 3.5, não 12. Confere com o
+   exemplo do JSON: O Louco dá 8.5.
+
+   Sinais pendentes do bloco D entram no denominador. É leitura literal da taxonomia, e
+   em modo sombra é a leitura certa: A Arte e O Aeon aparecem com o teto deles inteiro,
+   e `pendentes_d` diz quanto desse teto o scorer sozinho não alcança. */
+const MAX_POSITIVO = {};
+function maxPositivo(arc){
+  if (MAX_POSITIVO[arc.id] !== undefined) return MAX_POSITIVO[arc.id];
+  const fam = {};
+  for (const s of (arc.sinais || [])){
+    const f = fam[s.familia_evidencia] || (fam[s.familia_evidencia] = { peso: 0, fontes: {} });
+    f.peso = Math.max(f.peso, +s.peso || 0);
+    f.fontes[s.fonte] = true;
+  }
+  let total = 0;
+  for (const k in fam) total += fam[k].peso + (Object.keys(fam[k].fontes).length >= 2 ? CORROBORACAO : 0);
+  MAX_POSITIVO[arc.id] = total;
+  return total;
+}
+
+function pontuarArcano(arc, ctx, escalas){
+  let penalidade = 0;
+  const vetos = [], contras = [];
+  for (const cs of (arc.contra_sinais || [])){
+    if (!avaliarCondicao(cs.condicao, ctx, escalas)) continue;
+    if (cs.efeito === 'veto') vetos.push({ id: cs.id, classe: cs.classe });
+    else { penalidade += Math.abs(+cs.efeito || 0); contras.push(cs.id); }
+  }
+
+  /* Uma família conta uma vez. A, B e C não são observadores independentes: recebem
+     partes da mesma história, e sem esse controle um fenômeno único contaria três
+     vezes. Peso integral é o maior peso casado na família — um secundário listado
+     antes de um primário não pode rebaixar a família para 1. */
+  const fam = {};
+  let pendentesD = 0;
+  for (const s of (arc.sinais || [])){
+    if (condicaoEhDoBlocoD(s.condicao)) pendentesD++;
+    if (!avaliarCondicao(s.condicao, ctx, escalas)) continue;
+    const f = fam[s.familia_evidencia] || (fam[s.familia_evidencia] = { peso: 0, fontes: {}, sinais: [] });
+    f.peso = Math.max(f.peso, +s.peso || 0);
+    f.fontes[s.fonte] = true;
+    f.sinais.push(s.id);
+  }
+
+  let positivos = 0;
+  const evidencias = [];
+  for (const nome in fam){
+    const f = fam[nome];
+    const corroborado = Object.keys(f.fontes).length >= 2;
+    const peso = f.peso + (corroborado ? CORROBORACAO : 0);
+    positivos += peso;
+    evidencias.push({ familia: nome, peso, corroborado, sinais: f.sinais });
+  }
+
+  const max = maxPositivo(arc);
+  const score = max > 0 ? Math.max(0, (positivos - penalidade) / max * 10) : 0;
+  return {
+    id: arc.id, nome: arc.nome, romano: arc.romano,
+    score: vetos.length ? 0 : +score.toFixed(2),
+    vetado: vetos.length > 0, vetos,
+    familias: Object.keys(fam).length,
+    positivos: +positivos.toFixed(2), penalidade, max, contras, evidencias,
+    pendentes_d: pendentesD
+  };
+}
+
+/* answers guarda o texto da opção; o scorer compara número e código. ESCALAS é a
+   ponte, e mora lá em cima junto de QUESTIONS de propósito: se um rótulo for
+   reescrito, a divergência aparece no mesmo arquivo. */
+function contextoDaCarta(answers, analise){
+  const ctx = Object.assign({}, answers || {}, analise || {});
+  for (const campo in ESCALAS){
+    const mapeado = ESCALAS[campo][answers && answers[campo]];
+    if (mapeado !== undefined) ctx[campo] = mapeado;
+  }
+  return ctx;
+}
+
+/** Top 4 determinístico a partir das 22 fichas. `analise` é o merged CRU dos três
+    blocos, nunca o sanitizado: sanitize() preenche kolbe com 5 e zones com 25% quando
+    um bloco falha, e pontuar em cima disso fabricaria evidência de bloco que não
+    respondeu. Devolve null quando não há taxonomia injetada. */
+function pontuarArcanos(answers, analise){
+  const tax = TAXONOMIA_CARTA;
+  if (!tax || !Array.isArray(tax.arcanos) || !tax.arcanos.length) return null;
+  const ctx = contextoDaCarta(answers, analise);
+  const todos = tax.arcanos
+    .map(a => pontuarArcano(a, ctx, tax.escalas))
+    .sort((x, y) => y.score - x.score);
+
+  /* Piso de duas famílias: sem ele, uma carta com um único sinal catalogado bate 10,0
+     ao encontrá-lo e vence cartas com quatro evidências independentes. */
+  const elegiveis = todos.filter(a => !a.vetado && a.familias >= PISO_FAMILIAS && a.score > LIMIAR_MINIMO);
+  const top = elegiveis.slice(0, 4);
+  const margem = top.length >= 2 ? +(top[0].score - top[1].score).toFixed(2) : null;
+
+  return {
+    versao: tax.versao,
+    selection_mode: top.length ? 'scored' : 'low_evidence',
+    top, margem,
+    confianca: (!top.length || margem == null) ? 'baixa' : margem > 1.5 ? 'alta' : margem >= 0.5 ? 'media' : 'baixa',
+    vetados: todos.filter(a => a.vetado).map(a => a.romano),
+    barrados_pelo_piso: todos.filter(a => !a.vetado && a.familias < PISO_FAMILIAS && a.score > LIMIAR_MINIMO).map(a => a.romano),
+    todos
+  };
+}
+
+/** Manda para o painel o par (o que o scorer escolheria, o que o modelo escolheu). Um
+    evento por análise, sem dado pessoal: só romanos, notas e a posição do escolhido no
+    ranking. É o par que interessa — a distribuição isolada de qualquer um dos dois não
+    diz se a taxonomia está pronta para substituir o modelo. */
+function registrarSombra(sombra, nomeDoModelo){
+  if (!sombra) return;
+  const chave = chaveArcano(nomeDoModelo);
+  const pos = chave ? sombra.top.findIndex(t => chaveArcano(t.nome) === chave) + 1 : -1;
+  zgEtapa('zg_carta_sombra', {
+    modo: sombra.selection_mode,
+    /* 'XXI:8.4|IX:6.9|III:5.1|0:4.2' — cabe num rótulo e continua legível no painel. */
+    topo: sombra.top.map(t => t.romano + ':' + t.score.toFixed(1)).join('|') || 'vazio',
+    modelo: nomeDoModelo || 'ausente',
+    /* 1 a 4 é a posição no top; 0 é escolha fora do top 4; -1 é análise sem carta. */
+    posicao: pos,
+    confianca: sombra.confianca
+  });
 }
 
 /* ---------- app state ---------- */
@@ -1801,10 +2082,25 @@ const App = {
        análise, um evento. Arcano fora do corpus vira 'invalido' em vez de sumir — é
        justamente o caso que precisa aparecer no painel. */
     const escolhido = merged.carta && merged.carta.arcano;
+    let nomeDoModelo = '';
     if (escolhido != null && String(escolhido).trim()) {
       const a = arcanoDe(escolhido);
-      zgEtapa('zg_carta_gerada', { arcano: a ? a.n : 'invalido' });
+      nomeDoModelo = a ? a.n : 'invalido';
+      zgEtapa('zg_carta_gerada', { arcano: nomeDoModelo });
     }
+
+    /* Scorer determinístico em modo sombra: pontua as 22 fichas e registra o que
+       teria escolhido, ao lado do que o modelo escolheu. Não altera merged, não
+       altera this.data, não toca na carta que vai para a tela.
+
+       Pontua o merged CRU de propósito — sanitize() já rodou acima e teria dado a
+       kolbe um 5 e às zonas um 25% que ninguém apurou. E o try/catch é a regra:
+       comparação é trabalho de bastidor, e bastidor não derruba entrega. */
+    try {
+      this._sombra = pontuarArcanos(this.answers, merged);
+      registrarSombra(this._sombra, nomeDoModelo);
+    } catch(e){ this._sombra = null; console.warn('scorer da carta (sombra) falhou:', e); }
+
     this._falhas = falhas;
     await Store.set('zgp_result', JSON.stringify({ data: this.data, apurados: this.apurados }));
     this.renderDash();

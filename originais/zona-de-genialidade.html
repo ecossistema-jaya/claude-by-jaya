@@ -156,6 +156,18 @@ a{color:var(--terracota-ink);text-underline-offset:0.2em;}
 .btn.ghost:hover{background:var(--petroleo);color:var(--papel);border-color:var(--petroleo);}
 .btn.sm{font-size:0.9375rem;padding:0.75em 1.4em;}
 .btn:disabled{opacity:.4;cursor:not-allowed;}
+/* Link para o curso de Tarô. Musgo em vez do petróleo dos outros: é oferta, não
+   ação sobre o relatório, e a cor separa as duas coisas sem precisar de rótulo.
+   #F4F0E7 sobre #53624B dá 5,74:1 — passa em AA para texto normal.
+
+   Único .btn que sobrevive ao dashboard baixado, porque é o único que não chama
+   App.*: link externo continua funcionando fora da página. A exceção está em
+   buildExportHTML(). Na impressão some junto com os outros — link no papel não
+   se clica. */
+.btn.btn-tarot{background:var(--musgo);border-color:var(--musgo);color:var(--papel);
+  text-decoration:none;}
+.btn.btn-tarot:hover{background:#44503E;border-color:#44503E;}
+.dash-tarot{text-align:center;margin-top:1.25rem;}
 .mergulho .btn{background:var(--ambar);border-color:var(--ambar);color:var(--petroleo);}
 .mergulho .btn:hover{background:#F7CD8E;border-color:#F7CD8E;}
 
@@ -853,6 +865,11 @@ footer .legal{margin-top:1rem;font-size:0.8125rem;color:var(--grafite-suave);
       O arquivo baixado abre no navegador com tudo pronto. Lá dentro, use <strong>Ctrl+P</strong>
       e escolha <strong>Salvar como PDF</strong>.
     </p>
+    <div class="dash-tarot">
+      <a class="btn btn-tarot" href="https://www.shaktijaya.com.br/tarot"
+         target="_blank" rel="noopener"
+         onclick="if(typeof zgEtapa==='function')zgEtapa('zg_tarot_clicado');">Aprenda sobre o Tarot</a>
+    </div>
     <div id="raw-box" class="hide" style="margin-top:1.5rem;">
       <p class="apoio" style="margin-bottom:0.5rem;">O download foi bloqueado pelo navegador.
         Copie o código abaixo, cole num arquivo com extensão <strong>.html</strong> e abra:</p>
@@ -2341,7 +2358,9 @@ const App = {
         if (fig) fig.remove();
       }
     }
-    dash.querySelectorAll('.dash-actions, #raw-box, .callout-warn button, .btn').forEach(e=>e.remove());
+    /* .btn:not(.btn-tarot): os outros botões chamam App.*, que não existe no arquivo
+       baixado, e virariam controles mortos. O do Tarô é link externo — funciona lá. */
+    dash.querySelectorAll('.dash-actions, #raw-box, .callout-warn button, .btn:not(.btn-tarot)').forEach(e=>e.remove());
     Array.from(dash.querySelectorAll('p')).forEach(p=>{ if (/Ctrl\+P/.test(p.textContent)) p.remove(); });
     const css = Array.from(document.querySelectorAll('style')).map(s=>s.textContent).join('\n');
     const nome = (this.data && this.data.profile && this.data.profile.name) || 'Zona de Genialidade';

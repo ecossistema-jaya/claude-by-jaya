@@ -121,6 +121,19 @@ export default async function Home() {
           →
         </span>
       </Link>
+      <Link href="/recursos" className="bonus">
+        <span className="selo">Bônus</span>
+        <div className="txt">
+          <h2>8 recursos do Claude</h2>
+          <p>
+            O manual de trabalho: Projects, memória, Artifacts, busca na web, arquivos, conectores,
+            Excel e PowerPoint, Code e Cowork — cada um com o seu comando de partida.
+          </p>
+        </div>
+        <span className="seta" aria-hidden="true">
+          →
+        </span>
+      </Link>
     </>
   );
 }

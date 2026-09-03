@@ -264,20 +264,27 @@ a {
 /* ---------- faixa do bônus ----------
    Vem depois da arte, no fundo areia, com a mesma linguagem dos cards da capa
    mas sem número: quem chega no fim da lista entende que é outra categoria de
-   coisa, não a aula seguinte. */
+   coisa, não a aula seguinte.
+
+   São mais de um. O espaço entre eles é curto para lerem como um bloco de brindes;
+   o respiro grande fica só depois do último, fechando a página. */
 
 .bonus {
   display: flex;
   align-items: center;
   gap: 20px;
   max-width: 640px;
-  margin: 40px auto 56px;
+  margin: 40px auto 18px;
   padding: 24px 26px 26px;
   border: 1px solid var(--linha);
   border-radius: 18px;
   background: var(--card);
   box-shadow: 0 8px 26px rgba(94, 60, 40, 0.1);
   transition: box-shadow 0.22s, transform 0.22s, border-color 0.22s;
+}
+
+.bonus:last-of-type {
+  margin-bottom: 56px;
 }
 
 .bonus:hover {
@@ -325,9 +332,13 @@ a {
 
 @media (max-width: 700px) {
   .bonus {
-    margin: 4px 16px 40px;
+    margin: 4px 16px 14px;
     padding: 20px 20px 22px;
     gap: 14px;
+  }
+
+  .bonus:last-of-type {
+    margin-bottom: 40px;
   }
 
   .bonus h2 {

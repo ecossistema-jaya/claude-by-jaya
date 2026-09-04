@@ -23,15 +23,19 @@ const ROOT = path.resolve(import.meta.dirname, '..');
 const PASTA = path.join(ROOT, 'originais', 'manual-8-recursos');
 const DEST = path.join(ROOT, 'public', 'manual');
 
-if (!fs.existsSync(PASTA)) {
-  console.log('= sem originais/manual-8-recursos/, nada a fazer');
-  process.exit(0);
-}
-
 const FONTE = path.join(PASTA, 'manual-8-recursos-claude.html');
+
+/* No deploy a fonte não existe: .vercelignore deixa originais/ fora do upload, e
+   build-aulas, build-zona e build-deck já encontram a mesma ausência. Faltar a fonte
+   é o caso normal lá, não um erro — o que a Vercel serve é o derivado versionado.
+   Erro é não haver nem fonte nem derivado, porque aí não existe página nenhuma. */
 if (!fs.existsSync(FONTE)) {
-  console.error('x originais/manual-8-recursos/ sem manual-8-recursos-claude.html');
-  process.exit(1);
+  if (!fs.existsSync(path.join(DEST, 'index.html'))) {
+    console.error('x sem originais/manual-8-recursos/manual-8-recursos-claude.html e sem public/manual/index.html');
+    process.exit(1);
+  }
+  console.log('= sem originais/manual-8-recursos/, mantendo public/manual/ como está');
+  process.exit(0);
 }
 
 fs.mkdirSync(DEST, { recursive: true });

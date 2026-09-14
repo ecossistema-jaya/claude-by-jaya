@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Claude do Zero — o Claude sabendo quem você é</title>
-<meta name="description" content="Cinco aulas, três ferramentas, acesso vitalício. Você sai com o seu Documento Mestre, o seu mapa psicométrico e uma página com a sua cara.">
+<meta name="description" content="Cinco aulas visuais e práticas, ferramentas interativas e acesso vitalício. Você sai com o seu Documento Mestre, seu mapa de autoconhecimento e uma página com a sua cara.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:title" content="Claude do Zero — o Claude sabendo quem você é">
-<meta property="og:description" content="Cinco aulas, três ferramentas, acesso vitalício. R$ 197 até 21/09.">
+<meta property="og:description" content="Cinco aulas visuais, exercícios, ferramentas interativas e acesso vitalício. R$ 197 até 21/09.">
 <meta property="og:url" content="https://claude-by-jaya.vercel.app/claude-do-zero">
 <meta property="og:image" content="https://claude-by-jaya.vercel.app/img/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
@@ -16,6 +16,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&family=Petrona:wght@500;600&display=swap" rel="stylesheet">
+<script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
 <style>
   /* Paleta do curso, copiada de app/globals.css. A página é pública e autocontida:
      não herda o layout do Next, então os tokens vivem aqui. */
@@ -56,6 +60,13 @@
   .bonus div { background: var(--card); border: 1px solid var(--linha); border-radius: 14px; padding: 18px 20px; }
   .bonus .mono { display: block; margin-bottom: 6px; }
 
+  .showcase { display: grid; gap: 18px; grid-template-columns: 1.25fr .75fr; margin-top: 28px; }
+  .showcase figure { background: var(--card); border: 1px solid var(--linha); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; }
+  .showcase figure:first-child { grid-row: span 2; }
+  .showcase img { display: block; width: 100%; height: 220px; object-fit: cover; object-position: top left; }
+  .showcase figure:first-child img { height: 476px; }
+  .showcase figcaption { padding: 14px 16px; font-size: 15px; color: var(--carvao-soft); border-top: 1px solid var(--linha); }
+
   .precos { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-top: 8px; }
   .preco { background: var(--card); border: 1px solid var(--linha); border-radius: 18px; padding: 28px; display: flex; flex-direction: column; }
   .preco.on { border-color: var(--cobre); box-shadow: 0 0 0 3px rgba(223,110,54,.18); }
@@ -66,8 +77,14 @@
   .preco ul { padding-left: 18px; margin: 18px 0 8px; }
   .preco li { margin-bottom: 6px; }
   .preco .cta { margin-top: auto; text-align: center; }
+  .more { display: inline-block; margin-top: 14px; color: var(--marsala); font-weight: 600; text-underline-offset: 4px; }
   .prazo { margin-top: 18px; font-size: 15px; }
   body.cheio .so-lancamento { display: none; }
+
+  .passos { display: grid; gap: 18px; grid-template-columns: repeat(3, 1fr); margin-top: 26px; }
+  .passo { background: var(--card); border: 1px solid var(--linha); border-radius: 14px; padding: 22px; }
+  .passo b { display: block; color: var(--cobre); font-family: Consolas, monospace; font-weight: 400; margin-bottom: 8px; }
+  .passo h3 { font-size: 21px; margin-bottom: 8px; }
 
   .duas { display: grid; gap: 28px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
   details { border-bottom: 1px solid var(--linha); padding: 14px 0; }
@@ -75,7 +92,12 @@
   details p { margin-top: 8px; }
   footer { padding-block: 40px 60px; font-size: 15px; }
   footer a { color: var(--marsala); }
-  @media (max-width: 720px) { .hero { grid-template-columns: 1fr; } .hero img { order: -1; } }
+  @media (max-width: 720px) {
+    .hero, .showcase, .passos { grid-template-columns: 1fr; }
+    .hero img { order: -1; }
+    .showcase figure:first-child { grid-row: auto; }
+    .showcase figure:first-child img, .showcase img { min-height: 0; height: auto; }
+  }
 </style>
 </head>
 <body>
@@ -89,7 +111,7 @@
     <div>
       <h1>O Claude sabendo <em>quem você é</em>.</h1>
       <p class="lead">Resposta genérica, retrabalho, "não era isso". O problema não é o seu prompt. É que a ferramenta não te conhece — e isso tem conserto em cinco aulas.</p>
-      <a class="cta" href="https://wa.me/5561992634557?text=Oi%20Jaya%2C%20quero%20o%20Claude%20do%20Zero%20a%20R%24%20197." data-cta="curso">Quero o Claude do Zero · <span data-preco="curso">R$ 197</span></a>
+      <a class="cta" href="https://wa.me/5561992634557?text=Oi%20Jaya%2C%20quero%20o%20Claude%20do%20Zero%20a%20R%24%20197." data-cta="curso" data-posicao="hero">Quero o Claude do Zero · <span data-preco="curso">R$ 197</span></a>
       <p class="sub muted so-lancamento">Lançamento até 21/09 — depois, R$ 297. Pix pelo WhatsApp, acesso em até 24h.</p>
     </div>
     <img src="/img/login.webp" alt="Claude do Zero, com Jaya" width="1672" height="941">
@@ -97,18 +119,29 @@
 
   <section>
     <span class="mono">O que você sai sabendo</span>
-    <h2>Cinco aulas na ordem. Três ferramentas pra instalar.</h2>
+    <h2>Cinco aulas na ordem. Ferramentas para aplicar.</h2>
     <div class="aulas">
       <div><b>01</b><div><h3>Conversar com o Claude</h3><p class="muted">Planos, modelos, a fórmula OCAS e como deixar o Claude te conhecer.</p></div></div>
       <div><b>02</b><div><h3>Botar o Claude pra Trabalhar</h3><p class="muted">Artefatos, Projetos, Conectores, Skills, Cowork e Design.</p></div></div>
       <div><b>03</b><div><h3>Documento Mestre</h3><p class="muted">O documento que ensina o Claude quem você é — com os prompts prontos.</p></div></div>
-      <div><b>04</b><div><h3>Psicometria e Zona de Genialidade</h3><p class="muted">43 perguntas que viram o seu blueprint e o seu dashboard psicométrico.</p></div></div>
+      <div><b>04</b><div><h3>Autoconhecimento e Zona de Genialidade</h3><p class="muted">26 perguntas + 5 opcionais que organizam suas respostas em um mapa visual, com gráficos, hipóteses e uma Carta de Travessia simbólica.</p></div></div>
       <div><b>05</b><div><h3>Landing Page com Identidade Visual</h3><p class="muted">Os prompts para criar uma página com a sua cara, do zero.</p></div></div>
     </div>
     <div class="bonus">
-      <div><span class="mono">Ferramenta</span><strong>Skill Minha Personalidade</strong><p class="muted">Entrevista você e escreve o seu Documento Mestre. Instala no Claude ou cola no ChatGPT.</p></div>
+      <div><span class="mono">Ferramenta</span><strong>Mapa de Autoconhecimento</strong><p class="muted">Uma experiência interativa para reconhecer interesses, capacidades, modos de ação e sua Zona de Genialidade.</p></div>
       <div><span class="mono">Ferramenta</span><strong>Manual 8 recursos do Claude</strong><p class="muted">Qual recurso abre primeiro, e por quê.</p></div>
-      <div><span class="mono">Acesso</span><strong>Vitalício, no seu ritmo</strong><p class="muted">Texto, não vídeo. Lê hoje, volta quando precisar.</p></div>
+      <div><span class="mono">Formato</span><strong>Visual, prático e no seu ritmo</strong><p class="muted">Aulas visuais, slides guiados, exercícios e ferramentas interativas. Você aplica enquanto aprende e volta quando precisar.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <span class="mono">Por dentro do curso</span>
+    <h2>Você vê, faz e guarda o resultado.</h2>
+    <p class="muted">Estas são telas reais da experiência: percurso organizado, conteúdo visual e um mapa que transforma suas respostas em material de reflexão.</p>
+    <div class="showcase">
+      <figure><img src="/oferta/img/area-do-aluno.png" alt="Área do aluno do Claude do Zero com menu lateral e Aula 1" width="1440" height="900"><figcaption>As cinco aulas ficam organizadas em um percurso único, com bônus e materiais no mesmo menu.</figcaption></figure>
+      <figure><img src="/oferta/img/aula-pratica.png" alt="Demonstração visual de um artefato criado no Claude" width="1200" height="675"><figcaption>Slides guiados mostram onde clicar e o que construir.</figcaption></figure>
+      <figure><img src="/oferta/img/mapa-autoconhecimento.png" alt="Mapa de Autoconhecimento com menu lateral e Zona de Genialidade" width="1440" height="1009"><figcaption>O novo mapa reúne autoconhecimento, gráficos, Zona de Genialidade e Carta de Travessia.</figcaption></figure>
     </div>
   </section>
 
@@ -122,11 +155,11 @@
         <div class="cheio so-lancamento"><s>R$ 297</s> até 21/09</div>
         <ul>
           <li>As cinco aulas</li>
-          <li>Skill Minha Personalidade</li>
+          <li>Mapa de Autoconhecimento e Zona de Genialidade</li>
           <li>Manual 8 recursos do Claude</li>
           <li>Acesso vitalício</li>
         </ul>
-        <a class="cta" href="https://wa.me/5561992634557?text=Oi%20Jaya%2C%20quero%20o%20Claude%20do%20Zero%20a%20R%24%20197." data-cta="curso">Quero o Claude do Zero</a>
+        <a class="cta" href="https://wa.me/5561992634557?text=Oi%20Jaya%2C%20quero%20o%20Claude%20do%20Zero%20a%20R%24%20197." data-cta="curso" data-posicao="investimento">Quero o Claude do Zero</a>
       </div>
       <div class="preco">
         <h3>Claude do Zero + Sessão</h3>
@@ -137,10 +170,21 @@
           <li>Sessão Estratégica de IA: 90 minutos, individual, online</li>
           <li>A sessão começa com o seu Documento Mestre já feito</li>
         </ul>
-        <a class="cta sec" href="https://wa.me/5561992634557?text=Oi%20Jaya%2C%20quero%20o%20Claude%20do%20Zero%20%2B%20Sess%C3%A3o%20a%20R%24%20597." data-cta="bundle">Quero com a Sessão</a>
+        <a class="cta sec" href="https://wa.me/5561992634557?text=Oi%20Jaya%2C%20quero%20o%20Claude%20do%20Zero%20%2B%20Sess%C3%A3o%20a%20R%24%20597." data-cta="bundle" data-posicao="investimento">Quero com a Sessão</a>
+        <a class="more" href="https://jayaroberta.com.br/sessao-estrategica-ia" target="_blank" rel="noopener" data-sessao-link>Entenda a Sessão Estratégica →</a>
       </div>
     </div>
     <p class="prazo muted"><span class="so-lancamento">Preço de lançamento por 7 dias ou 50 alunos, o que vier primeiro. </span>Pagamento por Pix, combinado no WhatsApp. Acesso liberado em até 24h com a sua conta Google.</p>
+  </section>
+
+  <section>
+    <span class="mono">Depois do Pix</span>
+    <h2>Do pagamento ao primeiro acesso.</h2>
+    <div class="passos">
+      <div class="passo"><b>01</b><h3>Você chama no WhatsApp</h3><p class="muted">Escolhe o curso ou o pacote com sessão e recebe os dados do Pix diretamente comigo.</p></div>
+      <div class="passo"><b>02</b><h3>Envia a confirmação</h3><p class="muted">Depois do pagamento, envia o comprovante e o e-mail da conta Google que usará para entrar.</p></div>
+      <div class="passo"><b>03</b><h3>Eu libero seu acesso</h3><p class="muted">Em até 24 horas, seu e-mail é ativado. Você entra pela Área do Aluno e começa pela Aula 1.</p></div>
+    </div>
   </section>
 
   <section>
@@ -151,16 +195,16 @@
       </div>
       <div>
         <h2>Pra quem não é</h2>
-        <p>Quem quer vídeo-aula, comunidade ou alguém cobrando. Aqui é texto, ferramenta e o seu próprio trabalho.</p>
+        <p>Quem busca apenas assistir passivamente, uma comunidade ou alguém cobrando cada passo. Aqui você aprende aplicando, com páginas visuais, slides guiados, exercícios e ferramentas para usar no seu ritmo.</p>
       </div>
     </div>
   </section>
 
   <section>
     <h2>Perguntas</h2>
-    <details><summary>É vídeo?</summary><p>Não. Texto, prompts prontos e ferramentas pra instalar. Lê no seu ritmo, volta quando quiser.</p></details>
+    <details><summary>É vídeo?</summary><p>O curso não depende de vídeo. As aulas combinam páginas visuais, slides guiados, prompts, exercícios e ferramentas interativas para você aplicar no seu ritmo.</p></details>
     <details><summary>Preciso do Claude pago?</summary><p>O Free serve pra começar. O Pro (~R$ 100/mês) pra usar de verdade — a Aula 1 explica qual faz sentido pra você.</p></details>
-    <details><summary>Funciona com ChatGPT?</summary><p>A skill Minha Personalidade cola no ChatGPT. O resto é sobre o Claude.</p></details>
+    <details><summary>Funciona com ChatGPT?</summary><p>O Documento Mestre e o Mapa de Autoconhecimento podem apoiar seu uso de outras IAs. As demonstrações de recursos e a navegação do curso são feitas no Claude.</p></details>
     <details><summary>Quanto tempo leva?</summary><p>Aulas 1 a 3 numa tarde. A 4 pede uma hora com você mesma. A 5 depende do que você quer construir.</p></details>
     <details><summary>Tem certificado, turma ou suporte?</summary><p>Não. É curso de trabalho, não de diploma.</p></details>
     <details><summary>Como recebo o acesso?</summary><p>Você manda o comprovante do Pix e o e-mail da sua conta Google no WhatsApp. Em até 24h o acesso está liberado e você entra em claude-by-jaya.vercel.app.</p></details>
@@ -185,6 +229,24 @@
     document.querySelectorAll('[data-preco]').forEach((el) => { el.textContent = 'R$ ' + PRECO[el.dataset.preco]; });
     document.querySelectorAll('[data-cta]').forEach((a) => { a.href = CTA[a.dataset.cta]; });
   }
+
+  document.querySelectorAll('[data-cta]').forEach((link) => {
+    link.addEventListener('click', () => {
+      try {
+        window.va('event', {
+          name: 'oferta_whatsapp',
+          data: {
+            oferta: link.dataset.cta,
+            posicao: link.dataset.posicao,
+          },
+        });
+      } catch (_) {}
+    });
+  });
+
+  document.querySelector('[data-sessao-link]')?.addEventListener('click', () => {
+    try { window.va('event', { name: 'oferta_sessao_detalhes' }); } catch (_) {}
+  });
 </script>
 </body>
 </html>

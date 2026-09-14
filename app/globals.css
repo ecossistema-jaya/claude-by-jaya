@@ -218,6 +218,7 @@ a {
   .capa {
     aspect-ratio: auto;
     padding-bottom: 28px;
+    background-image: url('/img/capa-mobile.webp');
     background-size: 100% auto;
   }
 
@@ -465,6 +466,13 @@ a {
 
 .login .botao:hover {
   background: var(--marsala-soft);
+}
+
+@media (max-width: 700px) {
+  .login {
+    background-image: url('/img/login-mobile.webp');
+    background-position: 48% top;
+  }
 }
 
 .erro {

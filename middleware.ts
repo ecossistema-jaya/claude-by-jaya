@@ -86,7 +86,7 @@ function herdarCookies(destino: NextResponse, origem: NextResponse) {
 
 /* Protege TUDO menos o que precisa ser lido sem sessão:
    - login, auth/callback e sem-acesso: as próprias telas da porta de entrada;
-   - img/login.webp: a arte de fundo da tela de login;
+   - img/login.webp e img/login-mobile.webp: as artes de fundo da tela de login;
    - icones/claude.svg: os asteriscos que flutuam atrás dessa mesma tela — quem
      está no login ainda não tem cookie, então o asset protegido virava um 307
      para /login e a animação ficava invisível;
@@ -103,6 +103,6 @@ function herdarCookies(destino: NextResponse, origem: NextResponse) {
    Os HTML em /aulas e todas as outras imagens seguem fechados. */
 export const config = {
   matcher: [
-    '/((?!login|auth/callback|sem-acesso|zona-de-genialidade|zona/|deck-arquitetura-da-consciencia|deck/|claude-do-zero|oferta/|api/zona/|img/login\\.webp|icones/claude\\.svg|img/og\\.jpg|_next/static|_next/image|_vercel|favicon.ico).*)',
+    '/((?!login|auth/callback|sem-acesso|zona-de-genialidade|zona/|deck-arquitetura-da-consciencia|deck/|claude-do-zero|oferta/|api/zona/|img/login\\.webp|img/login-mobile\\.webp|icones/claude\\.svg|img/og\\.jpg|_next/static|_next/image|_vercel|favicon.ico).*)',
   ],
 };

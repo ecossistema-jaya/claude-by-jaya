@@ -38,6 +38,25 @@ const LESSONS = [
   'Landing Page com Identidade Visual',
 ];
 
+function CourseBonusNav({ footer = false }: { footer?: boolean }) {
+  return (
+    <div
+      className={footer ? 'course-bonus-nav course-bonus-footer' : 'course-bonus-nav'}
+      aria-label="Bônus e materiais"
+    >
+      <p>Bônus e materiais</p>
+      <Link href="/aula-3" className="course-bonus-link">
+        <span aria-hidden="true">✦</span>
+        <strong>Minha Personalidade<small>Disponível na Aula 3</small></strong>
+      </Link>
+      <Link href="/recursos" className="course-bonus-link">
+        <span aria-hidden="true">✦</span>
+        <strong>8 recursos do Claude<small>Manual de trabalho</small></strong>
+      </Link>
+    </div>
+  );
+}
+
 export default function CourseLessonPage({ lesson }: { lesson: CourseLessonData }) {
   const frameRef = useRef<HTMLIFrameElement>(null);
   const storageKey = `claude-do-zero:aula-${lesson.number}`;
@@ -137,17 +156,7 @@ export default function CourseLessonPage({ lesson }: { lesson: CourseLessonData 
               );
             })}
           </nav>
-          <div className="course-bonus-nav" aria-label="Bônus e materiais">
-            <p>Bônus e materiais</p>
-            <Link href="/aula-3" className="course-bonus-link">
-              <span aria-hidden="true">✦</span>
-              <strong>Minha Personalidade<small>Disponível na Aula 3</small></strong>
-            </Link>
-            <Link href="/recursos" className="course-bonus-link">
-              <span aria-hidden="true">✦</span>
-              <strong>8 recursos do Claude<small>Manual de trabalho</small></strong>
-            </Link>
-          </div>
+          <CourseBonusNav />
           <div className="course-rail-note">
             <strong>{completedChecks}/{totalChecks} passos conferidos</strong>
             Seu progresso nesta aula fica salvo neste navegador.
@@ -265,6 +274,7 @@ export default function CourseLessonPage({ lesson }: { lesson: CourseLessonData 
             <span><small>Próxima aula</small><strong>{String(lesson.next.number).padStart(2, '0')} · {lesson.next.title}</strong></span>
             <b aria-hidden="true">→</b>
           </Link>
+          <CourseBonusNav footer />
         </main>
       </div>
     </div>

@@ -655,6 +655,10 @@ a {
   border-top: 1px solid var(--linha);
 }
 
+.course-bonus-footer {
+  display: none;
+}
+
 .course-bonus-nav > p {
   margin-bottom: 8px;
   color: var(--marsala-soft);
@@ -1171,6 +1175,19 @@ a {
     gap: 8px;
     margin-top: 18px;
     padding-top: 16px;
+  }
+
+  .course-rail .course-bonus-nav {
+    display: none;
+  }
+
+  .course-bonus-footer {
+    display: grid;
+    margin-top: 28px;
+    padding: 22px;
+    border: 1px solid var(--linha);
+    border-radius: 14px;
+    background: var(--card);
   }
 
   .course-bonus-nav > p {

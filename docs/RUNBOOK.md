@@ -40,7 +40,7 @@ Não há endpoint `/health`. Três checagens manuais cobrem o que importa:
 | O quê | Como | Esperado |
 |---|---|---|
 | Site de pé + auth | `curl -sI https://claude-by-jaya.vercel.app/aula-1` | `307` para `/login` (middleware vivo). `500` = `AUTH_SECRET` faltando. Rotas `/api/*` protegidas devolvem `401` JSON, não redirect |
-| Superfície pública | `curl -sI https://claude-by-jaya.vercel.app/zona-de-genialidade` | `200` com `text/html` |
+| Superfície pública | `curl -sI https://claude-by-jaya.vercel.app/zona-de-genialidade` (idem `/claude-do-zero`) | `200` com `text/html` |
 | Banco acessível | Login com a conta admin e abrir `/admin` | Lista de alunos aparece. `42501` no log = permissão de tabela, ver abaixo |
 
 Logs de runtime e de build: dashboard da Vercel → Deployments → Logs. Analytics de

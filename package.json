@@ -8,10 +8,11 @@
     "zona": "node scripts/build-zona.mjs",
     "manual": "node scripts/build-manual.mjs",
     "skill": "node scripts/build-skill.mjs",
+    "oferta": "node scripts/build-oferta.mjs",
     "audit:taxonomia": "node scripts/audit-taxonomia.mjs",
     "deck": "node scripts/build-deck.mjs",
-    "dev": "npm run aulas && npm run artes && npm run zona && npm run manual && npm run deck && next dev",
-    "build": "npm run aulas && npm run artes && npm run zona && npm run manual && npm run deck && next build",
+    "dev": "npm run aulas && npm run artes && npm run zona && npm run manual && npm run oferta && npm run deck && next dev",
+    "build": "npm run aulas && npm run artes && npm run zona && npm run manual && npm run oferta && npm run deck && next build",
     "start": "next start"
   },
   "dependencies": {

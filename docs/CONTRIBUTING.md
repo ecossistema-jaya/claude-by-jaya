@@ -26,13 +26,14 @@ passo a passo de OAuth e Supabase está em [acesso-com-google.md](./acesso-com-g
 <!-- AUTO-GENERATED: package.json scripts — regenerar com /update-docs -->
 | Comando | O que faz |
 |---|---|
-| `npm run dev` | Roda `aulas`, `artes`, `zona`, `manual`, `deck` e sobe `next dev` |
+| `npm run dev` | Roda `aulas`, `artes`, `zona`, `manual`, `oferta`, `deck` e sobe `next dev` |
 | `npm run build` | Mesma cadeia de derivados e `next build` (é o que a Vercel roda) |
 | `npm run start` | `next start` sobre um build pronto |
 | `npm run aulas` | Copia `originais/*.html` → `public/aulas/` (iframes das aulas) |
 | `npm run artes` | Converte `originais/zona-genialidade/*.png` → `public/zona/arte/*.webp` em duas larguras |
 | `npm run zona` | Publica `originais/zona-de-genialidade.html` → `public/zona/index.html`, injetando a taxonomia da Carta de Travessia; roda `audit:taxonomia` antes |
 | `npm run manual` | Copia a pasta `originais/manual-8-recursos/` → `public/manual/` |
+| `npm run oferta` | Publica `originais/claude-do-zero.html` → `public/oferta/index.html` (página de vendas, rota `/claude-do-zero`) |
 | `npm run deck` | Publica o HTML exportado de `originais/arquitetura-da-consciencia/` → `public/deck/index.html` |
 | `npm run skill` | Empacota `originais/skill-<nome>/` → `public/skill/<nome>.skill` (zip). **Fora da cadeia de build** — rode à mão e commite o artefato |
 | `npm run audit:taxonomia` | Verifica que todo sinal de `docs/carta-travessia-1.1.json` consegue disparar; falha quebra o build |
@@ -63,8 +64,8 @@ em **Vercel → Settings → Environment Variables**.
 ## Fonte × derivado
 
 Regra única do repositório: `originais/` é a fonte editável; `public/` é derivado e
-regenerado pelos scripts acima. Editar `public/aulas/`, `public/zona/`, `public/manual/`
-ou `public/deck/` direto é trabalho perdido no próximo `npm run dev`.
+regenerado pelos scripts acima. Editar `public/aulas/`, `public/zona/`, `public/manual/`,
+`public/oferta/` ou `public/deck/` direto é trabalho perdido no próximo `npm run dev`.
 
 Três exceções documentadas no `.gitignore`: `public/imagens/` (biblioteca de
 trabalho, ~430 MB), `originais/zona-genialidade/` (PNGs brutos) e

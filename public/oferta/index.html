@@ -47,9 +47,18 @@
   header { padding-block: 22px; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
   header a { color: var(--marsala); font-weight: 500; text-decoration: none; border-bottom: 1px solid var(--linha); }
 
-  .hero { padding-block: 40px 56px; display: grid; gap: 36px; grid-template-columns: 1.15fr .85fr; align-items: center; }
+  .hero {
+    width: min(1320px, calc(100vw - 40px)); min-height: clamp(520px, 46vw, 620px);
+    margin-inline: 50%; padding: clamp(48px, 6vw, 84px) clamp(28px, 6vw, 80px);
+    transform: translateX(-50%); display: flex; align-items: center; position: relative;
+    background:
+      linear-gradient(90deg, rgba(250,244,234,.98) 0%, rgba(250,244,234,.92) 35%, rgba(250,244,234,.54) 51%, rgba(250,244,234,.08) 70%),
+      url('/oferta/img/hero-bg.jpg') center / cover no-repeat;
+    border: 1px solid var(--linha); border-radius: 24px; overflow: hidden;
+    box-shadow: 0 30px 80px -48px rgba(43,35,32,.55);
+  }
+  .hero > div { width: min(48%, 560px); position: relative; z-index: 1; }
   .hero p.lead { font-size: 23px; margin-top: 22px; }
-  .hero img { width: 100%; max-width: 100%; height: auto; border-radius: 18px; border: 1px solid var(--linha); box-shadow: 0 24px 60px -30px rgba(43,35,32,.45); }
   .cta { display: inline-block; margin-top: 28px; background: var(--marsala); color: #fff; text-decoration: none; font-weight: 600; padding: 16px 26px; border-radius: 12px; font-size: 19px; }
   .cta:hover { background: var(--marsala-soft); }
   .cta.sec { background: transparent; color: var(--marsala); border: 2px solid var(--marsala); }
@@ -97,8 +106,20 @@
   footer { padding-block: 40px 60px; font-size: 16px; }
   footer a { color: var(--marsala); }
   @media (max-width: 720px) {
+    .hero {
+      width: calc(100vw - 24px); min-height: auto;
+      padding: calc((100vw - 24px) * 1.25 + 28px) 24px 34px; align-items: flex-end;
+      background:
+        url('/oferta/img/hero-bg-mobile.jpg') center top / 100% auto no-repeat,
+        var(--areia-bg);
+      border-radius: 18px;
+    }
+    .hero > div { width: 100%; }
+    .hero h1, .hero p.lead {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+    }
     .hero, .showcase, .passos { grid-template-columns: 1fr; }
-    .hero img { order: -1; }
     .showcase figure:first-child { grid-row: auto; }
     .showcase figure:first-child img, .showcase img { min-height: 0; height: auto; }
   }
@@ -118,7 +139,6 @@
       <a class="cta" href="https://wa.me/5561992634557?text=Oi%20Jaya%2C%20quero%20o%20Claude%20do%20Zero%20a%20R%24%20197." data-cta="curso" data-posicao="hero">Quero o Claude do Zero · <span data-preco="curso">R$ 197</span></a>
       <p class="sub muted so-lancamento">Lançamento até 21/09 — depois, R$ 297. Pix pelo WhatsApp, acesso em até 24h.</p>
     </div>
-    <img src="/img/login.webp" alt="Claude do Zero, com Jaya" width="1672" height="941">
   </div>
 
   <section>

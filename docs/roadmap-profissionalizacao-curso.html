@@ -1,0 +1,634 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Roadmap de profissionalização pontual do curso Claude do Zero, preservando a identidade e validando a experiência com os primeiros alunos.">
+  <title>Roadmap de profissionalização · Claude do Zero</title>
+  <style>
+    :root {
+      --marsala: #79070d;
+      --marsala-deep: #4d080c;
+      --cobre: #cc6334;
+      --cobre-soft: #e9a47e;
+      --areia: #f1ddc5;
+      --papel: #fbf6ee;
+      --papel-alto: #fffdfa;
+      --carvao: #2b2420;
+      --muted: #73665d;
+      --linha: #dfcbb5;
+      --verde: #526c54;
+      --verde-soft: #e5eee4;
+      --sombra: 0 18px 55px rgba(83, 38, 25, .12);
+      --serif: Georgia, "Times New Roman", serif;
+      --sans: "Segoe UI", Arial, sans-serif;
+      --mono: Consolas, "Courier New", monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--carvao);
+      background:
+        radial-gradient(circle at 15% 6%, rgba(233, 164, 126, .22), transparent 23rem),
+        linear-gradient(180deg, #f8ecdc 0, var(--papel) 22rem, var(--papel) 100%);
+      font-family: var(--sans);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, input { font: inherit; }
+    a { color: inherit; }
+    button { cursor: pointer; }
+    :focus-visible { outline: 3px solid var(--cobre); outline-offset: 3px; }
+
+    .topline { height: 6px; background: linear-gradient(90deg, var(--marsala), var(--cobre), #e7b46a); }
+    .shell { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+
+    .hero {
+      min-height: 680px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(320px, .85fr);
+      gap: clamp(38px, 7vw, 90px);
+      align-items: center;
+      padding: clamp(70px, 10vw, 126px) 0 80px;
+    }
+    .hero > * { min-width: 0; }
+    .kicker, .phase-id, .label {
+      font: 700 12px/1.2 var(--mono);
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+    .kicker { color: var(--cobre); }
+    h1, h2, h3 { font-family: var(--serif); color: var(--marsala); margin-top: 0; }
+    h1 { max-width: 820px; margin: 20px 0 24px; font-size: clamp(46px, 7.5vw, 90px); line-height: .96; letter-spacing: -.045em; }
+    h1 em { color: var(--cobre); font-weight: 400; }
+    .lead { max-width: 700px; margin: 0; color: #4c4039; font-size: clamp(18px, 2vw, 23px); line-height: 1.5; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+    .btn {
+      border: 1px solid var(--marsala);
+      padding: 12px 18px;
+      background: transparent;
+      color: var(--marsala);
+      text-decoration: none;
+      font-weight: 700;
+      border-radius: 4px;
+    }
+    .btn.primary { color: white; background: var(--marsala); }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(121, 7, 13, .14); }
+
+    .verdict {
+      position: relative;
+      background: var(--marsala-deep);
+      color: #fff8ef;
+      padding: clamp(30px, 4vw, 48px);
+      box-shadow: var(--sombra);
+      border: 1px solid rgba(255,255,255,.15);
+    }
+    .verdict::before { content: ""; position: absolute; inset: 12px; border: 1px solid rgba(241,221,197,.27); pointer-events: none; }
+    .verdict .label { color: var(--cobre-soft); }
+    .verdict h2 { margin: 18px 0 18px; color: #fff8ef; font-size: clamp(30px, 4vw, 47px); line-height: 1.05; }
+    .verdict p { position: relative; color: #eaded2; }
+    .verdict strong { color: #fff; }
+    .equation { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: center; gap: 8px; margin-top: 30px; font-size: 13px; text-align: center; }
+    .equation span { padding: 11px 8px; border: 1px solid rgba(255,255,255,.22); }
+    .equation b { color: var(--cobre-soft); font-size: 18px; }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(251, 246, 238, .94);
+      backdrop-filter: blur(12px);
+      border-block: 1px solid var(--linha);
+    }
+    .nav .shell { display: flex; align-items: center; gap: 18px; overflow-x: auto; scrollbar-width: none; }
+    .nav a { padding: 16px 0; white-space: nowrap; text-decoration: none; color: var(--muted); font-size: 14px; font-weight: 700; }
+    .nav a:hover { color: var(--marsala); }
+    .nav .progress-wrap { margin-left: auto; min-width: 148px; }
+    .progress-label { display: flex; justify-content: space-between; color: var(--muted); font-size: 11px; }
+    .progress-track { height: 4px; margin-top: 4px; background: var(--linha); }
+    .progress-bar { height: 100%; width: 0; background: var(--cobre); transition: width .25s ease; }
+
+    section { padding: clamp(74px, 10vw, 128px) 0; }
+    .section-head { display: grid; grid-template-columns: 190px minmax(0, 720px); gap: 30px; margin-bottom: 45px; }
+    .section-head .label { color: var(--cobre); padding-top: 9px; }
+    .section-head h2 { margin-bottom: 15px; font-size: clamp(34px, 5vw, 58px); line-height: 1; letter-spacing: -.025em; }
+    .section-head p { margin: 0; color: var(--muted); font-size: 18px; }
+
+    .decision-grid { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--linha); background: var(--papel-alto); }
+    .decision-card { padding: 30px; border-right: 1px solid var(--linha); }
+    .decision-card:last-child { border-right: 0; }
+    .decision-card.recommended { background: linear-gradient(180deg, #fffaf3, #f7e8d8); box-shadow: inset 0 5px 0 var(--cobre); }
+    .decision-card .tag { display: inline-block; margin-bottom: 24px; color: var(--muted); font: 700 11px var(--mono); letter-spacing: .11em; text-transform: uppercase; }
+    .decision-card.recommended .tag { color: var(--marsala); }
+    .decision-card h3 { font-size: 27px; margin-bottom: 12px; }
+    .decision-card p { color: var(--muted); }
+    .decision-card ul { padding-left: 18px; }
+    .decision-card li + li { margin-top: 8px; }
+    .decision-card .call { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--linha); font-weight: 700; color: var(--marsala); }
+
+    .answer {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--linha);
+      border: 1px solid var(--linha);
+    }
+    .answer > div { padding: clamp(28px, 4vw, 50px); background: var(--papel-alto); }
+    .answer h3 { font-size: clamp(28px, 3vw, 39px); margin-bottom: 14px; }
+    .answer .yes { background: var(--marsala); color: white; }
+    .answer .yes h3 { color: white; }
+    .answer .yes p { color: #f0dfd1; }
+    .answer ol { padding-left: 20px; }
+    .answer li + li { margin-top: 12px; }
+
+    .roadmap { position: relative; }
+    .roadmap::before { content: ""; position: absolute; top: 34px; bottom: 34px; left: 31px; width: 1px; background: var(--cobre-soft); }
+    .phase { position: relative; display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 24px; margin-bottom: 26px; }
+    .phase:last-child { margin-bottom: 0; }
+    .phase-mark { z-index: 1; width: 64px; height: 64px; display: grid; place-items: center; color: white; background: var(--marsala); border: 7px solid var(--papel); font: 700 17px var(--serif); border-radius: 50%; }
+    .phase-card { display: grid; grid-template-columns: minmax(0, 1fr) 250px; gap: 36px; padding: clamp(26px, 4vw, 42px); background: var(--papel-alto); border: 1px solid var(--linha); box-shadow: 0 8px 25px rgba(83, 38, 25, .055); }
+    .phase-id { color: var(--cobre); }
+    .phase h3 { margin: 9px 0 9px; font-size: clamp(27px, 3vw, 38px); }
+    .phase p { color: var(--muted); }
+    .phase-meta { border-left: 1px solid var(--linha); padding-left: 30px; }
+    .phase-meta dt { color: var(--muted); font: 700 10px var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+    .phase-meta dd { margin: 5px 0 19px; }
+    .phase details { margin-top: 20px; border-top: 1px solid var(--linha); padding-top: 15px; }
+    .phase summary { color: var(--marsala); font-weight: 700; cursor: pointer; }
+    .phase details ul { padding-left: 20px; }
+
+    .lesson-map { display: grid; grid-template-columns: 1fr 70px 1fr; align-items: stretch; gap: 18px; }
+    .lesson-panel { background: var(--papel-alto); border: 1px solid var(--linha); padding: 34px; }
+    .lesson-panel.current { opacity: .8; }
+    .lesson-panel.target { border-color: var(--cobre); box-shadow: inset 0 5px 0 var(--cobre); }
+    .lesson-panel h3 { font-size: 31px; }
+    .lesson-panel ul { padding-left: 19px; }
+    .lesson-panel li + li { margin-top: 9px; }
+    .arrow { display: grid; place-items: center; color: var(--cobre); font-size: 42px; }
+
+    .template { margin-top: 28px; background: #291f1d; color: #f8eee4; padding: clamp(30px, 5vw, 55px); }
+    .template h3 { color: white; font-size: 31px; }
+    .template-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; margin-top: 25px; background: rgba(255,255,255,.16); }
+    .template-item { padding: 20px; background: #291f1d; }
+    .template-item b { display: block; color: var(--cobre-soft); font: 700 12px var(--mono); letter-spacing: .1em; }
+    .template-item span { display: block; margin-top: 8px; color: #e7d8cc; }
+
+    .checklist { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .check {
+      display: grid;
+      grid-template-columns: 28px minmax(0, 1fr);
+      gap: 14px;
+      align-items: start;
+      padding: 20px;
+      background: var(--papel-alto);
+      border: 1px solid var(--linha);
+      transition: opacity .2s, background .2s;
+    }
+    .check:has(input:checked) { background: var(--verde-soft); opacity: .73; }
+    .check input { width: 20px; height: 20px; accent-color: var(--verde); }
+    .check strong { display: block; color: var(--marsala); }
+    .check span { display: block; margin-top: 3px; color: var(--muted); font-size: 14px; }
+
+    .gate {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+    .gate-card { padding: 34px; border: 1px solid var(--linha); background: var(--papel-alto); }
+    .gate-card h3 { font-size: 29px; }
+    .gate-card.stop { background: #f3e7de; }
+    .gate-card.go { background: var(--verde-soft); }
+    .gate-card ul { padding-left: 20px; }
+
+    .closing { padding-bottom: 130px; }
+    .closing-box { background: var(--marsala); color: white; padding: clamp(38px, 7vw, 75px); text-align: center; }
+    .closing-box h2 { max-width: 870px; margin: 0 auto 22px; color: white; font-size: clamp(36px, 5.5vw, 64px); line-height: 1.02; }
+    .closing-box p { max-width: 720px; margin: 0 auto; color: #eedfd3; font-size: 18px; }
+
+    footer { padding: 28px 0; border-top: 1px solid var(--linha); color: var(--muted); font-size: 13px; }
+    footer .shell { display: flex; justify-content: space-between; gap: 20px; }
+
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .decision-grid { grid-template-columns: 1fr; }
+      .decision-card { border-right: 0; border-bottom: 1px solid var(--linha); }
+      .decision-card:last-child { border-bottom: 0; }
+      .phase-card { grid-template-columns: 1fr; }
+      .phase-meta { border-left: 0; border-top: 1px solid var(--linha); padding: 24px 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 5px 20px; }
+      .phase-meta dd { margin-bottom: 12px; }
+      .template-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 680px) {
+      .shell { width: min(calc(100% - 28px), 1180px); }
+      .hero { padding-top: 58px; }
+      h1 { font-size: clamp(40px, 12vw, 54px); overflow-wrap: anywhere; }
+      .equation { grid-template-columns: 1fr; text-align: left; }
+      .equation b { transform: rotate(90deg); justify-self: center; }
+      .nav .progress-wrap { display: none; }
+      .section-head { grid-template-columns: 1fr; gap: 10px; }
+      .answer, .gate, .checklist { grid-template-columns: 1fr; }
+      .lesson-map { grid-template-columns: 1fr; }
+      .arrow { transform: rotate(90deg); min-height: 44px; }
+      .phase { grid-template-columns: 42px minmax(0, 1fr); gap: 12px; }
+      .phase-mark { width: 42px; height: 42px; border-width: 5px; font-size: 14px; }
+      .roadmap::before { left: 20px; }
+      .phase-card { padding: 23px; }
+      .phase-meta { grid-template-columns: 1fr; }
+      .template-grid { grid-template-columns: 1fr; }
+      footer .shell { flex-direction: column; }
+    }
+
+    @media print {
+      body { background: white; }
+      .nav, .hero-actions, .topline { display: none; }
+      .hero { min-height: auto; padding: 25px 0; }
+      section { padding: 35px 0; break-inside: avoid; }
+      .phase-card, .verdict { box-shadow: none; }
+      .phase details[open] { display: block; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topline"></div>
+
+  <header class="hero shell">
+    <div>
+      <div class="kicker">Claude do Zero · decisão de produto</div>
+      <h1>Profissionalizar sem <em>recomeçar.</em></h1>
+      <p class="lead">Um roadmap para vender e acompanhar os dois primeiros alunos, preservar o que já funciona e converter as aulas 1 e 2 em uma experiência autoinstrucional com base em uso real.</p>
+      <div class="hero-actions">
+        <a class="btn primary" href="#decisao">Ver a decisão</a>
+        <a class="btn" href="#roadmap">Abrir o roadmap</a>
+        <button class="btn" type="button" onclick="window.print()">Imprimir / salvar em PDF</button>
+      </div>
+    </div>
+
+    <aside class="verdict" aria-label="Recomendação principal">
+      <div class="label">Parecer recomendado</div>
+      <h2>Não refaça tudo. Construa a ponte.</h2>
+      <p><strong>Preserve os slides</strong> como material da aula ao vivo. Crie uma página guiada para cada aula e grave somente as demonstrações que o aluno precisa ver acontecer.</p>
+      <div class="equation" aria-label="Fórmula da solução híbrida">
+        <span>página guiada</span><b>+</b><span>vídeo curto</span><b>+</b><span>slides de consulta</span>
+      </div>
+    </aside>
+  </header>
+
+  <nav class="nav" aria-label="Seções do roadmap">
+    <div class="shell">
+      <a href="#decisao">Decisão</a>
+      <a href="#aulas">Aulas 1 e 2</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="#modelo">Modelo de aula</a>
+      <a href="#aceite">Critérios</a>
+      <div class="progress-wrap" aria-label="Progresso do checklist">
+        <div class="progress-label"><span>execução</span><span id="progressText">0%</span></div>
+        <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section id="decisao" class="shell">
+      <div class="section-head">
+        <div class="label">01 · decisão</div>
+        <div>
+          <h2>O formato depende da promessa.</h2>
+          <p>Os slides não estão errados. Eles foram feitos para uma aula conduzida e cumprem essa função. A lacuna aparece apenas quando a pessoa precisa aprender sozinha.</p>
+        </div>
+      </div>
+
+      <div class="decision-grid">
+        <article class="decision-card">
+          <span class="tag">Manter como está</span>
+          <h3>Aula acompanhada</h3>
+          <p>Você conduz a prática, responde dúvidas e os slides ficam como memória visual.</p>
+          <ul>
+            <li>Menor esforço agora</li>
+            <li>Boa experiência com sua presença</li>
+            <li>Depende de agenda e acompanhamento</li>
+          </ul>
+          <div class="call">Serve para vender uma turma piloto acompanhada.</div>
+        </article>
+
+        <article class="decision-card recommended">
+          <span class="tag">Recomendado agora</span>
+          <h3>Experiência híbrida</h3>
+          <p>Uma página orienta, um vídeo demonstra e os slides permanecem disponíveis para revisão.</p>
+          <ul>
+            <li>Preserva todo o trabalho já feito</li>
+            <li>Permite estudar e consultar</li>
+            <li>Cria autonomia sem perder sua voz</li>
+          </ul>
+          <div class="call">É a melhor transição para os dois primeiros alunos.</div>
+        </article>
+
+        <article class="decision-card">
+          <span class="tag">Depois da validação</span>
+          <h3>Curso autoinstrucional</h3>
+          <p>Toda aula contém contexto, execução, exemplos, saída esperada e recuperação de falhas.</p>
+          <ul>
+            <li>Escala com menos acompanhamento</li>
+            <li>Exige revisão pedagógica completa</li>
+            <li>Vale quando a oferta pedir autonomia</li>
+          </ul>
+          <div class="call">Construa quando o piloto mostrar onde o aluno trava.</div>
+        </article>
+      </div>
+    </section>
+
+    <section id="aulas" class="shell">
+      <div class="section-head">
+        <div class="label">02 · resposta direta</div>
+        <div>
+          <h2>Refazer ou gravar vídeo?</h2>
+          <p>As duas coisas têm papéis diferentes. A página ensina e permite consulta. O vídeo mostra ritmo, decisão e demonstração. Os slides preservam a síntese.</p>
+        </div>
+      </div>
+
+      <div class="answer">
+        <div class="yes">
+          <h3>Faça uma nova camada — não uma substituição.</h3>
+          <p>Use o padrão pedagógico das aulas 3, 4 e 5 como referência: objetivo, caminho, prática, entrega, validação e próximos passos.</p>
+        </div>
+        <div>
+          <h3>Para cada uma das duas aulas</h3>
+          <ol>
+            <li>Crie uma página de estudo guiado.</li>
+            <li>Grave uma demonstração limpa, sem dados de aluno.</li>
+            <li>Mantenha o botão “ver os slides da aula ao vivo”.</li>
+            <li>Termine com uma entrega verificável.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section id="roadmap" class="shell">
+      <div class="section-head">
+        <div class="label">03 · roadmap</div>
+        <div>
+          <h2>Quatro movimentos, na ordem.</h2>
+          <p>O primeiro objetivo é receber bem quem já quer comprar. O redesenho cresce apenas depois de observar o uso.</p>
+        </div>
+      </div>
+
+      <div class="roadmap">
+        <article class="phase">
+          <div class="phase-mark">0</div>
+          <div class="phase-card">
+            <div>
+              <div class="phase-id">Agora · antes da compra</div>
+              <h3>Fechar a promessa e o formato</h3>
+              <p>Descrever exatamente o que a pessoa compra: para quem é, resultado, cinco aulas, forma de acompanhamento, acesso, pré-requisitos e suporte.</p>
+              <details>
+                <summary>Ver entregáveis desta fase</summary>
+                <ul>
+                  <li>Texto curto da oferta, sem promessas inventadas</li>
+                  <li>Lista do que está incluído</li>
+                  <li>Canal e limite do suporte</li>
+                  <li>Conta de teste passando por login, aula, bônus e saída</li>
+                </ul>
+              </details>
+            </div>
+            <dl class="phase-meta">
+              <div><dt>Objetivo</dt><dd>Compra sem dúvida de formato</dd></div>
+              <div><dt>Investimento</dt><dd>Pontual</dd></div>
+              <div><dt>Gate</dt><dd>Aluno sabe o que recebe</dd></div>
+            </dl>
+          </div>
+        </article>
+
+        <article class="phase">
+          <div class="phase-mark">1</div>
+          <div class="phase-card">
+            <div>
+              <div class="phase-id">Primeiro ciclo · 2 interessados</div>
+              <h3>Rodar como piloto acompanhado</h3>
+              <p>Entregar o curso atual com presença combinada. Observar onde cada pessoa para, que pergunta faz e qual resultado consegue produzir.</p>
+              <details>
+                <summary>Ver o que registrar</summary>
+                <ul>
+                  <li>Em qual aula e etapa surgiu a dúvida</li>
+                  <li>O que a pessoa esperava encontrar</li>
+                  <li>Se conseguiu terminar a tarefa real</li>
+                  <li>Qual material precisou receber fora da plataforma</li>
+                </ul>
+              </details>
+            </div>
+            <dl class="phase-meta">
+              <div><dt>Objetivo</dt><dd>Aprender com uso real</dd></div>
+              <div><dt>Fonte</dt><dd>Dúvidas e entregas</dd></div>
+              <div><dt>Gate</dt><dd>Dois percursos observados</dd></div>
+            </dl>
+          </div>
+        </article>
+
+        <article class="phase">
+          <div class="phase-mark">2</div>
+          <div class="phase-card">
+            <div>
+              <div class="phase-id">Depois do piloto · conteúdo</div>
+              <h3>Converter as aulas 1 e 2</h3>
+              <p>Usar as perguntas reais para construir páginas autoinstrucionais. Gravar somente as demonstrações que perdem sentido em texto ou imagem.</p>
+              <details>
+                <summary>Ver a divisão recomendada</summary>
+                <ul>
+                  <li>Aula 1: OCAS explicado em página + demonstração de um pedido fraco virando pedido forte</li>
+                  <li>Aula 2: Projects, Artifacts e recursos em página + demonstração da criação de um artefato</li>
+                  <li>Slides atuais: botão de consulta no final das novas páginas</li>
+                  <li>Cada aula: uma tarefa, uma saída e um teste de sucesso</li>
+                </ul>
+              </details>
+            </div>
+            <dl class="phase-meta">
+              <div><dt>Objetivo</dt><dd>Autonomia nas aulas 1 e 2</dd></div>
+              <div><dt>Base</dt><dd>Evidência do piloto</dd></div>
+              <div><dt>Gate</dt><dd>Aluno conclui sem você</dd></div>
+            </dl>
+          </div>
+        </article>
+
+        <article class="phase">
+          <div class="phase-mark">3</div>
+          <div class="phase-card">
+            <div>
+              <div class="phase-id">Depois do conteúdo · plataforma</div>
+              <h3>Profissionalizar a experiência</h3>
+              <p>Compactar a capa e acrescentar orientação, suporte e continuidade. Busca, biblioteca complexa e redesign total ficam condicionados a necessidade real.</p>
+              <details>
+                <summary>Ver melhorias da plataforma</summary>
+                <ul>
+                  <li>Bloco “Comece aqui” e descrição da jornada</li>
+                  <li>Botão de suporte no login e na conta não liberada</li>
+                  <li>Próxima aula e volta ao percurso</li>
+                  <li>Estado concluído e retomada apenas se fizer diferença</li>
+                  <li>Capa mais compacta, preservando foto, paleta e assinatura</li>
+                </ul>
+              </details>
+            </div>
+            <dl class="phase-meta">
+              <div><dt>Objetivo</dt><dd>Orientação sem fricção</dd></div>
+              <div><dt>Escopo</dt><dd>Pontual</dd></div>
+              <div><dt>Gate</dt><dd>Aluno encontra o próximo passo</dd></div>
+            </dl>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="modelo" class="shell">
+      <div class="section-head">
+        <div class="label">04 · modelo</div>
+        <div>
+          <h2>Como uma aula muda de formato.</h2>
+          <p>O conteúdo permanece. O que muda é a sustentação que hoje você oferece ao vivo e que a página precisa passar a oferecer sozinha.</p>
+        </div>
+      </div>
+
+      <div class="lesson-map">
+        <article class="lesson-panel current">
+          <div class="label">Hoje · apresentação</div>
+          <h3>Slides + sua condução</h3>
+          <ul>
+            <li>Frases sintéticas</li>
+            <li>Sequência visual</li>
+            <li>“Prática ao vivo”</li>
+            <li>Contexto preenchido por você</li>
+          </ul>
+        </article>
+        <div class="arrow" aria-hidden="true">→</div>
+        <article class="lesson-panel target">
+          <div class="label">Destino · aula híbrida</div>
+          <h3>Página + vídeo + consulta</h3>
+          <ul>
+            <li>Objetivo e pré-requisitos</li>
+            <li>Explicação consultável</li>
+            <li>Demonstração gravada</li>
+            <li>Tarefa, saída e validação</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="template">
+        <h3>Estrutura fixa para as novas aulas 1 e 2</h3>
+        <div class="template-grid">
+          <div class="template-item"><b>01 · PROMESSA</b><span>O que a pessoa será capaz de fazer ao terminar.</span></div>
+          <div class="template-item"><b>02 · PREPARO</b><span>Conta, arquivo ou tarefa real que precisa ter em mãos.</span></div>
+          <div class="template-item"><b>03 · CONCEITO</b><span>Explicação curta, exemplo e erro mais comum.</span></div>
+          <div class="template-item"><b>04 · DEMONSTRAÇÃO</b><span>Vídeo apenas para o que precisa ser visto em ação.</span></div>
+          <div class="template-item"><b>05 · FAÇA AGORA</b><span>Instrução copiável aplicada a um caso real.</span></div>
+          <div class="template-item"><b>06 · SAÍDA</b><span>O artefato concreto que deve existir ao final.</span></div>
+          <div class="template-item"><b>07 · TESTE</b><span>Três sinais objetivos de que funcionou.</span></div>
+          <div class="template-item"><b>08 · CONTINUIDADE</b><span>Próxima aula, slides e caminho de suporte.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="aceite" class="shell">
+      <div class="section-head">
+        <div class="label">05 · execução</div>
+        <div>
+          <h2>Checklist que guarda o escopo.</h2>
+          <p>Marque conforme avançar. O progresso fica salvo somente neste navegador.</p>
+        </div>
+      </div>
+
+      <div class="checklist" id="checklist">
+        <label class="check"><input type="checkbox" data-key="oferta"><span><strong>Oferta clara</strong><span>Formato, resultado, acesso e suporte estão escritos.</span></span></label>
+        <label class="check"><input type="checkbox" data-key="teste"><span><strong>Conta de aluno testada</strong><span>Login, aulas, bônus e saída funcionam.</span></span></label>
+        <label class="check"><input type="checkbox" data-key="suporte"><span><strong>Suporte visível</strong><span>Há um caminho clicável quando o acesso falha.</span></span></label>
+        <label class="check"><input type="checkbox" data-key="piloto"><span><strong>Piloto acompanhado</strong><span>Os dois primeiros percursos foram observados.</span></span></label>
+        <label class="check"><input type="checkbox" data-key="duvidas"><span><strong>Dúvidas registradas</strong><span>As interrupções viraram insumos de conteúdo.</span></span></label>
+        <label class="check"><input type="checkbox" data-key="aula1"><span><strong>Aula 1 convertida</strong><span>Página, demonstração, tarefa e teste de sucesso.</span></span></label>
+        <label class="check"><input type="checkbox" data-key="aula2"><span><strong>Aula 2 convertida</strong><span>Página, demonstração, tarefa e teste de sucesso.</span></span></label>
+        <label class="check"><input type="checkbox" data-key="navegacao"><span><strong>Jornada orientada</strong><span>Comece aqui, próxima aula e retorno ao percurso.</span></span></label>
+      </div>
+    </section>
+
+    <section class="shell">
+      <div class="section-head">
+        <div class="label">06 · limite</div>
+        <div>
+          <h2>Quando parar e quando avançar.</h2>
+          <p>Profissionalismo também é saber qual trabalho ainda não se justifica.</p>
+        </div>
+      </div>
+      <div class="gate">
+        <article class="gate-card stop">
+          <h3>Não fazer agora</h3>
+          <ul>
+            <li>Redesenho total da identidade</li>
+            <li>Plataforma complexa de biblioteca</li>
+            <li>Busca e filtros para cinco aulas</li>
+            <li>Gravar horas de vídeo antes do piloto</li>
+            <li>Apagar os slides existentes</li>
+          </ul>
+        </article>
+        <article class="gate-card go">
+          <h3>Fazer quando houver evidência</h3>
+          <ul>
+            <li>Progresso global se alunos interromperem e retomarem</li>
+            <li>Busca quando o volume de materiais crescer</li>
+            <li>Mais vídeo quando a prática exigir demonstração</li>
+            <li>Redesign se navegação e conversão continuarem limitadas</li>
+            <li>Domínio próprio quando fortalecer a operação comercial</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="closing shell">
+      <div class="closing-box">
+        <h2>Os dois interessados não pedem uma plataforma maior. Pedem uma entrega clara e segura.</h2>
+        <p>Venda o piloto com o formato explicado, acompanhe de perto, observe as dificuldades e transforme essas dificuldades nas páginas novas das aulas 1 e 2. A próxima versão nasce do aluno real.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell">
+      <span>Roadmap de profissionalização · Claude do Zero</span>
+      <span>Documento de decisão · setembro de 2026</span>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const storageKey = 'claude-zero-roadmap-v1';
+      const inputs = [...document.querySelectorAll('#checklist input[type="checkbox"]')];
+      const bar = document.getElementById('progressBar');
+      const text = document.getElementById('progressText');
+
+      function readState() {
+        try { return JSON.parse(localStorage.getItem(storageKey) || '{}'); }
+        catch { return {}; }
+      }
+
+      function update() {
+        const state = {};
+        inputs.forEach(input => { state[input.dataset.key] = input.checked; });
+        try { localStorage.setItem(storageKey, JSON.stringify(state)); } catch {}
+        const done = inputs.filter(input => input.checked).length;
+        const value = Math.round((done / inputs.length) * 100);
+        bar.style.width = value + '%';
+        text.textContent = value + '%';
+      }
+
+      const state = readState();
+      inputs.forEach(input => {
+        input.checked = Boolean(state[input.dataset.key]);
+        input.addEventListener('change', update);
+      });
+      update();
+    })();
+  </script>
+</body>
+</html>

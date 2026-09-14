@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mockup visual das aulas híbridas 1 e 2 do curso Claude do Zero, com páginas guiadas, vídeo, prática e roteiro de gravação.">
+  <title>Mockup das aulas 01 e 02 · Claude do Zero</title>
+  <style>
+    :root {
+      --marsala: #7b080e;
+      --marsala-deep: #4c080c;
+      --cobre: #d46d3b;
+      --cobre-soft: #f0b088;
+      --areia: #efd9bd;
+      --papel: #faf4ea;
+      --card: #fffdf9;
+      --carvao: #2b2420;
+      --muted: #71645c;
+      --linha: #e3d0ba;
+      --verde: #526c54;
+      --verde-bg: #e8f0e6;
+      --serif: Georgia, "Times New Roman", serif;
+      --sans: "Segoe UI", Arial, sans-serif;
+      --mono: Consolas, "Courier New", monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; color: var(--carvao); background: var(--papel); font: 16px/1.55 var(--sans); -webkit-font-smoothing: antialiased; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    a { color: inherit; }
+    :focus-visible { outline: 3px solid var(--cobre); outline-offset: 3px; }
+    [hidden] { display: none !important; }
+
+    .demo-bar { padding: 8px 18px; color: #fff5e9; background: var(--marsala-deep); text-align: center; font: 700 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+    .topbar { position: sticky; top: 0; z-index: 30; border-bottom: 1px solid var(--linha); background: rgba(250, 244, 234, .95); backdrop-filter: blur(12px); }
+    .topbar-inner { width: min(1220px, calc(100% - 36px)); min-height: 70px; margin: auto; display: flex; align-items: center; gap: 22px; }
+    .brand { margin-right: auto; color: var(--marsala); font: 700 22px var(--serif); letter-spacing: -.02em; }
+    .brand small { display: block; color: var(--cobre); font: 700 9px var(--mono); letter-spacing: .18em; text-transform: uppercase; }
+    .switcher { display: flex; padding: 4px; border: 1px solid var(--linha); background: var(--card); }
+    .switcher button { border: 0; padding: 9px 15px; color: var(--muted); background: transparent; font-size: 13px; font-weight: 700; }
+    .switcher button.active { color: white; background: var(--marsala); }
+    .support { color: var(--marsala); text-decoration: none; font-size: 13px; font-weight: 700; }
+
+    .app { width: min(1220px, calc(100% - 36px)); margin: 0 auto; display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 54px; }
+    .rail { align-self: start; position: sticky; top: 96px; padding: 42px 0; }
+    .rail-title { color: var(--muted); font: 700 10px var(--mono); letter-spacing: .14em; text-transform: uppercase; }
+    .progress-label { display: flex; justify-content: space-between; margin-top: 12px; color: var(--muted); font-size: 12px; }
+    .progress-track { height: 5px; margin: 7px 0 28px; background: var(--linha); }
+    .progress-bar { width: 40%; height: 100%; background: var(--cobre); }
+    .course-nav { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--linha); }
+    .course-nav li { border-bottom: 1px solid var(--linha); }
+    .course-nav button { width: 100%; display: grid; grid-template-columns: 30px 1fr; gap: 9px; padding: 15px 8px; border: 0; color: var(--muted); background: transparent; text-align: left; }
+    .course-nav button.current { color: var(--marsala); background: #f4e5d4; }
+    .course-nav .n { font-family: var(--mono); font-size: 11px; }
+    .course-nav strong { display: block; font-size: 13px; line-height: 1.25; }
+    .course-nav small { display: block; margin-top: 3px; color: #97877c; font-size: 11px; }
+    .rail-note { margin-top: 26px; padding: 16px; border-left: 3px solid var(--cobre); background: var(--card); color: var(--muted); font-size: 12px; }
+
+    .lesson { min-width: 0; padding: 52px 0 100px; }
+    .crumb { color: var(--cobre); font: 700 11px var(--mono); letter-spacing: .14em; text-transform: uppercase; }
+    h1, h2, h3 { margin-top: 0; color: var(--marsala); font-family: var(--serif); }
+    h1 { max-width: 850px; margin: 14px 0 18px; font-size: clamp(42px, 6vw, 76px); line-height: .98; letter-spacing: -.04em; }
+    .intro { max-width: 760px; margin: 0; color: var(--muted); font-size: clamp(18px, 2vw, 22px); }
+
+    .outcomes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin: 38px 0 42px; border: 1px solid var(--linha); background: var(--linha); }
+    .outcome { padding: 22px; background: var(--card); }
+    .outcome b { display: block; margin-bottom: 8px; color: var(--cobre); font: 700 10px var(--mono); letter-spacing: .13em; text-transform: uppercase; }
+    .outcome span { font-size: 14px; }
+
+    .video-block { margin: 0 0 18px; background: #211b19; box-shadow: 0 20px 50px rgba(59, 24, 19, .18); }
+    .video-stage { position: relative; aspect-ratio: 16/9; display: grid; place-items: center; overflow: hidden; color: white; background:
+      linear-gradient(115deg, rgba(76,8,12,.95), rgba(76,8,12,.50)),
+      radial-gradient(circle at 74% 35%, #e49b6d 0 3%, transparent 3.4%),
+      linear-gradient(135deg, #342a26, #6a321f); }
+    .video-stage::after { content: ""; position: absolute; width: 38%; aspect-ratio: 1; right: -8%; top: -28%; border: 1px solid rgba(255,255,255,.18); border-radius: 50%; box-shadow: 0 0 0 55px rgba(255,255,255,.025), 0 0 0 110px rgba(255,255,255,.025); }
+    .video-copy { position: relative; z-index: 2; width: min(78%, 690px); text-align: center; }
+    .video-copy .mock { color: var(--cobre-soft); font: 700 10px var(--mono); letter-spacing: .16em; text-transform: uppercase; }
+    .video-copy h2 { margin: 14px 0 11px; color: white; font-size: clamp(28px, 4.5vw, 52px); line-height: 1.04; }
+    .video-copy p { margin: 0; color: #eaded3; }
+    .play { width: 68px; height: 68px; margin-top: 25px; border: 1px solid rgba(255,255,255,.6); border-radius: 50%; color: white; background: rgba(255,255,255,.12); font-size: 23px; }
+    .play:hover { background: var(--cobre); }
+    .video-controls { display: grid; grid-template-columns: auto 1fr auto; gap: 13px; align-items: center; padding: 13px 16px; color: #dfd2c8; font: 12px var(--mono); }
+    .video-line { height: 4px; background: #574a44; }
+    .video-line span { display: block; width: 28%; height: 100%; background: var(--cobre); }
+
+    .chapter-row { display: flex; gap: 8px; overflow-x: auto; padding: 12px 0 6px; scrollbar-width: thin; }
+    .chapter { flex: 0 0 auto; border: 1px solid var(--linha); padding: 9px 12px; color: var(--muted); background: var(--card); font-size: 12px; }
+    .chapter:hover, .chapter.active { border-color: var(--cobre); color: var(--marsala); background: #f7e6d6; }
+    .script-open { width: 100%; margin: 18px 0 50px; border: 1px solid var(--marsala); padding: 13px 17px; color: var(--marsala); background: transparent; font-weight: 700; }
+
+    .content-section { padding: 48px 0; border-top: 1px solid var(--linha); }
+    .section-kicker { margin-bottom: 10px; color: var(--cobre); font: 700 10px var(--mono); letter-spacing: .13em; text-transform: uppercase; }
+    .content-section h2 { margin-bottom: 12px; font-size: clamp(30px, 4vw, 46px); line-height: 1.05; }
+    .content-section > p { max-width: 760px; color: var(--muted); }
+
+    .prep { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 25px; }
+    .prep label { display: grid; grid-template-columns: 22px 1fr; gap: 12px; padding: 19px; border: 1px solid var(--linha); background: var(--card); }
+    .prep input { width: 18px; height: 18px; accent-color: var(--verde); }
+    .prep label:has(input:checked) { background: var(--verde-bg); opacity: .72; }
+    .prep strong { color: var(--marsala); font-size: 14px; }
+    .prep small { display: block; margin-top: 4px; color: var(--muted); }
+
+    .concept-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 26px; }
+    .concept-grid.three { grid-template-columns: repeat(3, 1fr); }
+    .concept { min-height: 170px; padding: 22px; border: 1px solid var(--linha); background: var(--card); }
+    .concept .letter { color: var(--cobre); font: 700 35px var(--serif); }
+    .concept h3 { margin: 6px 0; font-size: 19px; }
+    .concept p { margin: 0; color: var(--muted); font-size: 13px; }
+
+    .example { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin-top: 22px; background: var(--linha); border: 1px solid var(--linha); }
+    .example > div { padding: 25px; background: var(--card); }
+    .example .after { background: var(--verde-bg); }
+    .example b { display: block; margin-bottom: 10px; font: 700 10px var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+    .example .before b { color: #a14343; }
+    .example .after b { color: var(--verde); }
+    .example p { margin: 0; }
+
+    .prompt { margin-top: 24px; border: 1px solid var(--linha); background: #2a211e; color: #f7ece2; }
+    .prompt-head { display: flex; justify-content: space-between; gap: 16px; align-items: center; padding: 14px 18px; border-bottom: 1px solid #55433c; }
+    .prompt-head span { color: var(--cobre-soft); font: 700 10px var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+    .copy { border: 1px solid #765b50; padding: 7px 12px; color: white; background: transparent; font-size: 12px; }
+    pre { margin: 0; padding: 24px; overflow-x: auto; white-space: pre-wrap; font: 13px/1.7 var(--mono); }
+    mark { padding: 1px 4px; color: #fff; background: #7f3e2b; }
+
+    .task { position: relative; padding: clamp(30px, 5vw, 52px); color: white; background: var(--marsala); }
+    .task h2 { color: white; }
+    .task p { max-width: 720px; color: #f0ddd0; }
+    .deliverable { margin-top: 22px; padding: 19px; border: 1px solid rgba(255,255,255,.25); background: rgba(255,255,255,.07); }
+    .deliverable b { color: var(--cobre-soft); }
+
+    .success { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 25px; }
+    .success label { padding: 21px; border: 1px solid var(--linha); background: var(--card); }
+    .success input { margin-right: 9px; accent-color: var(--verde); }
+    .success strong { color: var(--marsala); }
+    .success small { display: block; margin: 9px 0 0 26px; color: var(--muted); }
+
+    .resources { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 24px; }
+    .resource { padding: 20px; border: 1px solid var(--linha); background: var(--card); }
+    .resource .icon { color: var(--cobre); font-size: 23px; }
+    .resource strong { display: block; margin-top: 10px; color: var(--marsala); }
+    .resource span { display: block; margin: 5px 0 15px; color: var(--muted); font-size: 13px; }
+    .resource a { color: var(--marsala); font-size: 12px; font-weight: 700; }
+
+    .next { display: flex; justify-content: space-between; gap: 25px; align-items: center; margin-top: 48px; padding: 28px; border: 1px solid var(--linha); background: #f2dfca; }
+    .next span { color: var(--cobre); font: 700 10px var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+    .next h3 { margin: 5px 0 0; font-size: 25px; }
+    .next button { border: 0; padding: 12px 17px; color: white; background: var(--marsala); font-weight: 700; }
+
+    .drawer-backdrop { position: fixed; inset: 0; z-index: 50; display: grid; place-items: end; background: rgba(24,18,16,.52); }
+    .drawer { width: min(720px, 100%); height: 100%; overflow-y: auto; padding: clamp(28px, 5vw, 55px); background: var(--card); box-shadow: -20px 0 60px rgba(0,0,0,.2); }
+    .drawer-head { display: flex; justify-content: space-between; gap: 20px; align-items: start; }
+    .drawer h2 { margin-bottom: 8px; font-size: 38px; }
+    .drawer .subtitle { margin: 0 0 30px; color: var(--muted); }
+    .close { width: 42px; height: 42px; flex: 0 0 auto; border: 1px solid var(--linha); background: transparent; font-size: 22px; }
+    .timeline { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--linha); }
+    .timeline li { display: grid; grid-template-columns: 82px 1fr; gap: 18px; padding: 20px 0; border-bottom: 1px solid var(--linha); }
+    .timeline time { color: var(--cobre); font: 700 12px var(--mono); }
+    .timeline strong { display: block; color: var(--marsala); }
+    .timeline p { margin: 5px 0 0; color: var(--muted); font-size: 14px; }
+    .record-note { margin-top: 26px; padding: 21px; border-left: 4px solid var(--cobre); background: #f6e9da; }
+
+    @media (max-width: 930px) {
+      .app { grid-template-columns: 1fr; }
+      .rail { position: static; padding: 24px 0 0; }
+      .course-nav { display: none; }
+      .rail-note { display: none; }
+      .lesson { padding-top: 25px; }
+      .prep, .success, .resources { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 680px) {
+      .demo-bar { font-size: 9px; }
+      .topbar-inner, .app { width: min(calc(100% - 26px), 1220px); }
+      .topbar-inner { min-height: 62px; gap: 10px; }
+      .brand { font-size: 18px; }
+      .brand small, .support { display: none; }
+      .switcher button { padding: 8px 10px; font-size: 11px; }
+      .rail { padding-top: 16px; }
+      .outcomes, .concept-grid, .concept-grid.three, .example { grid-template-columns: 1fr; }
+      .outcome { padding: 17px; }
+      .video-copy { width: 86%; }
+      .video-copy p { display: none; }
+      .play { width: 54px; height: 54px; }
+      .content-section { padding: 38px 0; }
+      .next { align-items: stretch; flex-direction: column; }
+      .timeline li { grid-template-columns: 62px 1fr; }
+      h1 { font-size: clamp(40px, 13vw, 57px); overflow-wrap: anywhere; }
+    }
+
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+  <div class="demo-bar">Protótipo visual · dados e progresso simulados · nenhum vídeo real incorporado</div>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand"><small>Série</small>Claude do Zero</div>
+      <div class="switcher" aria-label="Escolher aula">
+        <button class="active" type="button" data-show="lesson1">Aula 01</button>
+        <button type="button" data-show="lesson2">Aula 02</button>
+      </div>
+      <a class="support" href="#suporte" onclick="alert('Exemplo: este botão abriria o seu canal de suporte.')">Preciso de ajuda</a>
+    </div>
+  </header>
+
+  <div class="app">
+    <aside class="rail" aria-label="Progresso do curso simulado">
+      <div class="rail-title">Seu percurso</div>
+      <div class="progress-label"><span>2 de 5 aulas</span><span>40%</span></div>
+      <div class="progress-track"><div class="progress-bar"></div></div>
+      <ol class="course-nav">
+        <li><button class="current" type="button" data-show="lesson1"><span class="n">01</span><span><strong>Conversar com o Claude</strong><small>Em andamento</small></span></button></li>
+        <li><button type="button" data-show="lesson2"><span class="n">02</span><span><strong>Botar o Claude pra trabalhar</strong><small>Disponível</small></span></button></li>
+        <li><button type="button" disabled><span class="n">03</span><span><strong>Documento Mestre</strong><small>Disponível</small></span></button></li>
+        <li><button type="button" disabled><span class="n">04</span><span><strong>Zona de Genialidade</strong><small>Disponível</small></span></button></li>
+        <li><button type="button" disabled><span class="n">05</span><span><strong>Landing Page</strong><small>Disponível</small></span></button></li>
+      </ol>
+      <div class="rail-note"><strong>O menu responde três perguntas:</strong><br>onde estou, o que já fiz e qual é o próximo passo.</div>
+    </aside>
+
+    <main>
+      <article class="lesson" id="lesson1">
+        <div class="crumb">Módulo 01 · Aula 01</div>
+        <h1>Conversar com o Claude</h1>
+        <p class="intro">Saia da pergunta genérica e construa um pedido que o Claude entende, executa e devolve no formato certo.</p>
+
+        <div class="outcomes">
+          <div class="outcome"><b>Você vai fazer</b><span>Transformar uma tarefa real em um prompt OCAS.</span></div>
+          <div class="outcome"><b>Tenha em mãos</b><span>Uma tarefa desta semana que você quer resolver.</span></div>
+          <div class="outcome"><b>Entrega da aula</b><span>Um resultado aproveitável, refinado em pelo menos uma rodada.</span></div>
+        </div>
+
+        <div class="video-block">
+          <div class="video-stage">
+            <div class="video-copy">
+              <div class="mock">Demonstração gravada · exemplo de 9 minutos</div>
+              <h2>Do pedido vago ao OCAS completo</h2>
+              <p>Jaya transforma “melhore meu currículo” em uma instrução clara e mostra como ajustar a primeira resposta.</p>
+              <button class="play" type="button" aria-label="Simular reprodução">▶</button>
+            </div>
+          </div>
+          <div class="video-controls"><span>02:32</span><div class="video-line"><span></span></div><span>09:00</span></div>
+        </div>
+        <div class="chapter-row" aria-label="Capítulos do vídeo">
+          <button class="chapter active">00:00 · promessa</button><button class="chapter">00:40 · pedido fraco</button><button class="chapter">02:00 · OCAS</button><button class="chapter">04:30 · construção</button><button class="chapter">07:15 · ajuste</button>
+        </div>
+        <button class="script-open" type="button" data-script="script1">Abrir roteiro completo do vídeo</button>
+
+        <section class="content-section">
+          <div class="section-kicker">Antes de começar</div>
+          <h2>Arrume a mesa em dois minutos.</h2>
+          <p>A página prepara o aluno para praticar. Ele não termina o vídeo pensando “entendi”; termina com algo produzido.</p>
+          <div class="prep">
+            <label><input type="checkbox"><span><strong>Abra o Claude</strong><small>Deixe em outra aba ou ao lado desta página.</small></span></label>
+            <label><input type="checkbox"><span><strong>Escolha uma tarefa real</strong><small>Algo que você precisa resolver nesta semana.</small></span></label>
+            <label><input type="checkbox"><span><strong>Defina a saída</strong><small>Lista, texto, tabela, plano ou outro formato.</small></span></label>
+          </div>
+        </section>
+
+        <section class="content-section">
+          <div class="section-kicker">O conceito consultável</div>
+          <h2>OCAS: quatro decisões antes de enviar.</h2>
+          <p>Esta explicação fica na página porque o aluno precisa voltar nela. O vídeo mostra o raciocínio acontecendo; a página vira referência.</p>
+          <div class="concept-grid">
+            <article class="concept"><div class="letter">O</div><h3>Objetivo</h3><p>O que você quer alcançar de verdade?</p></article>
+            <article class="concept"><div class="letter">C</div><h3>Contexto</h3><p>O que a IA precisa saber para decidir bem?</p></article>
+            <article class="concept"><div class="letter">A</div><h3>Ação</h3><p>O que deve ser feito agora?</p></article>
+            <article class="concept"><div class="letter">S</div><h3>Saída</h3><p>Como a resposta precisa chegar?</p></article>
+          </div>
+          <div class="example">
+            <div class="before"><b>Pedido fraco</b><p>“Melhore meu currículo.”</p></div>
+            <div class="after"><b>Pedido com direção</b><p>“Quero disputar vagas de analista de dados. Analise meu currículo, priorize ajustes para triagem de RH e devolva uma lista por impacto.”</p></div>
+          </div>
+        </section>
+
+        <section class="content-section">
+          <div class="section-kicker">Faça agora</div>
+          <h2>Preencha e envie o seu primeiro OCAS.</h2>
+          <div class="prompt">
+            <div class="prompt-head"><span>Template editável · dados simulados</span><button class="copy" type="button">Copiar</button></div>
+            <pre><code>Meu objetivo é <mark>[resultado que quero]</mark>.
+
+Contexto: <mark>[situação, público, dados e limites]</mark>.
+
+Quero que você <mark>[ação que deve executar]</mark>.
+
+Entregue em <mark>[formato da saída]</mark>. Antes de concluir, confira <mark>[critério de qualidade]</mark>.</code></pre>
+          </div>
+        </section>
+
+        <section class="content-section task">
+          <div class="section-kicker">Entrega da aula</div>
+          <h2>Uma tarefa real resolvida.</h2>
+          <p>Envie o prompt, leia a resposta e faça pelo menos um ajuste conversando: “deixe mais curto”, “mude o tom” ou “me dê três versões”.</p>
+          <div class="deliverable"><b>Você terminou quando:</b> consegue usar a resposta no mundo real sem recomeçar o pedido do zero.</div>
+        </section>
+
+        <section class="content-section">
+          <div class="section-kicker">Teste de sucesso</div>
+          <h2>Confira antes de avançar.</h2>
+          <div class="success">
+            <label><input type="checkbox"><strong>Tem contexto</strong><small>O Claude não precisou adivinhar para quem ou para quê.</small></label>
+            <label><input type="checkbox"><strong>Tem formato</strong><small>A resposta chegou organizada do jeito que você pediu.</small></label>
+            <label><input type="checkbox"><strong>Virou uso</strong><small>Você aproveitou ou refinou a resposta em uma tarefa real.</small></label>
+          </div>
+        </section>
+
+        <section class="content-section">
+          <div class="section-kicker">Para consultar depois</div>
+          <h2>Materiais da Aula 01</h2>
+          <div class="resources">
+            <div class="resource"><span class="icon">▤</span><strong>Slides da aula ao vivo</strong><span>A síntese visual original continua disponível.</span><a href="../originais/aula-01-conversar-com-o-claude.html" target="_blank">Abrir slides →</a></div>
+            <div class="resource"><span class="icon">□</span><strong>Template OCAS</strong><span>O modelo limpo para copiar e reutilizar.</span><a href="#">Copiar template →</a></div>
+            <div class="resource"><span class="icon">?</span><strong>Travou?</strong><span>Erros comuns e como corrigir o pedido.</span><a href="#suporte">Abrir ajuda →</a></div>
+          </div>
+          <div class="next"><div><span>Próxima aula</span><h3>02 · Botar o Claude pra trabalhar</h3></div><button type="button" data-show="lesson2">Ir para a Aula 02</button></div>
+        </section>
+      </article>
+
+      <article class="lesson" id="lesson2" hidden>
+        <div class="crumb">Módulo 01 · Aula 02</div>
+        <h1>Botar o Claude pra trabalhar</h1>
+        <p class="intro">Pare de receber apenas explicações. Organize um contexto real e peça ao Claude uma entrega que você possa usar.</p>
+
+        <div class="outcomes">
+          <div class="outcome"><b>Você vai fazer</b><span>Criar um projeto e pedir um artefato útil.</span></div>
+          <div class="outcome"><b>Tenha em mãos</b><span>Um tema, cliente, produto ou rotina real.</span></div>
+          <div class="outcome"><b>Entrega da aula</b><span>Um artefato funcional dentro de um projeto organizado.</span></div>
+        </div>
+
+        <div class="video-block">
+          <div class="video-stage">
+            <div class="video-copy">
+              <div class="mock">Demonstração gravada · exemplo de 10 minutos</div>
+              <h2>Da conversa ao artefato</h2>
+              <p>Jaya cria um projeto para uma oficina e transforma informações soltas em uma calculadora de orçamento.</p>
+              <button class="play" type="button" aria-label="Simular reprodução">▶</button>
+            </div>
+          </div>
+          <div class="video-controls"><span>03:05</span><div class="video-line"><span style="width:31%"></span></div><span>10:00</span></div>
+        </div>
+        <div class="chapter-row" aria-label="Capítulos do vídeo">
+          <button class="chapter active">00:00 · resultado</button><button class="chapter">00:45 · projeto</button><button class="chapter">02:40 · contexto</button><button class="chapter">04:20 · artefato</button><button class="chapter">07:30 · refinamento</button>
+        </div>
+        <button class="script-open" type="button" data-script="script2">Abrir roteiro completo do vídeo</button>
+
+        <section class="content-section">
+          <div class="section-kicker">Antes de começar</div>
+          <h2>Escolha um contexto que existe.</h2>
+          <p>O exemplo é mocado, mas o aluno trabalha com dado próprio. Isso transforma o recurso em resultado e revela dúvidas reais.</p>
+          <div class="prep">
+            <label><input type="checkbox"><span><strong>Defina o projeto</strong><small>Cliente, empresa, produto, estudo ou rotina.</small></span></label>
+            <label><input type="checkbox"><span><strong>Junte uma fonte</strong><small>Texto, planilha, instrução ou dado que o Claude usará.</small></span></label>
+            <label><input type="checkbox"><span><strong>Escolha a entrega</strong><small>Calculadora, página, plano, dashboard ou documento.</small></span></label>
+          </div>
+        </section>
+
+        <section class="content-section">
+          <div class="section-kicker">O conceito consultável</div>
+          <h2>Três camadas do trabalho.</h2>
+          <p>A Aula 02 não precisa ensinar todos os recursos com a mesma profundidade. Ela precisa fazer o aluno completar uma travessia.</p>
+          <div class="concept-grid three">
+            <article class="concept"><div class="letter">1</div><h3>Projeto</h3><p>Guarda o contexto que precisa continuar valendo.</p></article>
+            <article class="concept"><div class="letter">2</div><h3>Pedido</h3><p>Define a entrega usando a clareza do OCAS.</p></article>
+            <article class="concept"><div class="letter">3</div><h3>Artefato</h3><p>Transforma a conversa em algo que funciona e pode ser refinado.</p></article>
+          </div>
+          <div class="example">
+            <div class="before"><b>Antes</b><p>“Como faço um orçamento para minha oficina?”</p></div>
+            <div class="after"><b>Depois</b><p>“Crie uma calculadora de orçamento com serviço, horas, peças, margem e valor final. Quero editar os campos e imprimir o resultado.”</p></div>
+          </div>
+        </section>
+
+        <section class="content-section">
+          <div class="section-kicker">Faça agora</div>
+          <h2>Peça uma coisa pronta.</h2>
+          <div class="prompt">
+            <div class="prompt-head"><span>Exemplo mocado · oficina horizonte</span><button class="copy" type="button">Copiar</button></div>
+            <pre><code>Crie uma calculadora simples de orçamento para a Oficina Horizonte.
+
+Ela deve receber: nome do cliente, serviço, horas de trabalho, valor da hora, custo das peças e margem.
+
+Calcule mão de obra, subtotal, margem e valor final. Permita editar qualquer campo e imprimir o orçamento.
+
+Use uma interface clara, legível no celular, com uma única ação principal. Antes de concluir, teste com: 3 horas, R$ 120 por hora, R$ 450 em peças e margem de 20%.</code></pre>
+          </div>
+        </section>
+
+        <section class="content-section task">
+          <div class="section-kicker">Entrega da aula</div>
+          <h2>Um projeto e um artefato reais.</h2>
+          <p>Crie o projeto, dê contexto, peça o artefato e faça duas mudanças por conversa. O objetivo não é explorar cada botão; é experimentar a mudança de resposta para entrega.</p>
+          <div class="deliverable"><b>Você terminou quando:</b> o artefato aceita dados, produz uma saída e ficou guardado no contexto certo.</div>
+        </section>
+
+        <section class="content-section">
+          <div class="section-kicker">Teste de sucesso</div>
+          <h2>Confira antes de avançar.</h2>
+          <div class="success">
+            <label><input type="checkbox"><strong>Contexto separado</strong><small>O projeto tem nome e finalidade claros.</small></label>
+            <label><input type="checkbox"><strong>Artefato funciona</strong><small>Recebe uma entrada e devolve uma saída útil.</small></label>
+            <label><input type="checkbox"><strong>Foi refinado</strong><small>Você pediu pelo menos duas mudanças conversando.</small></label>
+          </div>
+        </section>
+
+        <section class="content-section">
+          <div class="section-kicker">Para consultar depois</div>
+          <h2>Materiais da Aula 02</h2>
+          <div class="resources">
+            <div class="resource"><span class="icon">▤</span><strong>Slides da aula ao vivo</strong><span>A visão geral de Artifacts, Projects e recursos.</span><a href="../originais/aula-02-botar-o-claude-pra-trabalhar.html" target="_blank">Abrir slides →</a></div>
+            <div class="resource"><span class="icon">□</span><strong>Prompt do artefato</strong><span>Exemplo anotado e versão limpa.</span><a href="#">Copiar prompt →</a></div>
+            <div class="resource"><span class="icon">?</span><strong>Artefato não abriu?</strong><span>Checklist de contexto, instrução e teste.</span><a href="#suporte">Abrir ajuda →</a></div>
+          </div>
+          <div class="next"><div><span>Próxima aula</span><h3>03 · Documento Mestre</h3></div><button type="button" onclick="alert('No site real, seguiria para a Aula 03.')">Ir para a Aula 03</button></div>
+        </section>
+      </article>
+    </main>
+  </div>
+
+  <div class="drawer-backdrop" id="script1" hidden>
+    <aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="script1-title">
+      <div class="drawer-head"><div><div class="section-kicker">Roteiro sugerido · Aula 01</div><h2 id="script1-title">Do pedido vago ao OCAS</h2></div><button class="close" type="button" aria-label="Fechar roteiro">×</button></div>
+      <p class="subtitle">Duração de referência: aproximadamente 9 minutos. Grave a tela do Claude e sua voz; câmera pequena é opcional.</p>
+      <ol class="timeline">
+        <li><time>00:00–00:40</time><div><strong>Promessa e ponto de chegada</strong><p>“Nesta aula você vai pegar uma tarefa real e sair com uma resposta que consegue usar.” Mostre rapidamente o resultado final.</p></div></li>
+        <li><time>00:40–02:00</time><div><strong>O pedido fraco</strong><p>Envie “melhore meu currículo”. Leia a resposta genérica e nomeie o problema sem alongar a teoria.</p></div></li>
+        <li><time>02:00–04:30</time><div><strong>As quatro decisões do OCAS</strong><p>Preencha objetivo, contexto, ação e saída usando o mesmo caso. Mostre o raciocínio, não apenas o texto pronto.</p></div></li>
+        <li><time>04:30–07:15</time><div><strong>Envio e comparação</strong><p>Envie o novo prompt. Compare as duas respostas e aponte concretamente o que melhorou.</p></div></li>
+        <li><time>07:15–08:25</time><div><strong>Ajuste conversando</strong><p>Faça uma segunda rodada: tom, tamanho ou formato. Mostre que a primeira resposta não é o fim.</p></div></li>
+        <li><time>08:25–09:00</time><div><strong>Tarefa e critério</strong><p>Peça que a pessoa use uma tarefa própria. Repita os três sinais de sucesso mostrados na página.</p></div></li>
+      </ol>
+      <div class="record-note"><strong>Regra de gravação:</strong> use um currículo fictício e uma conta limpa. Se a interface mudar, a página continua válida e você substitui apenas esta demonstração.</div>
+    </aside>
+  </div>
+
+  <div class="drawer-backdrop" id="script2" hidden>
+    <aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="script2-title">
+      <div class="drawer-head"><div><div class="section-kicker">Roteiro sugerido · Aula 02</div><h2 id="script2-title">Da conversa ao artefato</h2></div><button class="close" type="button" aria-label="Fechar roteiro">×</button></div>
+      <p class="subtitle">Duração de referência: aproximadamente 10 minutos. Uma travessia completa vale mais do que apresentar todos os recursos.</p>
+      <ol class="timeline">
+        <li><time>00:00–00:45</time><div><strong>Mostre o resultado</strong><p>Abra a calculadora pronta e diga: “Hoje você vai sair de uma conversa para uma coisa que funciona.”</p></div></li>
+        <li><time>00:45–02:40</time><div><strong>Crie o projeto</strong><p>Use “Oficina Horizonte”. Explique em uma frase por que esse contexto merece um espaço próprio.</p></div></li>
+        <li><time>02:40–04:20</time><div><strong>Dê o contexto mínimo</strong><p>Acrescente os dados necessários e deixe explícita a entrega. Relembre o OCAS sem repetir a Aula 01.</p></div></li>
+        <li><time>04:20–07:30</time><div><strong>Crie e teste o artefato</strong><p>Peça a calculadora, preencha os números de teste e confira o resultado na tela.</p></div></li>
+        <li><time>07:30–09:10</time><div><strong>Refine por conversa</strong><p>Peça duas mudanças visíveis: simplificar o formulário e incluir impressão do orçamento.</p></div></li>
+        <li><time>09:10–10:00</time><div><strong>Transfira para o aluno</strong><p>Mostre onde o artefato ficou e peça que ele repita com um caso próprio. Feche com os critérios da página.</p></div></li>
+      </ol>
+      <div class="record-note"><strong>Regra de gravação:</strong> mantenha Skills, Cowork, conectores e outros recursos nos slides de consulta. O vídeo principal ensina uma transformação completa.</div>
+    </aside>
+  </div>
+
+  <script>
+    const lessons = [...document.querySelectorAll('.lesson')];
+    const switchButtons = [...document.querySelectorAll('[data-show]')];
+
+    function showLesson(id) {
+      lessons.forEach(lesson => lesson.hidden = lesson.id !== id);
+      switchButtons.forEach(button => button.classList.toggle('active', button.dataset.show === id));
+      document.querySelectorAll('.course-nav button').forEach(button => button.classList.toggle('current', button.dataset.show === id));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    switchButtons.forEach(button => button.addEventListener('click', () => showLesson(button.dataset.show)));
+
+    document.querySelectorAll('.copy').forEach(button => button.addEventListener('click', async () => {
+      const text = button.closest('.prompt').querySelector('code').innerText;
+      try { await navigator.clipboard.writeText(text); button.textContent = 'Copiado'; }
+      catch { button.textContent = 'Selecione e copie'; }
+      setTimeout(() => button.textContent = 'Copiar', 1600);
+    }));
+
+    document.querySelectorAll('.script-open').forEach(button => button.addEventListener('click', () => {
+      const drawer = document.getElementById(button.dataset.script);
+      drawer.hidden = false;
+      drawer.querySelector('.close').focus();
+    }));
+
+    document.querySelectorAll('.drawer-backdrop').forEach(backdrop => {
+      backdrop.addEventListener('click', event => { if (event.target === backdrop) backdrop.hidden = true; });
+      backdrop.querySelector('.close').addEventListener('click', () => backdrop.hidden = true);
+    });
+
+    document.querySelectorAll('.chapter-row').forEach(row => row.addEventListener('click', event => {
+      if (!event.target.classList.contains('chapter')) return;
+      row.querySelectorAll('.chapter').forEach(button => button.classList.remove('active'));
+      event.target.classList.add('active');
+    }));
+
+    document.querySelectorAll('.play').forEach(button => button.addEventListener('click', () => {
+      button.textContent = button.textContent === '▶' ? '❚❚' : '▶';
+    }));
+
+    document.addEventListener('keydown', event => {
+      if (event.key !== 'Escape') return;
+      document.querySelectorAll('.drawer-backdrop').forEach(drawer => drawer.hidden = true);
+    });
+  </script>
+</body>
+</html>

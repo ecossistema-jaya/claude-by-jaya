@@ -75,12 +75,13 @@ export type Falha = 'servidor' | 'limite' | 'modelo';
 export type Resultado = { ok: true; text: string } | { ok: false; erro: Falha };
 
 /** Chama o modelo e devolve o texto. Não decide quem pode chamar. */
-export async function analisar(text: string): Promise<Resultado> {
+export async function analisar(text: string, signal?: AbortSignal): Promise<Resultado> {
   const chave = process.env.GEMINI_API_KEY;
   if (!chave) return { ok: false, erro: 'servidor' };
 
   const chamar = (comThinking: boolean) =>
     fetch(URL, {
+      signal,
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-goog-api-key': chave },
       body: JSON.stringify(corpo(text, comThinking)),

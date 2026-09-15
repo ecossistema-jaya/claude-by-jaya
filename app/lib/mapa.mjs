@@ -6,7 +6,7 @@ const meaningful = x => (Array.isArray(x) ? x : [x]).some(v => typeof v === 'str
 export class MapError extends Error {
   constructor(message, status = 422) { super(message); this.status = status; }
 }
-export function prepareMap(body) {
+export function prepareMap(body, { minEvidence = 6 } = {}) {
   if (!obj(body) || !obj(body.answers)) throw new MapError('Respostas inválidas.', 400);
   const professional = body.answers.professional === 'Sim, quero explorar';
   const answers = {};
@@ -27,7 +27,7 @@ export function prepareMap(body) {
     }
   }
   const evidence = Object.keys(answers).filter(k => k !== 'professional' && meaningful(answers[k]));
-  if (evidence.length < 6 || !['interest','easy','help'].some(k => evidence.includes(k))) throw new MapError('Ainda falta base para uma leitura. Revise ao menos seis respostas e indique um interesse, uma facilidade ou uma ajuda que costuma oferecer.');
+  if (evidence.length < minEvidence || !['interest','easy','help'].some(k => evidence.includes(k))) throw new MapError('Ainda falta base para uma leitura. Revise ao menos seis respostas e indique um interesse, uma facilidade ou uma ajuda que costuma oferecer.');
   return { answers, professional, evidence };
 }
 export function mapPrompt(input) {

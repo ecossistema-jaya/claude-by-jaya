@@ -14,6 +14,8 @@ const nextConfig: NextConfig = {
      de um iframe nada disso chega ao robô do WhatsApp. */
   async rewrites() {
     return [
+      { source: '/arquitetura-da-consciencia', destination: '/consciencia/index.html' },
+      { source: '/arquitetura-da-consciencia/', destination: '/consciencia/index.html' },
       { source: '/zona-de-genialidade', destination: '/zona/index.html' },
       { source: '/zona-de-genialidade/', destination: '/zona/index.html' },
       /* Mesma história para o deck da palestra: HTML autocontido em public/deck/,

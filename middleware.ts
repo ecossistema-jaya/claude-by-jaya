@@ -101,9 +101,11 @@ function herdarCookies(destino: NextResponse, origem: NextResponse) {
      /api/analyze de propósito: handler com dois modos de autenticação é onde erro
      de autorização nasce, e o caminho do aluno continua exatamente como está.
    - biblioteca e seus descendentes: guias autorais gratuitos, independentes do curso.
+   - /claude: apresentação pública do curso. /claude-do-zero é a área do aluno
+     e passa pelas mesmas verificações de sessão e autorização das aulas.
    Os HTML em /aulas e todas as outras imagens seguem fechados. */
 export const config = {
   matcher: [
-    '/((?!claude/?$|biblioteca(?:/|$)|login|auth/callback|sem-acesso|zona-de-genialidade|zona/|deck-arquitetura-da-consciencia|deck/|claude-do-zero|oferta/|api/zona/|img/login\\.webp|img/login-mobile\\.webp|icones/claude\\.svg|img/og\\.jpg|_next/static|_next/image|_vercel|favicon.ico).*)',
+    '/((?!claude/?$|biblioteca(?:/|$)|login|auth/callback|sem-acesso|zona-de-genialidade|zona/|deck-arquitetura-da-consciencia|deck/|oferta/|api/zona/|img/login\\.webp|img/login-mobile\\.webp|icones/claude\\.svg|img/og\\.jpg|_next/static|_next/image|_vercel|favicon.ico).*)',
   ],
 };

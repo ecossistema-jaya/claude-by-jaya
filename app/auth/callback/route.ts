@@ -38,5 +38,5 @@ export async function GET(req: NextRequest) {
     user_agent: req.headers.get('user-agent'),
   });
 
-  return NextResponse.redirect(new URL('/', origin));
+  return NextResponse.redirect(new URL('/claude-do-zero', origin));
 }

@@ -3,8 +3,8 @@
    originais/claude-do-zero.html é a fonte editável; public/oferta/index.html é
    derivado e regenerável — mesma relação de build-zona.mjs entre originais/ e public/.
 
-   O destino é index.html porque next.config.ts reescreve /claude-do-zero para
-   /oferta/index.html. Página pública: o middleware libera claude-do-zero e oferta/.
+   O destino é index.html porque next.config.ts reescreve /claude para
+   /oferta/index.html. Página pública: o middleware libera /claude e oferta/.
 
    Na Vercel originais/ não existe (.vercelignore): sem fonte, mantém o derivado
    versionado e sai com 0. Ver docs/RUNBOOK.md. */

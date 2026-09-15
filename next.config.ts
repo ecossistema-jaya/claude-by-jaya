@@ -23,8 +23,9 @@ const nextConfig: NextConfig = {
       /* E para a oferta do curso: vitrine pública, com a prévia de link própria. */
       { source: '/claude', destination: '/oferta/index.html' },
       { source: '/claude/', destination: '/oferta/index.html' },
-      { source: '/claude-do-zero', destination: '/oferta/index.html' },
-      { source: '/claude-do-zero/', destination: '/oferta/index.html' },
+      /* Entrada do aluno: reutiliza o índice existente, com a mesma proteção. */
+      { source: '/claude-do-zero', destination: '/' },
+      { source: '/claude-do-zero/', destination: '/' },
     ];
   },
 };

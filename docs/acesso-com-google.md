@@ -5,9 +5,11 @@ quem estiver na tabela `alunos_claude` do Supabase.
 
 ## Como funciona
 
-1. `/login` manda o aluno para o Google.
+1. `/claude-do-zero` abre a área protegida do aluno; sem sessão, vai para `/login`,
+   que manda o aluno para o Google. `/claude` é a apresentação pública do curso.
 2. O Google devolve em `/auth/callback`, que confere a allowlist. Quem não está
-   nela é deslogado na hora e vai para `/sem-acesso`.
+   nela é deslogado na hora e vai para `/sem-acesso`. Quem está autorizado retorna
+   para `/claude-do-zero`.
 3. O `middleware.ts` protege todo o resto — inclusive os HTML das aulas em
    `/aulas` e as imagens. Ele guarda a resposta "pode entrar" num cookie
    assinado de 10 minutos para não consultar o banco a cada arquivo.
@@ -54,6 +56,9 @@ para liberar, desativar, reativar e remover aluno, e ver as últimas entradas.
    - Site URL: `https://claude-by-jaya.vercel.app`
    - Redirect URLs: `https://claude-by-jaya.vercel.app/**` e
      `http://localhost:3000/**`
+   - Domínio próprio: `https://jayaroberta.com/auth/callback`, adicionado e
+     confirmado no painel em 15/09/2026. Os endereços existentes e a Site URL
+     foram preservados; este projeto Supabase também atende outros aplicativos.
 
 ### 3. Vercel
 

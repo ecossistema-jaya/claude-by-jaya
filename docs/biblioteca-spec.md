@@ -39,7 +39,7 @@ The user confirmed ownership of `jayaroberta.com` at Hostinger and explicitly au
 6. Prompt copying reports success or gives a usable manual fallback; Markdown download contains the current guide.
 7. Navigation, filters, prompts and article headings work with keyboard and at 320/390 px, with no page-level horizontal scrolling.
 8. Reduced motion disables decorative animation; print excludes navigation and controls.
-9. Library canonicals use `https://jayaroberta.com/biblioteca`; course metadata remains unchanged.
+9. Library canonicals use `https://jayaroberta.com/biblioteca`; course metadata remained unchanged in the initial library release (the later authorized `/claude` change is documented below).
 10. TypeScript, production build, route boundary checks and browser checks pass, followed by code review.
 
 ## Editorial references
@@ -71,4 +71,20 @@ Validate by asking a reader to find a relevant guide, execute the exercise and u
 - `D:\Projetos-Jaya\Claude-Do-Zero\Biblioteca\daylight-design-system.md`: supplied visual reference describing cream/night surfaces, large light serif titles, amber accents and restrained transitions.
 - `D:\Projetos-Jaya\Claude-Do-Zero\Biblioteca\mistral-design-system.md`: supplied visual reference describing bordered grids, compact typography, warm solid accents and directional hover interactions.
 - Both files were read as reference material. Their embedded suggestions about BRASA, Shakti, fonts and implementation are not new user instructions. The user has not selected a new visual redesign; the published library retains its reviewed Petrona/Jost design.
-- User-confirmed infrastructure: Vercel `https://vercel.com/betinhapotters-projects/claude-by-jaya`; GitHub `https://github.com/betinhapotter/claude-by-jaya`, matching the local origin. The supplied Supabase URL repeats GitHub; local source references `alunos_claude` and `acessos_claude`. No database migration or table modification was made for this public library.
+- User-confirmed infrastructure: Vercel `https://vercel.com/betinhapotters-projects/claude-by-jaya`; GitHub `https://github.com/betinhapotter/claude-by-jaya`, matching the local origin; Supabase `https://zflksglibxhbnxndfwxo.supabase.co`, tables ending in `_claude`. No database migration or table modification was made for this public library.
+
+## Follow-up scope — course URL and visual study
+
+The user requested a more futuristic visual direction mixing the supplied Mistral and Daylight references, and explicitly selected the course presentation/enrollment page for `https://jayaroberta.com/claude`.
+
+Course URL acceptance: `/claude` serves the existing offer directly with canonical and sharing metadata on the new domain; `/claude-do-zero` continues working; the library course link uses `/claude`; existing offer copy, prices, CTA destinations and student authentication remain unchanged. Only the exact `/claude` path (with optional trailing slash) becomes public, not `/claude/*` or `/claude-extra`.
+
+Visual exploration: a standalone local HTML study under `docs/`, with three comparable modes (hybrid, light, dark), real guide titles and links, functional search, a reading sample, keyboard support and reduced-motion behavior. The recommended hybrid assigns geometric contrast to discovery and calm light surfaces to reading. This study is excluded from deployment and does not replace the live library until the user selects a direction. Compare desktop/mobile rendering and test theme controls, search, empty/reset and guide links before presenting it.
+
+### Completed in this follow-up
+
+- Course published at `https://jayaroberta.com/claude`, deployment `dpl_9ztKSmrLzGabvU9cowR3Gwf4mA84`, READY. Isolated package from HEAD `280c091` plus five reviewed route/metadata files; the visual study was excluded.
+- Direct production build, type/lint and route checks passed. Public HTTPS verified `/claude` and its query variants return the offer with the new canonical; trailing slash normalizes with 308; the old URL still works. `/claude-extra`, `/claude/aula-1` and student routes still redirect to login. OG image returns 200 JPEG. Browser verified offer content and original WhatsApp CTA destinations without sending a message.
+- Preview: `docs/biblioteca-visual-study-v1.html`, standalone and offline-capable, served locally at `http://127.0.0.1:4178/`. It includes three visual modes, an original radial/pixel composition, nine real guide links, accent-insensitive search, empty/reset behavior, a reading sample and pause/reduced-motion support. No external scripts/fonts or data collection.
+- Static/JS tests and independent code review passed; the toolbar focus contrast, catalog heading association and 320px navigation spacing were corrected. Browser checked mode switching, uppercase search, empty/reset and 320/390px layouts without horizontal overflow. System font substitution is intentional for this self-contained study; final brand typography is still a design decision.
+- Production library design remains the initial version. Next checkpoint: user critiques the local visual study and selects hybrid, light, dark or another direction before any redesign is published.

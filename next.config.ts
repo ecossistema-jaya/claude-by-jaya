@@ -21,6 +21,8 @@ const nextConfig: NextConfig = {
       { source: '/deck-arquitetura-da-consciencia', destination: '/deck/index.html' },
       { source: '/deck-arquitetura-da-consciencia/', destination: '/deck/index.html' },
       /* E para a oferta do curso: vitrine pública, com a prévia de link própria. */
+      { source: '/claude', destination: '/oferta/index.html' },
+      { source: '/claude/', destination: '/oferta/index.html' },
       { source: '/claude-do-zero', destination: '/oferta/index.html' },
       { source: '/claude-do-zero/', destination: '/oferta/index.html' },
     ];

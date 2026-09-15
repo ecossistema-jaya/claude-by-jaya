@@ -104,6 +104,6 @@ function herdarCookies(destino: NextResponse, origem: NextResponse) {
    Os HTML em /aulas e todas as outras imagens seguem fechados. */
 export const config = {
   matcher: [
-    '/((?!biblioteca(?:/|$)|login|auth/callback|sem-acesso|zona-de-genialidade|zona/|deck-arquitetura-da-consciencia|deck/|claude-do-zero|oferta/|api/zona/|img/login\\.webp|img/login-mobile\\.webp|icones/claude\\.svg|img/og\\.jpg|_next/static|_next/image|_vercel|favicon.ico).*)',
+    '/((?!claude/?$|biblioteca(?:/|$)|login|auth/callback|sem-acesso|zona-de-genialidade|zona/|deck-arquitetura-da-consciencia|deck/|claude-do-zero|oferta/|api/zona/|img/login\\.webp|img/login-mobile\\.webp|icones/claude\\.svg|img/og\\.jpg|_next/static|_next/image|_vercel|favicon.ico).*)',
   ],
 };

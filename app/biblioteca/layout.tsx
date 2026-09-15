@@ -24,7 +24,7 @@ export default function LibraryLayout({ children }: { children: React.ReactNode 
       <nav aria-label="Navegação principal" className={styles.topNav}>
         <Link href="/biblioteca#acervo">Biblioteca</Link>
         <Link href="/biblioteca#ambientes">Os 9 ambientes</Link>
-        <Link href="/claude-do-zero">O curso <span aria-hidden="true">↗</span></Link>
+        <Link href="/claude">O curso <span aria-hidden="true">↗</span></Link>
       </nav>
       <Link className={styles.headerCta} href="/biblioteca/primeira-entrega">Comece aqui <span aria-hidden="true">↗</span></Link>
       <Link className={styles.mobileSearch} href="/biblioteca#acervo">Buscar <span aria-hidden="true">⌕</span></Link>

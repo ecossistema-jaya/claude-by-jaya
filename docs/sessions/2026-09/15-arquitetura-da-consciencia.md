@@ -1,13 +1,13 @@
 # Architecture of Consciousness — implementation handoff
 
 Date: 2026-09-15
-Status: implemented and reviewed locally; included in the commit authorized by Jaya on 2026-09-15. Not pushed or deployed. Final user review with the API remains pending.
+Status: published on 2026-09-15 after Jaya explicitly authorized deployment. Production serves implementation commit `bf859628f0ce30c4f59c31f3cf111e63e8f7f58d`.
 
 ## Review URLs
 
 - Working public experience: http://localhost:4191/arquitetura-da-consciencia
 - Synthetic dashboard with a real Gemini reading: http://localhost:4192/exemplo
-- Intended public destination after approval: https://jayaroberta.com/arquitetura-da-consciencia
+- Live public destination: https://jayaroberta.com/arquitetura-da-consciencia
 
 ## Delivered behavior
 
@@ -78,4 +78,15 @@ node scripts/preview-consciencia.mjs
 
 Pre-commit API check: a fresh synthetic request returned HTTP 200 in eight seconds, with five insights and all four zones. The real questionnaire on port 4191 can request Gemini readings; port 4192 only displays the prepared synthetic example.
 
-Next checkpoint: Jaya reviews the real questionnaire and API experience, then authorizes publication. After authorization, publish the scoped commit via the existing project workflow and verify the public route and authorization again.
+## Production release
+
+- Deployment: `dpl_GFb93pjj7D3tCswNNKysGVE7TXxi`, READY, aliased to `jayaroberta.com` and `www.jayaroberta.com`.
+- Inspector: https://vercel.com/betinhapotters-projects/claude-by-jaya/GFb93pjj7D3tCswNNKysGVE7TXxi.
+- Reviewed build correction: when `.vercelignore` omits authoring sources, `build-consciencia.mjs` preserves the tracked HTML; missing source and missing HTML fail explicitly. All three build cases and the quiz/UI/Markdown tests passed.
+- GitHub `origin/main` received the approved implementation commits through `bf85962`; unrelated untracked work was excluded.
+- Public HTML matches the approved local artifact after line-ending normalization. The three selected illustrations and OG PNG match local SHA-256 hashes.
+- Existing Zone, library and course offer remain HTTP 200. Private course routes still redirect anonymous requests to login; unauthenticated analysis returns 401.
+- Production Gemini check returned HTTP 200 in seven seconds, five insights and all four zones with evidence. Used fictitious answers and a signed synthetic test cookie, without creating a marketing lead or transmitting real participant data.
+- Browser verified the public artwork, start button, first question and pause action. Download verification limitations above remain accurately scoped.
+
+Publication is complete. Further changes should start from this live release; no additional production action is pending.

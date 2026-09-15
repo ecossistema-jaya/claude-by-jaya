@@ -44,7 +44,7 @@ export default function LibraryCatalog() {
     <div className={styles.resultsHeader}><p role="status">{results.length} {results.length === 1 ? 'guia encontrado' : 'guias encontrados'}{roomId ? ` em ${rooms.find(room => room.id === roomId)?.title}` : ''}</p>{active && <button onClick={clearFilters}>Limpar filtros <span aria-hidden="true">×</span></button>}</div>
     {results.length ? <div className={styles.guideGrid}>{results.map(guide => {
       const room = rooms.find(item => item.id === guide.room)!;
-      return <Link href={`/biblioteca/${guide.slug}`} className={styles.guideCard} key={guide.slug}>
+      return <Link href={`/biblioteca/${guide.slug}`} className={`${styles.guideCard} ${guide.slug === 'primeira-entrega' ? styles.guideFeatured : ''}`} key={guide.slug}>
         <div className={styles.guideTop}><span>{room.number} / {room.title}</span><span>{guide.kind}</span></div>
         <h3>{guide.title}</h3><p>{guide.description}</p>
         <div className={styles.guideBottom}><span>{guide.level}</span><span aria-hidden="true">↗</span></div>

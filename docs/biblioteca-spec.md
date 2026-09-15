@@ -106,3 +106,27 @@ Acceptance: `/claude` stays public; `/claude-do-zero`, its query variants, simil
 - Real Google sign-in with the existing authorized account was verified after deployment: logout returned to `/login`, login returned directly to `/claude-do-zero`, and the student home displayed all five lesson links plus the existing bonuses. The new route also works with an existing session. Rejected-student handling was tested in isolation, not by changing production access permissions.
 - Source/derived offer hashes match. Reversing only the two student link targets and FAQ address reproduces the prior offer hash, confirming that other commercial content was preserved.
 - Deployment was performed directly through the Vercel CLI. GitHub has not been pushed. The visual study remains local and the live library design is unchanged.
+
+## Approved hybrid library design — 2026-09-15
+
+The user approved the hybrid direction from `docs/biblioteca-visual-study-v1.html` for implementation and publication in the existing library. This approval supersedes the earlier visual-selection checkpoint; the standalone three-mode study remains a reference artifact.
+
+Design acceptance:
+
+1. Discovery begins with a dark olive hero (`#17190F`), warm light text, amber accents (`#FFB12B`), and original radial/pixel geometry. Animation, if present, respects reduced motion and does not obstruct reading or controls.
+2. The catalog and guide reader use calm cream surfaces (`#F6F2E8`) and dark text, retaining the established Petrona/Jost typography and a reading column no wider than 700 px.
+3. All nine existing guides and environment labels remain available. Search, combined environment/level filters, result count, empty/reset states, copyable prompts, Markdown downloads, printing, contents navigation and next-guide links retain their behavior.
+4. The existing 1200 × 630 Open Graph artwork adopts the same dark olive/amber geometry and cream reading contrast. It remains generated locally with `ImageResponse`, without external rendering services or new dependencies.
+5. Verify keyboard focus, contrast, reduced motion and page width at 320/390 px; inspect both discovery and a real guide. Confirm the OG route returns a valid image and the production build passes before release.
+6. This change is visual and limited to the public library. Authentication, route boundaries, the public `/claude` offer, student `/claude-do-zero`, offer copy, prices, purchase destinations and paid lessons remain unchanged. Publish only the reviewed library files and verify the public result.
+
+### Hybrid release handoff
+
+- Published and visually verified at `https://jayaroberta.com/biblioteca` on 2026-09-15. Deployment `dpl_CUk3gy8AkxPMxf6F3WriVYMxSi7L`, READY. Inspector: `https://vercel.com/betinhapotters-projects/claude-by-jaya/CUk3gy8AkxPMxf6F3WriVYMxSi7L`.
+- The catalog now follows the dark geometric hero and light editorial introduction. The first guide is highlighted in amber; existing starting points and all nine environment links follow the catalog. The reader keeps Petrona/Jost, with serif paragraphs and a maximum 680 px article column. The radial entrance animation ends after one second and is disabled by reduced-motion CSS.
+- Local and Vercel production builds passed compilation, lint/types and 29 generated pages. Independent code review passed after restoring the established fonts in the reader.
+- Browser checked the home/catalog and real first guide at desktop, 320 px and 390 px with no horizontal overflow. Combined uppercase/accent-insensitive search, environment/level filtering, empty/reset, contents navigation, prompt-copy confirmation and an actual Markdown download event passed. Focus and reduced-motion styles and print rules were reviewed; the OS print dialog was not exercised.
+- Main text and action color pairs passed contrast calculations (5.37:1 to 14.55:1). The generated OG image was rendered and inspected at 1200 x 630 with no clipping or overlap.
+- Production HTTP verification passed: hybrid home and served olive/cream CSS, all nine articles and canonical URLs, all nine attachment downloads, valid PNG OG, unknown-guide 404, public `/claude`, and protected `/claude-do-zero`, `/aula-1` and `/biblioteca-nao-publica`.
+- Production package was isolated at `C:\Users\Jaya\AppData\Local\Temp\claude-hybrid-d0e4978d42a144909553769a9e708b00`, using tracked HEAD `567cbcb` and five reviewed library files with verified hashes. No unrelated untracked assets, credentials or original source folders were uploaded. Publication used the Vercel CLI; GitHub has not been pushed.
+- Changed files: `C:\Users\Jaya\Projetos\claude-by-jaya\app\biblioteca\page.tsx`, `C:\Users\Jaya\Projetos\claude-by-jaya\app\biblioteca\LibraryCatalog.tsx`, `C:\Users\Jaya\Projetos\claude-by-jaya\app\biblioteca\library.module.css`, `C:\Users\Jaya\Projetos\claude-by-jaya\app\biblioteca\reader.module.css`, `C:\Users\Jaya\Projetos\claude-by-jaya\app\biblioteca\opengraph-image.tsx`, and this specification. The original three-mode visual study remains intact as the design reference.

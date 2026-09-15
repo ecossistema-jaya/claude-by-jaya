@@ -77,3 +77,55 @@ async function exportMap() {
   finally {button.disabled=false}
 }
 $('download').onclick=exportMap;
+
+function markdownText(text) {
+  return String(text).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/([\\`*_{}\[\]()#+.!|~-])/g,'\\$1');
+}
+function markdownNode(node) {
+  if(node.nodeType===3)return markdownText(node.textContent);
+  if(node.nodeType!==1||node.hidden||node.classList.contains('no-print'))return '';
+  const tag=node.tagName.toLowerCase();
+  if(['img','svg','button','input','form','script','style'].includes(tag))return '';
+  if(tag==='article'&&node.querySelector('#tarot[hidden]'))return '';
+  const children=()=>[...node.childNodes].map(markdownNode).join('');
+  if(node.classList.contains('barrow')) {
+    const label=node.querySelector('span');const count=node.querySelector('b');
+    return `- ${markdownText(label?.textContent||'')}: ${markdownText(count?.textContent||'')}\n`;
+  }
+  if(node.classList.contains('tags')||node.classList.contains('priorities')) {
+    return '\n\n'+[...node.children].map(e=>markdownText(e.textContent)).join(', ')+'\n\n';
+  }
+  if(tag==='table') {
+    const rows=[...node.querySelectorAll('tr')].map(row=>[...row.children].map(cell=>markdownText(cell.textContent.trim()).replace(/\r?\n/g,'<br>')));
+    if(!rows.length)return '';
+    const row=cells=>'| '+cells.join(' | ')+' |';
+    return '\n\n'+[row(rows[0]),row(rows[0].map(()=>'---')),...rows.slice(1).map(row)].join('\n')+'\n\n';
+  }
+  if(tag==='ul'||tag==='ol')return '\n\n'+[...node.children].map((li,i)=>{
+    const body=[...li.childNodes].map(markdownNode).join(' ').trim();
+    return (tag==='ol'?`${i+1}. `:'- ')+body.replace(/\n/g,'\n  ');
+  }).join('\n')+'\n\n';
+  const text=children();
+  if(/^h[1-6]$/.test(tag))return '\n\n'+'#'.repeat(Math.max(2,Number(tag[1])))+' '+text.trim()+'\n\n';
+  if(tag==='dt')return '\n\n### '+text.trim()+'\n\n';
+  if(tag==='summary')return '\n\n**'+text.trim()+'**\n\n';
+  if(tag==='strong'||tag==='b')return '**'+text+'**';
+  if(tag==='br')return '\n';
+  if(['p','dd','article','section','header','details'].includes(tag))return '\n\n'+text.trim()+'\n\n';
+  return text;
+}
+function exportMarkdown() {
+  const button=$('download-md');button.disabled=true;
+  try {
+    // Read the current result, including evidence in closed details; omit hidden UI.
+    const body=markdownNode($('result-content')).replace(/\n[ \t]+\n/g,'\n\n').replace(/\n{3,}/g,'\n\n').trim();
+    const content='# Arquitetura da Consciência\n\nJaya Roberta · Mapa pessoal · '+new Date().toLocaleDateString('pt-BR')+'\n\n'+body+'\n\n---\n\nGuarde este arquivo com cuidado: ele contém suas respostas pessoais.\n';
+    if(exportUrl)URL.revokeObjectURL(exportUrl);
+    exportUrl=URL.createObjectURL(new Blob([content],{type:'text/markdown;charset=utf-8'}));
+    const link=document.createElement('a');link.href=exportUrl;link.download='meu-mapa-arquitetura-da-consciencia.md';link.textContent='Salvar arquivo .md preparado';
+    $('export-status').replaceChildren(document.createTextNode('Markdown pronto. Se o download não começou, use este link: '),link);link.click();
+  } catch {$('export-status').textContent='Não foi possível preparar o Markdown. Tente novamente; suas respostas continuam salvas.'}
+  finally {button.disabled=false}
+}
+$('download-md').onclick=exportMarkdown;

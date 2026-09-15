@@ -21,6 +21,8 @@ The public page has its own storage key. AI generation uses the existing public 
 
 ## Files
 
+The dashboard now includes “Salvar em .md”. Markdown is generated locally from the current rendered result: responses, available AI reading, evidence details, lists and tabular chart data. Hidden tarot, controls and images are omitted. No API call is made for this export.
+
 - `originais/arquitetura-da-consciencia.html`: public HTML template and copy.
 - `originais/consciencia.css`: responsive styles.
 - `originais/consciencia-app.js`: questionnaire, persistence and descriptive dashboard.
@@ -33,6 +35,7 @@ The public page has its own storage key. AI generation uses the existing public 
 - `public/consciencia/index.html`: generated public page.
 - `next.config.ts`, `middleware.ts`, `package.json`: exact route and build integration.
 - `scripts/test-consciencia.mjs`, `scripts/test-consciencia-ui.mjs`: regression checks.
+- `scripts/test-consciencia-markdown.mjs`: Markdown content, escaping, file metadata, repeated downloads and error handling.
 - `scripts/test-consciencia-live.mjs`: explicit local synthetic integration test.
 - `scripts/preview-consciencia.mjs`: local synthetic dashboard review server.
 - `docs/arquitetura-da-consciencia-spec.md`: approved scope and acceptance.
@@ -44,6 +47,7 @@ All paths are relative to `C:\Users\Jaya\Projetos\claude-by-jaya`. Existing quiz
 - PASS `npm run build` (production build).
 - PASS `node scripts/test-consciencia.mjs`.
 - PASS `node scripts/test-consciencia-ui.mjs`.
+- PASS `node scripts/test-consciencia-markdown.mjs`. Browser button prepared `meu-mapa-arquitetura-da-consciencia.md` and displayed its fallback download link. The actual file save was not confirmed in Downloads; manual browser download verification remains pending, as with the HTML export below.
 - PASS `node scripts/test-mapa.mjs`.
 - PASS `node node_modules/typescript/bin/tsc --noEmit --incremental false`.
 - Browser: pause/reload/resume preserved the typed answer on the separate 127.0.0.1 origin. Completed all 35 questions with synthetic data, confirmed validation of required choices and the three-priority maximum, rendered personal/professional cards and optional tarot.

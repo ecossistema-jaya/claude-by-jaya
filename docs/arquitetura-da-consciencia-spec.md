@@ -13,6 +13,7 @@ Jaya approved option 1 on 2026-09-15: preserve the original Zone of Genius visua
 - Missing answers stay unknown. No invented psychometric scores, potential percentages, income or clinical conclusions.
 - Retain progress after reload and provider errors; invalidate stale readings after edits; exclude professional responses after opt-out.
 - Download a self-contained result with artwork and print support.
+- Offer Markdown (.md) export of the current result, including responses, available reading, evidence and chart data as text; omit hidden tarot and interface controls. Generate locally without another API request.
 - Verify 320/390px mobile and desktop, both question paths, validation, export, API authorization, malformed output and a synthetic live AI case.
 
 ## Delivery

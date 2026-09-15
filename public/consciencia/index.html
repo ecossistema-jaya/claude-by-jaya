@@ -63,7 +63,7 @@ body{overflow-wrap:anywhere}.layout{display:block;max-width:1180px;padding:0 36p
 <div class="note">São 30 perguntas no percurso principal. Se escolher explorar trabalho e renda, você responde mais 5. Os textos pessoais são opcionais. Seu mapa das respostas fica disponível ao terminar; a leitura com IA é uma escolha separada.</div>
 <details><summary>Sobre este mapa, suas referências e seus dados</summary><p>Um mapa autoral de reflexão, inspirado em Hendricks, Clifton, Sullivan, Kolbe e Hogshead. Hamilton e Hormozi orientam a parte profissional opcional. Esta adaptação não aplica testes oficiais, não mede personalidade e não oferece diagnóstico. A carta de travessia é simbólica e opcional.</p><p>O progresso fica salvo neste navegador. Para gerar a leitura com IA, você informa seu e-mail e autoriza seu cadastro. Suas respostas, sem o campo de nome, são enviadas ao Gemini (Google) somente ao solicitar a leitura. Evite identificar outras pessoas ou incluir dados íntimos nos exemplos.</p></details></section>
 <section id="quiz" hidden class="question"><div class="progress"><span id="section-name"></span><span id="counter"></span></div><progress id="progress" max="30" value="1"></progress><form id="question-form" class="qcard"><div id="question-body"></div><p class="error" id="error" role="alert"></p><div class="qnav"><button type="button" class="secondary" id="previous">Anterior</button><button type="submit" id="next">Próxima</button></div></form><p class="saved" id="save-status" role="status">Você pode sair e voltar. Seu progresso fica salvo neste navegador.</p><button id="pause" class="secondary">Salvar e pausar</button></section>
-<section id="dashboard" hidden><div class="actions no-print"><button id="download">Baixar meu mapa</button><button id="print" class="secondary">Imprimir / salvar PDF</button><button id="edit" class="secondary">Revisar respostas</button></div><div id="result-content"></div><p id="export-status" class="saved no-print" role="status"></p></section>
+<section id="dashboard" hidden><div class="actions no-print"><button id="download">Baixar meu mapa</button><button id="download-md" class="secondary">Salvar em .md</button><button id="print" class="secondary">Imprimir / salvar PDF</button><button id="edit" class="secondary">Revisar respostas</button></div><div id="result-content"></div><p id="export-status" class="saved no-print" role="status"></p></section>
 <footer class="foot">JAYA · Arquitetura da Consciência<br>Seu mapa é um ponto de partida. Observe, experimente e atualize suas percepções.</footer>
 </main></div>
 <script>
@@ -201,5 +201,57 @@ async function exportMap() {
   finally {button.disabled=false}
 }
 $('download').onclick=exportMap;
+
+function markdownText(text) {
+  return String(text).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/([\\`*_{}\[\]()#+.!|~-])/g,'\\$1');
+}
+function markdownNode(node) {
+  if(node.nodeType===3)return markdownText(node.textContent);
+  if(node.nodeType!==1||node.hidden||node.classList.contains('no-print'))return '';
+  const tag=node.tagName.toLowerCase();
+  if(['img','svg','button','input','form','script','style'].includes(tag))return '';
+  if(tag==='article'&&node.querySelector('#tarot[hidden]'))return '';
+  const children=()=>[...node.childNodes].map(markdownNode).join('');
+  if(node.classList.contains('barrow')) {
+    const label=node.querySelector('span');const count=node.querySelector('b');
+    return `- ${markdownText(label?.textContent||'')}: ${markdownText(count?.textContent||'')}\n`;
+  }
+  if(node.classList.contains('tags')||node.classList.contains('priorities')) {
+    return '\n\n'+[...node.children].map(e=>markdownText(e.textContent)).join(', ')+'\n\n';
+  }
+  if(tag==='table') {
+    const rows=[...node.querySelectorAll('tr')].map(row=>[...row.children].map(cell=>markdownText(cell.textContent.trim()).replace(/\r?\n/g,'<br>')));
+    if(!rows.length)return '';
+    const row=cells=>'| '+cells.join(' | ')+' |';
+    return '\n\n'+[row(rows[0]),row(rows[0].map(()=>'---')),...rows.slice(1).map(row)].join('\n')+'\n\n';
+  }
+  if(tag==='ul'||tag==='ol')return '\n\n'+[...node.children].map((li,i)=>{
+    const body=[...li.childNodes].map(markdownNode).join(' ').trim();
+    return (tag==='ol'?`${i+1}. `:'- ')+body.replace(/\n/g,'\n  ');
+  }).join('\n')+'\n\n';
+  const text=children();
+  if(/^h[1-6]$/.test(tag))return '\n\n'+'#'.repeat(Math.max(2,Number(tag[1])))+' '+text.trim()+'\n\n';
+  if(tag==='dt')return '\n\n### '+text.trim()+'\n\n';
+  if(tag==='summary')return '\n\n**'+text.trim()+'**\n\n';
+  if(tag==='strong'||tag==='b')return '**'+text+'**';
+  if(tag==='br')return '\n';
+  if(['p','dd','article','section','header','details'].includes(tag))return '\n\n'+text.trim()+'\n\n';
+  return text;
+}
+function exportMarkdown() {
+  const button=$('download-md');button.disabled=true;
+  try {
+    // Read the current result, including evidence in closed details; omit hidden UI.
+    const body=markdownNode($('result-content')).replace(/\n[ \t]+\n/g,'\n\n').replace(/\n{3,}/g,'\n\n').trim();
+    const content='# Arquitetura da Consciência\n\nJaya Roberta · Mapa pessoal · '+new Date().toLocaleDateString('pt-BR')+'\n\n'+body+'\n\n---\n\nGuarde este arquivo com cuidado: ele contém suas respostas pessoais.\n';
+    if(exportUrl)URL.revokeObjectURL(exportUrl);
+    exportUrl=URL.createObjectURL(new Blob([content],{type:'text/markdown;charset=utf-8'}));
+    const link=document.createElement('a');link.href=exportUrl;link.download='meu-mapa-arquitetura-da-consciencia.md';link.textContent='Salvar arquivo .md preparado';
+    $('export-status').replaceChildren(document.createTextNode('Markdown pronto. Se o download não começou, use este link: '),link);link.click();
+  } catch {$('export-status').textContent='Não foi possível preparar o Markdown. Tente novamente; suas respostas continuam salvas.'}
+  finally {button.disabled=false}
+}
+$('download-md').onclick=exportMarkdown;
 
 intro();</script></body></html>

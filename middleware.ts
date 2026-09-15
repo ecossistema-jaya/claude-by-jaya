@@ -100,9 +100,10 @@ function herdarCookies(destino: NextResponse, origem: NextResponse) {
      app/lib/lead.ts, conferida dentro do próprio handler. Ficam separadas de
      /api/analyze de propósito: handler com dois modos de autenticação é onde erro
      de autorização nasce, e o caminho do aluno continua exatamente como está.
+   - biblioteca e seus descendentes: guias autorais gratuitos, independentes do curso.
    Os HTML em /aulas e todas as outras imagens seguem fechados. */
 export const config = {
   matcher: [
-    '/((?!login|auth/callback|sem-acesso|zona-de-genialidade|zona/|deck-arquitetura-da-consciencia|deck/|claude-do-zero|oferta/|api/zona/|img/login\\.webp|img/login-mobile\\.webp|icones/claude\\.svg|img/og\\.jpg|_next/static|_next/image|_vercel|favicon.ico).*)',
+    '/((?!biblioteca(?:/|$)|login|auth/callback|sem-acesso|zona-de-genialidade|zona/|deck-arquitetura-da-consciencia|deck/|claude-do-zero|oferta/|api/zona/|img/login\\.webp|img/login-mobile\\.webp|icones/claude\\.svg|img/og\\.jpg|_next/static|_next/image|_vercel|favicon.ico).*)',
   ],
 };

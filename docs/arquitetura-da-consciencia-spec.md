@@ -7,7 +7,7 @@ Jaya approved option 1 on 2026-09-15: preserve the original Zone of Genius visua
 ## Acceptance
 
 - Independent page and storage; preserve both existing quizzes and original artwork.
-- 30 core questions, including four optional concrete examples; five professional questions only after opt-in.
+- 32 core questions, including next-step clarity and preferred rhythm; up to three optional follow-ups for a second episode, recurring obstacles and time context; five professional questions only after opt-in.
 - Full original cover, editorial image bands, readable responsive cards, four qualitative zones, deterministic charts, evidence references, personal experiment and optional symbolic tarot.
 - AI uses the existing Gemini infrastructure and public lead authorization; course endpoints remain protected. Clearly explain email registration and AI transmission before either occurs.
 - Missing answers stay unknown. No invented psychometric scores, potential percentages, income or clinical conclusions.
@@ -19,3 +19,14 @@ Jaya approved option 1 on 2026-09-15: preserve the original Zone of Genius visua
 ## Delivery
 
 Review locally before production publication. No original image or quiz source is overwritten. Publication is a separate final checkpoint.
+
+## Selective deepening approved on 2026-09-15
+
+Jaya selected option 1 after comparing the published quiz with the external v2 questionnaire. Preserve the visual identity, existing artworks and everyday audience. Incorporate clarity and rhythm in the core journey; invite a second example only after a meaningful episode, recurring obstacles only after an actual barrier, and time context only after a defined availability.
+
+- Optional follow-ups can be skipped. Hidden answers must not reach the dashboard, exports, evidence or AI payload.
+- Counters reflect the active route; resume by question ID and migrate old numeric positions without losing answers.
+- Integrate additions into existing cards and the AI prompt; no new personality scores or charts.
+- Connect examples as hypotheses, not proof of a fixed trait. Respect no-time answers and externally constrained availability.
+- Preserve HTML, Markdown and print exports. Test route transitions, saved drafts, hidden-answer exclusion, escaping, old-map preservation and API validation.
+- Review locally; this approval authorizes implementation, not a new production release.

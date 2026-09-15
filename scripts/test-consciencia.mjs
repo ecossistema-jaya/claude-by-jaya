@@ -8,13 +8,18 @@ import { prepareMap } from '../app/lib/mapa.mjs';
 import { prepareConsciencia, mapPromptConsciencia, parseConsciencia, MapError } from '../app/lib/consciencia.mjs';
 
 const extras = ['ordinary_activity', 'learning_edge', 'contribution_episode', 'energy_after'];
-assert.equal(questions.length, 35);
-assert.equal(questions.filter(q => !q.id.startsWith('work_') && q.id !== 'income').length, 30);
-assert.equal(new Set(questions.map(q => q.id)).size, 35);
-assert.deepEqual(questions.filter(q => !extras.includes(q.id)), mapaQuestions);
+const refinements = ['repeat_episode', 'rhythm', 'frustration_example', 'next_clarity', 'time_context'];
+assert.equal(questions.length, 40);
+assert.equal(questions.filter(q => !q.when).length, 37);
+assert.equal(questions.filter(q => !q.when && !q.id.startsWith('work_') && q.id !== 'income').length, 32);
+assert.equal(new Set(questions.map(q => q.id)).size, 40);
+assert.deepEqual(questions.filter(q => ![...extras, ...refinements].includes(q.id)), mapaQuestions);
 assert.notEqual(questions[0], mapaQuestions[0], 'New schema must not mutate the original');
-assert.deepEqual(questions.slice(9, 13).map(q => q.id), extras);
+const additionsStart = questions.findIndex(q => q.id === 'good_not_like') + 1;
+assert.deepEqual(questions.slice(additionsStart, additionsStart + 4).map(q => q.id), extras);
 assert.ok(questions.filter(q => extras.includes(q.id)).every(q => q.type === 'text' && q.optional));
+assert.deepEqual(questions.filter(q => q.when).map(q => q.id), ['repeat_episode', 'frustration_example', 'time_context']);
+assert.ok(questions.filter(q => q.when).every(q => q.optional && q.when.mode === 'meaningful' && questions.findIndex(parent => parent.id === q.when.id) < questions.indexOf(q)));
 
 const answers = Object.fromEntries(questions.filter(q => q.type !== 'text').map(q => [q.id, q.type === 'multi' ? [q.options[0]] : q.options[0]]));
 Object.assign(answers, {
@@ -25,6 +30,8 @@ Object.assign(answers, {
   learning_edge: 'Quero aprender a desenhar com aquarela.',
   contribution_episode: 'Ajudei minha irmã a preparar a receita. Ela disse que ficou mais tranquila.',
   energy_after: 'Gostei de cozinhar e fiquei cansada depois de duas horas em pé.',
+  repeat_episode: 'Na semana anterior preparei pão com uma amiga e gostei de experimentar os ingredientes.',
+  frustration_example: 'Acabo assumindo mais tarefas da casa e a caminhada fica para depois.',
 });
 const input = prepareConsciencia({ answers });
 const sparseAnswers = Object.fromEntries(['interest', 'easy', ...extras].map(id => [id, answers[id]]));
@@ -41,6 +48,37 @@ for (const id of extras) {
   assert.throws(() => prepareConsciencia({ answers: { ...answers, [id]: 'x'.repeat(1501) } }), MapError);
   assert.throws(() => prepareConsciencia({ answers: { ...answers, [id]: [] } }), MapError);
 }
+for (const id of refinements) {
+  assert.ok(input.evidence.includes(id), `${id} should be accepted when its condition is active`);
+  assert.ok(prompt.includes(questions.find(q => q.id === id).title));
+  assert.throws(() => prepareConsciencia({ answers: { ...answers, [id]: [] } }), MapError);
+  assert.throws(() => prepareConsciencia({ answers: { ...answers, [id]: null } }), MapError);
+  assert.throws(() => prepareConsciencia({ answers: { ...answers, [id]: 'x'.repeat(1501) } }), MapError);
+  if (questions.find(q => q.id === id).type === 'single') {
+    assert.throws(() => prepareConsciencia({ answers: { ...answers, [id]: 'invalid alternative' } }), MapError);
+    const unknown = prepareConsciencia({ answers: { ...answers, [id]: 'Ainda não sei' } });
+    assert.ok(!unknown.evidence.includes(id), `${id}: unknown must not become evidence`);
+  }
+}
+const legacy = prepareConsciencia({ answers: Object.fromEntries(Object.entries(answers).filter(([id]) => !refinements.includes(id))) });
+assert.ok(refinements.every(id => !(id in legacy.answers)), 'Previously saved answers remain supported without the new fields');
+for (const [id, parent, values] of [
+  ['repeat_episode', 'episode', ['', '  ', 'Não sei', 'Não lembro.', undefined]],
+  ['frustration_example', 'barrier', ['Ainda não sei', 'Não vejo uma dificuldade importante', undefined]],
+  ['time_context', 'time', ['Ainda não sei', undefined]],
+]) {
+  for (const value of values) {
+    const gated = prepareConsciencia({ answers: { ...answers, [parent]: value, [id]: 'HIDDEN_STALE_ANSWER' } });
+    assert.ok(!(id in gated.answers) && !gated.evidence.includes(id), `${id} must be removed when ${parent} is ${value}`);
+    assert.ok(!mapPromptConsciencia(gated).includes('HIDDEN_STALE_ANSWER'), 'Inactive drafts must not be sent to the model');
+  }
+}
+const sparseHidden = { interest: answers.interest, easy: answers.easy, ordinary_activity: answers.ordinary_activity, learning_edge: answers.learning_edge, repeat_episode: answers.repeat_episode, frustration_example: answers.frustration_example, time_context: answers.time_context };
+assert.throws(() => prepareConsciencia({ answers: sparseHidden }), MapError, 'Inactive drafts cannot satisfy the evidence threshold');
+const noExtraTime = prepareConsciencia({ answers: { ...answers, time: 'Neste momento, não consigo reservar tempo' } });
+assert.ok(noExtraTime.evidence.includes('time_context'), 'No availability still activates the context question');
+assert.ok(prepareConsciencia({ answers: { ...answers, next_clarity: 'Ainda não sei o que quero mudar' } }).evidence.includes('next_clarity'), 'Unclear direction is a specific current situation, unlike a generic unknown');
+for (const expected of ['citando ambos', 'não um traço fixo', 'Não presuma que haverá mais tempo', 'não prova talento escondido', 'sem tarefa extra']) assert.ok(prompt.includes(expected));
 assert.throws(() => prepareConsciencia({ answers: {} }), MapError);
 assert.throws(() => prepareConsciencia({ answers: { ...answers, interest: ['invalid'] } }), MapError);
 assert.throws(() => prepareConsciencia({ answers: { ...answers, values: questions.find(q => q.id === 'values').options.slice(0, 4) } }), MapError);
@@ -70,6 +108,11 @@ const parse = (value, data = input) => parseConsciencia(JSON.stringify(value), d
 const analysis = parse(valid);
 assert.deepEqual(Object.keys(analysis), ['summary', 'insights', 'experiment', 'professional', 'zoneMap']);
 assert.deepEqual(analysis, valid, 'Rich valid analysis must survive composition unchanged');
+const refinedAnalysis = structuredClone(valid);
+refinedAnalysis.insights[0].evidence = ['episode', 'repeat_episode'];
+refinedAnalysis.experiment.evidence = ['next_clarity', 'rhythm', 'time', 'time_context'];
+assert.deepEqual(parse(refinedAnalysis), refinedAnalysis, 'New active evidence references must survive the existing model shape');
+assert.throws(() => parse(refinedAnalysis, legacy), MapError, 'An analysis cannot cite new evidence absent from older answers');
 assert.equal(parse({ ...valid, score: 95 }).score, undefined);
 for (const key of ['genialidade', 'excelencia', 'competencia', 'desenvolvimento']) {
   const unrelated = structuredClone(valid);
@@ -138,4 +181,4 @@ assert.equal(response.headers.get('cache-control'), 'no-store');
 assert.deepEqual((await response.json()).analysis, valid);
 assert.ok(receivedSignal instanceof AbortSignal);
 assert.equal(calls, 1);
-console.log('PASS: 35-question contract, original preservation, validation, opt-out, evidence gaps, model shape, origin, authorization, JSON, body cap, rate bucket and route response.');
+console.log('PASS: 32 core questions, 5 professional questions, 3 optional conditional follow-ups, original preservation, legacy answers, inactive draft filtering, validation, opt-out, evidence gaps, model shape, origin, authorization, JSON, body cap, rate bucket and route response.');

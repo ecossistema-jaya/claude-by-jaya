@@ -90,3 +90,32 @@ Pre-commit API check: a fresh synthetic request returned HTTP 200 in eight secon
 - Browser verified the public artwork, start button, first question and pause action. Download verification limitations above remain accurately scoped.
 
 Publication is complete. Further changes should start from this live release; no additional production action is pending.
+
+## Selective deepening — local revision after comparison
+
+Jaya approved option 1: selective incorporation from the attached external v2 questionnaire. This revision is implemented and locally verified; the previously published production release above remains unchanged.
+
+### Changes
+
+- 32 core questions: added contextual rhythm and next-step clarity.
+- Up to three optional follow-ups: another episode after a meaningful first example, recurring obstacle after a stated difficulty, availability context after a defined time answer. Maximum 35 personal / 40 including five professional questions.
+- Conditional drafts remain stored but are omitted from inactive routes, dashboard, exports, AI payload and evidence. Counters update immediately; storage now resumes by question ID, with migration of legacy numeric positions.
+- Existing cards now show the second example, rhythm, time context and concrete obstacle. The personal experiment adapts guidance to clarity and rhythm, respecting no-time answers.
+- AI prompt asks for comparison of actual episodes, context-sensitive guidance and no invented talent conclusions from frustration. Original questionnaires, artwork, OG image and typography are unchanged.
+
+### Verification
+
+- PASS full production build, questionnaire/backend tests, UI regression tests, Markdown export tests and existing map tests.
+- PASS independent code review: no actionable findings.
+- PASS real local Gemini request with fictitious answers: HTTP 200 in 8 seconds, five insights and four zones. Inspected output: the first insight links episode and repeat_episode; the experiment cites rhythm, next_clarity, time and time_context. No participant data or lead registration was used. This checks one synthetic case, not every possible interpretation.
+- PASS browser: dynamic total drops 35→34 when an episode becomes unknown, then returns to35 after an example; optional follow-up appears; professional opt-in expands35→40 and completes to its result card.
+- PASS mobile checks at390px and320px: no horizontal overflow; new question and experiment text visually inspected. Viewport restored after review.
+- General build re-encoded approved15/16/17 WebPs; restored those three generated files byte-for-byte from HEAD. Other generated untracked artwork remains outside this revision. No source image was changed.
+- Existing export limitations above still apply: automated Markdown serializer/download preparation is tested; operating-system file save was not reverified.
+
+### Review and release
+
+- Quiz: http://127.0.0.1:4191/arquitetura-da-consciencia
+- Synthetic example with fresh AI reading: http://127.0.0.1:4192/exemplo
+- Changed sources: app/lib/consciencia-schema.mjs, app/lib/consciencia.mjs, originais/consciencia-app.js, originais/arquitetura-da-consciencia.html; generated public/consciencia/index.html; three questionnaire tests plus this handoff and the spec.
+- Commit this reviewed revision locally. A new production deployment awaits Jaya's approval of this revision.

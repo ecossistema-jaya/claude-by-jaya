@@ -13,7 +13,9 @@ Status: implemented and reviewed locally; included in the commit authorized by J
 
 30 core questions and five opt-in professional questions. The four additional optional texts collect ordinary activities, learning interests, contribution examples and energy after an enjoyable activity. Full uncropped cover, artwork from the existing collection, four qualitative zones, evidence details, response-count bars, radar and matrix, practical experiment, optional symbolic tarot and an HTML export that embeds images.
 
-Jaya selected artwork 15 for the cover, 17 for the quiz band and sharing preview, and 16 for the small dashboard experiment image. Dashboard opening remains artwork 11. The selected PNGs are preserved; lossless WebP copies at their original dimensions live in `public/zona/arte/15.webp`, `16.webp` and `17.webp`. The band displays the full illustration without cropping. Existing artwork files, brand logo and symbolic tarot mappings remain intact.
+Jaya selected artwork 15 for the cover, 17 for the quiz band, and 16 for the small dashboard experiment image. Dashboard opening remains artwork 11. The selected PNGs are preserved; lossless WebP copies at their original dimensions live in `public/zona/arte/15.webp`, `16.webp` and `17.webp`. The band displays the full illustration without cropping. Existing artwork files, brand logo and symbolic tarot mappings remain intact.
+
+Jaya subsequently selected artwork 12 as the Open Graph image. `public/zona/consciencia-og-12.png` is a byte-identical copy of the supplied PNG (1672×941), with its own URL, image type, dimensions and alternative text in the new quiz metadata. The original quiz's sharing preview is unchanged.
 
 The public page has its own storage key. AI generation uses the existing public lead registration with origin `arquitetura-da-consciencia`, a signed lead cookie and a separate analysis endpoint. Course authorization remains unchanged. The shared map validator received an optional minimum-evidence argument with the original default of six, allowing the new questionnaire to count its additional examples before enforcing that threshold.
 

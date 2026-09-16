@@ -2,8 +2,8 @@
 
    Duas rotas usam a mesma chamada ao Gemini e o mesmo teto por IP, mas autorizam
    gente diferente: /api/analyze atende o aluno logado (sessão do Supabase, conferida
-   pelo middleware) e /api/zona/analyze atende o visitante da página pública (cookie
-   de app/lib/lead.ts). Misturar duas autorizações num handler só é como erro de
+   pelo middleware) e /api/zona/analyze atende a pessoa convidada para a Zona
+   (sessão Google, acesso por produto e cookie de app/lib/lead.ts). Misturar duas autorizações num handler só é como erro de
    autorização costuma nascer, então o que se compartilha é isto: o motor.
 
    Sobre o modelo — gemini-2.5-flash responde 404 ("no longer available to new
@@ -20,8 +20,8 @@ const URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:ge
 
 const JANELA = 60 * 60 * 1000;
 
-/* Um balde por chamador. Os dois tetos são independentes de propósito: visitante
-   abusando da página pública não pode consumir a cota do aluno que pagou.
+/* Um balde por chamador. Os dois tetos são independentes de propósito: uso da Zona
+   não pode consumir a cota do aluno que pagou pelo curso.
 
    ATENÇÃO, o mesmo aviso de sempre: estes Map vivem na memória da instância. Zeram
    a cada deploy e não são compartilhados entre instâncias da Vercel — na prática o

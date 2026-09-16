@@ -1,9 +1,15 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { buscarAluno, TABELA_ACESSOS, TABELA_ALUNOS, type Aluno } from '@/app/lib/aluno';
+import {
+  PRODUTO_ZONA,
+  TABELA_ACESSOS_PRODUTOS,
+  type AcessoProduto,
+} from '@/app/lib/acesso-produto';
 import { clienteServidor } from '@/app/lib/supabase/servidor';
-import { alternarAtivo, removerAluno } from './acoes';
+import { alternarAcessoProduto, alternarAtivo, removerAluno } from './acoes';
 import BotaoRemover from './BotaoRemover';
+import FormAcessoZona from './FormAcessoZona';
 import FormNovo from './FormNovo';
 
 export const metadata = { title: 'Alunos · Claude do Zero' };
@@ -34,6 +40,12 @@ export default async function Admin() {
     .order('entrou_em', { ascending: false })
     .limit(15);
 
+  const { data: acessosProduto } = await supabase
+    .from(TABELA_ACESSOS_PRODUTOS)
+    .select('id, produto, email, nome, ativo, expira_em, criado_em, criado_por')
+    .eq('produto', PRODUTO_ZONA)
+    .order('criado_em', { ascending: false });
+
   const lista = (alunos ?? []) as Aluno[];
   const ativos = lista.filter((a) => a.ativo).length;
 
@@ -52,6 +64,39 @@ export default async function Admin() {
       <section>
         <h2>Liberar alguém</h2>
         <FormNovo />
+      </section>
+
+      <section>
+        <h2>Convites · Zona de Genialidade</h2>
+        <p className="sub">Login Google e convite ativo são obrigatórios para iniciar.</p>
+        <FormAcessoZona />
+        <table>
+          <tbody>
+            {((acessosProduto ?? []) as AcessoProduto[]).map((acesso) => {
+              const expirado = !!acesso.expira_em && new Date(acesso.expira_em) <= new Date();
+              const liberado = acesso.ativo && !expirado;
+              return (
+              <tr key={acesso.id} className={liberado ? '' : 'inativo'}>
+                <td>
+                  <strong>{acesso.nome || acesso.email}</strong>
+                  {acesso.nome && <span className="sub">{acesso.email}</span>}
+                  {expirado && <span className="tag">expirado</span>}
+                </td>
+                <td className="sub">
+                  {acesso.expira_em ? `até ${quando(acesso.expira_em)}` : 'sem expiração'}
+                </td>
+                <td className="acoes">
+                  <form action={alternarAcessoProduto}>
+                    <input type="hidden" name="id" value={acesso.id} />
+                    <input type="hidden" name="ativo" value={String(liberado)} />
+                    <button type="submit">{liberado ? 'desativar' : 'reativar'}</button>
+                  </form>
+                </td>
+              </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </section>
 
       <section>

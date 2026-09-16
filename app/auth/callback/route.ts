@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { buscarAluno, TABELA_ACESSOS } from '@/app/lib/aluno';
+import { buscarAcessoProduto, PRODUTO_ZONA } from '@/app/lib/acesso-produto';
+import { destinoEhZona, normalizarDestinoLogin } from '@/app/lib/destino-login';
 import { clienteServidor } from '@/app/lib/supabase/servidor';
 
 /* Volta do Google. É aqui que a autorização é decidida pela primeira vez:
@@ -9,20 +11,32 @@ import { clienteServidor } from '@/app/lib/supabase/servidor';
 export async function GET(req: NextRequest) {
   const { origin, searchParams } = req.nextUrl;
   const code = searchParams.get('code');
+  const destino = normalizarDestinoLogin(searchParams.get('next'));
 
   if (!code || searchParams.get('error')) {
-    return NextResponse.redirect(new URL('/login?erro=google', origin));
+    return NextResponse.redirect(loginComErro(origin, destino));
   }
 
   const supabase = await clienteServidor();
 
   const { error } = await supabase.auth.exchangeCodeForSession(code);
   if (error) {
-    return NextResponse.redirect(new URL('/login?erro=google', origin));
+    return NextResponse.redirect(loginComErro(origin, destino));
   }
 
   const { data } = await supabase.auth.getUser();
   const email = data.user?.email;
+
+  if (destinoEhZona(destino)) {
+    const acesso = email ? await buscarAcessoProduto(supabase, email, PRODUTO_ZONA) : null;
+    if (!acesso) {
+      await supabase.auth.signOut();
+      return NextResponse.redirect(new URL('/sem-acesso?produto=zona', origin));
+    }
+
+    return NextResponse.redirect(new URL(destino, origin));
+  }
+
   const aluno = email ? await buscarAluno(supabase, email) : null;
 
   if (!aluno) {
@@ -38,5 +52,12 @@ export async function GET(req: NextRequest) {
     user_agent: req.headers.get('user-agent'),
   });
 
-  return NextResponse.redirect(new URL('/claude-do-zero', origin));
+  return NextResponse.redirect(new URL(destino, origin));
+}
+
+function loginComErro(origin: string, destino: string) {
+  const url = new URL('/login', origin);
+  url.searchParams.set('erro', 'google');
+  url.searchParams.set('next', destino);
+  return url;
 }

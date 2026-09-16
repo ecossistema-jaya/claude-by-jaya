@@ -1,12 +1,11 @@
 /* Publica a Zona de Genialidade.
 
-   originais/zona-de-genialidade.html é a fonte editável; public/zona/index.html é
-   derivado e regenerável — mesma relação de build-aulas.mjs entre originais/ e
-   public/aulas/.
+   originais/zona-de-genialidade.html é a fonte editável; protected/zona/index.html
+   é o artefato completo, servido somente pela rota autenticada. public/zona/index.html
+   é um redirecionamento seguro para a apresentação pública.
 
-   O destino é index.html porque next.config.ts reescreve /zona-de-genialidade
-   para /zona/index.html. A URL que a pessoa vê não tem extensão; o arquivo servido
-   tem.
+   A apresentação vive em app/zona-de-genialidade. O assessment completo sai de
+   app/zona-de-genialidade/iniciar/route.ts depois de conferir login e convite.
 
    A cópia não é literal: a taxonomia da Carta de Travessia entra aqui. Ver
    injetarTaxonomia() abaixo. */
@@ -16,7 +15,8 @@ import { auditarTaxonomia, formatarAchados } from './audit-taxonomia.mjs';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const FONTE = path.join(ROOT, 'originais', 'zona-de-genialidade.html');
-const DEST = path.join(ROOT, 'public', 'zona', 'index.html');
+const DEST = path.join(ROOT, 'protected', 'zona', 'index.html');
+const DEST_PUBLICO = path.join(ROOT, 'public', 'zona', 'index.html');
 const TAXONOMIA = path.join(ROOT, 'docs', 'carta-travessia-1.1.json');
 
 /* Marcadores no HTML-fonte. O miolo entre eles é substituído pela taxonomia podada;
@@ -93,5 +93,14 @@ fs.mkdirSync(path.dirname(DEST), { recursive: true });
 const html = injetarTaxonomia(fs.readFileSync(FONTE, 'utf8'));
 fs.writeFileSync(DEST, html);
 
+const publico = `<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="robots" content="noindex">
+<meta http-equiv="refresh" content="0;url=/zona-de-genialidade">
+<title>Zona de Genialidade</title></head>
+<body><p><a href="/zona-de-genialidade">Abrir a apresentação da Zona de Genialidade</a></p></body></html>`;
+fs.mkdirSync(path.dirname(DEST_PUBLICO), { recursive: true });
+fs.writeFileSync(DEST_PUBLICO, publico);
+
 const kb = Math.round(fs.statSync(DEST).size / 1024);
-console.log(`→ public/zona/index.html (${kb}KB, taxonomia da carta injetada)`);
+console.log(`→ protected/zona/index.html (${kb}KB, taxonomia da carta injetada)`);
+console.log('→ public/zona/index.html (redirecionamento público, sem perguntas ou prompts)');

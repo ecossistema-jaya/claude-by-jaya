@@ -2,6 +2,10 @@
 
 import { revalidatePath } from 'next/cache';
 import { normalizarEmail, TABELA_ALUNOS } from '@/app/lib/aluno';
+import {
+  PRODUTO_ZONA,
+  TABELA_ACESSOS_PRODUTOS,
+} from '@/app/lib/acesso-produto';
 import { clienteServidor } from '@/app/lib/supabase/servidor';
 
 export type Resultado = { erro?: string; ok?: string };
@@ -55,6 +59,51 @@ export async function removerAluno(form: FormData) {
 
   const supabase = await clienteServidor();
   await supabase.from(TABELA_ALUNOS).delete().eq('id', id);
+
+  revalidatePath('/admin');
+}
+
+export async function concederAcessoZona(
+  _estado: Resultado,
+  form: FormData,
+): Promise<Resultado> {
+  const email = normalizarEmail(String(form.get('email') ?? ''));
+  const nome = String(form.get('nome') ?? '').trim();
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return { erro: 'Email inválido.' };
+  }
+
+  const supabase = await clienteServidor();
+  const { data: usuario } = await supabase.auth.getUser();
+  const { error } = await supabase.from(TABELA_ACESSOS_PRODUTOS).upsert(
+    {
+      produto: PRODUTO_ZONA,
+      email,
+      nome: nome || null,
+      ativo: true,
+      expira_em: null,
+      criado_por: usuario.user?.email ?? null,
+    },
+    { onConflict: 'produto,email' },
+  );
+
+  if (error) {
+    return { erro: 'Não consegui salvar o convite. Confira a configuração do banco.' };
+  }
+
+  revalidatePath('/admin');
+  return { ok: `${email} recebeu acesso à Zona de Genialidade.` };
+}
+
+export async function alternarAcessoProduto(form: FormData) {
+  const id = String(form.get('id') ?? '');
+  const ativo = String(form.get('ativo') ?? '') === 'true';
+  if (!id) return;
+
+  const supabase = await clienteServidor();
+  const atualizacao = ativo ? { ativo: false } : { ativo: true, expira_em: null };
+  await supabase.from(TABELA_ACESSOS_PRODUTOS).update(atualizacao).eq('id', id);
 
   revalidatePath('/admin');
 }

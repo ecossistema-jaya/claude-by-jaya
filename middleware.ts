@@ -92,12 +92,12 @@ function herdarCookies(destino: NextResponse, origem: NextResponse) {
      para /login e a animação ficava invisível;
    - img/og.jpg: a prévia dos links; os robôs do WhatsApp, Facebook e afins
      nunca têm cookie, então uma imagem protegida vira link sem imagem;
-   - zona-de-genialidade e zona/, deck-arquitetura-da-consciencia e deck/: as
-     superfícies públicas do projeto. Quem chega nelas não é aluno e não pode ser
-     mandado para o login;
-   - api/zona/: as rotas que essa página chama. Não ficam sem portaria — trocam a
-     sessão de aluno por uma autorização própria, o cookie assinado de
-     app/lib/lead.ts, conferida dentro do próprio handler. Ficam separadas de
+   - zona-de-genialidade e zona/: a apresentação e os assets públicos. A rota
+     /zona-de-genialidade/iniciar cai nesta exceção, mas o próprio Route Handler
+     confere sessão e convite antes de ler o HTML protegido;
+   - api/zona/: as rotas que essa página chama. Não ficam sem portaria — conferem
+     dentro do próprio handler a sessão Google, o convite específico da Zona e,
+     onde necessário, o cookie assinado de app/lib/lead.ts. Ficam separadas de
      /api/analyze de propósito: handler com dois modos de autenticação é onde erro
      de autorização nasce, e o caminho do aluno continua exatamente como está.
    - biblioteca e seus descendentes: guias autorais gratuitos, independentes do curso.

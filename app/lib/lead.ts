@@ -1,18 +1,19 @@
 /* Portaria da Zona de Genialidade.
 
-   A página é pública e cada dashboard dispara quatro chamadas ao Gemini. Sem
-   portaria, qualquer robô queima a cota do dia. Mas o visitante não tem sessão do
-   Supabase, então o cookie de app/lib/auth.ts não serve: ele assina contra o
-   access_token, que aqui não existe.
+   Cada dashboard dispara quatro chamadas ao Gemini. O assessment exige sessão
+   Google e convite, e este segundo cookie registra o consentimento para a captura
+   do e-mail antes de liberar o consumo da análise.
 
    A troca é esta: a pessoa deixa o e-mail antes de a análise começar, o servidor
    emite este cookie assinado, e só quem tem o cookie gasta cota. O e-mail vira lead
    e o custo vira consentido — dois problemas com uma porta só.
 
-   O e-mail NÃO viaja no cookie, só o resumo dele. Assim o cookie prova que o
-   servidor emitiu, sem carregar dado pessoal no navegador nem em log de proxy. */
+   O e-mail e o id do usuário NÃO viajam no cookie, só os resumos. Assim o cookie
+   só vale para a mesma conta que consentiu, sem carregar dados pessoais no
+   navegador nem em log de proxy. */
 
 export const COOKIE_LEAD = 'zg_lead';
+export const COOKIE_LEAD_ZONA = 'zg_lead_zona';
 
 /* 24 horas: cobre a análise inteira com folga e ainda deixa a pessoa voltar ao
    dashboard no mesmo dia sem repetir o formulário. O teto por IP de
@@ -55,22 +56,47 @@ export function emailPlausivel(email: string) {
   return /^[^\s@]+@[^\s@.]+\.[^\s@]{2,}$/.test(email) && email.length <= 254;
 }
 
-/** Emite "expiraEm.resumoDoEmail.assinatura". */
+/** Cookie legado das superfícies públicas: "expiraEm.resumoDoEmail.assinatura". */
 export async function emitirLead(email: string, secret: string) {
   const exp = String(Date.now() + LEAD_MAX_AGE * 1000);
-  const id = await resumo(normalizarEmail(email));
-  return `${exp}.${id}.${await assinar(`${exp}:${id}`, secret)}`;
+  const emailId = await resumo(normalizarEmail(email));
+  return `${exp}.${emailId}.${await assinar(`${exp}:${emailId}`, secret)}`;
 }
 
-/** Confere validade e assinatura. Nunca lança. */
+/** Cookie da Zona: inclui a conta autenticada que deu o consentimento. */
+export async function emitirLeadVinculado(email: string, userId: string, secret: string) {
+  const exp = String(Date.now() + LEAD_MAX_AGE * 1000);
+  const emailId = await resumo(normalizarEmail(email));
+  const userIdHash = await resumo(userId);
+  const payload = `${exp}:${emailId}:${userIdHash}`;
+  return `${exp}.${emailId}.${userIdHash}.${await assinar(payload, secret)}`;
+}
+
+/** Confere o cookie legado. Nunca lança. */
 export async function conferirLead(token: string | undefined, secret: string) {
   if (!token) return false;
 
-  const [exp, id, sig] = token.split('.');
-  if (!exp || !id || !sig) return false;
+  const [exp, emailId, sig] = token.split('.');
+  if (!exp || !emailId || !sig) return false;
   if (!Number(exp) || Number(exp) < Date.now()) return false;
 
-  return (await assinar(`${exp}:${id}`, secret)) === sig;
+  return (await assinar(`${exp}:${emailId}`, secret)) === sig;
+}
+
+/** Confere validade, assinatura e vínculo da Zona com a sessão atual. */
+export async function conferirLeadVinculado(
+  token: string | undefined,
+  userId: string,
+  secret: string,
+) {
+  if (!token) return false;
+
+  const [exp, emailId, userIdHash, sig] = token.split('.');
+  if (!exp || !emailId || !userIdHash || !sig) return false;
+  if (!Number(exp) || Number(exp) < Date.now()) return false;
+  if ((await resumo(userId)) !== userIdHash) return false;
+
+  return (await assinar(`${exp}:${emailId}:${userIdHash}`, secret)) === sig;
 }
 
 /** Opções do cookie, para não divergirem entre as rotas que o emitem. */

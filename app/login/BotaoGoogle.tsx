@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { clienteNavegador } from '@/app/lib/supabase/navegador';
 
-export default function BotaoGoogle() {
+export default function BotaoGoogle({ destino }: { destino: string }) {
   const [indo, setIndo] = useState(false);
   const [erro, setErro] = useState('');
 
@@ -11,9 +11,12 @@ export default function BotaoGoogle() {
     setIndo(true);
     setErro('');
 
+    const callback = new URL('/auth/callback', window.location.origin);
+    callback.searchParams.set('next', destino);
+
     const { error } = await clienteNavegador().auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: `${window.location.origin}/auth/callback` },
+      options: { redirectTo: callback.toString() },
     });
 
     /* Sem erro o navegador já saiu daqui rumo ao Google, então só chega neste

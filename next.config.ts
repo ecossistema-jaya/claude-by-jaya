@@ -16,8 +16,6 @@ const nextConfig: NextConfig = {
     return [
       { source: '/arquitetura-da-consciencia', destination: '/consciencia/index.html' },
       { source: '/arquitetura-da-consciencia/', destination: '/consciencia/index.html' },
-      { source: '/zona-de-genialidade', destination: '/zona/index.html' },
-      { source: '/zona-de-genialidade/', destination: '/zona/index.html' },
       /* Mesma história para o deck da palestra: HTML autocontido em public/deck/,
          público, com o <head> real servindo a prévia dos links. */
       { source: '/deck-arquitetura-da-consciencia', destination: '/deck/index.html' },

@@ -31,7 +31,7 @@ passo a passo de OAuth e Supabase está em [acesso-com-google.md](./acesso-com-g
 | `npm run start` | `next start` sobre um build pronto |
 | `npm run aulas` | Copia `originais/*.html` → `public/aulas/` (iframes das aulas) |
 | `npm run artes` | Converte `originais/zona-genialidade/*.png` → `public/zona/arte/*.webp` em duas larguras |
-| `npm run zona` | Publica `originais/zona-de-genialidade.html` → `public/zona/index.html`, injetando a taxonomia da Carta de Travessia; roda `audit:taxonomia` antes |
+| `npm run zona` | Gera `protected/zona/index.html` com a taxonomia da Carta de Travessia e substitui `public/zona/index.html` por um redirecionamento sem perguntas; roda `audit:taxonomia` antes |
 | `npm run manual` | Copia a pasta `originais/manual-8-recursos/` → `public/manual/` |
 | `npm run oferta` | Publica `originais/claude-do-zero.html` → `public/oferta/index.html` (página de vendas, rota `/claude-do-zero`) |
 | `npm run deck` | Publica o HTML exportado de `originais/arquitetura-da-consciencia/` → `public/deck/index.html` |

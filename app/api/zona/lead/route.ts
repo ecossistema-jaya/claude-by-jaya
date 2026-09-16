@@ -3,12 +3,13 @@ import { createClient } from '@supabase/supabase-js';
 import { SUPABASE_KEY, SUPABASE_URL } from '@/app/lib/supabase/config';
 import { excedeu, ipDe } from '@/app/lib/gemini';
 import {
-  COOKIE_LEAD,
+  COOKIE_LEAD_ZONA,
   emailPlausivel,
-  emitirLead,
+  emitirLeadVinculado,
   normalizarEmail,
   opcoesCookieLead,
 } from '@/app/lib/lead';
+import { exigirAcessoZona } from '@/app/lib/exigir-acesso-produto';
 
 export const runtime = 'nodejs';
 
@@ -31,6 +32,9 @@ const TABELA = 'leads_zng';
 const ORIGEM_PADRAO = 'zona-de-genialidade';
 
 export async function POST(req: Request) {
+  const { resposta, email: emailConta, userId } = await exigirAcessoZona();
+  if (resposta) return resposta;
+
   const secret = process.env.AUTH_SECRET;
   if (!secret) {
     console.error('AUTH_SECRET ausente');
@@ -52,6 +56,9 @@ export async function POST(req: Request) {
   const email = normalizarEmail(corpo.email);
   if (!emailPlausivel(email)) {
     return NextResponse.json({ error: 'email' }, { status: 400 });
+  }
+  if (email !== normalizarEmail(emailConta)) {
+    return NextResponse.json({ error: 'email-da-conta' }, { status: 400 });
   }
 
   /* O consentimento é a base legal do envio posterior. Sem a marcação explícita não
@@ -79,6 +86,10 @@ export async function POST(req: Request) {
   }
 
   const res = NextResponse.json({ ok: true });
-  res.cookies.set(COOKIE_LEAD, await emitirLead(email, secret), opcoesCookieLead());
+  res.cookies.set(
+    COOKIE_LEAD_ZONA,
+    await emitirLeadVinculado(email, userId!, secret),
+    opcoesCookieLead(),
+  );
   return res;
 }

@@ -134,6 +134,19 @@ export default async function Home() {
           →
         </span>
       </Link>
+      <Link href="/guia-7-agentes" className="bonus">
+        <span className="selo">Bônus</span>
+        <div className="txt">
+          <h2>7 agentes que fazem conteúdo</h2>
+          <p>
+            Um time no Claude que acha o tema, escreve, desenha, organiza, publica e mede. A parte
+            repetitiva sai das suas costas; a opinião continua sua. Com os prompts prontos.
+          </p>
+        </div>
+        <span className="seta" aria-hidden="true">
+          →
+        </span>
+      </Link>
     </>
   );
 }

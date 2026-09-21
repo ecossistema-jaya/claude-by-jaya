@@ -8,11 +8,12 @@ const ORIG = path.join(ROOT, 'originais');
 const DEST = path.join(ROOT, 'public', 'aulas');
 
 fs.mkdirSync(DEST, { recursive: true });
-/* Só as aulas. originais/ também guarda zona-de-genialidade.html, que é público e
+/* Só as aulas e os guias bônus (guia-*.html, embrulhados por rotas próprias como
+   app/guia-7-agentes). originais/ também guarda zona-de-genialidade.html, que é público e
    vai para public/zona/ por build-zona.mjs — copiá-lo aqui o publicaria de novo
    numa segunda URL, essa fechada pelo middleware. */
 if (fs.existsSync(ORIG)) {
-  for (const f of fs.readdirSync(ORIG).filter((f) => /^aula-.*\.html$/.test(f))) {
+  for (const f of fs.readdirSync(ORIG).filter((f) => /^(aula|guia)-.*\.html$/.test(f))) {
     let html = fs.readFileSync(path.join(ORIG, f), 'utf8');
     if (f === 'aula-04-psicometria.html') {
       const start = '<button class="btn" onclick="App.startAssess()">Começar o assessment</button>';

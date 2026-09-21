@@ -127,6 +127,10 @@ export default function AulaFrame({
                 <span aria-hidden="true">✦</span>
                 <strong>8 recursos do Claude<small>Manual de trabalho</small></strong>
               </Link>
+              <Link href="/guia-7-agentes" className="course-bonus-link">
+                <span aria-hidden="true">✦</span>
+                <strong>7 agentes que fazem conteúdo<small>Guia bônus</small></strong>
+              </Link>
             </div>
             <div className="course-rail-note">
               <strong>Aula {String(courseNumber).padStart(2, '0')} aberta</strong>
@@ -154,6 +158,7 @@ export default function AulaFrame({
                 <div>
                   <Link href="/aula-3">Minha Personalidade <span aria-hidden="true">→</span></Link>
                   <Link href="/recursos">8 recursos do Claude <span aria-hidden="true">→</span></Link>
+                  <Link href="/guia-7-agentes">7 agentes que fazem conteúdo <span aria-hidden="true">→</span></Link>
                 </div>
               </section>
             )}

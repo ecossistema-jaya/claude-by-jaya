@@ -86,14 +86,11 @@
   .preco.on { border-color: var(--cobre); box-shadow: 0 0 0 3px rgba(223,110,54,.18); }
   .preco h3 { font-size: 26px; }
   .preco .valor { font-family: var(--font-h); font-size: 60px; font-weight: 600; color: var(--marsala); line-height: 1; margin-top: 14px; }
-  .preco .cheio { color: var(--carvao-soft); font-size: 18px; margin-top: 6px; }
-  .preco .cheio s { margin-right: 6px; }
   .preco ul { padding-left: 18px; margin: 18px 0 8px; }
   .preco li { margin-bottom: 6px; }
   .preco .cta { margin-top: auto; text-align: center; }
   .more { display: inline-block; margin-top: 14px; color: var(--marsala); font-weight: 600; text-underline-offset: 4px; }
   .prazo { margin-top: 18px; font-size: 16px; }
-  body.cheio .so-lancamento { display: none; }
 
   .passos { display: grid; gap: 18px; grid-template-columns: repeat(3, 1fr); margin-top: 26px; }
   .passo { background: var(--card); border: 1px solid var(--linha); border-radius: 14px; padding: 22px; }
@@ -137,8 +134,8 @@
     <div>
       <h1>O Claude sabendo <em>quem você é</em>.</h1>
       <p class="lead">Resposta genérica, retrabalho, "não era isso". O problema não é o seu prompt. É que a ferramenta não te conhece — e isso tem conserto em cinco aulas.</p>
-      <a class="cta" href="https://wa.me/5561992634557?text=Oi%20Jaya%2C%20quero%20o%20Claude%20do%20Zero%20a%20R%24%20197." data-cta="curso" data-posicao="hero">Quero o Claude do Zero · <span data-preco="curso">R$ 197</span></a>
-      <p class="sub muted so-lancamento">Lançamento até 21/09 — depois, R$ 297. Pix pelo WhatsApp, acesso em até 24h.</p>
+      <a class="cta" href="https://wa.me/5561992634557?text=Oi%20Jaya%2C%20quero%20o%20Claude%20do%20Zero%20a%20R%24%20297." data-cta="curso" data-posicao="hero">Quero o Claude do Zero · <span data-preco="curso">R$ 297</span></a>
+      <p class="sub muted">Pix pelo WhatsApp, acesso em até 24h.</p>
     </div>
   </div>
 
@@ -182,30 +179,28 @@
     <div class="precos">
       <div class="preco on">
         <h3>Claude do Zero</h3>
-        <div class="valor" data-preco="curso">R$ 197</div>
-        <div class="cheio so-lancamento"><s>R$ 297</s> até 21/09</div>
+        <div class="valor" data-preco="curso">R$ 297</div>
         <ul>
           <li>As cinco aulas</li>
           <li>Mapa de Autoconhecimento e Zona de Genialidade</li>
           <li>Manual 8 recursos do Claude</li>
           <li>Acesso vitalício</li>
         </ul>
-        <a class="cta" href="https://wa.me/5561992634557?text=Oi%20Jaya%2C%20quero%20o%20Claude%20do%20Zero%20a%20R%24%20197." data-cta="curso" data-posicao="investimento">Quero o Claude do Zero</a>
+        <a class="cta" href="https://wa.me/5561992634557?text=Oi%20Jaya%2C%20quero%20o%20Claude%20do%20Zero%20a%20R%24%20297." data-cta="curso" data-posicao="investimento">Quero o Claude do Zero</a>
       </div>
       <div class="preco">
         <h3>Claude do Zero + Sessão</h3>
-        <div class="valor" data-preco="bundle">R$ 597</div>
-        <div class="cheio so-lancamento"><s>R$ 697</s> até 21/09</div>
+        <div class="valor" data-preco="bundle">R$ 697</div>
         <ul>
           <li>Tudo do Claude do Zero</li>
           <li>Sessão Estratégica de IA: 90 minutos, individual, online</li>
           <li>A sessão começa com o seu Documento Mestre já feito</li>
         </ul>
-        <a class="cta sec" href="https://wa.me/5561992634557?text=Oi%20Jaya%2C%20quero%20o%20Claude%20do%20Zero%20%2B%20Sess%C3%A3o%20a%20R%24%20597." data-cta="bundle" data-posicao="investimento">Quero com a Sessão</a>
+        <a class="cta sec" href="https://wa.me/5561992634557?text=Oi%20Jaya%2C%20quero%20o%20Claude%20do%20Zero%20%2B%20Sess%C3%A3o%20a%20R%24%20697." data-cta="bundle" data-posicao="investimento">Quero com a Sessão</a>
         <a class="more" href="https://jayaroberta.com.br/sessao-estrategica-ia" target="_blank" rel="noopener" data-sessao-link>Entenda a Sessão Estratégica →</a>
       </div>
     </div>
-    <p class="prazo muted"><span class="so-lancamento">Preço de lançamento por 7 dias ou 50 alunos, o que vier primeiro. </span>Pagamento por Pix, combinado no WhatsApp. Acesso liberado em até 24h com a sua conta Google.</p>
+    <p class="prazo muted">Pagamento por Pix, combinado no WhatsApp. Acesso liberado em até 24h com a sua conta Google.</p>
   </section>
 
   <section>
@@ -247,20 +242,6 @@
 </div>
 
 <script>
-  /* Preço muda sozinho no fim do lançamento: sem deploy, sem esquecer o riscado na página.
-     Data em America/Sao_Paulo (UTC-3, sem horário de verão desde 2019). */
-  const FIM_LANCAMENTO = '2026-09-21T23:59:59-03:00';
-  const PRECO = { curso: 297, bundle: 697 };
-  const CTA = {
-    curso: 'https://wa.me/5561992634557?text=' + encodeURIComponent('Oi Jaya, quero o Claude do Zero a R$ 297.'),
-    bundle: 'https://wa.me/5561992634557?text=' + encodeURIComponent('Oi Jaya, quero o Claude do Zero + Sessão a R$ 697.'),
-  };
-  if (Date.now() > Date.parse(FIM_LANCAMENTO)) {
-    document.body.classList.add('cheio');
-    document.querySelectorAll('[data-preco]').forEach((el) => { el.textContent = 'R$ ' + PRECO[el.dataset.preco]; });
-    document.querySelectorAll('[data-cta]').forEach((a) => { a.href = CTA[a.dataset.cta]; });
-  }
-
   document.querySelectorAll('[data-cta]').forEach((link) => {
     link.addEventListener('click', () => {
       try {

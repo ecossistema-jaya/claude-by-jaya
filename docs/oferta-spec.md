@@ -19,8 +19,7 @@ CTA para o WhatsApp.
 | Imagens | capturas reais da área da aluna, do Mapa de Autoconhecimento e de uma aula prática em `public/oferta/img/` |
 | Formato | aulas visuais, slides guiados, exercícios e ferramentas interativas; não é apresentado como curso de videoaulas |
 | Mapa | 26 perguntas + 5 opcionais, Zona de Genialidade, gráficos, hipóteses e Carta de Travessia simbólica |
-| Preço | constantes no topo do HTML: `PRECO`, `PRECO_LANCAMENTO`, `BUNDLE`, `BUNDLE_LANCAMENTO`, `FIM_LANCAMENTO` |
-| Pós-prazo | passado `FIM_LANCAMENTO`, a página mostra o preço cheio e some com o riscado — sem deploy |
+| Preço | fixo no HTML: R$ 297 (curso) e R$ 697 (curso + sessão), nos cards e nos links do WhatsApp. Sem mecanismo de lançamento desde 2026-09-20 |
 | CTA | `wa.me/5561992634557` com texto pré-preenchido, um por oferta |
 | Sessão | o pacote inclui link explicativo para `https://jayaroberta.com.br/sessao-estrategica-ia` |
 | Pós-Pix | instruções em três passos: pagamento, envio do comprovante + e-mail Google e liberação em até 24 horas |
@@ -31,7 +30,7 @@ CTA para o WhatsApp.
 
 1. `curl -sI https://claude-by-jaya.vercel.app/claude-do-zero` → 200, `text/html`, sem redirect para `/login`.
 2. Prévia de link (WhatsApp/Instagram) mostra título, descrição e `og.jpg`.
-3. Antes de 21/09 23:59 (America/Sao_Paulo): "R$ 197" em destaque com "R$ 297" riscado. Depois: só "R$ 297".
+3. Preço cheio, sem lançamento: "R$ 297" (curso) e "R$ 697" (curso + sessão), sem valor riscado nem prazo. Lançamento (R$ 197 / R$ 597 até 21/09) encerrado em 2026-09-20.
 4. Os dois CTAs abrem o WhatsApp com a mensagem da OFERTA.md.
 5. Legível a 390px de largura; nenhum scroll horizontal.
 6. `npm run build` passa num espelho sem `originais/` (script sai com 0 mantendo `public/oferta/`).

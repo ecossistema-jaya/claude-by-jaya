@@ -53,6 +53,10 @@ function CourseBonusNav({ footer = false }: { footer?: boolean }) {
         <span aria-hidden="true">✦</span>
         <strong>8 recursos do Claude<small>Manual de trabalho</small></strong>
       </Link>
+      <Link href="/guia-7-agentes" className="course-bonus-link">
+        <span aria-hidden="true">✦</span>
+        <strong>7 agentes que fazem conteúdo<small>Guia bônus</small></strong>
+      </Link>
     </div>
   );
 }

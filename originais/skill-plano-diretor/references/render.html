@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Plano Diretor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Jost:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --papel:#F4F0E7; --papel-alto:#FBF9F4;
+  --petroleo:#002F3B; --petroleo-alto:#0A4453;
+  --ambar:#F3B867;
+  --terracota:#B85F3F; --terracota-ink:#A35337; --terracota-clara:#C67F65;
+  --musgo:#53624B; --musgo-claro:#899484;
+  --grafite:#292929; --grafite-suave:#6B6259;
+  --fio-ui:#8C8474; --fio:#D9D2C2;
+  --fonte-display:'Marcellus',Georgia,serif;
+  --fonte-corpo:'Jost',system-ui,sans-serif;
+  --fonte-dado:'JetBrains Mono',ui-monospace,monospace;
+  --saida:cubic-bezier(0.22,1,0.36,1);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--papel);color:var(--grafite);font-family:var(--fonte-corpo);font-weight:300;line-height:1.6;}
+.wrap{max-width:64rem;margin:0 auto;padding:0 clamp(1.1rem,4vw,2rem);}
+h1,h2,h3{font-family:var(--fonte-display);font-weight:400;line-height:1.15;margin:0;}
+h1{font-size:clamp(2rem,5vw,3.1rem);color:var(--petroleo);}
+h2{font-size:clamp(1.5rem,3.2vw,2.1rem);color:var(--petroleo);}
+h3{font-size:1.06rem;color:var(--petroleo);}
+.olho{font-family:var(--fonte-dado);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--grafite-suave);margin:0;}
+.apoio{color:var(--grafite-suave);}
+section{padding-block:clamp(2.6rem,6vw,4.2rem);border-top:1px solid var(--fio);}
+
+/* ---------- topo + funil ---------- */
+.topo{padding-top:clamp(2.4rem,7vw,4.5rem);padding-bottom:clamp(1.5rem,4vw,2.5rem)}
+.funil{display:grid;grid-template-columns:repeat(auto-fit,minmax(7.5rem,1fr));gap:.7rem;margin-top:2rem;}
+.fn{background:var(--papel-alto);border:1px solid var(--fio);border-radius:.7rem;padding:.9rem 1rem;}
+.fn b{display:block;font-family:var(--fonte-dado);font-size:1.9rem;font-weight:500;color:var(--petroleo);line-height:1;}
+.fn span{font-family:var(--fonte-dado);font-size:.63rem;letter-spacing:.14em;text-transform:uppercase;color:var(--grafite-suave);}
+.fn.neg b{color:var(--terracota-ink)}
+
+/* ---------- aviso ---------- */
+.aviso{background:var(--petroleo);color:#EAF1F2;border-radius:1rem;padding:clamp(1.4rem,4vw,2.4rem);}
+.aviso .olho{color:var(--ambar)}
+.aviso .veredito{font-family:var(--fonte-display);font-size:clamp(1.1rem,2.4vw,1.42rem);line-height:1.35;color:var(--ambar);margin:.8rem 0 1.1rem}
+.aviso p.corpo{color:#CFDDDF;margin:0 0 1rem}
+.aviso .custo{border-left:3px solid var(--terracota-clara);padding-left:1rem;color:#EAF1F2;margin:0}
+
+/* ---------- filtros ---------- */
+.filtros{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.6rem 0 2rem}
+.chip{font-family:var(--fonte-dado);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;
+  background:transparent;border:1px solid var(--fio-ui);color:var(--grafite-suave);
+  border-radius:99px;padding:.42rem .95rem;cursor:pointer;transition:all .18s var(--saida);}
+.chip:hover{border-color:var(--petroleo);color:var(--petroleo)}
+.chip[aria-pressed="true"]{background:var(--petroleo);border-color:var(--petroleo);color:var(--papel-alto)}
+
+/* ---------- pilar ---------- */
+.pilar{margin-bottom:2.4rem}
+.pilar-cab{display:flex;align-items:baseline;gap:.7rem;flex-wrap:wrap;padding-bottom:.5rem;border-bottom:1px solid var(--fio);margin-bottom:1rem}
+.pilar-cab h3{font-size:1.35rem}
+.pilar-cab .qtd{font-family:var(--fonte-dado);font-size:.9rem;color:var(--terracota-ink)}
+.pilar-cab .tese{margin-left:auto;font-size:.85rem;font-style:italic;color:var(--grafite-suave)}
+.vazio{background:var(--papel-alto);border:1px dashed var(--fio-ui);border-radius:.7rem;padding:1rem 1.15rem;color:var(--grafite-suave);font-size:.9rem}
+
+/* ---------- card compacto ---------- */
+.card{width:100%;text-align:left;background:var(--papel-alto);border:1px solid var(--fio);
+  border-radius:.8rem;padding:1rem 1.15rem;margin-bottom:.6rem;cursor:pointer;
+  display:grid;grid-template-columns:3.1rem 1fr auto;gap:.9rem;align-items:center;
+  font:inherit;color:inherit;transition:all .18s var(--saida);}
+.card:hover{border-color:var(--petroleo);transform:translateX(2px)}
+.card .id{font-family:var(--fonte-dado);font-size:1rem;font-weight:500;color:var(--terracota-ink)}
+.card .tit{display:block;font-size:1rem;color:var(--petroleo);line-height:1.3}
+.card .meta{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.4rem}
+.card .score{font-family:var(--fonte-dado);font-size:1.45rem;font-weight:500;color:var(--petroleo);white-space:nowrap}
+.card .score i{font-size:.7rem;font-style:normal;color:var(--grafite-suave)}
+.tag{font-family:var(--fonte-dado);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;
+  border:1px solid var(--fio-ui);border-radius:99px;padding:.15rem .5rem;color:var(--grafite-suave)}
+.tag.habil{border-color:var(--musgo);color:var(--musgo);background:rgba(83,98,75,.07)}
+.tag.validar{border-color:var(--terracota);color:var(--terracota-ink);background:rgba(184,95,63,.07)}
+
+/* ---------- matriz ---------- */
+.matriz-caixa{position:relative;margin-top:1.5rem;padding-left:1.6rem}
+.matriz{position:relative;aspect-ratio:4/3;background:var(--papel-alto);border:1px solid var(--fio);border-radius:.8rem;overflow:hidden}
+.matriz .quad{position:absolute;width:50%;height:50%;display:flex;padding:.8rem}
+.matriz .quad span{font-family:var(--fonte-dado);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--grafite-suave);opacity:.75}
+.q1{top:0;left:0;justify-content:flex-start;align-items:flex-start}
+.q2{top:0;left:50%;justify-content:flex-end;align-items:flex-start}
+.q3{top:50%;left:0;justify-content:flex-start;align-items:flex-end}
+.q4{top:50%;left:50%;justify-content:flex-end;align-items:flex-end}
+.matriz .cruz-v{position:absolute;left:50%;top:0;bottom:0;border-left:1px dashed var(--fio)}
+.matriz .cruz-h{position:absolute;top:50%;left:0;right:0;border-top:1px dashed var(--fio)}
+.ponto{position:absolute;transform:translate(-50%,50%);background:var(--petroleo);color:var(--papel-alto);
+  font-family:var(--fonte-dado);font-size:.72rem;font-weight:500;border:0;cursor:pointer;
+  width:2.1rem;height:2.1rem;border-radius:99px;display:grid;place-items:center;transition:all .18s var(--saida)}
+.ponto:hover{background:var(--terracota-ink);transform:translate(-50%,50%) scale(1.15)}
+.eixos{display:flex;justify-content:space-between;margin-top:.55rem}
+.eixos span{font-family:var(--fonte-dado);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--grafite-suave)}
+.eixo-y{position:absolute;left:-1.1rem;top:45%;transform:translateY(-50%) rotate(-90deg);
+  font-family:var(--fonte-dado);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--grafite-suave);white-space:nowrap}
+
+/* ---------- roadmap ---------- */
+.passo{background:var(--papel-alto);border:1px solid var(--fio);border-left:3px solid var(--petroleo);
+  border-radius:.5rem;padding:.95rem 1.15rem;margin-bottom:.6rem}
+.passo .lin{display:flex;gap:.7rem;align-items:baseline}
+.passo .id{font-family:var(--fonte-dado);color:var(--terracota-ink);font-weight:500}
+.passo .dep{margin-top:.45rem;padding-left:1rem;font-size:.83rem;color:var(--grafite-suave);border-left:1px solid var(--fio)}
+
+/* ---------- listas de descarte ---------- */
+.item{background:var(--papel-alto);border:1px solid var(--fio);border-radius:.7rem;padding:1rem 1.15rem;margin-bottom:.6rem}
+.item h3{font-size:.98rem;margin-bottom:.45rem}
+.item p{margin:0 0 .3rem;font-size:.9rem;color:var(--grafite-suave)}
+.item .rot{font-family:var(--fonte-dado);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--terracota-ink);display:block;margin-bottom:.35rem}
+.item .destrava{margin-top:.55rem;color:var(--musgo)}
+.nota{margin-top:1rem;font-style:italic;color:var(--grafite-suave)}
+
+/* ---------- fecho ---------- */
+.fecho{background:var(--petroleo);color:#EAF1F2;border-radius:1rem;padding:clamp(1.6rem,5vw,2.8rem);margin-bottom:4rem}
+.fecho p.frase{font-family:var(--fonte-display);font-size:clamp(1.1rem,2.4vw,1.4rem);line-height:1.4;margin:.7rem 0 0;color:#fff}
+.fecho .olho{color:var(--ambar)}
+
+/* ---------- drill-down ---------- */
+dialog{border:0;border-radius:1rem;padding:0;max-width:44rem;width:calc(100% - 2rem);background:var(--papel-alto);color:var(--grafite)}
+dialog::backdrop{background:rgba(0,47,59,.55)}
+.dd{padding:clamp(1.3rem,4vw,2.2rem)}
+.dd-cab{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.7rem}
+.dd h2{font-size:clamp(1.25rem,3vw,1.7rem);margin-bottom:1.2rem}
+.grade{display:grid;grid-template-columns:repeat(auto-fit,minmax(6.2rem,1fr));gap:.5rem;margin-bottom:1.5rem}
+.gc{background:var(--papel);border:1px solid var(--fio);border-radius:.55rem;padding:.6rem .7rem}
+.gc span{display:block;font-family:var(--fonte-dado);font-size:.57rem;letter-spacing:.11em;text-transform:uppercase;color:var(--grafite-suave)}
+.gc b{font-weight:500;color:var(--petroleo);font-size:.95rem}
+.bloco{margin-bottom:1.15rem}
+.bloco h4{margin:0 0 .3rem;font-family:var(--fonte-dado);font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;color:var(--terracota-ink);font-weight:500}
+.bloco p{margin:0;font-size:.95rem}
+.acao{background:var(--papel);border:1px solid var(--musgo);border-radius:.6rem;padding:.9rem 1.05rem}
+.porque{margin-top:1.5rem;border-top:1px solid var(--fio);padding-top:1.2rem}
+.porque h4{margin:0 0 .3rem;font-family:var(--fonte-dado);font-size:.68rem;letter-spacing:.13em;text-transform:uppercase;color:var(--petroleo);font-weight:500}
+.ev{margin:.8rem 0;padding-left:1rem;border-left:2px solid var(--ambar)}
+.ev .eid{font-family:var(--fonte-dado);font-size:.68rem;color:var(--terracota-ink);display:block}
+.ev q{font-size:.92rem;color:var(--grafite);font-style:italic}
+.ev .conf{display:block;font-family:var(--fonte-dado);font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:var(--grafite-suave);margin-top:.25rem}
+.rodape-dd{margin-top:1.3rem;font-size:.8rem;color:var(--grafite-suave);font-style:italic}
+.fechar{float:right;background:transparent;border:1px solid var(--fio-ui);border-radius:99px;
+  width:2rem;height:2rem;cursor:pointer;color:var(--grafite-suave);font-size:1rem;line-height:1}
+</style>
+</head>
+<body>
+
+<header class="wrap topo">
+  <p class="olho">Mapa completo do motor</p>
+  <h1 style="margin-top:.6rem">Aprovadas, bloqueadas e rejeitadas.</h1>
+  <p class="apoio" style="max-width:38rem;margin-top:.8rem">Você vê o motor inteiro, inclusive o que ele descartou e por quê.</p>
+  <div class="funil" id="funil"></div>
+</header>
+
+<section class="wrap" style="border-top:0;padding-top:0"><div class="aviso" id="aviso"></div></section>
+
+<section class="wrap">
+  <p class="olho">Portfólio</p>
+  <h2 style="margin-top:.5rem">Seu portfólio, num relance.</h2>
+  <div class="filtros" id="filtros"></div>
+  <div id="pilares"></div>
+</section>
+
+<section class="wrap">
+  <p class="olho">Matriz</p>
+  <h2 style="margin-top:.5rem">Impacto × complexidade.</h2>
+  <p class="apoio" style="max-width:40rem;margin-top:.7rem">Bloqueadas e rejeitadas ficam fora da matriz: o que não passou pelo crítico não disputa prioridade. Toque num ponto para abrir.</p>
+  <div class="matriz-caixa">
+    <span class="eixo-y">↑ Impacto</span>
+    <div class="matriz" id="matriz">
+      <div class="cruz-v"></div><div class="cruz-h"></div>
+      <div class="quad q1"><span>Quick wins</span></div>
+      <div class="quad q2"><span>Estratégico</span></div>
+      <div class="quad q3"><span>Baixo esforço</span></div>
+      <div class="quad q4"><span>Depois</span></div>
+    </div>
+    <div class="eixos"><span>← menos complexo</span><span>mais complexo →</span></div>
+  </div>
+</section>
+
+<section class="wrap">
+  <p class="olho">Agora · 0–30 dias</p>
+  <h2 style="margin-top:.5rem">Ninguém constrói o quinto andar antes da fundação.</h2>
+  <div id="roadmap" style="margin-top:1.5rem"></div>
+  <p class="nota">Sem o item 1, nada disso existe.</p>
+</section>
+
+<section class="wrap">
+  <p class="olho">Bloqueadas por falta de dado</p>
+  <h2 style="margin-top:.5rem">O que ainda não pode ser decidido.</h2>
+  <div id="semdado" style="margin-top:1.5rem"></div>
+  <p class="nota">Estas não são promessas. São hipóteses que só existem quando o dado existir.</p>
+</section>
+
+<section class="wrap">
+  <p class="olho">Rejeitadas pelo crítico</p>
+  <h2 style="margin-top:.5rem">O que foi descartado, e por quê.</h2>
+  <div id="rejeitadas" style="margin-top:1.5rem"></div>
+</section>
+
+<section class="wrap">
+  <p class="olho">Limites</p>
+  <h2 style="margin-top:.5rem">Onde a IA não é a resposta pra você.</h2>
+  <div id="limites" style="margin-top:1.5rem"></div>
+</section>
+
+<section class="wrap" style="border-top:0">
+  <div class="fecho">
+    <p class="olho">Se esse negócio fosse meu</p>
+    <p class="frase" id="fecho"></p>
+  </div>
+</section>
+
+<dialog id="dd"><div class="dd" id="dd-corpo"></div></dialog>
+
+<script>
+/*__PLANO__*/const PLANO = null;/*__/PLANO__*/
+</script>
+<script>
+(function(){
+if (!PLANO){
+  document.body.innerHTML = `<div style="max-width:34rem;margin:6rem auto;padding:0 1.5rem;font-family:Jost,system-ui,sans-serif;color:#6B6259"><h1 style="font-family:Marcellus,Georgia,serif;color:#002F3B;font-weight:400">Template sem dados</h1><p>Este arquivo é o molde do painel. Ele ganha conteúdo quando a skill <b>plano-diretor</b> substitui o bloco entre os marcadores <code>/*__PLANO__*/</code> pelo objeto do plano.</p></div>`;
+  return;
+}
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const EV = Object.fromEntries(PLANO.evidencias.map(e => [e.id, e]));
+const OP = Object.fromEntries(PLANO.oportunidades.map(o => [o.id, o]));
+
+/* ---- funil ---- */
+$('#funil').innerHTML = [
+  ['candidatas','Candidatas',''], ['aprovadas','Aprovadas',''],
+  ['sem_dado','Sem dado','neg'], ['rejeitadas','Rejeitadas','neg']
+].map(([k,rot,cls]) => `<div class="fn ${cls}"><b>${String(PLANO.funil[k]).padStart(2,'0')}</b><span>${rot}</span></div>`).join('');
+
+/* ---- aviso ---- */
+const arb = PLANO.arbitragem;
+$('#aviso').innerHTML = `
+  <p class="olho">O aviso · ${esc(arb.titulo)}</p>
+  <p class="veredito">${esc(arb.veredito)}</p>
+  <p class="corpo">${esc(arb.corpo)}</p>
+  <p class="custo">${esc(arb.custo_de_discordar)}</p>`;
+
+/* ---- filtros + pilares ---- */
+let filtro = 'TODAS';
+$('#filtros').innerHTML = ['TODAS', ...PLANO.pilares.map(p => p.pilar)]
+  .map(p => `<button class="chip" data-p="${p}" aria-pressed="${p === 'TODAS'}">${p.toLowerCase()}</button>`).join('');
+$('#filtros').addEventListener('click', e => {
+  const b = e.target.closest('.chip'); if (!b) return;
+  filtro = b.dataset.p;
+  document.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', c === b));
+  pintarPilares();
+});
+
+const papelTag = o => o.papel
+  ? `<span class="tag ${o.papel === 'HABILITADOR' ? 'habil' : 'validar'}">${o.papel === 'HABILITADOR' ? 'Habilitador' : 'Precisa validar'}</span>`
+  : '';
+
+function cardCompacto(o){
+  return `<button class="card" data-id="${o.id}">
+    <span class="id">${o.id}</span>
+    <span>
+      <span class="tit">${esc(o.titulo)}</span>
+      <span class="meta">
+        ${papelTag(o)}
+        <span class="tag">CX ${o.complexidade}</span>
+        <span class="tag">Confiança ${o.confianca}</span>
+        ${o.depende_de ? `<span class="tag">↳ ${o.depende_de}</span>` : ''}
+      </span>
+    </span>
+    <span class="score">${o.score}<i>/100</i></span>
+  </button>`;
+}
+
+function pintarPilares(){
+  const vazios = Object.fromEntries(PLANO.pilares_vazios.map(v => [v.pilar, v.motivo]));
+  $('#pilares').innerHTML = PLANO.pilares
+    .filter(p => filtro === 'TODAS' || p.pilar === filtro)
+    .map(p => {
+      const itens = PLANO.oportunidades.filter(o => o.pilar === p.pilar).sort((x,y) => y.score - x.score);
+      const miolo = itens.length
+        ? itens.map(cardCompacto).join('')
+        : `<div class="vazio">O pilar ficou vazio de propósito: ${esc(vazios[p.pilar] || '')}</div>`;
+      return `<div class="pilar">
+        <div class="pilar-cab">
+          <h3>${p.pilar[0] + p.pilar.slice(1).toLowerCase()}</h3>
+          <span class="qtd">${String(itens.length).padStart(2,'0')}</span>
+          <span class="tese">${esc(p.tese)}</span>
+        </div>${miolo}</div>`;
+    }).join('');
+}
+pintarPilares();
+
+/* ---- matriz ---- */
+const EIXO_X = { 'Baixa':0.25, 'Média':0.5, 'Alta':0.78 };
+const EIXO_Y = { 'Baixo':0.24, 'Médio':0.5, 'Alto':0.78 };
+$('#matriz').insertAdjacentHTML('beforeend', PLANO.oportunidades.map((o, i) => {
+  /* desvio determinístico por índice: separa pontos que caem na mesma célula */
+  const dx = ((i % 3) - 1) * 16, dy = (((i * 7) % 3) - 1) * 16;
+  return `<button class="ponto" data-id="${o.id}" title="${esc(o.titulo)}"
+    style="left:calc(${EIXO_X[o.complexidade] * 100}% + ${dx}px);bottom:calc(${EIXO_Y[o.impacto] * 100}% + ${dy}px)">${o.id}</button>`;
+}).join(''));
+
+/* ---- roadmap ---- */
+$('#roadmap').innerHTML = [...PLANO.oportunidades].sort((x,y) => x.ordem - y.ordem).map(o => `
+  <div class="passo">
+    <div class="lin"><span class="id">${o.id}</span><span>${esc(o.titulo)}</span></div>
+    ${o.depende_de ? `<div class="dep">↳ depende de ${o.depende_de} · ${esc(OP[o.depende_de].titulo)} (${esc(o.motivo_dependencia)})</div>` : ''}
+  </div>`).join('');
+
+/* ---- bloqueadas ---- */
+$('#semdado').innerHTML = PLANO.sem_dado.map(s => `
+  <div class="item">
+    <span class="rot">Sem dado</span>
+    <h3>${esc(s.titulo)}</h3>
+    <p><b>Falta:</b> ${esc(s.falta)}</p>
+    <p class="destrava"><b>Destrava com</b> ${s.destrava_com.map(id => `${id} · ${esc(OP[id].titulo)}`).join(' e ')} — para ${esc(s.para)}.</p>
+  </div>`).join('');
+
+/* ---- rejeitadas ---- */
+$('#rejeitadas').innerHTML = PLANO.rejeitadas.map(r => `
+  <div class="item">
+    <span class="rot">Rejeitada · ${esc(r.motivo_tipo)}</span>
+    <h3>${esc(r.titulo)}</h3>
+    <p>${esc(r.motivo)}</p>
+  </div>`).join('');
+
+/* ---- limites ---- */
+$('#limites').innerHTML = PLANO.onde_ia_nao_resolve
+  .map(l => `<div class="item"><h3>${esc(l.titulo)}</h3><p>${esc(l.porque)}</p></div>`).join('');
+
+/* ---- fecho ---- */
+$('#fecho').textContent = PLANO.fecho.texto;
+
+/* ---- drill-down ---- */
+function abrir(id){
+  const o = OP[id]; if (!o) return;
+  $('#dd-corpo').innerHTML = `
+    <button class="fechar" id="btn-fechar" aria-label="Fechar">×</button>
+    <div class="dd-cab">
+      <span class="tag">${o.pilar}</span>${papelTag(o)}<span class="tag">${o.id}</span>
+    </div>
+    <h2>${esc(o.titulo)}</h2>
+    <div class="grade">
+      <div class="gc"><span>Complexidade</span><b>${o.complexidade}</b></div>
+      <div class="gc"><span>Confiança</span><b>${o.confianca}</b></div>
+      <div class="gc"><span>Horizonte</span><b>${o.horizonte}</b></div>
+      <div class="gc"><span>Impacto</span><b>${o.impacto}</b></div>
+      <div class="gc"><span>Score</span><b>${o.score}/100</b></div>
+    </div>
+    <div class="bloco"><h4>Problema identificado</h4><p>${esc(o.problema)}</p></div>
+    <div class="bloco"><h4>Transformação proposta</h4><p>${esc(o.transformacao)}</p></div>
+    <div class="bloco"><h4>Resultado esperado</h4><p>${esc(o.resultado)}</p></div>
+    ${o.depende_de ? `<div class="bloco"><h4>Dependência</h4><p>${o.depende_de} · ${esc(OP[o.depende_de].titulo)} (${esc(o.motivo_dependencia)})</p></div>` : ''}
+    <div class="bloco acao"><h4>Primeira ação</h4><p>${esc(o.primeira_acao)}</p></div>
+    <div class="porque">
+      <h4>Por que isso foi recomendado?</h4>
+      <p class="apoio" style="font-size:.88rem;margin:0">Porque durante seu diagnóstico você informou:</p>
+      ${o.evidencias.map(eid => {
+        const e = EV[eid]; if (!e) return '';
+        return `<div class="ev">
+          <span class="eid">${e.id}</span>
+          <q>${esc(e.texto)}</q>
+          ${e.confianca !== 'alta' ? `<span class="conf">confiança ${e.confianca}${e.motivo_confianca ? ' · ' + esc(e.motivo_confianca) : ''}</span>` : ''}
+        </div>`;
+      }).join('')}
+      <p class="rodape-dd">Impacto financeiro precisa ser validado. Nenhum número acima foi inventado.</p>
+    </div>`;
+  $('#dd').showModal();
+}
+document.addEventListener('click', e => {
+  if (e.target.id === 'btn-fechar' || e.target.id === 'dd'){ $('#dd').close(); return; }
+  const alvo = e.target.closest('.card, .ponto');
+  if (alvo) abrir(alvo.dataset.id);
+});
+})();
+</script>
+</body>
+</html>

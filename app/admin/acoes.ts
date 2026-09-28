@@ -100,6 +100,7 @@ export async function concederAcessoProduto(
   }
 
   revalidatePath('/admin');
+  revalidatePath('/biblioteca/admin');
   return { ok: `${email} recebeu acesso à ${nomeProduto(produto)}.` };
 }
 
@@ -113,4 +114,5 @@ export async function alternarAcessoProduto(form: FormData) {
   await supabase.from(TABELA_ACESSOS_PRODUTOS).update(atualizacao).eq('id', id);
 
   revalidatePath('/admin');
+  revalidatePath('/biblioteca/admin');
 }

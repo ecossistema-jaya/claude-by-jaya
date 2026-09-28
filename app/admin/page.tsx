@@ -2,18 +2,22 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { buscarAluno, TABELA_ACESSOS, TABELA_ALUNOS, type Aluno } from '@/app/lib/aluno';
 import {
-  nomeProduto,
   PRODUTO_BIBLIOTECA,
   PRODUTOS_COM_CONVITE,
   TABELA_ACESSOS_PRODUTOS,
   type AcessoProduto,
-  type ProdutoComConvite,
 } from '@/app/lib/acesso-produto';
 import { clienteServidor } from '@/app/lib/supabase/servidor';
-import { alternarAcessoProduto, alternarAtivo, removerAluno } from './acoes';
+import { alternarAtivo, removerAluno } from './acoes';
 import BotaoRemover from './BotaoRemover';
-import FormAcessoZona from './FormAcessoZona';
 import FormNovo from './FormNovo';
+import SecaoConvites from './SecaoConvites';
+
+/* Produtos com painel próprio ficam fora daqui: cada um é administrado na
+   própria área, e este painel só aponta para lá. */
+const CONVITES_NESTE_PAINEL = PRODUTOS_COM_CONVITE.filter(
+  (produto) => produto !== PRODUTO_BIBLIOTECA,
+);
 
 export const metadata = { title: 'Alunos · Claude do Zero' };
 export const dynamic = 'force-dynamic';
@@ -22,52 +26,6 @@ type Acesso = { id: number; email: string; entrou_em: string };
 
 const quando = (iso: string) =>
   new Date(iso).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' });
-
-function SecaoConvites({
-  produto,
-  acessos,
-}: {
-  produto: ProdutoComConvite;
-  acessos: AcessoProduto[];
-}) {
-  return (
-    <section>
-      <h2>Convites · {nomeProduto(produto)}</h2>
-      <p className="sub">
-        Login Google e convite ativo são obrigatórios para acessar.
-        {produto === PRODUTO_BIBLIOTECA && ' Alunos ativos do curso entram sem convite.'}
-      </p>
-      <FormAcessoZona produto={produto} />
-      <table>
-        <tbody>
-          {acessos.map((acesso) => {
-            const expirado = !!acesso.expira_em && new Date(acesso.expira_em) <= new Date();
-            const liberado = acesso.ativo && !expirado;
-            return (
-              <tr key={acesso.id} className={liberado ? '' : 'inativo'}>
-                <td>
-                  <strong>{acesso.nome || acesso.email}</strong>
-                  {acesso.nome && <span className="sub">{acesso.email}</span>}
-                  {expirado && <span className="tag">expirado</span>}
-                </td>
-                <td className="sub">
-                  {acesso.expira_em ? `até ${quando(acesso.expira_em)}` : 'sem expiração'}
-                </td>
-                <td className="acoes">
-                  <form action={alternarAcessoProduto}>
-                    <input type="hidden" name="id" value={acesso.id} />
-                    <input type="hidden" name="ativo" value={String(liberado)} />
-                    <button type="submit">{liberado ? 'desativar' : 'reativar'}</button>
-                  </form>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </section>
-  );
-}
 
 export default async function Admin() {
   const supabase = await clienteServidor();
@@ -92,7 +50,7 @@ export default async function Admin() {
   const { data: acessosProduto } = await supabase
     .from(TABELA_ACESSOS_PRODUTOS)
     .select('id, produto, email, nome, ativo, expira_em, criado_em, criado_por')
-    .in('produto', [...PRODUTOS_COM_CONVITE])
+    .in('produto', CONVITES_NESTE_PAINEL)
     .order('criado_em', { ascending: false });
 
   const lista = (alunos ?? []) as Aluno[];
@@ -115,7 +73,15 @@ export default async function Admin() {
         <FormNovo />
       </section>
 
-      {PRODUTOS_COM_CONVITE.map((produto) => (
+      <section>
+        <h2>Biblioteca Claude by Jaya</h2>
+        <p className="sub">
+          Os acessos da biblioteca têm painel próprio:{' '}
+          <Link href="/biblioteca/admin">jayaroberta.com/biblioteca/admin</Link>
+        </p>
+      </section>
+
+      {CONVITES_NESTE_PAINEL.map((produto) => (
         <SecaoConvites
           key={produto}
           produto={produto}

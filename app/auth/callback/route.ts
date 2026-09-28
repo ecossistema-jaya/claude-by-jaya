@@ -40,7 +40,7 @@ export async function GET(req: NextRequest) {
   if (destinoEhBiblioteca(destino)) {
     if (!email || !(await temAcessoBiblioteca(supabase, email))) {
       await supabase.auth.signOut();
-      return NextResponse.redirect(new URL('/sem-acesso?produto=biblioteca', origin));
+      return NextResponse.redirect(new URL('/biblioteca/sem-acesso', origin));
     }
     return NextResponse.redirect(new URL(destino, origin));
   }
@@ -85,7 +85,7 @@ export async function GET(req: NextRequest) {
 }
 
 function loginComErro(origin: string, destino: string) {
-  const url = new URL('/login', origin);
+  const url = new URL(destinoEhBiblioteca(destino) ? '/biblioteca/entrar' : '/login', origin);
   url.searchParams.set('erro', 'google');
   url.searchParams.set('next', destino);
   return url;

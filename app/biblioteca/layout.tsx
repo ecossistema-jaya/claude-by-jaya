@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { clienteServidor } from '@/app/lib/supabase/servidor';
+import SairBiblioteca from './SairBiblioteca';
 import styles from './library.module.css';
 
 const title = 'Biblioteca Claude by Jaya · Inteligência Aplicada';
@@ -13,7 +15,11 @@ export const metadata: Metadata = {
   twitter: { card: 'summary_large_image', title, description, images: ['https://jayaroberta.com/biblioteca/opengraph-image'] },
 };
 
-export default function LibraryLayout({ children }: { children: React.ReactNode }) {
+export default async function LibraryLayout({ children }: { children: React.ReactNode }) {
+  /* Só decide se o botão Sair aparece. A autorização fica nas páginas. */
+  const { data } = await (await clienteServidor()).auth.getUser();
+  const logada = !!data.user;
+
   return <div className={styles.library}>
     <a className={styles.skip} href="#conteudo">Pular para o conteúdo</a>
     <header className={styles.header}>
@@ -28,6 +34,7 @@ export default function LibraryLayout({ children }: { children: React.ReactNode 
       </nav>
       <Link className={styles.headerCta} href="/biblioteca/primeira-entrega">Comece aqui <span aria-hidden="true">↗</span></Link>
       <Link className={styles.mobileSearch} href="/biblioteca#acervo">Buscar <span aria-hidden="true">⌕</span></Link>
+      {logada && <SairBiblioteca />}
     </header>
     {children}
     <footer className={styles.footer}>

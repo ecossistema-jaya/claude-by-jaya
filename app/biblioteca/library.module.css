@@ -227,3 +227,19 @@
   .header, .footer, .skip { display: none !important; }
   .library { background: white; color: black; }
 }
+
+/* Entrada, sem acesso e saída: portas próprias da biblioteca. */
+.entry { min-height: calc(100vh - 92px); }
+.entry h1 { font-size: clamp(56px, 7vw, 104px); }
+.entryButton { max-width: 340px; margin-top: 34px; }
+.entryButton :global(.google) { width: 100%; display: flex; align-items: center; justify-content: center; gap: 12px; padding: 15px 20px; border: 0; border-radius: 3px; background: var(--paper); color: var(--night); font-size: 15px; font-weight: 500; cursor: pointer; transition: background .2s; }
+.entryButton :global(.google:hover:not(:disabled)) { background: var(--amber); }
+.entryButton :global(.google:disabled) { opacity: .6; cursor: default; }
+.entryButton :global(.google svg) { width: 18px; height: 18px; }
+.entryButton :global(.erro) { min-height: 1em; margin-top: 12px; color: #ffb12b; font-size: 14px; }
+.entryNote { margin-top: 8px; color: var(--muted); font-size: 14px; }
+.sair { padding: 12px 16px; border: 1px solid #777a68; border-radius: 3px; background: transparent; color: var(--paper); font-size: 13px; cursor: pointer; transition: color .2s, background .2s; }
+.sair:hover:not(:disabled) { color: var(--night); background: var(--paper); }
+.sair:disabled { opacity: .6; cursor: default; }
+@media (max-width: 1050px) { .entry { grid-template-columns: 1fr; } .entry > [aria-hidden="true"] { display: none; } }
+@media (max-width: 760px) { .sair { padding: 10px 12px; font-size: 12px; } }

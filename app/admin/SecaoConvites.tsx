@@ -1,6 +1,5 @@
 import {
   nomeProduto,
-  PRODUTO_BIBLIOTECA,
   type AcessoProduto,
   type ProdutoComConvite,
 } from '@/app/lib/acesso-produto';
@@ -26,7 +25,6 @@ export default function SecaoConvites({
       <h2>{titulo ?? `Convites · ${nomeProduto(produto)}`}</h2>
       <p className="sub">
         Login Google e convite ativo são obrigatórios para acessar.
-        {produto === PRODUTO_BIBLIOTECA && ' Alunos ativos do curso entram sem convite.'}
       </p>
       <FormAcessoZona produto={produto} />
       <table>

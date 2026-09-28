@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import SecaoConvites from '@/app/admin/SecaoConvites';
-import { buscarAluno, TABELA_ALUNOS } from '@/app/lib/aluno';
+import { buscarAluno } from '@/app/lib/aluno';
 import {
   PRODUTO_BIBLIOTECA,
   TABELA_ACESSOS_PRODUTOS,
@@ -23,21 +23,15 @@ export const dynamic = 'force-dynamic';
 export default async function AdminBiblioteca() {
   const supabase = await clienteServidor();
   const { data: usuario } = await supabase.auth.getUser();
-  if (!usuario.user) redirect('/login?next=%2Fbiblioteca%2Fadmin');
+  if (!usuario.user) redirect('/biblioteca/entrar?next=%2Fbiblioteca%2Fadmin');
   const eu = usuario.user?.email ? await buscarAluno(supabase, usuario.user.email) : null;
   if (eu?.papel !== 'admin') notFound();
 
-  const [{ data: convites }, { count: alunosAtivos }] = await Promise.all([
-    supabase
-      .from(TABELA_ACESSOS_PRODUTOS)
-      .select('id, produto, email, nome, ativo, expira_em, criado_em, criado_por')
-      .eq('produto', PRODUTO_BIBLIOTECA)
-      .order('criado_em', { ascending: false }),
-    supabase
-      .from(TABELA_ALUNOS)
-      .select('id', { count: 'exact', head: true })
-      .eq('ativo', true),
-  ]);
+  const { data: convites } = await supabase
+    .from(TABELA_ACESSOS_PRODUTOS)
+    .select('id, produto, email, nome, ativo, expira_em, criado_em, criado_por')
+    .eq('produto', PRODUTO_BIBLIOTECA)
+    .order('criado_em', { ascending: false });
 
   const lista = (convites ?? []) as AcessoProduto[];
   const liberados = lista.filter(
@@ -52,8 +46,8 @@ export default async function AdminBiblioteca() {
         </Link>
         <h1>Acessos permitidos</h1>
         <p>
-          {liberados} {liberados === 1 ? 'convite ativo' : 'convites ativos'} ·{' '}
-          {alunosAtivos ?? 0} alunos do curso com acesso automático
+          {liberados} {liberados === 1 ? 'convite ativo' : 'convites ativos'} · acesso
+          independente do curso Claude do Zero
         </p>
       </header>
 

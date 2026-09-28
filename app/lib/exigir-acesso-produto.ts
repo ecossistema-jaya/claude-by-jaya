@@ -47,13 +47,14 @@ export function exigirAcessoConsciencia() {
   return exigirAcessoProduto(PRODUTO_CONSCIENCIA);
 }
 
-/* A biblioteca tem duas portas: convite próprio no painel ou matrícula ativa no
-   curso. Aluno do Claude do Zero não precisa de um segundo convite. */
+/* A biblioteca é um produto separado do curso: matrícula no Claude do Zero não
+   dá acesso. Entra quem tem convite da biblioteca, e a administradora, que
+   precisa ver o que publica sem convidar a si mesma. */
 export async function temAcessoBiblioteca(
   supabase: Awaited<ReturnType<typeof clienteServidor>>,
   email: string,
 ) {
-  if (await buscarAluno(supabase, email)) return true;
+  if ((await buscarAluno(supabase, email))?.papel === 'admin') return true;
   return !!(await buscarAcessoProduto(supabase, email, PRODUTO_BIBLIOTECA));
 }
 

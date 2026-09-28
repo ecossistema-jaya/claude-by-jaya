@@ -59,6 +59,10 @@ para liberar, desativar, reativar e remover aluno, e ver as últimas entradas.
    - Domínio próprio: `https://jayaroberta.com/auth/callback`, adicionado e
      confirmado no painel em 15/09/2026. Os endereços existentes e a Site URL
      foram preservados; este projeto Supabase também atende outros aplicativos.
+   - `https://jayaroberta.com/**`, adicionado em 28/09/2026. O endereço exato
+     acima não cobre `/auth/callback?next=...`: sem o curinga, o Supabase
+     trocava o retorno pela Site URL (`claude-by-jaya.vercel.app`), sem sessão,
+     e a pessoa via um segundo login que levava ao curso.
 
 ### 3. Vercel
 

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { buscarAluno } from '@/app/lib/aluno';
 import { clienteServidor } from '@/app/lib/supabase/servidor';
 import SairBiblioteca from './SairBiblioteca';
 import styles from './library.module.css';
@@ -16,9 +17,14 @@ export const metadata: Metadata = {
 };
 
 export default async function LibraryLayout({ children }: { children: React.ReactNode }) {
-  /* Só decide se o botão Sair aparece. A autorização fica nas páginas. */
-  const { data } = await (await clienteServidor()).auth.getUser();
+  /* Só decide o que o cabeçalho mostra (Sair e, para admin, Acessos). A
+     autorização de verdade fica nas páginas. */
+  const supabase = await clienteServidor();
+  const { data } = await supabase.auth.getUser();
   const logada = !!data.user;
+  const admin = data.user?.email
+    ? (await buscarAluno(supabase, data.user.email))?.papel === 'admin'
+    : false;
 
   return <div className={styles.library}>
     <a className={styles.skip} href="#conteudo">Pular para o conteúdo</a>
@@ -34,6 +40,7 @@ export default async function LibraryLayout({ children }: { children: React.Reac
       </nav>
       <Link className={styles.headerCta} href="/biblioteca/primeira-entrega">Comece aqui <span aria-hidden="true">↗</span></Link>
       <Link className={styles.mobileSearch} href="/biblioteca#acervo">Buscar <span aria-hidden="true">⌕</span></Link>
+      {admin && <Link className={styles.acessos} href="/biblioteca/admin">Acessos</Link>}
       {logada && <SairBiblioteca />}
     </header>
     {children}

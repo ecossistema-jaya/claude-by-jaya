@@ -238,8 +238,13 @@
 .entryButton :global(.google svg) { width: 18px; height: 18px; }
 .entryButton :global(.erro) { min-height: 1em; margin-top: 12px; color: #ffb12b; font-size: 14px; }
 .entryNote { margin-top: 8px; color: var(--muted); font-size: 14px; }
-.sair { padding: 12px 16px; border: 1px solid #777a68; border-radius: 3px; background: transparent; color: var(--paper); font-size: 13px; cursor: pointer; transition: color .2s, background .2s; }
-.sair:hover:not(:disabled) { color: var(--night); background: var(--paper); }
-.sair:disabled { opacity: .6; cursor: default; }
+.header .sair { padding: 12px 16px; border: 1px solid #777a68; border-radius: 3px; background: transparent; color: var(--paper); font-size: 13px; cursor: pointer; transition: color .2s, background .2s; }
+.header .sair:hover:not(:disabled) { color: var(--night); background: var(--paper); }
+.header .sair:disabled { opacity: .6; cursor: default; }
 @media (max-width: 1050px) { .entry { grid-template-columns: 1fr; } .entry > [aria-hidden="true"] { display: none; } }
-@media (max-width: 760px) { .sair { padding: 10px 12px; font-size: 12px; } }
+@media (max-width: 760px) { .header .sair { padding: 10px 12px; font-size: 12px; } }
+.acessos { padding: 12px 16px; border: 1px solid var(--amber); border-radius: 3px; color: var(--amber); font-size: 13px; transition: color .2s, background .2s; }
+.acessos:hover { color: var(--night); background: var(--amber); }
+@media (max-width: 760px) { .acessos { padding: 10px 12px; font-size: 12px; } }
+/* Com Acessos e Sair no cabeçalho do admin, o Buscar do celular não cabe; a busca segue no acervo. */
+@media (max-width: 480px) { .header:has(.acessos) .mobileSearch { display: none; } .header:has(.acessos) .acessos { margin-left: auto; } }

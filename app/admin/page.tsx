@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { buscarAluno, TABELA_ACESSOS, TABELA_ALUNOS, type Aluno } from '@/app/lib/aluno';
 import {
+  PRODUTO_ATLAS,
   PRODUTO_BIBLIOTECA,
   PRODUTOS_COM_CONVITE,
   TABELA_ACESSOS_PRODUTOS,
@@ -16,7 +17,7 @@ import SecaoConvites from './SecaoConvites';
 /* Produtos com painel próprio ficam fora daqui: cada um é administrado na
    própria área, e este painel só aponta para lá. */
 const CONVITES_NESTE_PAINEL = PRODUTOS_COM_CONVITE.filter(
-  (produto) => produto !== PRODUTO_BIBLIOTECA,
+  (produto) => produto !== PRODUTO_BIBLIOTECA && produto !== PRODUTO_ATLAS,
 );
 
 export const metadata = { title: 'Alunos · Claude do Zero' };
@@ -78,6 +79,14 @@ export default async function Admin() {
         <p className="sub">
           Os acessos da biblioteca têm painel próprio:{' '}
           <Link href="/biblioteca/admin">jayaroberta.com/biblioteca/admin</Link>
+        </p>
+      </section>
+
+      <section>
+        <h2>Atlas de Forças</h2>
+        <p className="sub">
+          Os acessos do Atlas têm painel próprio:{' '}
+          <a href="https://quiz.jayaroberta.com.br/admin">quiz.jayaroberta.com.br/admin</a>
         </p>
       </section>
 

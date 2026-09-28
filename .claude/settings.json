@@ -10,6 +10,29 @@
           }
         ]
       }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/hooks/block-derivados.mjs"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/hooks/check-fonte.mjs",
+            "timeout": 120
+          }
+        ]
+      }
     ]
   }
 }

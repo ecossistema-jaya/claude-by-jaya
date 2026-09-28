@@ -42,3 +42,7 @@ originais/arcanos-prontos/
 
 # Rascunho de sistema de design, fora do que a página usa.
 originais/sanddesignsystem.html
+
+# Cache local da CLI da Vercel e capturas de verificação manual.
+.vercel-cli-cache/
+.verify-*.html

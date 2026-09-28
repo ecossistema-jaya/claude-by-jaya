@@ -1,0 +1,7 @@
+[mcp_servers.github]
+url = "https://api.githubcopilot.com/mcp/"
+bearer_token_env_var = "CODEX_GITHUB_PERSONAL_ACCESS_TOKEN"
+
+[mcp_servers.notebooklm]
+command = "npx"
+args = ["notebooklm-mcp@latest"]

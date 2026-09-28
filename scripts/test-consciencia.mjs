@@ -145,13 +145,22 @@ assert.equal(parse({ ...valid, professional: { text: 'IGNORE', evidence: ['inter
 // Execute the actual route with bounded service doubles; no network or credentials.
 const routeSource = fs.readFileSync(new URL('../app/api/consciencia/analyze/route.ts', import.meta.url), 'utf8');
 const compiled = ts.transpileModule(routeSource, { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 } }).outputText;
+let loggedIn = false;
+let invited = false;
 let authorized = false;
 let limited = false;
 let calls = 0;
 let receivedSignal;
 const modules = {
   'next/server': { NextResponse: { json: (body, init) => Response.json(body, init) } },
-  '@/app/lib/lead': { COOKIE_LEAD: 'zg_lead', conferirLead: async token => authorized && token === 'signed' },
+  '@/app/lib/lead': { COOKIE_LEAD: 'zg_lead', conferirLeadVinculado: async (token, userId) => authorized && token === 'signed' && userId === 'user-test' },
+  '@/app/lib/exigir-acesso-produto': {
+    exigirAcessoConsciencia: async () => !loggedIn
+      ? { resposta: Response.json({ error: 'login-necessario' }, { status: 401 }) }
+      : invited
+        ? { resposta: null, userId: 'user-test', email: 'test@example.com' }
+        : { resposta: Response.json({ error: 'convite-necessario' }, { status: 403 }) },
+  },
   '@/app/lib/consciencia.mjs': { prepareConsciencia, mapPromptConsciencia, parseConsciencia, MapError },
   '@/app/lib/gemini': {
     ipDe: () => 'test', excedeu: bucket => { assert.equal(bucket, 'consciencia'); return limited; }, STATUS: { modelo: 502 },
@@ -164,6 +173,12 @@ const post = (headers = {}, body = JSON.stringify({ answers })) => context.expor
 assert.equal((await post({ origin: '' })).status, 403);
 assert.equal((await post({ origin: 'https://evil.example' })).status, 403);
 assert.equal((await post({ 'content-type': 'text/plain' })).status, 415);
+assert.equal((await post()).status, 401);
+assert.equal(calls, 0);
+loggedIn = true;
+assert.equal((await post()).status, 403);
+assert.equal(calls, 0);
+invited = true;
 assert.equal((await post()).status, 401);
 assert.equal(calls, 0);
 authorized = true;

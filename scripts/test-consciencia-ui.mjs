@@ -18,7 +18,8 @@ run("answers={time:'Neste momento, não consigo reservar tempo'};result()");asse
 run("answers={time:'Uns 10 minutos',experiment:'Ainda não sei'};result()");assert.ok(node('result-content').innerHTML.includes('Você ainda não escolheu uma experiência'));
 run("answers={interest:['Conversar e explicar'],easy:['Conversar e explicar'],help:['Conversar e explicar']};result()");assert.match(node('result-content').innerHTML,/Conversar e explicar: 3 de 3/);
 run("aiCache={snapshot:'older answers',analysis:{}};renderAI()");assert.ok(node('ai-reading').innerHTML.includes('Você mudou suas respostas'));
-const built=fs.readFileSync(new URL('../public/consciencia/index.html',import.meta.url),'utf8');new vm.Script(built.match(/<script>([\s\S]*?)<\/script>/)[1]);assert.ok(built.includes(JSON.stringify(questions)));assert.ok(!built.includes('localhost:4012'));assert.ok(built.includes('https://jayaroberta.com/arquitetura-da-consciencia'));
+const built=fs.readFileSync(new URL('../protected/consciencia/index.html',import.meta.url),'utf8');new vm.Script(built.match(/<script>([\s\S]*?)<\/script>/)[1]);assert.ok(built.includes(JSON.stringify(questions)));assert.ok(!built.includes('localhost:4012'));assert.ok(built.includes('https://jayaroberta.com/arquitetura-da-consciencia'));assert.ok(built.includes('/*__AUTH_CONTEXT__*/null/*__/AUTH_CONTEXT__*/'));
+const publicRedirect=fs.readFileSync(new URL('../public/consciencia/index.html',import.meta.url),'utf8');assert.ok(publicRedirect.includes("location.replace('/arquitetura-da-consciencia')"));assert.ok(!publicRedirect.includes(JSON.stringify(questions)));
 run("answers={episode:'Gostei de ensinar',repeat_episode:'PRIVATE_REPEAT',barrier:'Cansaço',frustration_example:'PRIVATE_BARRIER',time:'Uns 10 minutos',time_context:'É o máximo que consigo e não vejo mudando'}");
 assert.equal(run('route().length'),35);
 assert.ok(run('snapshot()').includes('PRIVATE_REPEAT'));

@@ -2,9 +2,11 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { buscarAluno, TABELA_ACESSOS, TABELA_ALUNOS, type Aluno } from '@/app/lib/aluno';
 import {
-  PRODUTO_ZONA,
+  nomeProduto,
+  PRODUTOS_COM_CONVITE,
   TABELA_ACESSOS_PRODUTOS,
   type AcessoProduto,
+  type ProdutoComConvite,
 } from '@/app/lib/acesso-produto';
 import { clienteServidor } from '@/app/lib/supabase/servidor';
 import { alternarAcessoProduto, alternarAtivo, removerAluno } from './acoes';
@@ -19,6 +21,49 @@ type Acesso = { id: number; email: string; entrou_em: string };
 
 const quando = (iso: string) =>
   new Date(iso).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' });
+
+function SecaoConvites({
+  produto,
+  acessos,
+}: {
+  produto: ProdutoComConvite;
+  acessos: AcessoProduto[];
+}) {
+  return (
+    <section>
+      <h2>Convites · {nomeProduto(produto)}</h2>
+      <p className="sub">Login Google e convite ativo são obrigatórios para acessar.</p>
+      <FormAcessoZona produto={produto} />
+      <table>
+        <tbody>
+          {acessos.map((acesso) => {
+            const expirado = !!acesso.expira_em && new Date(acesso.expira_em) <= new Date();
+            const liberado = acesso.ativo && !expirado;
+            return (
+              <tr key={acesso.id} className={liberado ? '' : 'inativo'}>
+                <td>
+                  <strong>{acesso.nome || acesso.email}</strong>
+                  {acesso.nome && <span className="sub">{acesso.email}</span>}
+                  {expirado && <span className="tag">expirado</span>}
+                </td>
+                <td className="sub">
+                  {acesso.expira_em ? `até ${quando(acesso.expira_em)}` : 'sem expiração'}
+                </td>
+                <td className="acoes">
+                  <form action={alternarAcessoProduto}>
+                    <input type="hidden" name="id" value={acesso.id} />
+                    <input type="hidden" name="ativo" value={String(liberado)} />
+                    <button type="submit">{liberado ? 'desativar' : 'reativar'}</button>
+                  </form>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </section>
+  );
+}
 
 export default async function Admin() {
   const supabase = await clienteServidor();
@@ -43,7 +88,7 @@ export default async function Admin() {
   const { data: acessosProduto } = await supabase
     .from(TABELA_ACESSOS_PRODUTOS)
     .select('id, produto, email, nome, ativo, expira_em, criado_em, criado_por')
-    .eq('produto', PRODUTO_ZONA)
+    .in('produto', [...PRODUTOS_COM_CONVITE])
     .order('criado_em', { ascending: false });
 
   const lista = (alunos ?? []) as Aluno[];
@@ -66,38 +111,15 @@ export default async function Admin() {
         <FormNovo />
       </section>
 
-      <section>
-        <h2>Convites · Zona de Genialidade</h2>
-        <p className="sub">Login Google e convite ativo são obrigatórios para iniciar.</p>
-        <FormAcessoZona />
-        <table>
-          <tbody>
-            {((acessosProduto ?? []) as AcessoProduto[]).map((acesso) => {
-              const expirado = !!acesso.expira_em && new Date(acesso.expira_em) <= new Date();
-              const liberado = acesso.ativo && !expirado;
-              return (
-              <tr key={acesso.id} className={liberado ? '' : 'inativo'}>
-                <td>
-                  <strong>{acesso.nome || acesso.email}</strong>
-                  {acesso.nome && <span className="sub">{acesso.email}</span>}
-                  {expirado && <span className="tag">expirado</span>}
-                </td>
-                <td className="sub">
-                  {acesso.expira_em ? `até ${quando(acesso.expira_em)}` : 'sem expiração'}
-                </td>
-                <td className="acoes">
-                  <form action={alternarAcessoProduto}>
-                    <input type="hidden" name="id" value={acesso.id} />
-                    <input type="hidden" name="ativo" value={String(liberado)} />
-                    <button type="submit">{liberado ? 'desativar' : 'reativar'}</button>
-                  </form>
-                </td>
-              </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </section>
+      {PRODUTOS_COM_CONVITE.map((produto) => (
+        <SecaoConvites
+          key={produto}
+          produto={produto}
+          acessos={((acessosProduto ?? []) as AcessoProduto[]).filter(
+            (acesso) => acesso.produto === produto,
+          )}
+        />
+      ))}
 
       <section>
         <h2>Lista</h2>

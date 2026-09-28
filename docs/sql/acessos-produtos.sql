@@ -1,5 +1,5 @@
 -- Controle de acesso por produto da Plataforma SHAKTI JAYA.
--- Piloto: Zona de Genialidade somente para convidados.
+-- Zona de Genialidade, Arquitetura da Consciência e Atlas de Forças somente para convidados.
 -- Rode no SQL Editor do projeto Supabase zflksglibxhbnxndfwxo antes do deploy.
 
 create table if not exists public.acessos_produtos (
@@ -81,10 +81,13 @@ create index if not exists acessos_produtos_ativos_idx
   on public.acessos_produtos (produto, email)
   where ativo;
 
--- Primeiro convite recomendado: a própria conta administradora, para o teste real.
+-- Primeiros convites recomendados: a própria conta administradora, para o teste real.
 -- Troque o e-mail somente se sua conta Google autorizada for outra.
 insert into public.acessos_produtos (produto, email, nome, criado_por)
-values ('zona-de-genialidade', 'betinha.potter@gmail.com', 'Jaya Roberta', 'implantacao-v1')
+values
+  ('zona-de-genialidade', 'betinha.potter@gmail.com', 'Jaya Roberta', 'implantacao-v1'),
+  ('arquitetura-da-consciencia', 'betinha.potter@gmail.com', 'Jaya Roberta', 'implantacao-v1'),
+  ('atlas-de-forcas', 'betinha.potter@gmail.com', 'Jaya Roberta', 'implantacao-v1')
 on conflict (produto, email) do update set ativo = true, expira_em = null;
 
 select produto, email, ativo, expira_em, criado_em

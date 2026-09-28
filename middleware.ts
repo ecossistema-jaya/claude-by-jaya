@@ -92,20 +92,24 @@ function herdarCookies(destino: NextResponse, origem: NextResponse) {
      para /login e a animação ficava invisível;
    - img/og.jpg: a prévia dos links; os robôs do WhatsApp, Facebook e afins
      nunca têm cookie, então uma imagem protegida vira link sem imagem;
-   - zona-de-genialidade e zona/: a apresentação e os assets públicos. A rota
-     /zona-de-genialidade/iniciar cai nesta exceção, mas o próprio Route Handler
-     confere sessão e convite antes de ler o HTML protegido;
+   - zona-de-genialidade e zona/: os assets continuam públicos, mas as duas rotas
+     visíveis conferem sessão e convite antes de renderizar apresentação ou HTML;
+   - arquitetura-da-consciencia e consciencia/index.html: o Route Handler exige
+     sessão Google e injeta o usuário no HTML privado; o caminho direto contém só
+     um redirecionamento, sem perguntas ou scripts do questionário;
    - api/zona/: as rotas que essa página chama. Não ficam sem portaria — conferem
      dentro do próprio handler a sessão Google, o convite específico da Zona e,
      onde necessário, o cookie assinado de app/lib/lead.ts. Ficam separadas de
      /api/analyze de propósito: handler com dois modos de autenticação é onde erro
      de autorização nasce, e o caminho do aluno continua exatamente como está.
+   - api/consciencia/: responde em JSON; lead e analyze exigem sessão Google, e a
+     análise exige também o cookie de consentimento vinculado à mesma conta;
    - biblioteca e seus descendentes: guias autorais gratuitos, independentes do curso.
    - /claude: apresentação pública do curso. /claude-do-zero é a área do aluno
      e passa pelas mesmas verificações de sessão e autorização das aulas.
    Os HTML em /aulas e todas as outras imagens seguem fechados. */
 export const config = {
   matcher: [
-    '/((?!arquitetura-da-consciencia/?$|consciencia/index\\.html$|api/consciencia/analyze$|claude/?$|biblioteca(?:/|$)|login|auth/callback|sem-acesso|zona-de-genialidade|zona/|deck-arquitetura-da-consciencia|deck/|oferta/|api/zona/|img/login\\.webp|img/login-mobile\\.webp|icones/claude\\.svg|img/og\\.jpg|_next/static|_next/image|_vercel|favicon.ico).*)',
+    '/((?!arquitetura-da-consciencia/?$|consciencia/index\\.html$|api/consciencia/(?:lead|analyze)$|claude/?$|biblioteca(?:/|$)|login|auth/callback|sem-acesso|zona-de-genialidade|zona/|deck-arquitetura-da-consciencia|deck/|oferta/|api/zona/|img/login\\.webp|img/login-mobile\\.webp|icones/claude\\.svg|img/og\\.jpg|_next/static|_next/image|_vercel|favicon.ico).*)',
   ],
 };

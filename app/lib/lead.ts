@@ -1,8 +1,8 @@
-/* Portaria da Zona de Genialidade.
+/* Portarias da Zona de Genialidade e da Arquitetura da Consciência.
 
-   Cada dashboard dispara quatro chamadas ao Gemini. O assessment exige sessão
-   Google e convite, e este segundo cookie registra o consentimento para a captura
-   do e-mail antes de liberar o consumo da análise.
+   Cada dashboard dispara chamadas ao Gemini. Os assessments exigem sessão Google;
+   a Zona também exige convite. Este segundo cookie registra o consentimento para
+   a captura do e-mail antes de liberar o consumo da análise.
 
    A troca é esta: a pessoa deixa o e-mail antes de a análise começar, o servidor
    emite este cookie assinado, e só quem tem o cookie gasta cota. O e-mail vira lead
@@ -56,14 +56,7 @@ export function emailPlausivel(email: string) {
   return /^[^\s@]+@[^\s@.]+\.[^\s@]{2,}$/.test(email) && email.length <= 254;
 }
 
-/** Cookie legado das superfícies públicas: "expiraEm.resumoDoEmail.assinatura". */
-export async function emitirLead(email: string, secret: string) {
-  const exp = String(Date.now() + LEAD_MAX_AGE * 1000);
-  const emailId = await resumo(normalizarEmail(email));
-  return `${exp}.${emailId}.${await assinar(`${exp}:${emailId}`, secret)}`;
-}
-
-/** Cookie da Zona: inclui a conta autenticada que deu o consentimento. */
+/** Cookie de consentimento: inclui a conta autenticada que o emitiu. */
 export async function emitirLeadVinculado(email: string, userId: string, secret: string) {
   const exp = String(Date.now() + LEAD_MAX_AGE * 1000);
   const emailId = await resumo(normalizarEmail(email));
@@ -72,18 +65,7 @@ export async function emitirLeadVinculado(email: string, userId: string, secret:
   return `${exp}.${emailId}.${userIdHash}.${await assinar(payload, secret)}`;
 }
 
-/** Confere o cookie legado. Nunca lança. */
-export async function conferirLead(token: string | undefined, secret: string) {
-  if (!token) return false;
-
-  const [exp, emailId, sig] = token.split('.');
-  if (!exp || !emailId || !sig) return false;
-  if (!Number(exp) || Number(exp) < Date.now()) return false;
-
-  return (await assinar(`${exp}:${emailId}`, secret)) === sig;
-}
-
-/** Confere validade, assinatura e vínculo da Zona com a sessão atual. */
+/** Confere validade, assinatura e vínculo com a sessão atual. */
 export async function conferirLeadVinculado(
   token: string | undefined,
   userId: string,

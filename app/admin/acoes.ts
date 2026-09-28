@@ -3,8 +3,10 @@
 import { revalidatePath } from 'next/cache';
 import { normalizarEmail, TABELA_ALUNOS } from '@/app/lib/aluno';
 import {
-  PRODUTO_ZONA,
+  nomeProduto,
+  PRODUTOS_COM_CONVITE,
   TABELA_ACESSOS_PRODUTOS,
+  type ProdutoComConvite,
 } from '@/app/lib/acesso-produto';
 import { clienteServidor } from '@/app/lib/supabase/servidor';
 
@@ -63,22 +65,27 @@ export async function removerAluno(form: FormData) {
   revalidatePath('/admin');
 }
 
-export async function concederAcessoZona(
+export async function concederAcessoProduto(
   _estado: Resultado,
   form: FormData,
 ): Promise<Resultado> {
   const email = normalizarEmail(String(form.get('email') ?? ''));
   const nome = String(form.get('nome') ?? '').trim();
+  const produtoInformado = String(form.get('produto') ?? '');
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return { erro: 'Email inválido.' };
   }
+  if (!PRODUTOS_COM_CONVITE.some((produto) => produto === produtoInformado)) {
+    return { erro: 'Produto inválido.' };
+  }
+  const produto = produtoInformado as ProdutoComConvite;
 
   const supabase = await clienteServidor();
   const { data: usuario } = await supabase.auth.getUser();
   const { error } = await supabase.from(TABELA_ACESSOS_PRODUTOS).upsert(
     {
-      produto: PRODUTO_ZONA,
+      produto,
       email,
       nome: nome || null,
       ativo: true,
@@ -93,7 +100,7 @@ export async function concederAcessoZona(
   }
 
   revalidatePath('/admin');
-  return { ok: `${email} recebeu acesso à Zona de Genialidade.` };
+  return { ok: `${email} recebeu acesso à ${nomeProduto(produto)}.` };
 }
 
 export async function alternarAcessoProduto(form: FormData) {

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { analisar, excedeu, ipDe, STATUS } from '@/app/lib/gemini';
-import { COOKIE_LEAD, conferirLead } from '@/app/lib/lead';
+import { COOKIE_LEAD, conferirLeadVinculado } from '@/app/lib/lead';
+import { exigirAcessoConsciencia } from '@/app/lib/exigir-acesso-produto';
 import { prepareConsciencia, mapPromptConsciencia, parseConsciencia, MapError } from '@/app/lib/consciencia.mjs';
 
 export const runtime = 'nodejs';
@@ -13,10 +14,13 @@ export async function POST(req: Request) {
   const secret = process.env.AUTH_SECRET;
   if (!secret) return reply({ error: 'Não foi possível autorizar a análise agora.' }, 500);
 
+  const { resposta, userId } = await exigirAcessoConsciencia();
+  if (resposta) return resposta;
+
   try {
     const token = req.headers.get('cookie')?.split(';').map(p => p.trim())
       .find(p => p.startsWith(`${COOKIE_LEAD}=`))?.slice(COOKIE_LEAD.length + 1);
-    if (!(await conferirLead(token, secret))) return reply({ error: 'Confirme seu acesso para gerar a leitura.' }, 401);
+    if (!(await conferirLeadVinculado(token, userId!, secret))) return reply({ error: 'Confirme seu acesso para gerar a leitura.' }, 401);
     if (excedeu('consciencia', ipDe(req), 12)) return reply({ error: 'Limite de análises atingido. Tente mais tarde.' }, 429);
 
     if (Number(req.headers.get('content-length')) > 32768) return reply({ error: 'Respostas longas demais.' }, 413);

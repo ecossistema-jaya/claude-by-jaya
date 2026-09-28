@@ -1,6 +1,11 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { DESTINO_ZONA } from '@/app/lib/destino-login';
+import { exigirAcessoZona } from '@/app/lib/exigir-acesso-produto';
 import styles from './zona.module.css';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Zona de Genialidade · Jaya Roberta',
@@ -18,7 +23,13 @@ const LENTES = [
   ['Sally Hogshead', 'Como sua presença é percebida antes mesmo da explicação.'],
 ] as const;
 
-export default function ZonaDeGenialidade() {
+export default async function ZonaDeGenialidade() {
+  const { resposta } = await exigirAcessoZona();
+  if (resposta?.status === 401) {
+    redirect(`/login?next=${encodeURIComponent(DESTINO_ZONA)}`);
+  }
+  if (resposta) redirect('/sem-acesso?produto=zona');
+
   return (
     <main className={styles.main}>
       <section className={styles.hero}>

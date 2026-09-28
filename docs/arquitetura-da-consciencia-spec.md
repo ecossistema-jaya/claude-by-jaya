@@ -1,15 +1,17 @@
-# Architecture of Consciousness — public quiz
+# Architecture of Consciousness — authenticated quiz
 
 ## Approved scope
 
-Jaya approved option 1 on 2026-09-15: preserve the original Zone of Genius visual identity and artwork, use the everyday self-knowledge map as the foundation, and deepen evidence collection. Public destination: `/arquitetura-da-consciencia`.
+Jaya approved option 1 on 2026-09-15: preserve the original Zone of Genius visual identity and artwork, use the everyday self-knowledge map as the foundation, and deepen evidence collection. Destination: `/arquitetura-da-consciencia`.
+
+On 2026-09-16 Jaya required Google login and an active product invitation for this destination. The full HTML, progress and AI endpoints must remain unavailable without both controls. Invitation to another product does not grant access.
 
 ## Acceptance
 
 - Independent page and storage; preserve both existing quizzes and original artwork.
 - 32 core questions, including next-step clarity and preferred rhythm; up to three optional follow-ups for a second episode, recurring obstacles and time context; five professional questions only after opt-in.
 - Full original cover, editorial image bands, readable responsive cards, four qualitative zones, deterministic charts, evidence references, personal experiment and optional symbolic tarot.
-- AI uses the existing Gemini infrastructure and public lead authorization; course endpoints remain protected. Clearly explain email registration and AI transmission before either occurs.
+- AI uses the existing Gemini infrastructure and a lead authorization bound to the authenticated Google account; course endpoints remain protected. Clearly explain email registration and AI transmission before either occurs.
 - Missing answers stay unknown. No invented psychometric scores, potential percentages, income or clinical conclusions.
 - Retain progress after reload and provider errors; invalidate stale readings after edits; exclude professional responses after opt-out.
 - Download a self-contained result with artwork and print support.

@@ -1,5 +1,9 @@
 import BotaoGoogle from './BotaoGoogle';
-import { destinoEhZona, normalizarDestinoLogin } from '@/app/lib/destino-login';
+import {
+  destinoEhConsciencia,
+  destinoEhZona,
+  normalizarDestinoLogin,
+} from '@/app/lib/destino-login';
 
 type LoginProps = {
   searchParams: Promise<{ erro?: string; next?: string }>;
@@ -7,10 +11,13 @@ type LoginProps = {
 
 export async function generateMetadata({ searchParams }: LoginProps) {
   const { next } = await searchParams;
+  const destino = normalizarDestinoLogin(next);
   return {
-    title: destinoEhZona(normalizarDestinoLogin(next))
+    title: destinoEhZona(destino)
       ? 'Acesso à Zona de Genialidade · Jaya Roberta'
-      : 'Área do aluno · Claude do Zero',
+      : destinoEhConsciencia(destino)
+        ? 'Acesso à Arquitetura da Consciência · Jaya Roberta'
+        : 'Área do aluno · Claude do Zero',
   };
 }
 
@@ -23,6 +30,18 @@ export default async function Login({ searchParams }: LoginProps) {
   const { erro, next } = await searchParams;
   const destino = normalizarDestinoLogin(next);
   const zona = destinoEhZona(destino);
+  const consciencia = destinoEhConsciencia(destino);
+  const eyebrow = zona
+    ? 'Zona de Genialidade'
+    : consciencia
+      ? 'Arquitetura da Consciência'
+      : 'Série Claude do Zero';
+  const titulo = zona || consciencia ? 'Acesso por convite' : 'Área do aluno';
+  const instrucao = zona
+    ? 'Entre com a conta Google que recebeu o convite.'
+    : consciencia
+      ? 'Entre com a conta Google que recebeu o convite.'
+      : 'Entre com a conta Google que você usou na inscrição.';
 
   return (
     <main className="login">
@@ -30,13 +49,9 @@ export default async function Login({ searchParams }: LoginProps) {
       <span className="claude-float f2" aria-hidden="true" />
       <span className="claude-float f3" aria-hidden="true" />
       <div className="caixa">
-        <div className="eyebrow">{zona ? 'Zona de Genialidade' : 'Série Claude do Zero'}</div>
-        <h1>{zona ? 'Acesso por convite' : 'Área do aluno'}</h1>
-        <p>
-          {zona
-            ? 'Entre com a conta Google que recebeu o convite.'
-            : 'Entre com a conta Google que você usou na inscrição.'}
-        </p>
+        <div className="eyebrow">{eyebrow}</div>
+        <h1>{titulo}</h1>
+        <p>{instrucao}</p>
 
         <BotaoGoogle destino={destino} />
 

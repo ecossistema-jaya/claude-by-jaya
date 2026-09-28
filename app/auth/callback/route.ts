@@ -1,7 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { buscarAluno, TABELA_ACESSOS } from '@/app/lib/aluno';
-import { buscarAcessoProduto, PRODUTO_ZONA } from '@/app/lib/acesso-produto';
-import { destinoEhZona, normalizarDestinoLogin } from '@/app/lib/destino-login';
+import {
+  buscarAcessoProduto,
+  PRODUTO_CONSCIENCIA,
+  PRODUTO_ZONA,
+} from '@/app/lib/acesso-produto';
+import {
+  destinoEhConsciencia,
+  destinoEhZona,
+  normalizarDestinoLogin,
+} from '@/app/lib/destino-login';
 import { clienteServidor } from '@/app/lib/supabase/servidor';
 
 /* Volta do Google. É aqui que a autorização é decidida pela primeira vez:
@@ -26,6 +34,17 @@ export async function GET(req: NextRequest) {
 
   const { data } = await supabase.auth.getUser();
   const email = data.user?.email;
+
+  if (destinoEhConsciencia(destino)) {
+    const acesso = email
+      ? await buscarAcessoProduto(supabase, email, PRODUTO_CONSCIENCIA)
+      : null;
+    if (!acesso) {
+      await supabase.auth.signOut();
+      return NextResponse.redirect(new URL('/sem-acesso?produto=consciencia', origin));
+    }
+    return NextResponse.redirect(new URL(destino, origin));
+  }
 
   if (destinoEhZona(destino)) {
     const acesso = email ? await buscarAcessoProduto(supabase, email, PRODUTO_ZONA) : null;

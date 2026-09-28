@@ -7,7 +7,8 @@ import path from 'node:path';
 const root=path.resolve(import.meta.dirname,'..');
 const fixture=JSON.parse(fs.readFileSync(path.join(os.tmpdir(),'consciencia-live-check.json'),'utf8'));
 function sample() {
-  let html=fs.readFileSync(path.join(root,'public/consciencia/index.html'),'utf8');
+  let html=fs.readFileSync(path.join(root,'protected/consciencia/index.html'),'utf8');
+  html=html.replace('/*__AUTH_CONTEXT__*/null/*__/AUTH_CONTEXT__*/',JSON.stringify({email:'preview@local.test',userId:'preview-local'}));
   html=html.replace('jaya:arquitetura-consciencia:v1','jaya:consciencia:synthetic-preview:v1');
   const marker=/intro\(\);\s*<\/script>/;
   if(!marker.test(html))throw Error('Missing page initializer');

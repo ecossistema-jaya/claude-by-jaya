@@ -3,6 +3,23 @@ import { normalizarEmail } from '@/app/lib/aluno';
 
 export const TABELA_ACESSOS_PRODUTOS = 'acessos_produtos';
 export const PRODUTO_ZONA = 'zona-de-genialidade';
+export const PRODUTO_CONSCIENCIA = 'arquitetura-da-consciencia';
+export const PRODUTO_ATLAS = 'atlas-de-forcas';
+export const PRODUTOS_COM_CONVITE = [
+  PRODUTO_ZONA,
+  PRODUTO_CONSCIENCIA,
+  PRODUTO_ATLAS,
+] as const;
+export type ProdutoComConvite = (typeof PRODUTOS_COM_CONVITE)[number];
+
+export function nomeProduto(produto: ProdutoComConvite) {
+  const nomes: Record<ProdutoComConvite, string> = {
+    [PRODUTO_ZONA]: 'Zona de Genialidade',
+    [PRODUTO_CONSCIENCIA]: 'Arquitetura da Consciência',
+    [PRODUTO_ATLAS]: 'Atlas de Forças',
+  };
+  return nomes[produto];
+}
 
 export type AcessoProduto = {
   id: string;
@@ -18,7 +35,7 @@ export type AcessoProduto = {
 export async function buscarAcessoProduto(
   supabase: SupabaseClient,
   email: string,
-  produto: string,
+  produto: ProdutoComConvite,
 ): Promise<AcessoProduto | null> {
   const agora = new Date().toISOString();
   const { data, error } = await supabase

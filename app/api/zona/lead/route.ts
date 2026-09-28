@@ -32,6 +32,9 @@ const TABELA = 'leads_zng';
 const ORIGEM_PADRAO = 'zona-de-genialidade';
 
 export async function POST(req: Request) {
+  if (req.headers.get('origin') !== new URL(req.url).origin) {
+    return NextResponse.json({ error: 'origem' }, { status: 403 });
+  }
   const { resposta, email: emailConta, userId } = await exigirAcessoZona();
   if (resposta) return resposta;
 

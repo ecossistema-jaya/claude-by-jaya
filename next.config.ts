@@ -8,14 +8,10 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
   outputFileTracingRoot: path.resolve(import.meta.dirname),
 
-  /* A Zona de Genialidade é um HTML autocontido em public/zona/, servido numa URL
-     limpa. Sem iframe: a página é pública e o <head> dela precisa ser o <head> real
-     do documento — é de lá que saem título, descrição e a prévia dos links. Dentro
-     de um iframe nada disso chega ao robô do WhatsApp. */
+  /* Os assessments protegidos são servidos por Route Handlers. Permanecem aqui
+     somente as vitrines e materiais explicitamente públicos. */
   async rewrites() {
     return [
-      { source: '/arquitetura-da-consciencia', destination: '/consciencia/index.html' },
-      { source: '/arquitetura-da-consciencia/', destination: '/consciencia/index.html' },
       /* Mesma história para o deck da palestra: HTML autocontido em public/deck/,
          público, com o <head> real servindo a prévia dos links. */
       { source: '/deck-arquitetura-da-consciencia', destination: '/deck/index.html' },

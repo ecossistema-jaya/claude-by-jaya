@@ -1,5 +1,6 @@
 import BotaoGoogle from './BotaoGoogle';
 import {
+  destinoEhBiblioteca,
   destinoEhConsciencia,
   destinoEhZona,
   normalizarDestinoLogin,
@@ -17,7 +18,9 @@ export async function generateMetadata({ searchParams }: LoginProps) {
       ? 'Acesso à Zona de Genialidade · Jaya Roberta'
       : destinoEhConsciencia(destino)
         ? 'Acesso à Arquitetura da Consciência · Jaya Roberta'
-        : 'Área do aluno · Claude do Zero',
+        : destinoEhBiblioteca(destino)
+          ? 'Acesso à Biblioteca · Claude by Jaya'
+          : 'Área do aluno · Claude do Zero',
   };
 }
 
@@ -31,16 +34,19 @@ export default async function Login({ searchParams }: LoginProps) {
   const destino = normalizarDestinoLogin(next);
   const zona = destinoEhZona(destino);
   const consciencia = destinoEhConsciencia(destino);
+  const biblioteca = destinoEhBiblioteca(destino);
   const eyebrow = zona
     ? 'Zona de Genialidade'
     : consciencia
       ? 'Arquitetura da Consciência'
-      : 'Série Claude do Zero';
-  const titulo = zona || consciencia ? 'Acesso por convite' : 'Área do aluno';
-  const instrucao = zona
+      : biblioteca
+        ? 'Biblioteca Claude by Jaya'
+        : 'Série Claude do Zero';
+  const titulo = zona || consciencia || biblioteca ? 'Acesso por convite' : 'Área do aluno';
+  const instrucao = zona || consciencia
     ? 'Entre com a conta Google que recebeu o convite.'
-    : consciencia
-      ? 'Entre com a conta Google que recebeu o convite.'
+    : biblioteca
+      ? 'Entre com a conta Google que recebeu o convite ou que você usou na inscrição do curso.'
       : 'Entre com a conta Google que você usou na inscrição.';
 
   return (

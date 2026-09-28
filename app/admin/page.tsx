@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { buscarAluno, TABELA_ACESSOS, TABELA_ALUNOS, type Aluno } from '@/app/lib/aluno';
 import {
   nomeProduto,
+  PRODUTO_BIBLIOTECA,
   PRODUTOS_COM_CONVITE,
   TABELA_ACESSOS_PRODUTOS,
   type AcessoProduto,
@@ -32,7 +33,10 @@ function SecaoConvites({
   return (
     <section>
       <h2>Convites · {nomeProduto(produto)}</h2>
-      <p className="sub">Login Google e convite ativo são obrigatórios para acessar.</p>
+      <p className="sub">
+        Login Google e convite ativo são obrigatórios para acessar.
+        {produto === PRODUTO_BIBLIOTECA && ' Alunos ativos do curso entram sem convite.'}
+      </p>
       <FormAcessoZona produto={produto} />
       <table>
         <tbody>

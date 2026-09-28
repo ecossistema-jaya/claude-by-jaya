@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { guides } from './content';
+import type { LibraryGuide } from './content';
 import { rooms } from './rooms';
 import styles from './library.module.css';
 
@@ -11,7 +11,9 @@ function normalize(value: string) {
   return value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('pt-BR');
 }
 
-export default function LibraryCatalog() {
+/* O acervo chega por prop, vindo da página já autorizada. Importar content.ts
+   aqui embutiria todos os guias no JS público de /_next/static. */
+export default function LibraryCatalog({ guides }: { guides: LibraryGuide[] }) {
   const params = useSearchParams();
   const router = useRouter();
   const requestedRoom = params.get('ambiente');

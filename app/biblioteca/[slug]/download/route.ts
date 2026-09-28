@@ -1,7 +1,11 @@
 import { guides } from '../../content';
 import { toMarkdown } from '../../markdown';
+import { exigirAcessoBiblioteca } from '@/app/lib/exigir-acesso-produto';
 
 export async function GET(_request: Request, { params }: { params: Promise<{ slug: string }> }) {
+  const { resposta } = await exigirAcessoBiblioteca();
+  if (resposta) return resposta;
+
   const { slug } = await params;
   const guide = guides.find((item) => item.slug === slug);
   if (!guide) {

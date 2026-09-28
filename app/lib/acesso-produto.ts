@@ -5,10 +5,12 @@ export const TABELA_ACESSOS_PRODUTOS = 'acessos_produtos';
 export const PRODUTO_ZONA = 'zona-de-genialidade';
 export const PRODUTO_CONSCIENCIA = 'arquitetura-da-consciencia';
 export const PRODUTO_ATLAS = 'atlas-de-forcas';
+export const PRODUTO_BIBLIOTECA = 'biblioteca-claude';
 export const PRODUTOS_COM_CONVITE = [
   PRODUTO_ZONA,
   PRODUTO_CONSCIENCIA,
   PRODUTO_ATLAS,
+  PRODUTO_BIBLIOTECA,
 ] as const;
 export type ProdutoComConvite = (typeof PRODUTOS_COM_CONVITE)[number];
 
@@ -17,6 +19,7 @@ export function nomeProduto(produto: ProdutoComConvite) {
     [PRODUTO_ZONA]: 'Zona de Genialidade',
     [PRODUTO_CONSCIENCIA]: 'Arquitetura da Consciência',
     [PRODUTO_ATLAS]: 'Atlas de Forças',
+    [PRODUTO_BIBLIOTECA]: 'Biblioteca Claude by Jaya',
   };
   return nomes[produto];
 }

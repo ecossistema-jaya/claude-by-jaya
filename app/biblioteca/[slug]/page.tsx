@@ -4,13 +4,12 @@ import { notFound } from 'next/navigation';
 import { guides, type LibraryGuide } from '../content';
 import ReaderActions, { CopyPrompt } from '../ReaderActions';
 import styles from '../reader.module.css';
+import { exigirLeitor } from '../acesso';
 
 const baseUrl = 'https://jayaroberta.com';
 type GuidePageProps = { params: Promise<{ slug: string }> };
 
-export function generateStaticParams() {
-  return guides.map(({ slug }) => ({ slug }));
-}
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }: GuidePageProps): Promise<Metadata> {
   const { slug } = await params;
@@ -75,6 +74,7 @@ export default async function GuidePage({ params }: GuidePageProps) {
   const { slug } = await params;
   const guide = guides.find((item) => item.slug === slug);
   if (!guide) notFound();
+  await exigirLeitor(`/biblioteca/${guide.slug}`);
   const words = [guide.description, guide.outcome, guide.prerequisite,
     ...guide.sections.flatMap((section) => [section.title, ...section.paragraphs, ...(section.steps ?? []), section.prompt ?? '', section.note ?? '']),
     ...guide.checklist,

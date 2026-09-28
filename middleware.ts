@@ -104,7 +104,10 @@ function herdarCookies(destino: NextResponse, origem: NextResponse) {
      de autorização nasce, e o caminho do aluno continua exatamente como está.
    - api/consciencia/: responde em JSON; lead e analyze exigem sessão Google, e a
      análise exige também o cookie de consentimento vinculado à mesma conta;
-   - biblioteca e seus descendentes: guias autorais gratuitos, independentes do curso.
+   - biblioteca e seus descendentes: fora da portaria do curso porque têm a
+     própria. Cada página e o download conferem sessão Google e convite da
+     biblioteca (ou matrícula ativa); só /biblioteca/opengraph-image é pública,
+     para a prévia dos links continuar funcionando.
    - /claude: apresentação pública do curso. /claude-do-zero é a área do aluno
      e passa pelas mesmas verificações de sessão e autorização das aulas.
    Os HTML em /aulas e todas as outras imagens seguem fechados. */

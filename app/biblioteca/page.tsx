@@ -4,11 +4,16 @@ import { Suspense } from 'react';
 import { guides } from './content';
 import { rooms } from './rooms';
 import LibraryCatalog from './LibraryCatalog';
+import { exigirLeitor } from './acesso';
 import styles from './library.module.css';
 
 export const metadata: Metadata = { alternates: { canonical: 'https://jayaroberta.com/biblioteca' } };
 
-export default function LibraryPage() {
+export const dynamic = 'force-dynamic';
+
+export default async function LibraryPage() {
+  await exigirLeitor('/biblioteca');
+
   return <main id="conteudo">
     <section className={styles.hero} aria-labelledby="library-title">
       <div className={styles.heroCopy}>
@@ -35,7 +40,7 @@ export default function LibraryPage() {
 
     <section className={styles.catalogSection} id="acervo" aria-labelledby="catalog-title">
       <div className={styles.sectionHeading}><div><p className={styles.eyebrow}>01 / O ACERVO</p><h2 id="catalog-title">Da curiosidade<br /><em>à prática.</em></h2></div><p>{guides.length} guias autorais para explorar.<br />Exercícios, prompts e fontes para continuar.</p></div>
-      <Suspense fallback={<p className={styles.loading}>Preparando a busca do acervo…</p>}><LibraryCatalog /></Suspense>
+      <Suspense fallback={<p className={styles.loading}>Preparando a busca do acervo…</p>}><LibraryCatalog guides={guides} /></Suspense>
     </section>
 
     <section className={styles.startSection} aria-labelledby="start-title">

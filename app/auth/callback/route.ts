@@ -6,10 +6,12 @@ import {
   PRODUTO_ZONA,
 } from '@/app/lib/acesso-produto';
 import {
+  destinoEhBiblioteca,
   destinoEhConsciencia,
   destinoEhZona,
   normalizarDestinoLogin,
 } from '@/app/lib/destino-login';
+import { temAcessoBiblioteca } from '@/app/lib/exigir-acesso-produto';
 import { clienteServidor } from '@/app/lib/supabase/servidor';
 
 /* Volta do Google. É aqui que a autorização é decidida pela primeira vez:
@@ -34,6 +36,14 @@ export async function GET(req: NextRequest) {
 
   const { data } = await supabase.auth.getUser();
   const email = data.user?.email;
+
+  if (destinoEhBiblioteca(destino)) {
+    if (!email || !(await temAcessoBiblioteca(supabase, email))) {
+      await supabase.auth.signOut();
+      return NextResponse.redirect(new URL('/sem-acesso?produto=biblioteca', origin));
+    }
+    return NextResponse.redirect(new URL(destino, origin));
+  }
 
   if (destinoEhConsciencia(destino)) {
     const acesso = email

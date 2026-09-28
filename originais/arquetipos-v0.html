@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Arquétipos — v0</title>
+<style>
+:root{--ink:#1c1c1c;--paper:#f6f4f0;--mute:#6b6b6b;--line:#dcd8d0;--laranja:#FF4D00}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.5 Geist,"Geist Sans",Inter,system-ui,sans-serif}
+main{max-width:720px;margin:0 auto;padding:40px 20px 80px}
+h1{font-size:1.6rem;margin:0 0 4px}
+.sub{color:var(--mute);margin:0 0 28px}
+.item{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.item input{margin-top:5px;accent-color:var(--laranja)}
+.count{position:sticky;top:0;background:var(--paper);padding:10px 0;color:var(--mute);font-size:.9rem;border-bottom:1px solid var(--line)}
+button{background:var(--ink);color:var(--paper);border:0;padding:12px 20px;font:inherit;cursor:pointer;margin-top:24px}
+.res{margin-top:32px}
+.arq{border:1px solid var(--line);padding:16px;margin:12px 0;background:#fff}
+.arq h2{margin:0 0 4px;font-size:1.2rem}
+.arq h2 small{color:var(--mute);font-weight:400;font-size:.85rem;margin-left:8px}
+.tag{display:inline-block;font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--laranja);margin-bottom:8px}
+.cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;font-size:.9rem}
+.cols b{display:block;margin-bottom:4px}
+.lema label{display:block;padding:8px 0;cursor:pointer}
+.bar{display:flex;align-items:center;gap:10px;font-size:.9rem;margin:6px 0}
+.bar span:first-child{width:220px}
+.bar i{display:block;height:8px;background:var(--ink)}
+.bar.top i{background:var(--laranja)}
+table{width:100%;border-collapse:collapse;font-size:.85rem;margin-top:16px}
+td,th{text-align:left;padding:4px 6px;border-bottom:1px solid var(--line)}
+.nota{font-size:.85rem;color:var(--mute);margin-top:24px}
+@media(max-width:560px){.cols{grid-template-columns:1fr}.bar span:first-child{width:140px}}
+</style>
+</head>
+<body>
+<main>
+<h1>Arquétipos</h1>
+<p class="sub">Marque tudo o que é você. Sem pensar muito: se precisou justificar, não marca.</p>
+<div class="count" id="count">0 marcadas</div>
+<form id="f"></form>
+<button type="button" onclick="calcular()">Ver meu arquétipo</button>
+<div class="res" id="res"></div>
+</main>
+<script>
+/* Os 12 arquétipos de Mark & Pearson. Itens autorais (JAYA), primeira pessoa do
+   singular; a mecânica (marca-tudo, top 2, escolha do lema) segue o formato clássico
+   do teste. 91 itens, 6 a 9 por arquétipo — por isso a pontuação é a PROPORÇÃO de
+   itens marcados, não a contagem bruta. */
+const ITENS = [
+["L","Prefiro uma vida que eu consiga prever"],
+["G","Não preciso ser especial; ser gente comum me basta"],
+["I","Quando eu chego, o clima muda"],
+["A","Fico em paz só de olhar uma coisa bonita"],
+["J","Se alguém precisa, eu vou antes de pensar"],
+["B","Não sou de ninguém nem de lugar nenhum"],
+["B","Gosto de explorar experiências novas"],
+["D","Gosto de competir e sei que sou boa"],
+["B","Novidade me acende"],
+["E","Se a regra machuca gente, eu passo por cima dela"],
+["C","Vou atrás do que me faz crescer, mesmo quando dói"],
+["I","Meu melhor jeito de estar com as pessoas é rindo"],
+["H","Sei despertar desejo e gosto disso"],
+["L","Preciso sentir que tenho tudo sob controle"],
+["L","As coisas funcionam quando cada um sabe o seu lugar"],
+["K","Quero deixar algo que fique depois de mim"],
+["L","Quando ninguém assume, eu assumo"],
+["G","Prefiro entrar junto a mandar de fora"],
+["G","Cada pessoa vale por si, sem título"],
+["I","Vivo o agora e o que vão pensar é problema deles"],
+["H","Trago romance e beleza pra onde eu estou"],
+["K","Recebo o novo de peito aberto"],
+["I","Todo mundo precisa de mais leveza do que admite"],
+["H","Quando amo, é fundo"],
+["H","Sei lidar com o que eu sinto e com o que os outros sentem"],
+["A","Abro mão do que tenho pra não abrir mão do que acredito"],
+["D","Disciplina é a minha força"],
+["F","Onde eu passo, alguma coisa se transforma"],
+["J","Percebo o que a pessoa precisa antes de ela pedir"],
+["K","O que eu faço tem que durar mais que a moda"],
+["E","Desobedecer é como eu mudo as coisas"],
+["A","Confio, e quero que confiem em mim"],
+["K","Curiosidade e verdade são a minha base"],
+["D","Já me chamaram de guerreira mais de uma vez"],
+["E","Estou sempre pronta pra uma revolução"],
+["D","Me arrisco pra proteger quem não consegue"],
+["G","Faço o suficiente pra pertencer, sem precisar me destacar"],
+["K","Adoro desmontar uma coisa pra montar de novo melhor"],
+["I","Ajudo as pessoas a rir do absurdo da vida"],
+["I","Sou espontânea; brincar é o meu estado natural"],
+["C","Quem aprende, se liberta"],
+["D","Defendo o que acredito, mesmo sozinha"],
+["J","Cuido como quem é mãe ou pai, mesmo de quem não é meu"],
+["L","Monto estrutura pra garantir qualidade"],
+["C","Liberdade exige consciência e escolhas certas"],
+["F","Já me viram como bruxa, xamã ou cientista, dependendo do dia"],
+["K","Sou inquieta; o que existe nunca me basta"],
+["E","Quebro regra por aventura, sim"],
+["F","Rituais e símbolos fazem parte da minha vida"],
+["A","Quero paz e tranquilidade, e quero agora"],
+["H","Incentivo as pessoas a viverem a própria sexualidade"],
+["L","Costumes e hábitos sustentam a ordem, e eu sustento os dois"],
+["K","Crio cultura, não só conteúdo"],
+["B","Estou sempre em movimento"],
+["J","Me sacrifico pelos outros com facilidade"],
+["J","Cuido mais dos outros do que de mim"],
+["D","Quero deixar o mundo melhor do que encontrei"],
+["F","Trago magia pra vida das pessoas"],
+["F","O antigo, o exótico e o misterioso me puxam"],
+["B","Procuro a minha tribo onde quer que eu vá"],
+["E","Sou uma força disruptiva"],
+["H","Vou atrás do que eu desejo"],
+["I","Sou a palhaça da turma, e com orgulho"],
+["G","Todo mundo importa, exatamente como é"],
+["C","Não decido sem informação"],
+["G","Direito é pra todos, não pra alguns"],
+["E","Rebelde e iconoclasta: já me chamaram das duas"],
+["F","Transformo sonho em coisa real"],
+["L","O que vale tem que ser feito pra durar"],
+["F","Quero entender as leis que regem o universo"],
+["I","Dá pra ser eu mesma e ser aceita; eu provo isso"],
+["H","Amor é amor, em qualquer forma"],
+["B","Vivo em busca do melhor, sempre"],
+["H","Sei deixar as coisas mais desejáveis"],
+["B","Sou inconformada e incansável"],
+["G","Momento bom é direito de todo mundo"],
+["J","Sei o quanto o ser humano é frágil"],
+["A","Não nego nada a ninguém; liberdade se incentiva"],
+["C","Busco sabedoria, não só informação"],
+["L","Imagem, status e prestígio importam pra mim"],
+["E","Sou o fruto proibido"],
+["J","Servir é o sentido da minha vida"],
+["I","Penso fora da caixa por natureza"],
+["C","Prosperidade vem da liberdade, e eu ajudo a chegar lá"],
+["E","Meus valores ficam fora do status quo"],
+["L","Assumo a liderança e a responsabilidade que vem com ela"],
+["B","Sou independente e curiosa"],
+["D","Coragem e energia me sobram"],
+["A","Ainda acredito que o paraíso é possível"],
+["K","Preciso dar forma material ao que eu sinto"],
+["K","Faço da experiência uma obra de arte"]
+];
+
+const ARQ = {
+ D:{n:"Herói",cat:"Maestria e Risco",lemas:["Onde há vontade, há um caminho.","Lute pelo que é certo."],
+    desc:"Supera adversidades e se eleva à ocasião. Focada, determinada e corajosa, movida pelo desafio de dar certo mesmo com tudo contra. Provar o próprio valor importa; definir limites é o que mantém o foco.",
+    medos:["Perder","Fraqueza","Não ser vista como heroína","Inatividade"],obj:["Coragem e orgulho","Domínio da força interior"]},
+ E:{n:"Fora da Lei",cat:"Maestria e Risco",lemas:["Regras são feitas para serem quebradas.","Eu faço as coisas do meu jeito."],
+    desc:"Nunca satisfeita com o status quo, desafia o que é aceito sem discussão. O bom nunca é suficiente. Busca se libertar e libertar os outros das normas, mesmo que pela rebelião silenciosa.",
+    medos:["Adaptar-se","Tornar-se conformada","Ser comum e igual aos outros"],obj:["Libertação","Mudança social","Chocar","Revolução"]},
+ F:{n:"Mago",cat:"Maestria e Risco",lemas:["Eu faço as coisas acontecerem.","Tudo é possível."],
+    desc:"Metamorfose, transformação e carisma. Acredita em sincronicidade, em que tudo está interligado. Concebe possibilidades onde os outros não enxergam e gosta de levar as coisas ao próximo nível, especialmente o que parece inatingível.",
+    medos:["Quebrar promessas","Consequências negativas não intencionais"],obj:["Tornar sonhos em realidade","Dar vida a visões","Criar algo do nada","Transformações de efeito"]},
+ B:{n:"Explorador",cat:"Independência e Realização",lemas:["Não levante cercas à minha volta.","Sigo a minha própria trilha."],
+    desc:"Em busca contínua de autenticidade e autoexploração. Rotina não é o forte; valoriza flexibilidade e liberdade e briga com limites, prazos e compromissos rígidos. Não basta sobreviver, é preciso expandir.",
+    medos:["Sentir-se presa ou confinada","Vazio interior","Tédio"],obj:["Liberdade e independência","Encontrar-se","Experimentar a autenticidade","Desbravar novas fronteiras"]},
+ A:{n:"Inocente",cat:"Independência e Realização",lemas:["Menos é mais.","Não se preocupe, seja feliz."],
+    desc:"Otimista que sempre acha um raio de esperança. Aprecia a simplicidade e o estado natural das coisas. Ética, pureza e simplicidade são essenciais. A nostalgia evoca emoções profundas.",
+    medos:["Tornar os outros infelizes","Ser punida","Fazer algo errado","Complicar as coisas"],obj:["Ser feliz","Simplificar as coisas","Evocar a nostalgia"]},
+ C:{n:"Sábio",cat:"Independência e Realização",lemas:["A verdade te libertará.","Conhecimento é poder."],
+    desc:"Vive pela verdade e se realiza no conhecimento. Contemplativa e reflexiva, adora pesquisar e descobrir por si mesma. Os fatos são os fatos, e ela não os altera para caber numa narrativa.",
+    medos:["Ser enganada","Ser vista como ignorante","Dar informações erradas"],obj:["Descoberta da verdade","Entender as coisas","Iluminar os outros"]},
+ H:{n:"Amante",cat:"Pertença e Grupo",lemas:["O amor faz o mundo girar.","Você é o único."],
+    desc:"Forte senso estético e grande apreço pela beleza em todos os aspectos da vida. Relacionamentos importam muito; conecta-se pelo desejo e pelo compromisso compartilhado. Segue a própria felicidade.",
+    medos:["Ficar sozinha","Fazer os outros se sentirem desvalorizados","Não ser atraente, não ser desejada"],obj:["Intimidade","Experiências","Beleza","Relacionamentos"]},
+ G:{n:"Cara Comum",cat:"Pertença e Grupo",lemas:["Somos todos iguais.","Juntos somos melhores."],
+    desc:"Compreensível e aceita por todos; totalmente democrática. Quer unir as pessoas e criar senso de comunidade. Mais professora do que líder, mais mentora do que chefe. Todos, independente de status, merecem o excelente.",
+    medos:["Destacar-se da multidão","Deixar os outros de fora","Ser vista como elitista"],obj:["Pertencimento","Desenvolver virtudes sólidas"]},
+ I:{n:"Bobo da Corte",cat:"Pertença e Grupo",lemas:["Só se vive uma vez.","Aproveite cada dia ao máximo."],
+    desc:"Ajuda a rir dos pequenos absurdos da vida. Não tenta impressionar ninguém; coloca o ar brincalhão em tudo e sabe que é possível ser adorada por quem é. Um pouco desobediente, sem quebrar radicalmente as regras.",
+    medos:["Aborrecer os outros","Perder a diversão","Ficar entediada"],obj:["Felicidade","Alegria","Malícia","Ironia"]},
+ J:{n:"Prestativo",cat:"Estabilidade e Controle",lemas:["Ame os outros como a si mesmo.","Compaixão acima de tudo."],
+    desc:"Altruísta. Sempre disposta a dar uma mão, generosa, e às vezes não cuida de si. Coloca os outros à frente e se satisfaz respondendo às necessidades alheias mesmo sem retorno. As pessoas sentem que podem se abrir com ela.",
+    medos:["Sentir-se abandonada","Estar em perigo","Ser punida"],obj:["Amor incondicional","Sentir-se segura e protegida","Tornar o mundo um lugar melhor"]},
+ L:{n:"Governante",cat:"Estabilidade e Controle",lemas:["O poder é tudo.","Vestida para o sucesso."],
+    desc:"Forte senso de liderança; influente por natureza, gosta de ajudar os outros a fazer o melhor. Sistemática e detalhista, movida por valores pessoais fortes e responsabilidade. A primeira a tomar iniciativa no caos.",
+    medos:["Caos","Ser derrubada","Tornar-se insignificante","Perder o respeito dos outros"],obj:["Criar prosperidade","Eficiência","Organização","Controle"]},
+ K:{n:"Criativo",cat:"Estabilidade e Controle",lemas:["Expresse-se.","Autenticidade acima de tudo.","Se puder ser imaginado, poderá ser feito."],
+    desc:"Autoexpressiva e imaginativa; vê inspiração nos lugares mais improváveis. O trabalho vem do coração e por isso quer criar algo de valor duradouro. Confortável na própria pele, com forte senso de estilo.",
+    medos:["Sentir-se sem inspiração","Adaptar-se","Criar algo medíocre"],obj:["Criação","Autoexpressão","Fazer algo de valor duradouro"]}
+};
+const CATS = ["Maestria e Risco","Independência e Realização","Pertença e Grupo","Estabilidade e Controle"];
+
+const f = document.getElementById('f');
+ITENS.forEach((it,i)=>{
+  const l=document.createElement('label'); l.className='item';
+  l.innerHTML='<input type="checkbox" name="i" value="'+i+'"><span>'+it[1]+'</span>';
+  f.appendChild(l);
+});
+f.addEventListener('change',()=>{document.getElementById('count').textContent=f.querySelectorAll('input:checked').length+' marcadas';});
+
+function copiarTabela(){
+  navigator.clipboard.writeText(window._tabela||'').then(()=>alert('Copiado. Cola na conversa.'),()=>prompt('Copia daqui:',window._tabela));
+}
+function calcular(){
+  const marc=[...f.querySelectorAll('input:checked')].map(x=>+x.value);
+  if(marc.length<5){alert('Marca pelo menos 5 antes de calcular.');return;}
+  const raw={},tot={};
+  ITENS.forEach(([k])=>{tot[k]=(tot[k]||0)+1;raw[k]=raw[k]||0;});
+  marc.forEach(i=>raw[ITENS[i][0]]++);
+  const rank=Object.keys(ARQ).map(k=>({k,raw:raw[k],tot:tot[k],p:raw[k]/tot[k]})).sort((a,b)=>b.p-a.p||b.raw-a.raw);
+  const cat={};CATS.forEach(c=>cat[c]=0);
+  rank.forEach(r=>cat[ARQ[r.k].cat]+=r.p);
+  const catRank=CATS.map(c=>({c,v:cat[c]/3})).sort((a,b)=>b.v-a.v);
+  const [d,s]=rank;
+  let h='<p class="tag">Resultado</p>';
+  h+='<h2 style="margin:0 0 16px">Dominante: '+ARQ[d.k].n+' · Secundário: '+ARQ[s.k].n+'</h2>';
+  h+='<p class="tag">O que te move</p>';
+  catRank.forEach((c,i)=>{h+='<div class="bar'+(i===0?' top':'')+'"><span>'+c.c+'</span><i style="width:'+Math.round(c.v*220)+'px"></i><span>'+Math.round(c.v*100)+'%</span></div>';});
+  [d,s].forEach((r,i)=>{
+    const a=ARQ[r.k];
+    h+='<div class="arq"><p class="tag">'+(i?'Secundário':'Dominante')+' · '+a.cat+'</p><h2>'+a.n+'<small>'+r.raw+' de '+r.tot+' itens</small></h2><p>'+a.desc+'</p>';
+    h+='<div class="cols"><div><b>Lema</b>'+a.lemas.join('<br>')+'</div><div><b>Grandes medos</b>'+a.medos.join('<br>')+'</div><div><b>Objetivos</b>'+a.obj.join('<br>')+'</div></div></div>';
+  });
+  h+='<div class="arq lema"><p class="tag">Qual frase te representa melhor?</p><p style="margin:0 0 8px;color:var(--mute);font-size:.9rem">Entre os dois, o arquétipo da frase escolhida é o seu dominante.</p>';
+  [d,s].forEach(r=>ARQ[r.k].lemas.forEach(l=>{h+='<label><input type="radio" name="lema" value="'+r.k+'" onchange="document.getElementById(\'final\').textContent=\'Dominante escolhido: \'+ARQ[this.value].n"> “'+l+'” <small style="color:var(--mute)">('+ARQ[r.k].n+')</small></label>';}));
+  h+='<p id="final" style="font-weight:600"></p></div>';
+  h+='<table><tr><th>Arquétipo</th><th>Marcados</th><th>Itens</th><th>%</th></tr>';
+  rank.forEach(r=>{h+='<tr><td>'+ARQ[r.k].n+'</td><td>'+r.raw+'</td><td>'+r.tot+'</td><td>'+Math.round(r.p*100)+'</td></tr>';});
+  h+='</table>';
+  h+='<button type="button" onclick="copiarTabela()">Copiar tabela</button>';
+  window._tabela=rank.map(r=>ARQ[r.k].n+'\t'+r.raw+'/'+r.tot+'\t'+Math.round(r.p*100)+'%').join('\n');
+  h+='<p class="nota">v0. Pontuação = proporção de itens marcados por arquétipo (há de 6 a 9 itens por letra; contagem bruta favoreceria Bobo, Criativo e Governante).</p>';
+  document.getElementById('res').innerHTML=h;
+  document.getElementById('res').scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>

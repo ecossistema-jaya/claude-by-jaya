@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude do Zero: Caderno de vendas</title>
+
+<style>
+@media print {
+@page Section1 {
+  size: 200mm 275mm;
+  mso-page-orientation: portrait;
+  margin: 14mm 12mm 14mm 24mm;
+  mso-header-margin: 8mm;
+  mso-footer-margin: 8mm;
+  mso-paper-source: 0;
+}
+}
+div.Section1 { page: Section1; }
+
+body {
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 10.5pt;
+  line-height: 1.45;
+  color: #2B2320;
+  margin: 0;
+}
+p { margin: 0 0 7pt 0; }
+ul, ol { margin: 0 0 8pt 0; padding-left: 16pt; }
+li { margin-bottom: 3.5pt; }
+em { font-style: italic; }
+
+h1 { font-size: 26pt; line-height: 1.08; color: #86050C; margin: 0 0 6pt 0; font-weight: bold; }
+h2 {
+  font-size: 15.5pt; color: #FFFFFF; background: #86050C;
+  margin: 0 0 10pt 0; padding: 6pt 10pt; font-weight: bold;
+  page-break-after: avoid;
+}
+h2.red    { background: #A32530; }
+h2.yellow { background: #B06000; }
+h2.green  { background: #188038; }
+h2.navy   { background: #2B2320; }
+h2.copper { background: #DF6E36; }
+h3 {
+  font-size: 12pt; color: #86050C; margin: 13pt 0 5pt 0; font-weight: bold;
+  border-bottom: 1px solid #E7D6BE; padding-bottom: 3pt; page-break-after: avoid;
+}
+h4 {
+  font-size: 10pt; color: #6B5D53; margin: 10pt 0 4pt 0; font-weight: bold;
+  text-transform: uppercase; letter-spacing: 0.5pt; page-break-after: avoid;
+}
+
+.bar { width: 100%; border-collapse: collapse; margin: 0 0 10pt 0; }
+.bar td { height: 7pt; font-size: 1pt; line-height: 7pt; }
+
+.kicker {
+  font-size: 8pt; font-weight: bold; color: #DF6E36;
+  letter-spacing: 1.2pt; text-transform: uppercase; margin: 0 0 3pt 0;
+}
+.lead { font-size: 11pt; color: #6B5D53; margin: 0 0 12pt 0; }
+
+table.data { width: 100%; border-collapse: collapse; margin: 8pt 0 12pt 0; font-size: 9.5pt; }
+table.data th {
+  background: #86050C; color: #FFFFFF; text-align: left;
+  padding: 5pt 7pt; font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.4pt;
+  border: 1px solid #86050C;
+}
+table.data td { padding: 5pt 7pt; border: 1px solid #E7D6BE; vertical-align: top; }
+table.data tr.alt td { background: #FAF4EA; }
+table.data td.fill { height: 30pt; }
+table.data.tight td { padding: 4pt 5pt; font-size: 9pt; }
+table.data.tight td.fill { height: 24pt; }
+
+table.cards { width: 100%; border-collapse: separate; border-spacing: 6pt 0; margin: 6pt 0 10pt 0; }
+table.cards td {
+  width: 50%; vertical-align: top; background: #FAF4EA;
+  border: 1px solid #E7D6BE; border-top: 3px solid #86050C; padding: 8pt 10pt; font-size: 9.5pt;
+}
+table.cards td.r { border-top-color: #A32530; }
+table.cards td.y { border-top-color: #DF6E36; }
+table.cards td.g { border-top-color: #188038; }
+table.cards b.t { display: block; color: #86050C; font-size: 10pt; margin-bottom: 3pt; }
+
+.box {
+  border: 1px solid #F1DABF; border-left: 4px solid #DF6E36; background: #FAF4EA;
+  padding: 8pt 11pt; margin: 10pt 0; font-size: 10pt;
+}
+.box.warn { border-color: #FDE293; border-left-color: #F9AB00; background: #FEF7E0; }
+.box.ok   { border-color: #B7E1C4; border-left-color: #188038; background: #F1F8F3; }
+.box.stop { border-color: #F6C7C3; border-left-color: #A32530; background: #FCE9E7; }
+.box b.t { display: block; color: #86050C; margin-bottom: 3pt; }
+.box p:last-child { margin-bottom: 0; }
+
+.code {
+  background: #FAF4EA; border: 1px solid #E7D6BE; border-left: 3px solid #86050C;
+  padding: 7pt 9pt; margin: 6pt 0 11pt 0;
+}
+.code .cap {
+  font-family: Arial, sans-serif; font-size: 7.5pt; color: #6B5D53;
+  text-transform: uppercase; letter-spacing: 0.6pt; margin-bottom: 4pt; font-weight: bold;
+}
+pre {
+  margin: 0; font-family: Consolas, "Courier New", monospace;
+  font-size: 8.5pt; line-height: 1.38; color: #2B2320; white-space: pre-wrap;
+}
+.msg pre { font-family: Arial, sans-serif; font-size: 9.5pt; line-height: 1.42; }
+code {
+  font-family: Consolas, "Courier New", monospace; font-size: 9pt;
+  background: #F1DABF; padding: 0 2pt; color: #86050C;
+}
+
+.flow { width: 100%; border-collapse: collapse; margin: 8pt 0 12pt 0; font-size: 9pt; }
+.flow td { border: 1px solid #E7D6BE; background: #FFFFFF; padding: 7pt 6pt; text-align: center; vertical-align: top; }
+.flow td.arrow { border: none; width: 14pt; color: #DF6E36; font-weight: bold; font-size: 12pt; }
+.flow b { color: #86050C; display: block; }
+.flow span { color: #6B5D53; font-size: 8pt; }
+
+.notes { width: 100%; border-collapse: collapse; margin: 6pt 0 12pt 0; }
+.notes td { border-bottom: 1px dotted #9AA0A6; height: 22pt; }
+
+.pb { page-break-before: always; }
+.small { font-size: 8.5pt; color: #6B5D53; }
+.chk { list-style: none; padding-left: 0; }
+.chk li { padding-left: 14pt; text-indent: -14pt; margin-bottom: 4pt; }
+
+table.toc { width: 100%; border-collapse: collapse; font-size: 10pt; margin-top: 8pt; }
+table.toc td { padding: 4pt 6pt; border-bottom: 1px solid #E7D6BE; vertical-align: top; }
+table.toc td.n { width: 26pt; color: #DF6E36; font-weight: bold; }
+
+/* ---- tela: simula a folha 200 x 275 mm ---- */
+@media screen {
+  html { background: #E9E2D6; }
+  body { padding: 24px 12px; }
+  div.Section1 {
+    max-width: 164mm; margin: 0 auto; background: #FFFFFF;
+    padding: 14mm 12mm 14mm 24mm; box-shadow: 0 2px 14px rgba(43,35,32,.18);
+  }
+  .pb { border-top: 1px dashed #C9BBA3; margin: 28pt 0 22pt 0; height: 0; }
+  .pb::after {
+    content: "nova página"; display: block; text-align: right;
+    font-size: 7pt; color: #9AA0A6; letter-spacing: .8pt; text-transform: uppercase;
+    margin-top: -8pt;
+  }
+}
+@media print { .pb { border: none; margin: 0; } .pb::after { content: none; } }
+</style>
+</head>
+
+<body>
+<div class="Section1">
+
+<!-- ============ CAPA ============ -->
+<table class="bar"><tr>
+  <td style="background:#86050C;width:25%"></td>
+  <td style="background:#DF6E36;width:25%"></td>
+  <td style="background:#F1DABF;width:25%"></td>
+  <td style="background:#2B2320;width:25%"></td>
+</tr></table>
+
+<p class="kicker">Jaya Roberta &middot; Kit operacional &middot; Claude do Zero</p>
+<h1>Claude do Zero:<br>Caderno de vendas</h1>
+<p class="lead" style="font-size:12pt">Da prospecção ao depoimento, em papel. Arquitetura da oferta, mensagens prontas, fluxo de Pix e liberação, controle de alunas, validação do curso e os indicadores que dizem se a oferta está certa.</p>
+
+<table class="data" style="margin-top:14pt">
+  <tr><td style="width:34%;background:#FAF4EA"><b>Data</b></td><td>17 de setembro de 2026</td></tr>
+  <tr class="alt"><td style="background:#FAF4EA"><b>Rodada</b></td><td>Lançamento: segunda 14/09 a domingo 21/09, 23h59. Depois, preço cheio para sempre.</td></tr>
+  <tr><td style="background:#FAF4EA"><b>Cobertura</b></td><td>Prospecção, qualificação, pagamento, liberação de acesso, onboarding, validação e prova</td></tr>
+  <tr class="alt"><td style="background:#FAF4EA"><b>Fonte dos números</b></td><td>BusinessJaya/meus-produtos/claude-do-zero/lancamento/OFERTA.md. Número que não está lá não entra em peça nenhuma.</td></tr>
+  <tr><td style="background:#FAF4EA"><b>Formato</b></td><td>200 &times; 275 mm &mdash; Caderno Inteligente G</td></tr>
+</table>
+
+<div class="box warn">
+  <b class="t">Antes de imprimir</b>
+  <p>Este documento já está paginado em 200 &times; 275 mm com margem esquerda de 24 mm reservada para os discos. Na caixa de impressão, escolha <b>Escala: 100%</b> (nunca &ldquo;ajustar à página&rdquo;) e papel de 200 &times; 275 mm ou A4 com corte.</p>
+</div>
+
+<h3 style="margin-top:16pt">Sumário</h3>
+<table class="toc">
+  <tr><td class="n">01</td><td><b>Arquitetura da oferta</b> &middot; o que está sendo vendido, para quem, e a jornada completa</td></tr>
+  <tr><td class="n">02</td><td><b>Prospecção</b> &middot; de onde vem lead, rotina diária e como qualificar em três perguntas</td></tr>
+  <tr><td class="n">03</td><td><b>Mensagens de WhatsApp</b> &middot; 15 textos, do primeiro contato ao pedido de depoimento</td></tr>
+  <tr><td class="n">04</td><td><b>Pagamento e liberação</b> &middot; do comprovante ao acesso em até 24 horas</td></tr>
+  <tr><td class="n">05</td><td><b>Controle de vendas</b> &middot; status, painel mínimo diário e meta da rodada</td></tr>
+  <tr><td class="n">06</td><td><b>Validação do curso</b> &middot; marcos por aluna, hipóteses do lançamento, objeções e prova</td></tr>
+  <tr><td class="n">07</td><td><b>Checklist da vendedora</b> &middot; diário, dia 21, dia 22 e pós-lançamento</td></tr>
+  <tr><td class="n">08</td><td><b>Indicadores e aprendizado</b> &middot; o que medir e o que vira produto</td></tr>
+  <tr><td class="n">09</td><td><b>Fichas</b> &middot; leads, registro de vendas, diário da rodada, objeções, depoimentos</td></tr>
+</table>
+
+<!-- ============ 01 ARQUITETURA ============ -->
+<div class="pb"></div>
+<h2>01 &middot; Arquitetura da oferta</h2>
+<h3>O que está sendo vendido</h3>
+<p>O Claude do Zero é um curso de trabalho, não de diploma. Cinco aulas visuais com slides guiados, exercícios e ferramentas interativas, acesso vitalício, sem turma e sem ao vivo. O produto não são as cinco aulas; o produto é uma pessoa que sai com a ferramenta sabendo quem ela é.</p>
+<div class="box">
+  <b class="t">A promessa, em uma frase repetível</b>
+  <p>Você sai com o Claude sabendo quem você é. Suporte: Documento Mestre construído com prompts guiados, Mapa de Autoconhecimento e Zona de Genialidade, landing page com a sua identidade visual feita por você.</p>
+</div>
+
+<h3>Preço</h3>
+<table class="data">
+  <tr><th style="width:26%"></th><th style="width:30%">Claude do Zero</th><th>Claude do Zero + Sessão</th></tr>
+  <tr><td><b>Preço cheio</b></td><td><b>R$ 297</b></td><td><b>R$ 697</b> (separado seria R$ 297 + R$ 497 = R$ 794)</td></tr>
+  <tr class="alt"><td><b>Lançamento</b></td><td><b>R$ 197</b></td><td><b>R$ 597</b></td></tr>
+  <tr><td><b>Vale até</b></td><td colspan="2">Domingo 21/09, 23h59, ou 50 alunas, o que vier primeiro</td></tr>
+  <tr class="alt"><td><b>Pagamento</b></td><td colspan="2">Pix, combinado no WhatsApp (5561992634557)</td></tr>
+  <tr><td><b>Acesso</b></td><td>Vitalício, login Google, liberado em até 24h</td><td>Idem, mais agendamento da sessão no mesmo WhatsApp</td></tr>
+  <tr class="alt"><td><b>Garantia</b></td><td colspan="2">Não declarada. CDC dá 7 dias por lei: honrar se pedirem, sem anunciar.</td></tr>
+</table>
+<div class="box stop">
+  <b class="t">R$ 197 não volta</b>
+  <p>Depois do dia 21 o preço é R$ 297 / R$ 697 e fica. Se o R$ 197 voltar, o workshop de R$ 197 e o curso viram a mesma coisa na cabeça de quem compra. Pedido fora do prazo recebe a mensagem 14, sem exceção.</p>
+</div>
+
+<h3>O que entra</h3>
+<table class="cards">
+  <tr>
+    <td><b class="t">Claude do Zero</b>Aula 1 Conversar com o Claude &middot; Aula 2 Botar o Claude pra Trabalhar &middot; Aula 3 Documento Mestre &middot; Aula 4 Autoconhecimento e Zona de Genialidade &middot; Aula 5 Landing Page com Identidade Visual. Mais o Mapa de Autoconhecimento e o manual 8 recursos do Claude.</td>
+    <td class="y"><b class="t">+ Sessão</b>Tudo do curso e 90 minutos individuais, online, com o Documento Mestre já feito na mão. A sessão começa do ponto onde o curso termina. Kit operacional próprio da Sessão vale a partir da liberação.</td>
+  </tr>
+</table>
+
+<h3>Pra quem é, pra quem não é</h3>
+<table class="cards">
+  <tr>
+    <td class="g"><b class="t">Fit</b>Já segue a Jaya. Já usa, ou tentou usar, Claude ou ChatGPT no trabalho. Sente que a ferramenta não a conhece: resposta genérica, retrabalho, &ldquo;não era isso&rdquo;. Terapeuta, mentora, autônoma, empresária: gente que vende o próprio jeito de pensar.</td>
+    <td class="r"><b class="t">Não encaixe</b>Quer assistir passivamente. Quer comunidade ou alguém cobrando cada passo. Quer certificado. Quer que a Jaya faça por ela. Espera suporte contínuo incluído em R$ 197. Nesses casos: não vender, indicar a Zona de Genialidade gratuita e registrar como perdida com motivo.</td>
+  </tr>
+</table>
+
+<div class="pb"></div>
+<h3>A jornada comercial e operacional</h3>
+<table class="data">
+  <tr><th style="width:15%">Etapa</th><th style="width:24%">Gatilho</th><th style="width:33%">Ação da Jaya</th><th>Saída esperada</th></tr>
+  <tr><td><b>1. Interesse</b></td><td>Clique no CTA da página, direct, comentário, resposta ao e-mail ou indicação</td><td>Responder em até 2h com a resposta padrão (mensagem 1). Se chegou sem contexto, qualificar (mensagem 2).</td><td>Lead registrado com origem</td></tr>
+  <tr class="alt"><td><b>2. Qualificação</b></td><td>Pergunta, dúvida ou objeção</td><td>Responder objeção com o texto pronto (mensagens 3 a 5). Confirmar oferta: curso ou pacote.</td><td>Fit identificado, oferta escolhida</td></tr>
+  <tr><td><b>3. Pix</b></td><td>&ldquo;Fechado&rdquo;</td><td>Enviar chave e titular. Pedir comprovante e e-mail Google na mesma mensagem.</td><td>Pix enviado, prazo de retorno anotado</td></tr>
+  <tr class="alt"><td><b>4. Confirmação</b></td><td>Comprovante chega</td><td>Conferir valor, data e nome. Se faltar o e-mail Google, pedir (mensagem 7).</td><td>Venda confirmada, registrada com valor</td></tr>
+  <tr><td><b>5. Liberação</b></td><td>E-mail Google em mãos</td><td>Adicionar em <code>/admin</code>. Enviar mensagem 8. Pacote: pedir três horários (mensagem 9).</td><td>Acesso ativo em até 24h</td></tr>
+  <tr class="alt"><td><b>6. Onboarding</b></td><td>D+2 da liberação</td><td>Perguntar se entrou e se começou pela Aula 1 (mensagem 10). Resolver login travado no mesmo dia.</td><td>Aluna dentro, Aula 1 aberta</td></tr>
+  <tr><td><b>7. Validação</b></td><td>D+7 da liberação</td><td>Check-in de três perguntas (mensagem 11). Registrar se o Documento Mestre saiu e o que travou.</td><td>Evidência de uso real</td></tr>
+  <tr class="alt"><td><b>8. Prova</b></td><td>Documento Mestre feito, ou D+30</td><td>Pedir depoimento em três linhas (mensagem 12). Quem comprou só o curso: oferecer a Sessão (mensagem 13).</td><td>Depoimento com antes e depois, ou venda da Sessão</td></tr>
+</table>
+
+<div class="box">
+  <b class="t">Três regras que não se negociam</b>
+  <p>1. Interesse não é venda. Comprovante conferido é venda. 2. Acesso só depois do Pix, nunca &ldquo;libera que eu pago amanhã&rdquo;. 3. Todo lead tem próxima ação e prazo escritos; sem isso não existe funil, existe memória.</p>
+</div>
+
+<h3>O que já saiu, e quando</h3>
+<table class="data">
+  <tr><th style="width:22%">Peça</th><th style="width:22%">Data</th><th>Canal e função</th></tr>
+  <tr><td>Página de oferta</td><td>14/09</td><td>claude-by-jaya.vercel.app/claude-do-zero. Muda sozinha para R$ 297 depois de 21/09 23h59, sem deploy.</td></tr>
+  <tr class="alt"><td>E-mail 1: abertura</td><td>seg 14/09</td><td>Lista leads_zng (quem fez a Zona de Genialidade). CTA para o WhatsApp.</td></tr>
+  <tr><td>E-mail 2: objeção ChatGPT</td><td>qui 17/09</td><td>&ldquo;Eu já uso o ChatGPT, pra que isso?&rdquo; Responde a objeção número 1 do direct.</td></tr>
+  <tr class="alt"><td>E-mail 3: fecha hoje</td><td>dom 21/09, manhã</td><td>Último aviso. Quem não compra volta para a Zona gratuita.</td></tr>
+  <tr><td>Stories e carrossel</td><td>a cada dia</td><td>Anotar aqui o que foi ao ar: ____________________________________</td></tr>
+</table>
+
+<!-- ============ 02 PROSPECÇÃO ============ -->
+<div class="pb"></div>
+<h2>02 &middot; Prospecção</h2>
+<p class="lead">Lançamento de 7 dias não tem tempo para prospecção fria. O trabalho é converter quem já chegou perto: fez a Zona, respondeu story, comentou, pediu a página.</p>
+
+<h3>De onde vem lead, em ordem de temperatura</h3>
+<table class="data">
+  <tr><th style="width:26%">Fonte</th><th style="width:38%">Quem é</th><th>Movimento</th></tr>
+  <tr><td><b>Lista leads_zng</b></td><td>Fez a Zona de Genialidade e deixou e-mail. Já se conhece um pouco e já viu o dashboard.</td><td>Recebe os 3 e-mails. Quem responder o e-mail é lead quente: responder no WhatsApp em até 2h.</td></tr>
+  <tr class="alt"><td><b>Direct respondendo story</b></td><td>Reagiu, respondeu enquete ou mandou pergunta.</td><td>Responder no direct e levar para o WhatsApp com o link da oferta.</td></tr>
+  <tr><td><b>Clique no CTA da página</b></td><td>Chega no WhatsApp com &ldquo;Oi Jaya, quero o Claude do Zero a R$ 197&rdquo;.</td><td>Já decidiu. Mensagem 1 direto, sem requalificar.</td></tr>
+  <tr class="alt"><td><b>Comentário em carrossel</b></td><td>Comentou, salvou ou marcou alguém.</td><td>Responder no comentário e convidar para o direct. Registrar nome.</td></tr>
+  <tr><td><b>Indicação</b></td><td>Aluna ou cliente da Sessão indicou.</td><td>Abrir com o nome de quem indicou. Fit quase garantido.</td></tr>
+  <tr class="alt"><td><b>Cliente da Sessão Estratégica</b></td><td>Já pagou R$ 497 e conhece o método.</td><td>Oferta direta do curso a R$ 197 como complemento. Um contato, sem insistir.</td></tr>
+</table>
+
+<h3>Rotina diária de prospecção: 30 minutos, dois blocos</h3>
+<table class="cards">
+  <tr>
+    <td><b class="t">Manhã (15 min)</b>1. Responder todo direct e WhatsApp pendente. 2. Follow-up de quem recebeu Pix há mais de 24h sem comprovante (mensagem 6). 3. Registrar cada conversa na ficha de lead com próxima ação.</td>
+    <td class="y"><b class="t">Noite (15 min)</b>1. Conferir comprovantes do dia e liberar o que estiver pendente. 2. Preencher o diário da rodada (seção 9). 3. Escolher o story de amanhã a partir da objeção que mais apareceu hoje.</td>
+  </tr>
+</table>
+
+<h3>Qualificar em três perguntas</h3>
+<p>Só para quem chega sem contexto (&ldquo;quero saber mais&rdquo;). Quem chega pelo CTA da página já se qualificou.</p>
+<table class="data">
+  <tr><th style="width:6%">N.</th><th style="width:44%">Pergunta</th><th>O que a resposta revela</th></tr>
+  <tr><td>1</td><td>O que você já usa hoje, Claude ou ChatGPT, e para quê?</td><td>Se usa: fit. Se nunca usou: fit também, mas a Aula 1 pesa mais. Se não quer usar IA: não encaixe.</td></tr>
+  <tr class="alt"><td>2</td><td>O que mais te irrita na resposta que ela te dá?</td><td>&ldquo;Genérica&rdquo;, &ldquo;não parece eu&rdquo;, &ldquo;reescrevo tudo&rdquo;: é exatamente o problema que o curso resolve. Anotar a frase dela para usar depois.</td></tr>
+  <tr><td>3</td><td>O que você queria conseguir fazer com ela até o fim do mês?</td><td>Se responder com algo concreto (página, textos, atendimento): oferecer curso. Se falar em automatizar processo ou decisão de negócio: oferecer o pacote com Sessão.</td></tr>
+</table>
+<div class="box ok">
+  <b class="t">Sinais de fit imediato</b>
+  <p>Fez a Zona de Genialidade. Já segue há meses. Vende o próprio jeito de pensar (terapia, mentoria, consultoria, aula). Fala da IA com frustração, não com medo. Qualquer um desses: pular para a oferta.</p>
+</div>
+
+<h3>Contagem por origem</h3>
+<p class="small">Um traço por lead novo. No fim da rodada, a coluna mais cheia diz onde investir no próximo lançamento.</p>
+<table class="data tight">
+  <tr><th style="width:28%">Fonte</th><th>14</th><th>15</th><th>16</th><th>17</th><th>18</th><th>19</th><th>20</th><th>21</th><th style="width:10%">Total</th></tr>
+  <tr><td>Lista leads_zng (e-mail)</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>Direct de story</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>CTA da página</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>Comentário em carrossel</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>Indicação</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>Cliente da Sessão</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+</table>
+
+<!-- ============ 03 MENSAGENS ============ -->
+<div class="pb"></div>
+<h2>03 &middot; Mensagens de WhatsApp</h2>
+<p class="lead">Use como estrutura. Personalize a primeira frase sempre que houver contexto. Campos entre colchetes saem antes do envio. Preço e prazo vêm da ficha da oferta, nunca de cabeça.</p>
+
+<h3>1. Resposta padrão ao CTA (&ldquo;Oi Jaya, quero o Claude do Zero a R$ 197&rdquo;)</h3>
+<div class="code msg"><div class="cap">copiar e personalizar</div>
+<pre>Oi, [nome]. Fechado: Claude do Zero, R$ 197, acesso vitalício.
+Pix: [chave], em nome de [titular].
+Me manda o comprovante e o e-mail da tua conta Google (o mesmo que você usa pra entrar no Gmail). Libero em até 24h e te aviso aqui.</pre></div>
+<p class="small">Pacote: mesma mensagem com &ldquo;Claude do Zero + Sessão, R$ 597&rdquo;.</p>
+
+<h3>2. Chegou sem contexto (&ldquo;quero saber mais&rdquo;)</h3>
+<div class="code msg"><div class="cap">copiar e personalizar</div>
+<pre>Oi, [nome]. O Claude do Zero são cinco aulas visuais pra você sair com a ferramenta sabendo quem você é: teu público, teu preço, teu jeito de falar. Sem vídeo longo, sem turma, no teu ritmo, acesso vitalício.
+Me conta uma coisa antes: você já usa Claude ou ChatGPT hoje? E o que mais te irrita na resposta que ele te dá?</pre></div>
+
+<h3>3. Objeção: &ldquo;eu já uso o ChatGPT, pra que isso?&rdquo;</h3>
+<div class="code msg"><div class="cap">copiar e personalizar</div>
+<pre>Justamente por isso. A ferramenta que você usa não sabe quem você é: teu público, teu preço, tua história, o jeito como você fala. Sem isso ela responde a média da internet, e é por isso que você reescreve tudo depois.
+A Aula 3 resolve isso: você constrói o teu Documento Mestre com prompts guiados e cola nela. Funciona no Claude e você pode usar como referência no ChatGPT também. As outras quatro aulas são o antes e o depois disso.
+R$ 197 até domingo, 21/09. Depois, R$ 297.</pre></div>
+
+<h3>4. Objeção: &ldquo;é vídeo? preciso do Claude pago?&rdquo;</h3>
+<div class="code msg"><div class="cap">copiar e personalizar</div>
+<pre>Não depende de vídeo: são páginas visuais, slides guiados, prompts com botão de copiar, exercícios e ferramentas interativas. Você faz enquanto aprende.
+Claude pago não precisa pra começar. O Free serve; o Pro (uns R$ 100/mês) é pra quem vai usar de verdade, e a Aula 1 te ajuda a decidir qual faz sentido pra você.</pre></div>
+
+<h3>5. Objeção: &ldquo;não tenho tempo agora&rdquo;</h3>
+<div class="code msg"><div class="cap">copiar e personalizar</div>
+<pre>Entendo. O acesso é vitalício, então o tempo é teu. Aulas 1 a 3 cabem numa tarde; a 4 pede uma hora com você mesma; a 5 depende do que você quiser construir.
+O que tem prazo é o preço: R$ 197 até domingo, depois R$ 297 e fica. Se garantir agora, faz quando der.</pre></div>
+
+<div class="pb"></div>
+<h3>6. Pix enviado, sem comprovante em 24h</h3>
+<div class="code msg"><div class="cap">copiar e personalizar</div>
+<pre>Oi, [nome]. Só retomando: te mandei o Pix ontem e não recebi o comprovante. Ainda quer garantir a R$ 197? O valor vale até domingo, 21/09, 23h59. Se não for o momento, tudo bem, prefiro clareza a pressão.</pre></div>
+
+<h3>7. Comprovante recebido, falta o e-mail Google</h3>
+<div class="code msg"><div class="cap">copiar e personalizar</div>
+<pre>Recebi, [nome], obrigada. Pra liberar só falta o e-mail da tua conta Google, o mesmo que você usa pra entrar no Gmail. É por ele que você entra na área da aluna.</pre></div>
+
+<h3>8. Acesso liberado</h3>
+<div class="code msg"><div class="cap">copiar e personalizar</div>
+<pre>Liberado. Entra em https://claude-by-jaya.vercel.app com a conta Google [e-mail]. Começa pela Aula 1, a ordem importa. Qualquer travada no login me chama aqui.</pre></div>
+
+<h3>9. Pacote: agendar a Sessão</h3>
+<div class="code msg"><div class="cap">copiar e personalizar</div>
+<pre>Sessão: me passa 3 horários na semana que vem que eu confirmo um. Antes dela, faz pelo menos a Aula 3, o Documento Mestre. A sessão começa de onde ele termina, e assim a gente usa os 90 minutos em decisão, não em contexto.</pre></div>
+
+<h3>10. D+2: entrou?</h3>
+<div class="code msg"><div class="cap">copiar e personalizar</div>
+<pre>Oi, [nome]. Conseguiu entrar e abrir a Aula 1? Se travou em qualquer ponto, me manda um print que eu resolvo hoje.</pre></div>
+
+<h3>11. D+7: check-in de validação</h3>
+<div class="code msg"><div class="cap">copiar e personalizar</div>
+<pre>Uma semana de acesso, [nome]. Me responde em três linhas: 1) em qual aula você está; 2) o teu Documento Mestre já saiu?; 3) o que travou ou faltou. Uso isso pra melhorar o curso, e se algo ficou grande demais a gente reduz.</pre></div>
+
+<h3>12. Pedido de depoimento</h3>
+<div class="code msg"><div class="cap">copiar e personalizar</div>
+<pre>Se o curso te ajudou, posso usar uma fala tua como depoimento? Três linhas bastam: &ldquo;Antes eu... / No curso percebi... / Agora consigo...&rdquo;. Só publico com a tua aprovação, e sem sobrenome se preferir.</pre></div>
+
+<div class="pb"></div>
+<h3>13. Oferta da Sessão para quem comprou só o curso</h3>
+<div class="code msg"><div class="cap">copiar e personalizar · só depois do documento mestre feito</div>
+<pre>Com o teu Documento Mestre pronto, dá pra dar o próximo passo: a Sessão Estratégica de IA, 90 minutos individuais, online. Saímos com um problema teu escolhido, o fluxo desenhado e um plano de sete dias. R$ 497. Detalhes: https://jayaroberta.com.br/sessao-estrategica-ia. Quer?</pre></div>
+
+<h3>14. Pediu depois do prazo (a partir de 22/09)</h3>
+<div class="code msg"><div class="cap">copiar e personalizar · sem exceção</div>
+<pre>Oi, [nome]. O lançamento a R$ 197 encerrou domingo. O Claude do Zero segue disponível a R$ 297, acesso vitalício, mesmas cinco aulas e ferramentas. Se quiser, te mando o Pix.</pre></div>
+
+<h3>15. Pedido de reembolso</h3>
+<div class="code msg"><div class="cap">copiar e personalizar · dentro de 7 dias, honrar sem discutir</div>
+<pre>Claro, [nome]. Me passa a chave Pix pra devolução que eu faço hoje e desativo o acesso. Se puder me dizer em uma linha o que não atendeu, ajuda a melhorar o curso. Sem problema nenhum.</pre></div>
+
+<div class="box warn">
+  <b class="t">Reembolso é dado, não derrota</b>
+  <p>CDC garante 7 dias. Devolver no mesmo dia, desativar em <code>/admin</code>, registrar o motivo na ficha de objeções. Um reembolso bem feito vira indicação; um reembolso discutido vira story negativo.</p>
+</div>
+
+<h3>Minhas adaptações</h3>
+<p class="small">Frase que funcionou melhor que o texto pronto, para levar para a próxima rodada.</p>
+<table class="notes">
+  <tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr>
+</table>
+
+<!-- ============ 04 PAGAMENTO E LIBERAÇÃO ============ -->
+<div class="pb"></div>
+<h2>04 &middot; Pagamento e liberação</h2>
+<p class="lead">Promessa pública: acesso em até 24 horas. Meta interna: no mesmo bloco em que o comprovante chegou. Cada hora entre o Pix e o &ldquo;Liberado&rdquo; é ansiedade da aluna e chance de arrependimento.</p>
+
+<table class="flow"><tr>
+  <td><b>Comprovante</b><span>chega no WhatsApp</span></td>
+  <td class="arrow">&rarr;</td>
+  <td><b>Conferir</b><span>valor, data, nome</span></td>
+  <td class="arrow">&rarr;</td>
+  <td><b>E-mail Google</b><span>pedir se faltou</span></td>
+  <td class="arrow">&rarr;</td>
+  <td><b>/admin</b><span>adicionar e-mail</span></td>
+  <td class="arrow">&rarr;</td>
+  <td><b>Mensagem 8</b><span>&ldquo;Liberado&rdquo;</span></td>
+  <td class="arrow">&rarr;</td>
+  <td><b>Registrar</b><span>ficha e diário</span></td>
+</tr></table>
+
+<h3>Conferência do comprovante</h3>
+<table class="data">
+  <tr><th style="width:24%">Item</th><th style="width:40%">Confere se</th><th>Se não conferir</th></tr>
+  <tr><td><b>Valor</b></td><td>R$ 197,00 ou R$ 597,00 (até 21/09). R$ 297,00 ou R$ 697,00 (depois).</td><td>Valor menor: pedir a diferença antes de liberar. Valor maior: devolver a diferença no mesmo dia e agradecer.</td></tr>
+  <tr class="alt"><td><b>Data e hora</b></td><td>Dentro do prazo do lançamento para o preço de lançamento.</td><td>Pix de 22/09 com R$ 197: liberar mesmo assim se a conversa começou antes do prazo. Anotar como exceção.</td></tr>
+  <tr><td><b>Destinatário</b></td><td>Chave e titular da Jaya.</td><td>Foi para outra chave: não liberar, orientar a pessoa a pedir devolução ao banco.</td></tr>
+  <tr class="alt"><td><b>Nome do pagador</b></td><td>Igual ou compatível com quem está na conversa.</td><td>Terceiro pagando (marido, mãe): normal. Registrar o nome da aluna, não do pagador.</td></tr>
+  <tr><td><b>E-mail Google</b></td><td>Termina em gmail.com ou é Google Workspace. Escrito, não falado.</td><td>Hotmail, iCloud: explicar que o login é com conta Google e pedir outra. Se não tem: criar uma leva 5 minutos.</td></tr>
+</table>
+
+<h3>Liberar no /admin</h3>
+<ol>
+  <li>Entrar em <code>claude-by-jaya.vercel.app/admin</code> com a conta admin.</li>
+  <li>Colar o e-mail exatamente como a aluna escreveu. Minúsculas. Sem espaço.</li>
+  <li>Confirmar a mensagem &ldquo;[e-mail] liberado&rdquo;. Se disser &ldquo;já está na lista&rdquo;, a pessoa já tinha acesso: avisar e seguir.</li>
+  <li>Enviar a mensagem 8. Pacote: emendar a mensagem 9.</li>
+  <li>Registrar na ficha da aluna: data e hora da liberação, oferta, valor.</li>
+</ol>
+<div class="box stop">
+  <b class="t">Nunca</b>
+  <p>Liberar antes do comprovante. Pedir senha, CPF ou dado bancário da aluna. Liberar e-mail ditado por áudio sem confirmar por escrito. Prometer prazo menor que 24h em público, mesmo que costume ser 10 minutos.</p>
+</div>
+
+<h3>Problemas comuns no primeiro acesso</h3>
+<table class="data">
+  <tr><th style="width:32%">Sintoma</th><th>Causa e conserto</th></tr>
+  <tr><td>&ldquo;Diz que não tenho acesso&rdquo;</td><td>Entrou com outra conta Google. Pedir print da tela de login e conferir o e-mail com o que está no <code>/admin</code>.</td></tr>
+  <tr class="alt"><td>&ldquo;Não abre nada&rdquo;</td><td>Navegador com bloqueio de cookies ou aba anônima. Pedir para abrir no Chrome normal, logado no Google.</td></tr>
+  <tr><td>E-mail digitado errado por mim</td><td>Adicionar o e-mail correto no <code>/admin</code>. O errado fica inativo, sem custo.</td></tr>
+  <tr class="alt"><td>Quer trocar de conta depois</td><td>Adicionar a nova, avisar que a antiga deixa de valer. Uma aluna, uma conta.</td></tr>
+</table>
+
+<h3>Registro de liberações pendentes</h3>
+<p class="small">Comprovante chegou mas ainda não liberei. Esta lista precisa estar vazia toda noite.</p>
+<table class="data tight">
+  <tr><th style="width:30%">Nome</th><th style="width:22%">Comprovante em</th><th style="width:22%">Falta</th><th>Liberado em</th></tr>
+  <tr><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+</table>
+
+<!-- ============ 05 CONTROLE ============ -->
+<div class="pb"></div>
+<h2>05 &middot; Controle de vendas</h2>
+<h3>Regras do funil</h3>
+<ul class="chk">
+  <li>&#9744; Interesse não conta. Comprovante conferido conta.</li>
+  <li>&#9744; Cada lead tem próxima ação e prazo escritos na ficha. Lead sem próxima ação é lead perdido que ainda não sabe.</li>
+  <li>&#9744; Conversão sem drama: conversa, Pix, comprovante, liberação, entrou, validou, depoimento.</li>
+  <li>&#9744; Ao chegar em 50 alunas, o preço de lançamento encerra mesmo antes do dia 21. Aviso no story e mensagem 14 para quem chegar depois.</li>
+  <li>&#9744; Perdida recebe motivo em uma linha, sem perseguição. Motivo repetido três vezes vira FAQ na página.</li>
+</ul>
+
+<h3>Status operacionais</h3>
+<table class="data">
+  <tr><th style="width:22%">Status</th><th style="width:36%">Quando usar</th><th>Próxima ação obrigatória</th></tr>
+  <tr><td><b>Lead novo</b></td><td>Manifestou interesse por qualquer canal</td><td>Responder em até 2h e registrar origem</td></tr>
+  <tr class="alt"><td><b>Qualificado</b></td><td>Tem fit, sabe o preço, escolheu curso ou pacote</td><td>Enviar Pix (mensagem 1)</td></tr>
+  <tr><td><b>Pix enviado</b></td><td>Recebeu chave e titular</td><td>Anotar prazo. Sem comprovante em 24h: mensagem 6</td></tr>
+  <tr class="alt"><td><b>Pago</b></td><td>Comprovante conferido</td><td>Pedir e-mail Google se faltou; liberar</td></tr>
+  <tr><td><b>Liberado</b></td><td>E-mail no <code>/admin</code>, mensagem 8 enviada</td><td>Agendar D+2 na agenda</td></tr>
+  <tr class="alt"><td><b>Entrou</b></td><td>Confirmou acesso e Aula 1 aberta</td><td>Agendar D+7</td></tr>
+  <tr><td><b>Validada</b></td><td>D+7 respondido; Documento Mestre saiu ou trava registrada</td><td>Pedir depoimento; oferecer Sessão se for só curso</td></tr>
+  <tr class="alt"><td><b>Concluída</b></td><td>Depoimento recebido ou Sessão vendida</td><td>Registrar na ficha de depoimentos</td></tr>
+  <tr><td><b>Perdida</b></td><td>Não avançou, desistiu ou não tem fit</td><td>Registrar motivo. Indicar a Zona gratuita</td></tr>
+  <tr class="alt"><td><b>Reembolsada</b></td><td>Pediu devolução em até 7 dias</td><td>Devolver no dia, desativar acesso, registrar motivo</td></tr>
+  <tr><td><b>Pós-prazo</b></td><td>Chegou depois de 21/09 ou da 50ª aluna</td><td>Mensagem 14, preço cheio</td></tr>
+</table>
+
+<div class="box">
+  <b class="t">Painel mínimo diário</b>
+  <p>Alunas pagas, receita confirmada, comprovantes sem liberação, Pix enviados sem comprovante há mais de 24h, leads sem próxima ação, D+2 e D+7 de hoje. O resto é detalhe até o dia 21.</p>
+</div>
+
+<h3>Meta da rodada</h3>
+<table class="data">
+  <tr><th style="width:30%">Cenário</th><th style="width:30%">Alunas</th><th>Receita (só curso a R$ 197)</th></tr>
+  <tr><td>Mínimo que paga o lançamento</td><td>10</td><td>R$ 1.970</td></tr>
+  <tr class="alt"><td>Metade do teto</td><td>25</td><td>R$ 4.925</td></tr>
+  <tr><td>Teto do preço de lançamento</td><td>50</td><td>R$ 9.850</td></tr>
+  <tr class="alt"><td colspan="3"><b>Cada pacote com Sessão acrescenta R$ 400 ao valor do curso</b> e uma sessão de 90 minutos na agenda. Cinco pacotes = R$ 2.000 a mais e uma semana de sessões.</td></tr>
+</table>
+<p><b>Minha meta escrita antes de olhar os números:</b> ______ alunas &middot; ______ pacotes &middot; R$ ____________ até 21/09.</p>
+
+<!-- ============ 06 VALIDAÇÃO ============ -->
+<div class="pb"></div>
+<h2 class="copper">06 &middot; Validação do curso</h2>
+<p class="lead">Venda valida a oferta. Uso valida o curso. Depoimento valida a promessa. Este lançamento precisa provar os três, e cada um tem uma evidência diferente.</p>
+
+<table class="cards">
+  <tr>
+    <td><b class="t">Oferta validada</b>Gente paga R$ 197 pelo que a página promete, sem desconto extra e sem call de venda. Evidência: número de alunas, mix curso/pacote, objeções que apareceram e as que não apareceram.</td>
+    <td class="y"><b class="t">Curso validado</b>Quem paga entra, chega à Aula 3 e sai com o Documento Mestre. Evidência: respostas do D+2 e do D+7, travas relatadas, quem sumiu depois de pagar.</td>
+  </tr>
+</table>
+<table class="cards">
+  <tr>
+    <td class="g"><b class="t">Promessa validada</b>A aluna consegue dizer, com as próprias palavras, que a ferramenta agora sabe quem ela é. Evidência: depoimento antes/depois, print de resposta boa, landing page publicada.</td>
+    <td class="r"><b class="t">Não validado se</b>Só amigas compraram. Ninguém passou da Aula 1. Objeção repetida sem resposta na página. Reembolso acima de 1 em 10. Nenhum depoimento espontâneo em 30 dias.</td>
+  </tr>
+</table>
+
+<h3>Marcos por aluna</h3>
+<table class="flow"><tr>
+  <td><b>Liberada</b><span>dia 0</span></td>
+  <td class="arrow">&rarr;</td>
+  <td><b>Entrou</b><span>D+2, Aula 1 aberta</span></td>
+  <td class="arrow">&rarr;</td>
+  <td><b>Documento Mestre</b><span>D+7, Aula 3 feita</span></td>
+  <td class="arrow">&rarr;</td>
+  <td><b>Construiu algo</b><span>D+30, Zona ou landing</span></td>
+  <td class="arrow">&rarr;</td>
+  <td><b>Prova</b><span>depoimento ou Sessão</span></td>
+</tr></table>
+
+<h3>Hipóteses do lançamento</h3>
+<p class="small">Escrever o resultado no dia 22, com número. Hipótese sem número não foi testada.</p>
+<table class="data">
+  <tr><th style="width:36%">Hipótese</th><th style="width:34%">Como medir</th><th>Resultado</th></tr>
+  <tr><td>Quem fez a Zona de Genialidade compra mais que quem veio só do story</td><td>Alunas vindas da lista leads_zng ÷ total de alunas, contra tamanho relativo da lista</td><td class="fill"></td></tr>
+  <tr class="alt"><td>A objeção número 1 é &ldquo;já uso o ChatGPT&rdquo;</td><td>Contagem na ficha de objeções</td><td class="fill"></td></tr>
+  <tr><td>Pelo menos 1 em 5 compra o pacote com Sessão</td><td>Pacotes ÷ alunas</td><td class="fill"></td></tr>
+  <tr class="alt"><td>R$ 197 é aceito sem pedido de desconto</td><td>Pedidos de desconto ou parcelamento registrados</td><td class="fill"></td></tr>
+  <tr><td>Liberação em até 24h é suficiente</td><td>Quem perguntou &ldquo;já liberou?&rdquo; antes do prazo</td><td class="fill"></td></tr>
+  <tr class="alt"><td>Quem entra chega à Aula 3 em uma semana</td><td>Respostas ao D+7 com Documento Mestre feito ÷ liberadas</td><td class="fill"></td></tr>
+  <tr><td>O curso se explica sozinho (sem call de venda)</td><td>Vendas fechadas só por texto ÷ total</td><td class="fill"></td></tr>
+</table>
+
+<div class="pb"></div>
+<h3>Acompanhamento por aluna</h3>
+<p class="small">Uma linha por aluna liberada. Marque a data em cada marco. Célula vazia depois do prazo é aluna para chamar.</p>
+<table class="data tight">
+  <tr><th style="width:5%">N.</th><th style="width:27%">Nome</th><th style="width:12%">Liberada</th><th style="width:12%">Entrou D+2</th><th style="width:12%">Doc. Mestre D+7</th><th style="width:12%">Construiu D+30</th><th>Prova</th></tr>
+  <tr><td>1</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>2</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>3</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>4</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>5</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>6</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>7</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>8</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>9</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>10</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>11</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>12</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>13</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>14</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>15</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>16</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>17</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>18</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>19</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>20</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+</table>
+<p class="small">Mais de 20 alunas: fotocopiar esta página antes de preencher.</p>
+
+<div class="pb"></div>
+<h3>O que o D+7 tem que responder</h3>
+<table class="data">
+  <tr><th style="width:36%">Pergunta</th><th>O que fazer com a resposta</th></tr>
+  <tr><td>Em qual aula você está?</td><td>Aula 1 ou nenhuma: chamar em 48h com a mensagem 10 adaptada. Aula 3 ou além: pedir depoimento.</td></tr>
+  <tr class="alt"><td>O teu Documento Mestre já saiu?</td><td>Sim: marco cumprido, oferecer Sessão (mensagem 13). Não: perguntar onde travou; se foi na entrevista, mandar a ficha 8.2 do caderno da aluna.</td></tr>
+  <tr><td>O que travou ou faltou?</td><td>Registrar na ficha de objeções como &ldquo;pós-venda&rdquo;. Repetiu três vezes: corrige a aula, não a aluna.</td></tr>
+</table>
+
+<h3>Definição de curso validado nesta rodada</h3>
+<div class="box ok">
+  <b class="t">Pronto para dizer que funciona quando</b>
+  <p>Pelo menos 10 alunas pagaram sem desconto; pelo menos 6 em 10 entraram até o D+2; pelo menos metade das que entraram tem Documento Mestre no D+7; três depoimentos com antes e depois; reembolso igual ou menor que 1 em 10. Abaixo disso, o lançamento ensinou, mas não validou.</p>
+</div>
+
+<h3>Registro de objeções</h3>
+<p class="small">Um traço por vez que ouviu. A resposta que funcionou vai na última coluna. Objeção com três traços vira FAQ na página e story.</p>
+<table class="data">
+  <tr><th style="width:36%">Objeção, com a frase da pessoa</th><th style="width:14%">Vezes</th><th>Resposta que funcionou</th></tr>
+  <tr><td>&ldquo;Já uso o ChatGPT&rdquo;</td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>&ldquo;É vídeo? Não tenho paciência pra curso&rdquo;</td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>&ldquo;Preciso pagar o Claude também?&rdquo;</td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>&ldquo;Não tenho tempo agora&rdquo;</td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>&ldquo;Tem parcelamento? Cartão?&rdquo;</td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>&ldquo;Tem certificado?&rdquo;</td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>&ldquo;Não entendo nada de tecnologia&rdquo;</td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+</table>
+
+<!-- ============ 07 CHECKLIST ============ -->
+<div class="pb"></div>
+<h2 class="navy">07 &middot; Checklist da vendedora</h2>
+<h3>Todo dia, de 14 a 21</h3>
+<table class="cards">
+  <tr>
+    <td><b class="t">Manhã</b>&#9744; Directs e WhatsApp respondidos<br>&#9744; Pix sem comprovante há 24h: mensagem 6<br>&#9744; Comprovantes da noite conferidos e liberados<br>&#9744; D+2 e D+7 do dia enviados<br>&#9744; Story do dia publicado com CTA</td>
+    <td class="y"><b class="t">Noite</b>&#9744; Nenhuma liberação pendente<br>&#9744; Fichas de lead com próxima ação e prazo<br>&#9744; Diário da rodada preenchido<br>&#9744; Objeções do dia registradas<br>&#9744; Story de amanhã escolhido pela objeção mais ouvida</td>
+  </tr>
+</table>
+
+<h3>Domingo 21: fechamento</h3>
+<ul class="chk">
+  <li>&#9744; E-mail 3 enviado de manhã.</li>
+  <li>&#9744; Story &ldquo;fecha hoje 23h59&rdquo; de manhã e outro no fim da tarde.</li>
+  <li>&#9744; Todo Pix enviado sem comprovante recebe a mensagem 6 adaptada com &ldquo;hoje&rdquo;.</li>
+  <li>&#9744; Última conferência de comprovantes às 23h. Pix com horário até 23h59 vale R$ 197.</li>
+  <li>&#9744; Registro de quantas alunas fecharam a rodada.</li>
+</ul>
+
+<h3>Segunda 22: pós-prazo</h3>
+<ul class="chk">
+  <li>&#9744; Conferir que a página mostra R$ 297 e sumiu o riscado. Ela muda sozinha; se não mudou, avisar quem cuida do deploy.</li>
+  <li>&#9744; Bio do Instagram atualizada: sai o &ldquo;R$ 197 até 21/09&rdquo;.</li>
+  <li>&#9744; Quem pedir hoje recebe a mensagem 14. Sem exceção, sem &ldquo;só pra você&rdquo;.</li>
+  <li>&#9744; Preencher a coluna Resultado das hipóteses (seção 06) com número.</li>
+  <li>&#9744; Bloco de 30 minutos: indicadores da rodada (seção 08).</li>
+</ul>
+
+<h3>Semanas seguintes</h3>
+<ul class="chk">
+  <li>&#9744; D+7 de cada aluna na data certa. Agenda, não memória.</li>
+  <li>&#9744; Sessões do pacote agendadas e preparadas com o kit próprio da Sessão.</li>
+  <li>&#9744; Depoimentos pedidos assim que o Documento Mestre sair, não &ldquo;depois&rdquo;.</li>
+  <li>&#9744; Três depoimentos aprovados publicados na página e no story.</li>
+  <li>&#9744; D+30: perguntar quem construiu algo (landing, Zona, textos) e pedir print.</li>
+</ul>
+
+<div class="box">
+  <b class="t">Definição de dia bem fechado</b>
+  <p>Ninguém esperando resposta há mais de 2 horas em horário comercial. Ninguém com comprovante enviado e acesso pendente. Todo lead com a próxima ação escrita. O diário preenchido. O resto pode esperar amanhã.</p>
+</div>
+
+<!-- ============ 08 INDICADORES ============ -->
+<div class="pb"></div>
+<h2>08 &middot; Indicadores e aprendizado</h2>
+<h3>Indicadores da rodada</h3>
+<p class="small">Preencher dia 22 e de novo dia 21/10 (D+30 da última aluna). Meta inicial é referência, não cobrança: primeira rodada serve para aprender o número real.</p>
+<table class="data">
+  <tr><th style="width:26%">Indicador</th><th style="width:34%">Cálculo</th><th style="width:16%">Meta inicial</th><th>Resultado</th></tr>
+  <tr><td><b>Alunas</b></td><td>Comprovantes conferidos</td><td>10 a 50</td><td class="fill"></td></tr>
+  <tr class="alt"><td><b>Receita</b></td><td>Soma dos Pix conferidos</td><td>R$ 1.970 mínimo</td><td class="fill"></td></tr>
+  <tr><td><b>Conversão da conversa</b></td><td>Alunas ÷ leads que receberam Pix</td><td>Aprender</td><td class="fill"></td></tr>
+  <tr class="alt"><td><b>Conversão da lista</b></td><td>Alunas vindas da leads_zng ÷ tamanho da lista</td><td>Aprender</td><td class="fill"></td></tr>
+  <tr><td><b>Mix pacote</b></td><td>Pacotes ÷ alunas</td><td>&ge; 20%</td><td class="fill"></td></tr>
+  <tr class="alt"><td><b>Tempo de liberação</b></td><td>Média entre comprovante e mensagem 8</td><td>&le; 6h</td><td class="fill"></td></tr>
+  <tr><td><b>Entrada D+2</b></td><td>Entraram ÷ liberadas</td><td>&ge; 60%</td><td class="fill"></td></tr>
+  <tr class="alt"><td><b>Documento Mestre D+7</b></td><td>Doc. Mestre feito ÷ entraram</td><td>&ge; 50%</td><td class="fill"></td></tr>
+  <tr><td><b>Depoimentos úteis</b></td><td>Com antes e depois ÷ validadas</td><td>3 na rodada</td><td class="fill"></td></tr>
+  <tr class="alt"><td><b>Reembolsos</b></td><td>Reembolsadas ÷ alunas</td><td>&le; 10%</td><td class="fill"></td></tr>
+  <tr><td><b>Upsell Sessão</b></td><td>Sessões vendidas depois do curso ÷ só curso</td><td>Aprender</td><td class="fill"></td></tr>
+</table>
+
+<h3>Registro pós-rodada: 20 minutos, dia 22</h3>
+<ul>
+  <li>Qual fonte trouxe mais alunas, e qual trouxe mais conversa sem venda?</li>
+  <li>Qual objeção mais ouvi, e a página já responde a ela?</li>
+  <li>Em que momento da conversa as pessoas somem: depois do preço, depois do Pix, depois de liberar?</li>
+  <li>Quanto tempo por dia o lançamento consumiu de verdade?</li>
+  <li>Que mensagem pronta eu reescrevi na hora, e como ficou?</li>
+  <li>O que uma aluna disse que eu quero na página da próxima rodada, sem nome?</li>
+</ul>
+<table class="notes">
+  <tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr>
+</table>
+
+<div class="box">
+  <b class="t">Próxima camada</b>
+  <p>O que se repetir três vezes deixa de ser improviso: objeção vira FAQ, trava de aluna vira ajuste na aula, pedido que o curso não cobre vira produto ou oficina, e quem terminou o Documento Mestre é a lista da próxima Sessão. Depois de 50 alunas, a Zona de Genialidade gratuita e este curso passam a ser um funil só.</p>
+</div>
+
+<!-- ============ 09 FICHAS ============ -->
+<div class="pb"></div>
+<h2 class="navy">09 &middot; Fichas</h2>
+<h3>9.1 Ficha de lead</h3>
+<p class="small">Uma por pessoa que abriu conversa. A linha &ldquo;Próxima ação&rdquo; nunca fica vazia.</p>
+<table class="data tight">
+  <tr><th style="width:24%">Nome</th><th>________________________________</th><th style="width:16%">Origem</th><th>________________</th></tr>
+  <tr><td><b>Primeiro contato</b></td><td>____ / ____ &middot; ____h</td><td><b>Oferta</b></td><td>&#9744; Curso &nbsp; &#9744; Pacote</td></tr>
+  <tr class="alt"><td><b>Frase dela</b></td><td colspan="3" class="fill"></td></tr>
+  <tr><td><b>Objeção</b></td><td colspan="3" class="fill"></td></tr>
+  <tr class="alt"><td><b>Pix enviado</b></td><td>____ / ____</td><td><b>Comprovante</b></td><td>____ / ____ &middot; R$ ________</td></tr>
+  <tr><td><b>E-mail Google</b></td><td colspan="3">____________________________________________</td></tr>
+  <tr class="alt"><td><b>Liberada</b></td><td>____ / ____ &middot; ____h</td><td><b>Status</b></td><td>______________</td></tr>
+  <tr><td><b>Próxima ação</b></td><td colspan="2" class="fill"></td><td><b>Até</b> ____ / ____</td></tr>
+</table>
+<table class="data tight">
+  <tr><th style="width:24%">Nome</th><th>________________________________</th><th style="width:16%">Origem</th><th>________________</th></tr>
+  <tr><td><b>Primeiro contato</b></td><td>____ / ____ &middot; ____h</td><td><b>Oferta</b></td><td>&#9744; Curso &nbsp; &#9744; Pacote</td></tr>
+  <tr class="alt"><td><b>Frase dela</b></td><td colspan="3" class="fill"></td></tr>
+  <tr><td><b>Objeção</b></td><td colspan="3" class="fill"></td></tr>
+  <tr class="alt"><td><b>Pix enviado</b></td><td>____ / ____</td><td><b>Comprovante</b></td><td>____ / ____ &middot; R$ ________</td></tr>
+  <tr><td><b>E-mail Google</b></td><td colspan="3">____________________________________________</td></tr>
+  <tr class="alt"><td><b>Liberada</b></td><td>____ / ____ &middot; ____h</td><td><b>Status</b></td><td>______________</td></tr>
+  <tr><td><b>Próxima ação</b></td><td colspan="2" class="fill"></td><td><b>Até</b> ____ / ____</td></tr>
+</table>
+<table class="data tight">
+  <tr><th style="width:24%">Nome</th><th>________________________________</th><th style="width:16%">Origem</th><th>________________</th></tr>
+  <tr><td><b>Primeiro contato</b></td><td>____ / ____ &middot; ____h</td><td><b>Oferta</b></td><td>&#9744; Curso &nbsp; &#9744; Pacote</td></tr>
+  <tr class="alt"><td><b>Frase dela</b></td><td colspan="3" class="fill"></td></tr>
+  <tr><td><b>Objeção</b></td><td colspan="3" class="fill"></td></tr>
+  <tr class="alt"><td><b>Pix enviado</b></td><td>____ / ____</td><td><b>Comprovante</b></td><td>____ / ____ &middot; R$ ________</td></tr>
+  <tr><td><b>E-mail Google</b></td><td colspan="3">____________________________________________</td></tr>
+  <tr class="alt"><td><b>Liberada</b></td><td>____ / ____ &middot; ____h</td><td><b>Status</b></td><td>______________</td></tr>
+  <tr><td><b>Próxima ação</b></td><td colspan="2" class="fill"></td><td><b>Até</b> ____ / ____</td></tr>
+</table>
+
+<div class="pb"></div>
+<h3>9.2 Registro de vendas</h3>
+<p class="small">Só entra aqui quem tem comprovante conferido. Numeração é a ordem de pagamento: a 50ª fecha o preço de lançamento.</p>
+<table class="data tight">
+  <tr><th style="width:5%">N.</th><th style="width:26%">Nome</th><th style="width:9%">Data</th><th style="width:8%">C / P</th><th style="width:11%">Valor</th><th style="width:27%">E-mail Google</th><th>Liberada</th></tr>
+  <tr><td>1</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>2</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>3</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>4</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>5</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>6</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>7</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>8</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>9</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>10</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>11</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>12</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>13</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>14</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>15</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>16</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>17</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>18</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>19</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>20</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>21</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>22</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>23</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>24</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>25</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+</table>
+<p class="small">Subtotal desta página: ______ alunas &middot; ______ pacotes &middot; R$ ____________</p>
+
+<div class="pb"></div>
+<table class="data tight">
+  <tr><th style="width:5%">N.</th><th style="width:26%">Nome</th><th style="width:9%">Data</th><th style="width:8%">C / P</th><th style="width:11%">Valor</th><th style="width:27%">E-mail Google</th><th>Liberada</th></tr>
+  <tr><td>26</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>27</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>28</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>29</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>30</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>31</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>32</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>33</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>34</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>35</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>36</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>37</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>38</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>39</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>40</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>41</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>42</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>43</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>44</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>45</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>46</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>47</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>48</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>49</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td><b>50</b></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+</table>
+<div class="box ok">
+  <b class="t">Linha 50 preenchida</b>
+  <p>Preço de lançamento encerra agora, mesmo que ainda não seja dia 21. Story avisando, bio atualizada, mensagem 14 para quem chegar. Total da rodada: ______ alunas &middot; ______ pacotes &middot; R$ ____________</p>
+</div>
+
+<div class="pb"></div>
+<h3>9.3 Diário da rodada</h3>
+<p class="small">Preencher toda noite. Acumulado é a soma até o dia. É a única tabela que mostra se o ritmo leva à meta.</p>
+<table class="data tight">
+  <tr><th style="width:12%">Dia</th><th style="width:11%">Leads novos</th><th style="width:11%">Pix enviados</th><th style="width:11%">Pagas hoje</th><th style="width:13%">Receita hoje</th><th style="width:13%">Acumulado</th><th>O que aprendi hoje</th></tr>
+  <tr><td>seg 14</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>ter 15</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>qua 16</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>qui 17</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>sex 18</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>sáb 19</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>dom 20</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td><b>dom 21</b></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>seg 22</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>semana 2</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>semana 3</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>semana 4</td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+</table>
+
+<h3>9.4 Perdidas, com motivo</h3>
+<p class="small">Sem perseguição. Motivo que se repete três vezes é problema da oferta, não da pessoa.</p>
+<table class="data tight">
+  <tr><th style="width:30%">Nome</th><th style="width:24%">Parou em</th><th>Motivo, em uma linha</th></tr>
+  <tr><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td class="fill"></td><td class="fill"></td><td class="fill"></td></tr>
+</table>
+
+<div class="pb"></div>
+<h3>9.5 Depoimentos</h3>
+<p class="small">Três linhas por aluna: antes, durante, depois. Marcar aprovação para uso público. Sem sobrenome se ela preferir.</p>
+<table class="data">
+  <tr><th style="width:20%">Aluna</th><th>Antes eu...</th><th>No curso percebi...</th><th>Agora consigo...</th><th style="width:9%">Aprovou</th></tr>
+  <tr><td class="fill" style="height:52pt"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td>&#9744;</td></tr>
+  <tr class="alt"><td class="fill" style="height:52pt"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td>&#9744;</td></tr>
+  <tr><td class="fill" style="height:52pt"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td>&#9744;</td></tr>
+  <tr class="alt"><td class="fill" style="height:52pt"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td>&#9744;</td></tr>
+  <tr><td class="fill" style="height:52pt"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td>&#9744;</td></tr>
+  <tr class="alt"><td class="fill" style="height:52pt"></td><td class="fill"></td><td class="fill"></td><td class="fill"></td><td>&#9744;</td></tr>
+</table>
+
+<h3>9.6 O que muda na próxima rodada</h3>
+<table class="notes">
+  <tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr>
+  <tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr>
+</table>
+<p class="small" style="margin-top:18pt">Jaya Roberta &middot; Shakti Jaya &middot; Inteligência que transforma &middot; Interesse não é venda. Comprovante é venda. Documento Mestre feito é curso entregue.</p>
+
+</div>
+</body>
+</html>

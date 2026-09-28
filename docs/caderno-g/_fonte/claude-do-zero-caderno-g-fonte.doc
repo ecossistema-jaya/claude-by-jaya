@@ -1,0 +1,873 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="ProgId" content="Word.Document">
+<meta name="Generator" content="Microsoft Word">
+<title>Claude do Zero: Caderno de trabalho</title>
+<!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:View>Print</w:View>
+  <w:Zoom>100</w:Zoom>
+  <w:DoNotOptimizeForBrowser/>
+ </w:WordDocument>
+</xml><![endif]-->
+<style>
+@page Section1 {
+  size: 200mm 275mm;
+  mso-page-orientation: portrait;
+  margin: 14mm 12mm 14mm 24mm;
+  mso-header-margin: 8mm;
+  mso-footer-margin: 8mm;
+  mso-paper-source: 0;
+}
+div.Section1 { page: Section1; }
+
+body {
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 10.5pt;
+  line-height: 1.45;
+  color: #2B2320;
+  margin: 0;
+}
+p { margin: 0 0 7pt 0; }
+ul, ol { margin: 0 0 8pt 0; padding-left: 16pt; }
+li { margin-bottom: 3.5pt; }
+em { font-style: italic; }
+
+h1 { font-size: 26pt; line-height: 1.08; color: #86050C; margin: 0 0 6pt 0; font-weight: bold; }
+h2 {
+  font-size: 15.5pt; color: #FFFFFF; background: #86050C;
+  margin: 0 0 10pt 0; padding: 6pt 10pt; font-weight: bold;
+  page-break-after: avoid;
+}
+h2.red    { background: #A32530; }
+h2.yellow { background: #B06000; }
+h2.green  { background: #188038; }
+h2.navy   { background: #2B2320; }
+h2.copper { background: #DF6E36; }
+h3 {
+  font-size: 12pt; color: #86050C; margin: 13pt 0 5pt 0; font-weight: bold;
+  border-bottom: 1px solid #E7D6BE; padding-bottom: 3pt; page-break-after: avoid;
+}
+h4 {
+  font-size: 10pt; color: #6B5D53; margin: 10pt 0 4pt 0; font-weight: bold;
+  text-transform: uppercase; letter-spacing: 0.5pt; page-break-after: avoid;
+}
+
+.bar { width: 100%; border-collapse: collapse; margin: 0 0 10pt 0; }
+.bar td { height: 7pt; font-size: 1pt; line-height: 7pt; }
+
+.kicker {
+  font-size: 8pt; font-weight: bold; color: #DF6E36;
+  letter-spacing: 1.2pt; text-transform: uppercase; margin: 0 0 3pt 0;
+}
+.lead { font-size: 11pt; color: #6B5D53; margin: 0 0 12pt 0; }
+
+table.data { width: 100%; border-collapse: collapse; margin: 8pt 0 12pt 0; font-size: 9.5pt; }
+table.data th {
+  background: #86050C; color: #FFFFFF; text-align: left;
+  padding: 5pt 7pt; font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.4pt;
+  border: 1px solid #86050C;
+}
+table.data td { padding: 5pt 7pt; border: 1px solid #E7D6BE; vertical-align: top; }
+table.data tr.alt td { background: #FAF4EA; }
+table.data td.fill { height: 30pt; }
+
+table.cards { width: 100%; border-collapse: separate; border-spacing: 6pt 0; margin: 6pt 0 10pt 0; }
+table.cards td {
+  width: 50%; vertical-align: top; background: #FAF4EA;
+  border: 1px solid #E7D6BE; border-top: 3px solid #86050C; padding: 8pt 10pt; font-size: 9.5pt;
+}
+table.cards td.r { border-top-color: #A32530; }
+table.cards td.y { border-top-color: #DF6E36; }
+table.cards td.g { border-top-color: #188038; }
+table.cards b.t { display: block; color: #86050C; font-size: 10pt; margin-bottom: 3pt; }
+
+.box {
+  border: 1px solid #F1DABF; border-left: 4px solid #DF6E36; background: #FAF4EA;
+  padding: 8pt 11pt; margin: 10pt 0; font-size: 10pt;
+}
+.box.warn { border-color: #FDE293; border-left-color: #F9AB00; background: #FEF7E0; }
+.box.ok   { border-color: #B7E1C4; border-left-color: #188038; background: #F1F8F3; }
+.box.stop { border-color: #F6C7C3; border-left-color: #A32530; background: #FCE9E7; }
+.box b.t { display: block; color: #86050C; margin-bottom: 3pt; }
+.box p:last-child { margin-bottom: 0; }
+
+.code {
+  background: #FAF4EA; border: 1px solid #E7D6BE; border-left: 3px solid #86050C;
+  padding: 7pt 9pt; margin: 6pt 0 11pt 0;
+}
+.code .cap {
+  font-family: Arial, sans-serif; font-size: 7.5pt; color: #6B5D53;
+  text-transform: uppercase; letter-spacing: 0.6pt; margin-bottom: 4pt; font-weight: bold;
+}
+pre {
+  margin: 0; font-family: Consolas, "Courier New", monospace;
+  font-size: 8.5pt; line-height: 1.38; color: #2B2320; white-space: pre-wrap;
+}
+code {
+  font-family: Consolas, "Courier New", monospace; font-size: 9pt;
+  background: #F1DABF; padding: 0 2pt; color: #86050C;
+}
+
+.flow { width: 100%; border-collapse: collapse; margin: 8pt 0 12pt 0; font-size: 9pt; }
+.flow td { border: 1px solid #E7D6BE; background: #FFFFFF; padding: 7pt 6pt; text-align: center; vertical-align: top; }
+.flow td.arrow { border: none; width: 14pt; color: #DF6E36; font-weight: bold; font-size: 12pt; }
+.flow b { color: #86050C; display: block; }
+.flow span { color: #6B5D53; font-size: 8pt; }
+
+.notes { width: 100%; border-collapse: collapse; margin: 6pt 0 12pt 0; }
+.notes td { border-bottom: 1px dotted #9AA0A6; height: 22pt; }
+
+.pb { page-break-before: always; }
+.small { font-size: 8.5pt; color: #6B5D53; }
+.chk { list-style: none; padding-left: 0; }
+.chk li { padding-left: 14pt; text-indent: -14pt; margin-bottom: 4pt; }
+
+table.toc { width: 100%; border-collapse: collapse; font-size: 10pt; margin-top: 8pt; }
+table.toc td { padding: 4pt 6pt; border-bottom: 1px solid #E7D6BE; vertical-align: top; }
+table.toc td.n { width: 26pt; color: #DF6E36; font-weight: bold; }
+</style>
+</head>
+
+<body>
+<div class="Section1">
+
+<!-- ============ CAPA ============ -->
+<table class="bar"><tr>
+  <td style="background:#86050C;width:25%"></td>
+  <td style="background:#DF6E36;width:25%"></td>
+  <td style="background:#F1DABF;width:25%"></td>
+  <td style="background:#2B2320;width:25%"></td>
+</tr></table>
+
+<p class="kicker">Jaya Roberta &middot; Claude do Zero &middot; 2026</p>
+<h1>Claude do Zero:<br>Caderno de trabalho</h1>
+<p class="lead" style="font-size:12pt">As cinco aulas e as duas ferramentas do curso, em papel, com espaço para escrever à mão o que é seu: prompts, decisões e resultados. Para quem quer que o Claude saiba quem você é.</p>
+
+<table class="data" style="margin-top:14pt">
+  <tr><td style="width:34%;background:#FAF4EA"><b>Data</b></td><td>17 de setembro de 2026</td></tr>
+  <tr class="alt"><td style="background:#FAF4EA"><b>Cobertura</b></td><td>Aulas 1 a 5, Manual 8 recursos do Claude, Mapa de Autoconhecimento e Zona de Genialidade</td></tr>
+  <tr><td style="background:#FAF4EA"><b>Área do aluno</b></td><td>jayaroberta.com/claude-do-zero (entrar com a conta Google cadastrada)</td></tr>
+  <tr class="alt"><td style="background:#FAF4EA"><b>Formato</b></td><td>200 &times; 275 mm &mdash; Caderno Inteligente G</td></tr>
+</table>
+
+<div class="box warn">
+  <b class="t">Antes de imprimir</b>
+  <p>Este documento já está paginado em 200 &times; 275 mm com margem esquerda de 24 mm reservada para os discos. Na caixa de impressão, escolha <b>Escala: 100%</b> (nunca &ldquo;ajustar à página&rdquo;) e papel de 200 &times; 275 mm ou A4 com corte.</p>
+</div>
+
+<h3 style="margin-top:16pt">Sumário</h3>
+<table class="toc">
+  <tr><td class="n">0</td><td><b>Como usar este caderno</b></td></tr>
+  <tr><td class="n">1</td><td><b>O mapa do curso</b> &middot; as cinco aulas, as duas ferramentas e a ordem certa</td></tr>
+  <tr><td class="n">2</td><td><b>Aula 1: Conversar com o Claude</b> &middot; plano, modelo, OCAS, web e os dois limites</td></tr>
+  <tr><td class="n">3</td><td><b>Aula 2: Botar o Claude pra trabalhar</b> &middot; artefatos, projetos, conectores e as quatro portas</td></tr>
+  <tr><td class="n">4</td><td><b>Aula 3: Documento Mestre</b> &middot; a entrevista de 15 perguntas, onde colar e como testar</td></tr>
+  <tr><td class="n">5</td><td><b>Aula 4: Mapa de Autoconhecimento e Zona de Genialidade</b> &middot; sete lentes, um questionário</td></tr>
+  <tr><td class="n">6</td><td><b>Aula 5: Landing page com identidade visual</b> &middot; os sete passos e os dois prompts</td></tr>
+  <tr><td class="n">7</td><td><b>Manual 8 recursos</b> &middot; qual recurso abre primeiro, e por quê</td></tr>
+  <tr><td class="n">8</td><td><b>Fichas de trabalho</b> &middot; OCAS, rascunho do Documento Mestre e checklist de conclusão</td></tr>
+</table>
+
+<!-- ============ 0. COMO USAR ============ -->
+<div class="pb"></div>
+<h2 class="navy">0. Como usar este caderno</h2>
+<p>O curso vive na Área do Aluno: páginas visuais, slides guiados, prompts com botão de copiar e ferramentas interativas. Este caderno é a versão de mesa disso. Ele condensa o que cada aula ensina, reproduz os prompts para consulta e abre espaço para a parte que só você pode escrever: o seu contexto, as suas decisões, o que funcionou e o que não funcionou.</p>
+<p>O que está aqui em tabelas, caixas e blocos de código é síntese fiel do conteúdo oficial das aulas. O que está em linhas pontilhadas é seu. Um caderno preenchido vale mais que um caderno limpo.</p>
+
+<div class="box">
+  <b class="t">Leitura correta</b>
+  <p>Use como mapa de consolidação. Faça a aula na tela com o Claude aberto, depois volte ao caderno e anote à mão o exemplo real que você usou e o resultado que saiu. Assim o material vira memória operacional, não apostila.</p>
+</div>
+
+<h3>0.1 Quanto tempo reservar</h3>
+<table class="data">
+  <tr><th style="width:36%">Bloco</th><th>Tempo estimado</th></tr>
+  <tr><td><b>Aulas 1, 2 e 3</b></td><td>Uma tarde. As três se encadeiam: conversar, construir, ensinar quem você é.</td></tr>
+  <tr class="alt"><td><b>Aula 4</b></td><td>Cerca de uma hora com você mesma: 30 minutos de questionário e o resto lendo o dashboard.</td></tr>
+  <tr><td><b>Aula 5</b></td><td>Depende do que você quer construir. O estudo de identidade visual sai em uma sessão; a página, em outra.</td></tr>
+  <tr class="alt"><td><b>Manual 8 recursos</b></td><td>Leitura de 15 minutos. Volte a ele sempre que estiver na dúvida sobre qual recurso abrir.</td></tr>
+</table>
+
+<h3>0.2 O que você precisa antes de começar</h3>
+<ul class="chk">
+  <li>&#9744; Uma conta no Claude. O plano Free serve para começar; a Aula 1 explica quando subir.</li>
+  <li>&#9744; O acesso liberado na Área do Aluno, com a conta Google que você enviou no WhatsApp.</li>
+  <li>&#9744; Uma tarefa real da sua semana. O curso não funciona com exemplo inventado.</li>
+  <li>&#9744; Este caderno e uma caneta. As fichas da seção 8 foram feitas para serem preenchidas.</li>
+</ul>
+
+<h3>0.3 Convenções</h3>
+<p>Caminhos de menu aparecem assim: <code>Configurações &rarr; Geral</code>. Prompts aparecem em blocos com fundo areia e devem ser copiados da Área do Aluno, onde existe o botão de copiar; aqui eles servem para leitura e anotação. Campos entre colchetes, como <code>[LINK DO WHATSAPP]</code>, sempre precisam ser substituídos antes de enviar.</p>
+
+<!-- ============ 1. MAPA DO CURSO ============ -->
+<div class="pb"></div>
+<h2>1. O mapa do curso</h2>
+<p>O problema que o curso resolve tem nome: resposta genérica, retrabalho, &ldquo;não era isso&rdquo;. A causa não é o seu prompt. É que a ferramenta não te conhece. As cinco aulas seguem uma ordem que resolve isso de fora para dentro: primeiro você aprende a pedir, depois a delegar, depois ensina ao Claude quem você é, depois descobre isso com mais precisão, e por fim publica algo com a sua cara.</p>
+
+<table class="flow"><tr>
+  <td><b>Aula 1</b><span>Conversar</span></td>
+  <td class="arrow">&rarr;</td>
+  <td><b>Aula 2</b><span>Construir</span></td>
+  <td class="arrow">&rarr;</td>
+  <td><b>Aula 3</b><span>Ensinar quem você é</span></td>
+  <td class="arrow">&rarr;</td>
+  <td><b>Aula 4</b><span>Se conhecer</span></td>
+  <td class="arrow">&rarr;</td>
+  <td><b>Aula 5</b><span>Publicar</span></td>
+</tr></table>
+
+<h3>1.1 As cinco aulas</h3>
+<table class="data">
+  <tr><th style="width:6%">N.</th><th style="width:30%">Aula</th><th>Com o que você sai</th></tr>
+  <tr><td><b>01</b></td><td><b>Conversar com o Claude</b></td><td>Plano e modelo escolhidos, a fórmula OCAS, informação atualizada da web e o Claude personalizado para te conhecer em toda conversa.</td></tr>
+  <tr class="alt"><td><b>02</b></td><td><b>Botar o Claude pra trabalhar</b></td><td>Um artefato de verdade, um projeto criado, um conector plugado e o mapa das quatro portas: Skills, Cowork, Extensão do Chrome e Claude Design.</td></tr>
+  <tr><td><b>03</b></td><td><b>Documento Mestre</b></td><td>O texto que ensina qualquer IA quem você é, quem você atende e como ela deve trabalhar com você, já colado e testado.</td></tr>
+  <tr class="alt"><td><b>04</b></td><td><b>Autoconhecimento e Zona de Genialidade</b></td><td>Um questionário respondido uma vez, lido por sete lentes, com blueprint, dashboard, roadmap de 90 dias e uma Carta de Travessia simbólica.</td></tr>
+  <tr><td><b>05</b></td><td><b>Landing page com identidade visual</b></td><td>Estudo de identidade visual, frase de posicionamento, tom de voz e uma página no ar, feita conversando.</td></tr>
+</table>
+
+<h3>1.2 As duas ferramentas</h3>
+<table class="cards">
+  <tr>
+    <td><b class="t">Mapa de Autoconhecimento</b>Experiência interativa que organiza suas respostas em um mapa visual: interesses, capacidades, modos de ação e a Zona de Genialidade. É o coração da Aula 4 e o material que mais serve de insumo para o Documento Mestre.</td>
+    <td class="y"><b class="t">Manual 8 recursos do Claude</b>Qual recurso abre primeiro, e por quê. Projects, Memória, Artifacts, Busca web, Arquivos, Conectores, Office, Code &amp; Cowork. Cada um com o comando de partida. Resumido na seção 7.</td>
+  </tr>
+</table>
+
+<div class="box ok">
+  <b class="t">A regra que atravessa o curso inteiro</b>
+  <p>Quanto mais contexto fixo você dá, menos você precisa repetir. É o único trabalho que você faz uma vez e colhe para sempre. Cada aula é uma forma diferente de dar contexto fixo.</p>
+</div>
+
+<h3>1.3 Onde estou</h3>
+<p class="small">Marque conforme concluir. Uma aula está concluída quando a tarefa dela foi feita com algo real seu, não quando a página foi lida.</p>
+<table class="data">
+  <tr><th style="width:40%">Etapa</th><th style="width:20%">Data</th><th>O que eu fiz com ela</th></tr>
+  <tr><td>&#9744; Aula 1 concluída</td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>&#9744; Aula 2 concluída</td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>&#9744; Aula 3 concluída</td><td class="fill"></td><td class="fill"></td></tr>
+  <tr class="alt"><td>&#9744; Aula 4 concluída</td><td class="fill"></td><td class="fill"></td></tr>
+  <tr><td>&#9744; Aula 5 concluída</td><td class="fill"></td><td class="fill"></td></tr>
+</table>
+
+<!-- ============ 2. AULA 1 ============ -->
+<div class="pb"></div>
+<h2>2. Aula 1: Conversar com o Claude</h2>
+<p class="lead">Sentar, pedir e receber ouro, não resposta genérica de robô. Aula prática: abra o Claude junto. Não é para assistir, é para fazer.</p>
+
+<h3>2.1 O que é o Claude</h3>
+<p>Um assistente de inteligência artificial. Você conversa por texto, como num chat. Ele escreve, resume, analisa, organiza, pesquisa e cria. Pense nele como um estagiário genial e incansável: sabe muita coisa, trabalha rápido, não reclama, mas só é tão bom quanto a instrução que você dá.</p>
+
+<h3>2.2 Os três planos</h3>
+<table class="data">
+  <tr><th style="width:16%">Plano</th><th style="width:30%">Preço aproximado</th><th>Para quem</th></tr>
+  <tr><td><b>Free</b></td><td>R$ 0</td><td>Testar, uso leve. <b>Comece aqui.</b></td></tr>
+  <tr class="alt"><td><b>Pro</b></td><td>~R$ 90 a 110 por mês (US$ 20)</td><td>Uso profissional quase diário. Melhor custo-benefício.</td></tr>
+  <tr><td><b>Max</b></td><td>a partir de ~R$ 550 por mês (US$ 100 a 200)</td><td>Uso pesado, o dia inteiro.</td></tr>
+</table>
+<p class="small">Cobrado em dólar e convertido; varia com o câmbio. Confira no site na hora de assinar. O que importa é a lógica, não o número.</p>
+
+<div class="box ok">
+  <b class="t">Regra de bolso</b>
+  <p>Você não precisa pagar nada para começar. Faça tudo no Free. Suba para o Pro no dia em que sentir o limite, nunca antes.</p>
+</div>
+
+<h3>2.3 O seletor de modelos</h3>
+<p>Modelo é o motor que responde. Tem motor rápido e leve, motor equilibrado e motor potente. Você escolhe pela tarefa, não pelo nome. O número da versão muda o tempo todo; ignore. Guarde os três nomes e o que cada um faz, porque isso não envelhece.</p>
+<table class="data">
+  <tr><th style="width:18%">Família</th><th style="width:22%">Perfil</th><th>Use para</th></tr>
+  <tr><td><b>Haiku</b></td><td>o mais rápido</td><td>Resposta rápida, tarefa simples, economia.</td></tr>
+  <tr class="alt"><td><b>Sonnet</b></td><td>o do dia a dia</td><td>Escrever, estudar, planejar. O arroz com feijão. Na dúvida, deixe aqui: resolve 80% da sua vida.</td></tr>
+  <tr><td><b>Opus</b></td><td>o mais potente</td><td>Estratégia, projeto complexo, análise pesada.</td></tr>
+</table>
+
+<h3>2.4 OCAS: a fórmula que você leva para a vida</h3>
+<table class="cards">
+  <tr>
+    <td class="r"><b class="t">Prompt fraco</b>&ldquo;Melhore meu currículo.&rdquo; Vago, sem contexto, sem direção. O Claude adivinha, e adivinha mal.</td>
+    <td class="g"><b class="t">Prompt forte</b>Objetivo + contexto + ação + saída. O mesmo Claude, pedido diferente, resultado diferente.</td>
+  </tr>
+</table>
+<table class="data">
+  <tr><th style="width:16%">Peça</th><th style="width:30%">Pergunta que responde</th><th>Exemplo</th></tr>
+  <tr><td><b>O</b>bjetivo</td><td>O que eu quero alcançar?</td><td>Conseguir entrevistas para vaga de analista de dados.</td></tr>
+  <tr class="alt"><td><b>C</b>ontexto</td><td>O que o Claude precisa saber?</td><td>Tenho 2 anos de experiência em BI e Power BI.</td></tr>
+  <tr><td><b>A</b>ção</td><td>O que ele deve fazer agora?</td><td>Analise meu currículo e ajuste para passar em filtro de RH.</td></tr>
+  <tr class="alt"><td><b>S</b>aída</td><td>Em que formato eu quero?</td><td>Lista de ajustes priorizados por impacto.</td></tr>
+</table>
+<div class="box">
+  <b class="t">Por que funciona</b>
+  <p>&ldquo;Me traz comida&rdquo; contra &ldquo;prato quente, sem lactose, apimentado, para hoje&rdquo;. Prompt é o seu pedido. Quanto mais claro, melhor o prato. E não precisa acertar de primeira: &ldquo;deixa mais curto&rdquo;, &ldquo;muda o tom&rdquo;, &ldquo;me dá 3 versões&rdquo;. É conversa, não sorte.</p>
+</div>
+
+<h3>2.5 Informação atual: Web search e Research</h3>
+<p>O Claude não sabe de cabeça o que é muito recente, igual a gente. Ligue a pesquisa na web pelo botão <code>+ &rarr; Web search</code> e ele busca na hora: notícia recente, preço atual, dado de mercado, o que uma empresa anda fazendo.</p>
+<table class="cards">
+  <tr>
+    <td><b class="t">Web search</b>Uma googlada. Olhada rápida, resposta na hora. Pergunta rápida vai aqui.</td>
+    <td class="y"><b class="t">Research</b>Um estagiário a tarde inteira: vários passos, várias fontes, volta com um relatório organizado. Trabalho de pesquisa de verdade vai aqui.</td>
+  </tr>
+</table>
+
+<h3>2.6 Deixe o Claude te conhecer</h3>
+<p>Ajuste fino que se faz uma vez e se colhe para sempre. Clique nas suas iniciais no canto e vá em <code>Configurações &rarr; Geral &rarr; Instruções para o Claude</code>. Você diz quem você é uma vez, e vale para toda conversa. Quatro blocos:</p>
+<table class="flow"><tr>
+  <td><b>1</b><span>Quem você é</span></td>
+  <td class="arrow">&rarr;</td>
+  <td><b>2</b><span>Como trabalha</span></td>
+  <td class="arrow">&rarr;</td>
+  <td><b>3</b><span>Seu contexto</span></td>
+  <td class="arrow">&rarr;</td>
+  <td><b>4</b><span>Como prefere as respostas</span></td>
+</tr></table>
+<p class="small">Na Aula 3 esse campo recebe a versão pronta do Documento Mestre. Aqui, um parágrafo seu já muda o jogo.</p>
+
+<h3>2.7 Os dois limites que falam de token</h3>
+<p>Token é só o combustível: a unidade de texto que o Claude lê e escreve. Você tem um limite por período e não precisa contar nada; acompanhe em <code>Configurações &rarr; Uso</code>. Economize sendo direta: não repita, mande só o necessário. Mas existem dois limites diferentes, e confundir os dois faz muita gente achar que a IA piorou.</p>
+<table class="cards">
+  <tr>
+    <td><b class="t">Cota do plano</b>É por período. Bateu, ele avisa e para. Você espera resetar ou sobe de plano. Não é erro.</td>
+    <td class="r"><b class="t">Tamanho da conversa</b>Tudo que já foi dito ali precisa caber junto. Encheu, ele continua respondendo, mas começa a esquecer o começo, repetir o que já resolveu e voltar para o genérico.</td>
+  </tr>
+</table>
+<div class="box stop">
+  <b class="t">Quando parecer que a IA piorou</b>
+  <p>Quase sempre é a conversa cheia, e não tem nada a ver com o seu plano. O que fazer: abra uma conversa nova e leve só o que importa. Assunto novo, conversa nova.</p>
+</div>
+
+<h3>2.8 Tarefa da aula</h3>
+<p>Pegue uma tarefa real da semana. Monte o OCAS. Mande. Ajuste. A ficha OCAS em branco está na seção 8.1. Escreva aqui a tarefa escolhida e o que mudou entre a primeira e a última resposta.</p>
+<table class="notes">
+  <tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr>
+  <tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr>
+  <tr><td></td></tr><tr><td></td></tr>
+</table>
+
+<!-- ============ 3. AULA 2 ============ -->
+<div class="pb"></div>
+<h2>3. Aula 2: Botar o Claude pra trabalhar</h2>
+<p class="lead">Parar de só perguntar. Começar a construir. Na Aula 1 você aprendeu a conversar; agora o Claude produz por você.</p>
+
+<div class="box">
+  <b class="t">A virada</b>
+  <p>&ldquo;Me responde isso&rdquo; vira &ldquo;me entrega isso pronto&rdquo;. Antes: &ldquo;me explica como calcular X&rdquo;. Agora: &ldquo;me faz a calculadora de X&rdquo;. Sai a explicação, entra o produto.</p>
+</div>
+
+<h3>3.1 Artefato: a conversa vira produto</h3>
+<p>Em vez de responder dentro do chat, o Claude entrega uma coisa pronta num painel do lado, que você usa, edita e compartilha. O artefato é vivo: &ldquo;muda a cor&rdquo;, &ldquo;adiciona um campo&rdquo;, &ldquo;deixa mais simples&rdquo;. Você ajusta conversando, como fez na Aula 1.</p>
+<table class="data">
+  <tr><th style="width:22%">Tipo</th><th style="width:26%">Exemplo</th><th>Para quê</th></tr>
+  <tr><td><b>Dashboards</b></td><td>dados</td><td>Métricas de forma clara e interativa.</td></tr>
+  <tr class="alt"><td><b>Ferramentas</b></td><td>automação</td><td>Calculadoras e mini-processos.</td></tr>
+  <tr><td><b>Páginas e sites</b></td><td>web</td><td>Landing pages completas e responsivas.</td></tr>
+  <tr class="alt"><td><b>Apresentações</b></td><td>pitch</td><td>Slides prontos para apresentar.</td></tr>
+</table>
+
+<h3>3.2 Projeto: uma pasta inteligente</h3>
+<p>Um espaço por cliente, empresa, produto ou estudo, com as instruções e os arquivos que valem para todas as conversas dentro dele. O Claude já entra sabendo o contexto. Sem projeto: um estranho, toda vez. Com projeto: um colega que já te conhece. Você para de reexplicar tudo do zero.</p>
+<table class="data">
+  <tr><th style="width:26%">Projeto para</th><th>O que centraliza</th></tr>
+  <tr><td><b>Clientes</b></td><td>Informações e conversas de cada cliente</td></tr>
+  <tr class="alt"><td><b>Empresas</b></td><td>Dados, processos e estratégias por empresa</td></tr>
+  <tr><td><b>Produtos</b></td><td>Ideias, desenvolvimento, posicionamento</td></tr>
+  <tr class="alt"><td><b>Estudos</b></td><td>Pesquisas, aprendizados e referências</td></tr>
+</table>
+
+<h3>3.3 Conector: uma ponte</h3>
+<p>Você autoriza o Claude a acessar uma ferramenta que já usa, e ele lê dados reais e até executa ações. Ele sai do chat isolado e entra na sua vida digital. Exemplo: &ldquo;resume meus 3 e-mails mais importantes de hoje e sugere resposta para cada um&rdquo;.</p>
+<table class="data">
+  <tr><th style="width:26%">Conector</th><th>O que o Claude passa a fazer</th></tr>
+  <tr><td><b>Gmail</b></td><td>Ler, escrever e organizar e-mails</td></tr>
+  <tr class="alt"><td><b>Google Drive</b></td><td>Acessar e encontrar seus arquivos</td></tr>
+  <tr><td><b>Google Agenda</b></td><td>Ver e gerenciar compromissos</td></tr>
+  <tr class="alt"><td><b>Notion</b></td><td>Puxar e organizar suas páginas e bases</td></tr>
+</table>
+<div class="box warn">
+  <b class="t">Segurança: você no controle</b>
+  <p>Nada acontece sem você autorizar. Você autoriza cada conector, um por um; liga o que quiser e desliga quando quiser. Comece pequeno: plugue um só (a Agenda é um bom primeiro), teste, sinta o poder sem susto.</p>
+</div>
+
+<h3>3.4 As quatro portas do próximo nível</h3>
+<p class="small">Não precisa abrir todas hoje. Só saber onde ficam.</p>
+<table class="cards">
+  <tr>
+    <td><b class="t">1. Skills</b>Um manual que o Claude segue. Você ensina o método, o estilo e a voz que quer, e ele passa a trabalhar do seu jeito, em qualquer conversa. A Aula 3 entrega uma pronta.</td>
+    <td class="y"><b class="t">2. Cowork</b>O Claude sai da conversa e vai executar. Acessa arquivos e pastas, cria fluxos de trabalho e toca tarefas longas sozinho. Você delega, ele age, e você acompanha de onde estiver.</td>
+  </tr>
+</table>
+<table class="cards">
+  <tr>
+    <td class="g"><b class="t">3. Extensão do Chrome</b>O Claude dentro das páginas que você visita. Artigo gigante, resume. Perfil de LinkedIn, analisa. Qualquer site, ajuda ali, sem copiar e colar.</td>
+    <td class="r"><b class="t">4. Claude Design</b>Experiências visuais sem você entender de design. Interface, landing page, wireframe, apresentação. Você descreve, ele desenha, você edita clicando.</td>
+  </tr>
+</table>
+
+<h3>3.5 Tarefa da aula</h3>
+<p>1. Crie um projeto real. 2. Peça um artefato de verdade. Anote aqui o nome do projeto, o que foi para as instruções dele e qual artefato saiu.</p>
+<table class="notes">
+  <tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr>
+  <tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr>
+</table>
+
+<!-- ============ 4. AULA 3 ============ -->
+<div class="pb"></div>
+<h2>4. Aula 3: Documento Mestre</h2>
+<p class="lead">O arquivo que ensina qualquer IA quem você é, para quem você trabalha e o que você entrega. Escreve uma vez, colhe em toda conversa.</p>
+
+<h3>4.1 Por que fazer isso</h3>
+<p>Toda vez que você abre uma conversa nova, a IA te encontra pela primeira vez. Ela não sabe sua profissão, seu público, seu tom, o que você vende. Então responde no genérico, e você gasta metade do tempo explicando o óbvio. O Documento Mestre resolve isso de uma vez: um texto curto, escrito por você, com o essencial do seu negócio. Você cola nas instruções da IA e toda resposta já nasce alinhada.</p>
+
+<h3>4.2 Escolha o seu caminho</h3>
+<p>A entrevista é a mesma nos dois. O que muda é a ferramenta que você tem na mão. Faça um só: o outro não acrescenta nada, só repete as mesmas quinze perguntas.</p>
+<table class="cards">
+  <tr>
+    <td><b class="t">Caminho A: a skill Minha Personalidade</b>Para quem tem Claude pago e usa o Claude Desktop. Baixe <code>minha-personalidade.skill</code> na Área do Aluno. No Desktop: <code>Configurações &rarr; Personalizar &rarr; Habilidades</code>, faça o upload. Numa conversa nova, peça: <code>roda a skill minha-personalidade</code>. Não descompacte nem renomeie o arquivo.</td>
+    <td class="y"><b class="t">Caminho B: o prompt para colar</b>Para quem usa o Claude gratuito ou o ChatGPT. Copie o prompt inteiro na Área do Aluno, abra uma conversa nova, cole e envie. A primeira pergunta vem na hora. Instalar skill só existe no aplicativo do computador; no navegador esse menu não aparece.</td>
+  </tr>
+</table>
+
+<h3>4.3 Como funciona, em três passos</h3>
+<table class="flow"><tr>
+  <td><b>01 Responda a entrevista</b><span>15 perguntas, uma de cada vez. Resposta vaga não é aceita: a IA pede exemplo antes de seguir.</span></td>
+  <td class="arrow">&rarr;</td>
+  <td><b>02 Receba o documento</b><span>Sobre você, público, entrega, oferta, processo, provas, posicionamento e a seção &ldquo;Como você deve trabalhar comigo&rdquo;.</span></td>
+  <td class="arrow">&rarr;</td>
+  <td><b>03 Cole as versões prontas</b><span>Uma para o Claude, uma para o ChatGPT em Bloco 1 e Bloco 2. Nada de resumir à mão.</span></td>
+</tr></table>
+
+<h3>4.4 As regras que a IA não pode quebrar</h3>
+<ol>
+  <li>Uma pergunta por vez. Faz a pergunta, para, espera a resposta.</li>
+  <li>Cada pergunta começa com o contador, assim: <code>[3/15]</code>.</li>
+  <li>Resposta vaga não é aceita: menos de dez palavras quando pediu descrição, categoria em vez de pessoa, só adjetivo sem cena, jargão sem tradução. Pede um exemplo concreto uma vez.</li>
+  <li>Se depois do follow-up ainda vier vago, anota como <code>[refinar depois]</code> e segue. Não te trava.</li>
+  <li>Nada de elogio automático e nada de invenção. Sem depoimento, o documento escreve &ldquo;ainda não tenho&rdquo;.</li>
+</ol>
+
+<div class="pb"></div>
+<h3>4.5 As 15 perguntas</h3>
+<p class="small">Use a coluna da direita para rascunhar a resposta antes de sentar com a IA. Responder por escrito primeiro deixa a entrevista mais honesta e mais rápida.</p>
+<table class="data">
+  <tr><th style="width:6%">N.</th><th style="width:50%">Pergunta</th><th>Meu rascunho</th></tr>
+  <tr><td colspan="3" style="background:#F1DABF"><b>Bloco 1: Quem sou eu</b></td></tr>
+  <tr><td>1</td><td>Qual é o seu nome, o que você faz, e no que exatamente você é especialista?</td><td class="fill"></td></tr>
+  <tr class="alt"><td>2</td><td>Quem exatamente você atende? Idade, momento de vida e contexto. Não a categoria, a pessoa.</td><td class="fill"></td></tr>
+  <tr><td>3</td><td>Qual é o principal problema que você resolve para essa pessoa? Um só, o maior.</td><td class="fill"></td></tr>
+  <tr class="alt"><td>4</td><td>Quais são as 3 maiores dores dessa pessoa hoje? Se puder, a frase que ela fala.</td><td class="fill"></td></tr>
+  <tr><td>5</td><td>Qual é o resultado principal que você entrega? O que muda de concreto na vida dela?</td><td class="fill"></td></tr>
+  <tr><td colspan="3" style="background:#F1DABF"><b>Bloco 2: O que eu faço</b></td></tr>
+  <tr><td>6</td><td>Três transformações que o seu trabalho gera.</td><td class="fill"></td></tr>
+  <tr class="alt"><td>7</td><td>O que você vende hoje? Formato, duração e preço, se quiser incluir.</td><td class="fill"></td></tr>
+  <tr><td>8</td><td>Como funciona o seu processo, do primeiro contato até o fim? Em 3 a 5 passos.</td><td class="fill"></td></tr>
+  <tr class="alt"><td>9</td><td>Você tem fotos ou referências visuais que representam seu trabalho? Descreva o que existe.</td><td class="fill"></td></tr>
+  <tr><td>10</td><td>Você tem depoimentos, prints, números ou formações que provem sua autoridade?</td><td class="fill"></td></tr>
+  <tr><td colspan="3" style="background:#F1DABF"><b>Bloco 3: Como a IA trabalha comigo</b> (aqui muda o jogo)</td></tr>
+  <tr><td>11</td><td>Como você quer que a IA fale com você? Formal, direto, íntimo, provocador, didático? Um exemplo de alguém que fala do jeito que você gosta.</td><td class="fill"></td></tr>
+  <tr class="alt"><td>12</td><td>O que te irrita numa resposta de IA? O que você nunca mais quer ler? (texto que enrola, &ldquo;Ótima pergunta&rdquo;, emoji demais, bullet para tudo, ressalva em excesso, palavras infladas, perguntar de volta em vez de responder, fingir que sabe)</td><td class="fill"></td></tr>
+  <tr><td>13</td><td>Quando você pede alguma coisa, como prefere receber? Texto corrido, tópicos, tabela? Curto ou completo?</td><td class="fill"></td></tr>
+  <tr class="alt"><td>14</td><td>O que precisa estar entregue para você considerar &ldquo;pronto&rdquo;?</td><td class="fill"></td></tr>
+  <tr><td>15</td><td>Tem alguma coisa que a IA nunca pode fazer no seu contexto? Promessa que você não faz, tema que não toca, conselho que não dá?</td><td class="fill"></td></tr>
+</table>
+
+<div class="pb"></div>
+<h3>4.6 A estrutura do documento que sai</h3>
+<p>A IA monta o documento com as suas palavras, não com as dela. Onde não houver informação, escreve <code>ainda não tenho</code>. Toda linha vem de uma resposta sua.</p>
+<div class="code">
+  <div class="cap">documento-mestre.md &middot; estrutura</div>
+<pre># Documento Mestre: [Nome]
+## Sobre mim            Nome / Profissão / Especialidade / Uma linha
+## Meu público          Quem atendo / Problema principal / As 3 dores / Como fala
+## O que eu entrego     Resultado principal / 3 transformações
+## O que eu vendo hoje  Formatos / Duração e investimento
+## Como funciona o meu processo   [3 a 5 passos]
+## Referências visuais
+## Provas de autoridade
+## Frase de posicionamento
+---
+# COMO VOCÊ DEVE TRABALHAR COMIGO
+## Tom
+## Formato padrão de resposta
+## Nunca faça isto
+## O que significa "pronto"
+## Limites e ética
+## Anti-invenção
+- Nunca invente dado, número, depoimento, fonte ou resultado.
+- Se você não sabe, escreva "não sei".
+- Se você supôs algo, marque a suposição.</pre>
+</div>
+
+<h3>4.7 Onde colar o resultado</h3>
+<p>O documento completo é material de referência, para guardar. O que vai colado na IA são as versões prontas que vieram no fim da entrevista.</p>
+<table class="data">
+  <tr><th style="width:22%">Onde</th><th>Caminho</th></tr>
+  <tr><td><b>Claude</b></td><td>Iniciais no canto <code>&rarr; Configurações &rarr; Geral &rarr; Instruções para o Claude</code>. Cole a Versão Claude e salve.</td></tr>
+  <tr class="alt"><td><b>ChatGPT</b></td><td>Nome no canto <code>&rarr; Personalização &rarr; Instruções personalizadas</code>. Dois campos: Bloco 1 no primeiro, Bloco 2 no segundo. Salve.</td></tr>
+  <tr><td><b>Dentro de um Projeto</b></td><td>Nas instruções do projeto, no Claude. Vale só ali dentro; útil quando você atende públicos bem diferentes.</td></tr>
+  <tr class="alt"><td><b>Memória</b></td><td>Você não cola. Quem escreve é o Claude: o que ele reparou ao longo das conversas. Complementa o documento, não substitui. O que você escreve é o que ele deve saber; a memória é o que ele reparou.</td></tr>
+</table>
+<div class="box">
+  <b class="t">Depois de salvar</b>
+  <p>Abra uma conversa nova. A conversa antiga não pega a mudança: ela continua com o contexto que tinha quando começou.</p>
+</div>
+
+<h3>4.8 Dois minutos de privacidade, antes de colar</h3>
+<div class="box warn">
+  <b class="t">A chave que existe</b>
+  <p>Em <code>Configurações &rarr; Privacidade</code> está a opção que controla se as suas conversas podem ser usadas para melhorar os modelos. Você decide, e pode mudar quando quiser. Ela vale daqui para frente: desligar hoje não apaga o que já passou. Por isso a hora de olhar é agora, antes de colar o documento.</p>
+</div>
+<p><b>O que não é seu, não cola.</b> Nome de cliente, dado de paciente, prontuário, conversa de terceiro. Troque por &ldquo;uma cliente de 42 anos&rdquo;. A IA trabalha igual de bem e o sigilo continua sendo seu. A regra que resolve sozinha: o seu negócio pode ir inteiro; o material de outra pessoa vai anonimizado, sempre.</p>
+
+<h3>4.9 Teste se funcionou</h3>
+<p>Abra uma conversa nova e rode estes três. Levam dois minutos.</p>
+<table class="data">
+  <tr><th style="width:44%">Pergunte</th><th style="width:40%">Funcionou se</th><th>OK</th></tr>
+  <tr><td>Em duas frases: quem é meu público e qual o maior problema que eu resolvo para ele?</td><td>Veio com as suas palavras, não uma versão genérica e polida.</td><td>&#9744;</td></tr>
+  <tr class="alt"><td>Me escreve uma legenda de Instagram sobre o meu trabalho.</td><td>Respeitou o seu tom e não usou nada da lista &ldquo;nunca faça isto&rdquo;.</td><td>&#9744;</td></tr>
+  <tr><td>Quantas pessoas eu já atendi?</td><td>Disse que não sabe. Se inventou um número, a seção anti-invenção não colou: refaça o passo de colar.</td><td>&#9744;</td></tr>
+</table>
+
+<h3>4.10 Três cuidados</h3>
+<ul>
+  <li><b>Responda com exemplo concreto.</b> &ldquo;Atendo mulheres&rdquo; gera documento fraco. &ldquo;Atendo mulheres de 35 a 50 anos que estão saindo de um relacionamento longo&rdquo; gera documento que funciona.</li>
+  <li><b>Revise antes de colar.</b> A IA organiza, você aprova. Leia inteiro e corrija o que não soa como você.</li>
+  <li><b>Atualize a cada trimestre.</b> Documento velho ensina a IA a te descrever como você era. Próxima revisão: ________ / ________ / ________.</li>
+</ul>
+<p class="small">Muita gente descobre no meio da entrevista que não sabia explicar o próprio trabalho em uma frase. Esse desconforto é a parte mais valiosa do exercício.</p>
+<table class="notes">
+  <tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr>
+</table>
+
+<!-- ============ 5. AULA 4 ============ -->
+<div class="pb"></div>
+<h2>5. Aula 4: Mapa de Autoconhecimento e Zona de Genialidade</h2>
+<p class="lead">Não é teste de personalidade. É levantamento: perguntas sobre o que você faz, o que te esvazia e o que só você entrega do jeito que entrega. O que sai do outro lado tem número, autor e próximo passo.</p>
+
+<h3>5.1 Como funciona</h3>
+<table class="data">
+  <tr><th style="width:30%">Item</th><th>Detalhe</th></tr>
+  <tr><td><b>Perguntas</b></td><td>43, em 5 seções. Responde uma única vez.</td></tr>
+  <tr class="alt"><td><b>Duração</b></td><td>Cerca de 30 minutos. O progresso fica salvo no aparelho: pode sair e voltar.</td></tr>
+  <tr><td><b>Etapa 1</b></td><td>Genius Zone Blueprint: o documento-fonte da análise. Copie ou baixe o <code>.md</code> e guarde; serve para o dashboard e para qualquer conversa futura com a IA sobre o seu posicionamento.</td></tr>
+  <tr class="alt"><td><b>Etapa 2</b></td><td>Dashboard psicométrico: sete lentes lendo as mesmas respostas, roadmap de 90 dias, plano de ação, squad de IA recomendado e a Carta de Travessia.</td></tr>
+  <tr><td><b>Caminho direto</b></td><td>Já tem blueprint pronto ou um documento denso de posicionamento? Cole e vá direto ao dashboard.</td></tr>
+</table>
+
+<h3>5.2 Sete lentes, um questionário</h3>
+<p>Cada uma pergunta uma coisa diferente das mesmas respostas. O valor está onde elas concordam, e onde discordam.</p>
+<table class="data">
+  <tr><th style="width:24%">Autor</th><th style="width:28%">Framework</th><th>O que mostra</th></tr>
+  <tr><td><b>Gay Hendricks</b></td><td>O Grande Salto, as 4 Zonas</td><td>Quanto do seu tempo vive na zona onde só você entrega. Genialidade é o que só você faz e ainda te dá energia; Incompetência é o que drena e deveria sair da sua mesa.</td></tr>
+  <tr class="alt"><td><b>Don Clifton</b></td><td>CliftonStrengths</td><td>Os cinco padrões de pensamento e ação que aparecem sem esforço.</td></tr>
+  <tr><td><b>Dan Sullivan</b></td><td>Unique Ability</td><td>A capacidade que ninguém consegue copiar de você, e quanto da sua semana acontece dentro dela.</td></tr>
+  <tr class="alt"><td><b>Roger Hamilton</b></td><td>Wealth Dynamics</td><td>O caminho pelo qual você cria valor.</td></tr>
+  <tr><td><b>Alex Hormozi</b></td><td>Equação de Valor</td><td>A força da oferta que você tem hoje na mão: sonho e probabilidade percebida puxam para cima; tempo de espera e esforço do cliente puxam para baixo.</td></tr>
+  <tr class="alt"><td><b>Kathy Kolbe</b></td><td>Índice Kolbe A</td><td>Como você age quando é livre para agir do seu jeito. Não o que você sabe: como você faz.</td></tr>
+  <tr><td><b>Sally Hogshead</b></td><td>Fascination Advantage</td><td>Como o mundo te lê nos primeiros segundos.</td></tr>
+</table>
+
+<h3>5.3 O que ler no dashboard</h3>
+<table class="cards">
+  <tr>
+    <td><b class="t">Convergência dos frameworks</b>Seis eixos que as sete lentes enxergam em conjunto. A linha tracejada é o seu potencial. O maior vão entre as duas linhas é o seu gargalo.</td>
+    <td class="y"><b class="t">Distribuição do tempo</b>Hoje contra a meta de 90 dias. É o gráfico que mais muda quando você tira da mesa o que drena.</td>
+  </tr>
+</table>
+<table class="cards">
+  <tr>
+    <td class="g"><b class="t">Roadmap de 90 dias</b>Cinco movimentos, na ordem, com plano de ação: comece por aqui, esta semana, próximas 2 semanas, próximo mês, e o que não fazer.</td>
+    <td class="r"><b class="t">Carta de Travessia</b>Um arcano para os próximos 90 dias, na linhagem do Tarô de Thoth. Símbolo para pensar, não previsão: o que decide os 90 dias é o plano acima. Leitura opcional.</td>
+  </tr>
+</table>
+
+<div class="pb"></div>
+<h3>5.4 Meu mapa, à mão</h3>
+<p class="small">Transcreva do dashboard. O que está escrito à mão fica; o que está na tela some no próximo clique.</p>
+<table class="data">
+  <tr><th style="width:36%">Campo</th><th>O que saiu para mim</th></tr>
+  <tr><td><b>Zona de Genialidade</b> (o que só eu faço e me dá energia)</td><td class="fill"></td></tr>
+  <tr class="alt"><td><b>Zona de Incompetência</b> (o que drena e sai da mesa)</td><td class="fill"></td></tr>
+  <tr><td><b>Cinco talentos dominantes</b></td><td class="fill"></td></tr>
+  <tr class="alt"><td><b>Habilidade única</b></td><td class="fill"></td></tr>
+  <tr><td><b>Perfil Wealth Dynamics</b></td><td class="fill"></td></tr>
+  <tr class="alt"><td><b>Score da oferta</b> e o fator que mais puxa para baixo</td><td class="fill"></td></tr>
+  <tr><td><b>Meu gargalo</b> (maior vão na convergência)</td><td class="fill"></td></tr>
+  <tr class="alt"><td><b>Tempo na zona hoje</b> &rarr; <b>meta em 90 dias</b></td><td class="fill"></td></tr>
+  <tr><td><b>Carta de Travessia</b></td><td class="fill"></td></tr>
+</table>
+
+<h3>5.5 Meus cinco movimentos</h3>
+<table class="data">
+  <tr><th style="width:8%">N.</th><th style="width:22%">Quando</th><th>Movimento</th><th style="width:10%">Feito</th></tr>
+  <tr><td>1</td><td>Comece por aqui</td><td class="fill"></td><td>&#9744;</td></tr>
+  <tr class="alt"><td>2</td><td>Esta semana</td><td class="fill"></td><td>&#9744;</td></tr>
+  <tr><td>3</td><td>Próximas 2 semanas</td><td class="fill"></td><td>&#9744;</td></tr>
+  <tr class="alt"><td>4</td><td>Próximo mês</td><td class="fill"></td><td>&#9744;</td></tr>
+  <tr><td>5</td><td>O que não fazer</td><td class="fill"></td><td>&#9744;</td></tr>
+</table>
+
+<div class="box ok">
+  <b class="t">Ligação com a Aula 3</b>
+  <p>O blueprint é o melhor insumo que existe para as perguntas 1 a 6 do Documento Mestre. Se você fez a Aula 3 antes desta, volte e compare: onde o mapa discorda do documento, é o documento que costuma estar vago.</p>
+</div>
+<table class="notes">
+  <tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr>
+</table>
+
+<!-- ============ 6. AULA 5 ============ -->
+<div class="pb"></div>
+<h2>6. Aula 5: Landing page com identidade visual</h2>
+<p class="lead">Do estudo de identidade visual até a página no ar. Você descreve, a IA constrói, e o resultado se parece com você, não com um template genérico.</p>
+
+<h3>6.1 O caminho inteiro, antes de começar</h3>
+<p>Muita gente pula direto para &ldquo;faça uma landing page pra mim&rdquo; e recebe uma página bonita que não vende, porque não tem identidade nem direção. A ordem importa: primeiro você define quem é, depois a página nasce dessa definição. A regra que sustenta tudo: sua clareza no prompt define a qualidade da resposta. A IA potencializa, mas quem cria com consciência é você.</p>
+<table class="data">
+  <tr><th style="width:10%">Passo</th><th style="width:34%">O quê</th><th>Resultado</th></tr>
+  <tr><td><b>01</b></td><td>Identidade visual</td><td>Estudo de cores, fontes e clima. Prompt 1 com fotos e referências anexadas.</td></tr>
+  <tr class="alt"><td><b>02</b></td><td>Os quatro pilares</td><td>Propósito, público, valores e posicionamento.</td></tr>
+  <tr><td><b>03</b></td><td>Mensagem, tom e estilo</td><td>Frase de posicionamento e tom de voz. Os dois entram no prompt da página.</td></tr>
+  <tr class="alt"><td><b>04</b></td><td>A página</td><td>Prompt 2, com imagem de referência e três fotos.</td></tr>
+  <tr><td><b>05</b></td><td>Celular</td><td>Conferir a versão mobile antes de publicar.</td></tr>
+  <tr class="alt"><td><b>06 e 07</b></td><td>Vibe Coding</td><td>Entender o método e o que mais ele constrói.</td></tr>
+</table>
+
+<h3>6.2 Prompt 1: estudo de identidade visual</h3>
+<div class="code">
+  <div class="cap">prompt 1 &middot; identidade visual de marca</div>
+<pre>Quero criar uma identidade visual para minha marca. Faça um estudo do estilo visual ideal para o meu negócio, com fontes legíveis para o público 40+, cores alinhadas ao meu posicionamento e sugestões visuais coerentes com o que eu faço.</pre>
+</div>
+<table class="cards">
+  <tr>
+    <td><b class="t">Anexe suas fotos</b>Retratos profissionais e imagens que representam você trabalhando.</td>
+    <td class="y"><b class="t">Anexe referências</b>Posts, paletas, tipografias e peças que você admira. Ainda não sabe o estilo? Veja os modelos de landing page na Área do Aluno e salve o que chama atenção.</td>
+  </tr>
+</table>
+<p>E seja específica: diga seu negócio, público-alvo, valores e o que te diferencia. Se o Documento Mestre já existe, cole a parte &ldquo;Sobre mim&rdquo; junto.</p>
+
+<h3>6.3 Passos 2 e 3: essência antes de estética</h3>
+<p>Identidade visual sem essência vira decoração. Guarde aqui o que sai desses dois passos, porque é isso que impede a página de sair genérica.</p>
+<table class="data">
+  <tr><th style="width:36%">Campo</th><th>Minha definição</th></tr>
+  <tr><td><b>Propósito</b></td><td class="fill"></td></tr>
+  <tr class="alt"><td><b>Público</b></td><td class="fill"></td></tr>
+  <tr><td><b>Valores</b></td><td class="fill"></td></tr>
+  <tr class="alt"><td><b>Posicionamento</b></td><td class="fill"></td></tr>
+  <tr><td><b>Frase de posicionamento</b></td><td class="fill"></td></tr>
+  <tr class="alt"><td><b>Tom de voz</b> (três a cinco características)</td><td class="fill"></td></tr>
+</table>
+
+<div class="pb"></div>
+<h3>6.4 Prompt 2: a página</h3>
+<p>Funciona porque chega depois de tudo que você já definiu. Preencha os campos marcados, anexe a imagem de referência do estilo escolhido e as três fotos que vão aparecer na página.</p>
+<div class="code">
+  <div class="cap">prompt 2 &middot; landing page com identidade visual</div>
+<pre>Este é o modelo de página que eu quero que você programe pra mim.
+Verifique a imagem de referência que enviei e já comece a construir uma landing page nessa mesma identidade visual (cores, layout, clima, tipografia).
+Use as 3 fotos que anexei nas posições mostradas na referência (Hero, Sobre e CTA final).
+
+Sobre mim:
+- Nome:
+- Profissão:
+- Instagram:
+- Público:
+- Transformação que entrego: [TRANSFORMAÇÃO QUE VOCÊ ENTREGA]
+- Tom de comunicação:
+
+Tom de comunicação
+Transmite: clareza, autoridade, praticidade, inteligência, segurança, direcionamento, objetividade e domínio.
+Parece uma marca que: explica com lógica, mas não para na teoria; entrega o caminho pronto e faz a pessoa sentir que já pode executar.
+Características: didática, prática, estratégica, objetiva, segura, orientadora e aplicável.
+
+Todos os botões devem apontar para: [LINK DO WHATSAPP]
+
+Faça em React + Tailwind, mobile-first, responsiva, pronta pra publicar.</pre>
+</div>
+<div class="box stop">
+  <b class="t">Os colchetes precisam sair</b>
+  <p><code>[TRANSFORMAÇÃO QUE VOCÊ ENTREGA]</code> e <code>[LINK DO WHATSAPP]</code> saem do prompt antes de enviar, senão a IA inventa no lugar. O bloco &ldquo;Tom de comunicação&rdquo; é exemplo: troque pelo seu tom do passo 3.</p>
+</div>
+
+<h4>O que ter em mãos</h4>
+<ul class="chk">
+  <li>&#9744; 1 imagem de referência do estilo visual escolhido</li>
+  <li>&#9744; 3 fotos suas: topo, seção Sobre e fechamento</li>
+  <li>&#9744; Link do WhatsApp pronto</li>
+  <li>&#9744; Frase de posicionamento e tom de voz do passo 3</li>
+</ul>
+
+<h3>6.5 Passo 5: veja como fica no celular</h3>
+<p>A maior parte do seu público abre pelo telefone. Antes de publicar: o título continua legível, o botão continua visível sem rolar muito, as fotos não cortam o rosto. Peça o ajuste conversando, do mesmo jeito que pediu a página: &ldquo;deixa o título menor no celular&rdquo;, &ldquo;sobe o botão para aparecer antes de rolar&rdquo;, &ldquo;troca a foto da seção Sobre&rdquo;.</p>
+
+<h3>6.6 Isso tem nome: Vibe Coding</h3>
+<p>Criar tecnologia funcional descrevendo o que quer, em vez de programar. Landing page é só o começo: o mesmo método constrói calculadoras, formulários, dashboards, apresentações e ferramentas para o seu processo.</p>
+
+<h3>6.7 Antes de publicar</h3>
+<ul class="chk">
+  <li>&#9744; Todos os botões apontam para o link certo, e o link foi testado</li>
+  <li>&#9744; A promessa do topo diz o que a pessoa ganha, não o que você faz</li>
+  <li>&#9744; Existe um único caminho de ação, repetido, e não cinco opções</li>
+  <li>&#9744; As fotos são suas e estão nas posições que você pediu</li>
+  <li>&#9744; A página abre bem no celular e não corta nada</li>
+  <li>&#9744; Não sobrou texto de exemplo nem campo entre colchetes</li>
+</ul>
+<div class="box ok">
+  <b class="t">O mais importante</b>
+  <p>Publique antes de estar perfeita. Página no ar com ajuste pendente vale mais que página impecável esperando no rascunho.</p>
+</div>
+<p class="small">Endereço da minha página: ______________________________________ &nbsp; Publicada em: ____ / ____ / ______</p>
+<table class="notes">
+  <tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr>
+</table>
+
+<!-- ============ 7. MANUAL 8 RECURSOS ============ -->
+<div class="pb"></div>
+<h2 class="copper">7. Manual 8 recursos: qual abre primeiro</h2>
+<p class="lead">Não é sobre pedir melhor. É sobre trabalhar melhor. A pergunta deixa de ser &ldquo;o que o Claude sabe?&rdquo; e passa a ser &ldquo;qual estrutura eu dou para ele operar bem comigo?&rdquo;.</p>
+
+<h3>7.1 Escolha rápida</h3>
+<table class="data">
+  <tr><th style="width:36%">Se você precisa</th><th style="width:26%">Comece por</th><th>O ganho real</th></tr>
+  <tr><td>Parar de repetir contexto</td><td><b>Projects + Memória</b></td><td>Continuidade e padrão de trabalho</td></tr>
+  <tr class="alt"><td>Entregar algo utilizável</td><td><b>Artifacts</b></td><td>Transformar conversa em produto</td></tr>
+  <tr><td>Decidir com informação atual</td><td><b>Busca na web</b></td><td>Atualidade com fontes</td></tr>
+  <tr class="alt"><td>Entender documentos e dados</td><td><b>Análise de arquivos</b></td><td>Leitura estratégica do material real</td></tr>
+  <tr><td>Conectar o trabalho ao seu contexto</td><td><b>Conectores</b></td><td>Menos busca manual, mais síntese</td></tr>
+  <tr class="alt"><td>Produzir dentro das ferramentas do dia</td><td><b>Office</b></td><td>Menos fricção na execução</td></tr>
+  <tr><td>Delegar uma sequência de trabalho</td><td><b>Claude Code &amp; Cowork</b></td><td>Autonomia com supervisão</td></tr>
+</table>
+
+<h3>7.2 Os oito, um a um</h3>
+<table class="data">
+  <tr><th style="width:5%">N.</th><th style="width:22%">Recurso</th><th style="width:33%">Use quando</th><th>Lembrete</th></tr>
+  <tr><td>01</td><td><b>Projects</b><br><span class="small">contexto que permanece</span></td><td>Cliente, curso, implantação, pesquisa ou rotina que se repete por semanas.</td><td>Crie as instruções do projeto primeiro: objetivo, público, tom, critérios e o que nunca supor.</td></tr>
+  <tr class="alt"><td>02</td><td><b>Memória</b><br><span class="small">preferências que não precisam ser reditas</span></td><td>Estilo de escrita, formato de entrega, público recorrente, idioma, princípios de decisão.</td><td>Memória guarda <b>como</b> você trabalha. Project guarda <b>com o que</b> você trabalha. Compartilhada entre chat e Cowork.</td></tr>
+  <tr><td>03</td><td><b>Artifacts</b><br><span class="small">saídas que ganham forma</span></td><td>O resultado precisa existir fora do chat: página, roteiro, planilha, apresentação, protótipo.</td><td>Peça primeiro conteúdo e estrutura. Depois o Artifact com visual, formato e comportamento.</td></tr>
+  <tr class="alt"><td>04</td><td><b>Busca na web</b><br><span class="small">respostas com tempo presente</span></td><td>Chance real de a informação ter mudado: versões, mercado, agenda, regras.</td><td>Peça fontes, data, fato separado de interpretação e &ldquo;o que muda na prática para mim&rdquo;.</td></tr>
+  <tr><td>05</td><td><b>Análise de arquivos</b><br><span class="small">conversa com o material real</span></td><td>Relatórios, propostas, contratos, planilhas, prints, manuais.</td><td>Peça que cite página, aba ou trecho. Revise conclusões importantes; proteja dados sensíveis.</td></tr>
+  <tr class="alt"><td>06</td><td><b>Conectores</b><br><span class="small">contexto do seu ecossistema</span></td><td>Cruzar documentos, compromissos e comunicações próprias numa visão organizada.</td><td>Cheque permissões e escopo antes. Conexão útil é conexão consciente.</td></tr>
+  <tr><td>07</td><td><b>Office</b><br><span class="small">IA dentro da ferramenta</span></td><td>Word, Excel, PowerPoint disponíveis; Outlook em beta. Plano pago, Windows ou macOS.</td><td>O contexto é compartilhado entre os quatro: dado no Excel, e-mail no Outlook, slide no PowerPoint, sem reexplicar.</td></tr>
+  <tr class="alt"><td>08</td><td><b>Claude Code &amp; Cowork</b><br><span class="small">tarefas em várias etapas</span></td><td>Delegar trabalho longo. Code para desenvolvimento; Cowork para quem não programa.</td><td>Delegação madura: resultado final, fontes permitidas, o que não pode mudar, critérios de aceite, quando parar para perguntar.</td></tr>
+</table>
+
+<div class="pb"></div>
+<h3>7.3 Comandos de partida</h3>
+<p class="small">Cada recurso tem um comando que abre bem. Copie da Área do Aluno; aqui é para leitura e para riscar o que você adaptou.</p>
+<div class="code">
+  <div class="cap">01 &middot; projects</div>
+<pre>Este projeto é sobre [tema]. Nosso objetivo é [resultado]. Sempre considere [contexto]. Antes de concluir uma entrega, valide [critérios]. Quando faltar informação, faça perguntas objetivas.</pre>
+</div>
+<div class="code">
+  <div class="cap">02 &middot; memória</div>
+<pre>Guarde como preferência: quando eu pedir um plano, entregue primeiro a decisão recomendada, depois os próximos passos, com linguagem direta e sem frases genéricas.</pre>
+</div>
+<div class="code">
+  <div class="cap">03 &middot; artifacts</div>
+<pre>Transforme esta estrutura em um Artifact de [tipo]. Visual: [paleta, fontes, atmosfera]. Deve conter [seções]. Priorize [público/objetivo] e entregue algo pronto para editar.</pre>
+</div>
+<div class="code">
+  <div class="cap">04 &middot; busca na web</div>
+<pre>Pesquise na web as informações mais atuais sobre [tema]. Priorize fontes primárias. Mostre data e links; se houver conflito entre fontes, explique. Termine com: "o que muda na prática para mim".</pre>
+</div>
+<div class="code">
+  <div class="cap">05 &middot; análise de arquivos</div>
+<pre>Analise este arquivo como [papel: especialista/gestora/revisora]. Extraia: 1) fatos relevantes, 2) riscos, 3) oportunidades, 4) decisões necessárias. Cite a página, aba ou trecho que sustenta cada ponto.</pre>
+</div>
+<div class="code">
+  <div class="cap">06 &middot; conectores</div>
+<pre>Usando os materiais conectados sobre [tema], consolide o histórico, os itens em aberto, quem depende de quê e os três próximos movimentos com maior impacto.</pre>
+</div>
+<div class="code">
+  <div class="cap">07 &middot; office</div>
+<pre>Tenho uma apresentação para [público] com objetivo de [decisão]. Proponha uma narrativa de 8 slides: título de cada slide, mensagem central, evidência e recomendação visual. Evite slides que só repetem texto.</pre>
+</div>
+<div class="code">
+  <div class="cap">08 &middot; briefing para autonomia (cowork)</div>
+<pre>Objetivo: [resultado]. Fontes autorizadas: [lista]. Não altere [limites]. Trabalhe em etapas e, antes de qualquer ação irreversível, apresente um plano curto. Considere concluído apenas se [critérios de aceite].</pre>
+</div>
+
+<h3>7.4 A regra de ouro</h3>
+<div class="box">
+  <b class="t">Não entregue uma pergunta para a IA. Entregue um problema bem delimitado.</b>
+  <p>1. <b>Contexto:</b> o que o Claude precisa saber para não inventar o cenário? 2. <b>Entrega:</b> qual formato e qual decisão essa resposta deve apoiar? 3. <b>Critério:</b> como você reconhece que a entrega está realmente boa? Quanto mais claro isso fica, menos você pede &ldquo;mais uma versão&rdquo;.</p>
+</div>
+<p class="small">Recursos e disponibilidade conferidos em setembro de 2026. Disponibilidade varia por conta e plano.</p>
+<table class="notes">
+  <tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr>
+</table>
+
+<!-- ============ 8. FICHAS ============ -->
+<div class="pb"></div>
+<h2 class="navy">8. Fichas de trabalho</h2>
+<p class="lead">Páginas para preencher. Fotocopie antes se quiser reutilizar; ou anote a lápis.</p>
+
+<h3>8.1 Ficha OCAS</h3>
+<p class="small">Uma por tarefa real. Preencha antes de abrir o Claude; depois anote o que ajustou.</p>
+<table class="data">
+  <tr><th style="width:22%">Peça</th><th>Tarefa: ____________________________________________</th></tr>
+  <tr><td><b>Objetivo</b><br><span class="small">o que quero alcançar</span></td><td class="fill" style="height:44pt"></td></tr>
+  <tr class="alt"><td><b>Contexto</b><br><span class="small">o que ele precisa saber</span></td><td class="fill" style="height:58pt"></td></tr>
+  <tr><td><b>Ação</b><br><span class="small">o que fazer agora</span></td><td class="fill" style="height:44pt"></td></tr>
+  <tr class="alt"><td><b>Saída</b><br><span class="small">em que formato</span></td><td class="fill" style="height:36pt"></td></tr>
+  <tr><td><b>Modelo</b></td><td>&#9744; Haiku &nbsp;&nbsp; &#9744; Sonnet &nbsp;&nbsp; &#9744; Opus &nbsp;&nbsp;&nbsp;&nbsp; Web search: &#9744; sim &nbsp; &#9744; não</td></tr>
+  <tr class="alt"><td><b>Ajustes pedidos</b></td><td class="fill" style="height:44pt"></td></tr>
+</table>
+
+<table class="data">
+  <tr><th style="width:22%">Peça</th><th>Tarefa: ____________________________________________</th></tr>
+  <tr><td><b>Objetivo</b></td><td class="fill" style="height:44pt"></td></tr>
+  <tr class="alt"><td><b>Contexto</b></td><td class="fill" style="height:58pt"></td></tr>
+  <tr><td><b>Ação</b></td><td class="fill" style="height:44pt"></td></tr>
+  <tr class="alt"><td><b>Saída</b></td><td class="fill" style="height:36pt"></td></tr>
+  <tr><td><b>Modelo</b></td><td>&#9744; Haiku &nbsp;&nbsp; &#9744; Sonnet &nbsp;&nbsp; &#9744; Opus &nbsp;&nbsp;&nbsp;&nbsp; Web search: &#9744; sim &nbsp; &#9744; não</td></tr>
+  <tr class="alt"><td><b>Ajustes pedidos</b></td><td class="fill" style="height:44pt"></td></tr>
+</table>
+
+<div class="pb"></div>
+<h3>8.2 Rascunho do Documento Mestre</h3>
+<p class="small">A versão curta, para reler antes de colar. Cada linha vem de uma resposta sua.</p>
+<table class="data">
+  <tr><th style="width:30%">Seção</th><th>Com as minhas palavras</th></tr>
+  <tr><td><b>Sobre mim</b> (uma linha)</td><td class="fill" style="height:40pt"></td></tr>
+  <tr class="alt"><td><b>Meu público</b> (a pessoa, não a categoria)</td><td class="fill" style="height:52pt"></td></tr>
+  <tr><td><b>Problema principal que resolvo</b></td><td class="fill" style="height:40pt"></td></tr>
+  <tr class="alt"><td><b>Resultado principal que entrego</b></td><td class="fill" style="height:40pt"></td></tr>
+  <tr><td><b>Frase de posicionamento</b></td><td class="fill" style="height:40pt"></td></tr>
+  <tr class="alt"><td><b>Tom</b></td><td class="fill" style="height:40pt"></td></tr>
+  <tr><td><b>Nunca faça isto</b></td><td class="fill" style="height:52pt"></td></tr>
+  <tr class="alt"><td><b>O que significa &ldquo;pronto&rdquo;</b></td><td class="fill" style="height:40pt"></td></tr>
+  <tr><td><b>Limites e ética</b></td><td class="fill" style="height:40pt"></td></tr>
+</table>
+<p class="small">Colado em: &#9744; Claude &nbsp; &#9744; ChatGPT &nbsp; &#9744; Projeto ____________________ &nbsp;&nbsp; Testes 4.9 rodados em: ____ / ____ / ______</p>
+
+<div class="pb"></div>
+<h3>8.3 Checklist de conclusão do curso</h3>
+<p>Uma etapa está feita quando existe algo real seu do outro lado.</p>
+<table class="data">
+  <tr><th style="width:8%">OK</th><th style="width:34%">Entrega</th><th>Onde está / evidência</th></tr>
+  <tr><td>&#9744;</td><td>Plano escolhido e modelo padrão definido</td><td class="fill"></td></tr>
+  <tr class="alt"><td>&#9744;</td><td>Um prompt OCAS enviado e ajustado com tarefa real</td><td class="fill"></td></tr>
+  <tr><td>&#9744;</td><td>Instruções para o Claude preenchidas</td><td class="fill"></td></tr>
+  <tr class="alt"><td>&#9744;</td><td>Um projeto criado com instruções</td><td class="fill"></td></tr>
+  <tr><td>&#9744;</td><td>Um artefato de verdade gerado</td><td class="fill"></td></tr>
+  <tr class="alt"><td>&#9744;</td><td>Um conector plugado e testado</td><td class="fill"></td></tr>
+  <tr><td>&#9744;</td><td>Documento Mestre completo, guardado</td><td class="fill"></td></tr>
+  <tr class="alt"><td>&#9744;</td><td>Versão pronta colada e os três testes aprovados</td><td class="fill"></td></tr>
+  <tr><td>&#9744;</td><td>Chave de privacidade conferida</td><td class="fill"></td></tr>
+  <tr class="alt"><td>&#9744;</td><td>Blueprint da Zona de Genialidade baixado</td><td class="fill"></td></tr>
+  <tr><td>&#9744;</td><td>Cinco movimentos dos 90 dias anotados</td><td class="fill"></td></tr>
+  <tr class="alt"><td>&#9744;</td><td>Estudo de identidade visual feito</td><td class="fill"></td></tr>
+  <tr><td>&#9744;</td><td>Landing page no ar, checklist 6.7 passado</td><td class="fill"></td></tr>
+</table>
+
+<h3>8.4 O que eu descobri sobre mim fazendo este curso</h3>
+<table class="notes">
+  <tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr>
+  <tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr>
+  <tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr>
+</table>
+<p class="small" style="margin-top:18pt">Jaya Roberta &middot; Shakti Jaya &middot; Inteligência que transforma &middot; jayaroberta.com</p>
+
+</div>
+</body>
+</html>

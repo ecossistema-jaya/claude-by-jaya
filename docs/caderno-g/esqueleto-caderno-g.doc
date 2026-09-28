@@ -1,0 +1,233 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="ProgId" content="Word.Document">
+<meta name="Generator" content="Microsoft Word">
+<title>[TÍTULO DO MATERIAL]</title>
+<!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:View>Print</w:View>
+  <w:Zoom>100</w:Zoom>
+  <w:DoNotOptimizeForBrowser/>
+ </w:WordDocument>
+</xml><![endif]-->
+<style>
+@page Section1 {
+  size: 200mm 275mm;
+  mso-page-orientation: portrait;
+  margin: 14mm 12mm 14mm 24mm;
+  mso-header-margin: 8mm;
+  mso-footer-margin: 8mm;
+  mso-paper-source: 0;
+}
+div.Section1 { page: Section1; }
+
+body {
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 10.5pt;
+  line-height: 1.45;
+  color: #202124;
+  margin: 0;
+}
+p { margin: 0 0 7pt 0; }
+ul, ol { margin: 0 0 8pt 0; padding-left: 16pt; }
+li { margin-bottom: 3.5pt; }
+em { font-style: italic; }
+
+h1 { font-size: 26pt; line-height: 1.08; color: #174EA6; margin: 0 0 6pt 0; font-weight: bold; }
+h2 {
+  font-size: 15.5pt; color: #FFFFFF; background: #1A73E8;
+  margin: 0 0 10pt 0; padding: 6pt 10pt; font-weight: bold;
+  page-break-after: avoid;
+}
+h2.red    { background: #EA4335; }
+h2.yellow { background: #B06000; }
+h2.green  { background: #188038; }
+h2.navy   { background: #174EA6; }
+h3 {
+  font-size: 12pt; color: #174EA6; margin: 13pt 0 5pt 0; font-weight: bold;
+  border-bottom: 1px solid #DADCE0; padding-bottom: 3pt; page-break-after: avoid;
+}
+h4 {
+  font-size: 10pt; color: #5F6368; margin: 10pt 0 4pt 0; font-weight: bold;
+  text-transform: uppercase; letter-spacing: 0.5pt; page-break-after: avoid;
+}
+
+.bar { width: 100%; border-collapse: collapse; margin: 0 0 10pt 0; }
+.bar td { height: 7pt; font-size: 1pt; line-height: 7pt; }
+
+.kicker {
+  font-size: 8pt; font-weight: bold; color: #1A73E8;
+  letter-spacing: 1.2pt; text-transform: uppercase; margin: 0 0 3pt 0;
+}
+.lead { font-size: 11pt; color: #5F6368; margin: 0 0 12pt 0; }
+
+table.data { width: 100%; border-collapse: collapse; margin: 8pt 0 12pt 0; font-size: 9.5pt; }
+table.data th {
+  background: #174EA6; color: #FFFFFF; text-align: left;
+  padding: 5pt 7pt; font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.4pt;
+  border: 1px solid #174EA6;
+}
+table.data td { padding: 5pt 7pt; border: 1px solid #DADCE0; vertical-align: top; }
+table.data tr.alt td { background: #F8F9FA; }
+
+table.cards { width: 100%; border-collapse: separate; border-spacing: 6pt 0; margin: 6pt 0 10pt 0; }
+table.cards td {
+  width: 50%; vertical-align: top; background: #F8F9FA;
+  border: 1px solid #DADCE0; border-top: 3px solid #1A73E8; padding: 8pt 10pt; font-size: 9.5pt;
+}
+table.cards td.r { border-top-color: #EA4335; }
+table.cards td.y { border-top-color: #FBBC04; }
+table.cards td.g { border-top-color: #34A853; }
+table.cards b.t { display: block; color: #174EA6; font-size: 10pt; margin-bottom: 3pt; }
+
+.box {
+  border: 1px solid #C6DAFC; border-left: 4px solid #1A73E8; background: #F1F6FE;
+  padding: 8pt 11pt; margin: 10pt 0; font-size: 10pt;
+}
+.box.warn { border-color: #FDE293; border-left-color: #F9AB00; background: #FEF7E0; }
+.box.ok   { border-color: #B7E1C4; border-left-color: #34A853; background: #F1F8F3; }
+.box.stop { border-color: #F6C7C3; border-left-color: #EA4335; background: #FCE9E7; }
+.box b.t { display: block; color: #174EA6; margin-bottom: 3pt; }
+.box p:last-child { margin-bottom: 0; }
+
+.code {
+  background: #F8F9FA; border: 1px solid #DADCE0; border-left: 3px solid #1A73E8;
+  padding: 7pt 9pt; margin: 6pt 0 11pt 0;
+}
+.code .cap {
+  font-family: Arial, sans-serif; font-size: 7.5pt; color: #5F6368;
+  text-transform: uppercase; letter-spacing: 0.6pt; margin-bottom: 4pt; font-weight: bold;
+}
+pre {
+  margin: 0; font-family: Consolas, "Courier New", monospace;
+  font-size: 8.5pt; line-height: 1.38; color: #202124; white-space: pre-wrap;
+}
+code {
+  font-family: Consolas, "Courier New", monospace; font-size: 9pt;
+  background: #F1F3F4; padding: 0 2pt; color: #174EA6;
+}
+
+.flow { width: 100%; border-collapse: collapse; margin: 8pt 0 12pt 0; font-size: 9pt; }
+.flow td { border: 1px solid #DADCE0; background: #FFFFFF; padding: 7pt 6pt; text-align: center; vertical-align: top; }
+.flow td.arrow { border: none; width: 14pt; color: #1A73E8; font-weight: bold; font-size: 12pt; }
+.flow b { color: #174EA6; display: block; }
+.flow span { color: #5F6368; font-size: 8pt; }
+
+.notes { width: 100%; border-collapse: collapse; margin: 6pt 0 12pt 0; }
+.notes td { border-bottom: 1px dotted #9AA0A6; height: 22pt; }
+
+.pb { page-break-before: always; }
+.small { font-size: 8.5pt; color: #5F6368; }
+.chk { list-style: none; padding-left: 0; }
+.chk li { padding-left: 14pt; text-indent: -14pt; margin-bottom: 4pt; }
+
+table.toc { width: 100%; border-collapse: collapse; font-size: 10pt; margin-top: 8pt; }
+table.toc td { padding: 4pt 6pt; border-bottom: 1px solid #E8EAED; vertical-align: top; }
+table.toc td.n { width: 26pt; color: #1A73E8; font-weight: bold; }
+</style>
+</head>
+
+<body>
+<div class="Section1">
+
+<!-- ============ CAPA ============ -->
+<table class="bar"><tr>
+  <td style="background:#4285F4;width:25%"></td>
+  <td style="background:#EA4335;width:25%"></td>
+  <td style="background:#FBBC04;width:25%"></td>
+  <td style="background:#34A853;width:25%"></td>
+</tr></table>
+
+<p class="kicker">[MARCA] &middot; [PROGRAMA] &middot; [ANO]</p>
+<h1>[Título]:<br>[Subtítulo]</h1>
+<p class="lead" style="font-size:12pt">[Uma frase que diz o que este material cobre e para quem.]</p>
+
+<table class="data" style="margin-top:14pt">
+  <tr><td style="width:34%;background:#F8F9FA"><b>Data</b></td><td>[dd de mês de aaaa]</td></tr>
+  <tr class="alt"><td style="background:#F8F9FA"><b>Cobertura</b></td><td>[módulos / temas]</td></tr>
+  <tr><td style="background:#F8F9FA"><b>Formato</b></td><td>200 &times; 275 mm &mdash; Caderno Inteligente G</td></tr>
+</table>
+
+<div class="box warn">
+  <b class="t">Antes de imprimir</b>
+  <p>Este documento já está paginado em 200 &times; 275 mm com margem esquerda de 24 mm reservada para os discos. Na caixa de impressão, escolha <b>Escala: 100%</b> (nunca &ldquo;ajustar à página&rdquo;) e papel de 200 &times; 275 mm ou A4 com corte.</p>
+</div>
+
+<h3 style="margin-top:16pt">Sumário</h3>
+<table class="toc">
+  <tr><td class="n">0</td><td><b>Como usar este material</b></td></tr>
+  <tr><td class="n">1</td><td><b>[Seção 1]</b> &mdash; [resumo]</td></tr>
+  <tr><td class="n">2</td><td><b>[Seção 2]</b> &mdash; [resumo]</td></tr>
+</table>
+
+<!-- ============ 0. COMO USAR ============ -->
+<div class="pb"></div>
+<h2 class="navy">0. Como usar este material</h2>
+<p>[Parágrafo de escopo: o que é oficial, o que é síntese, como o leitor deve anotar.]</p>
+
+<div class="box">
+  <b class="t">Leitura correta</b>
+  <p>Use como mapa de consolidação. Acrescente à mão os exemplos e decisões do seu contexto; assim o documento vira memória operacional.</p>
+</div>
+
+<!-- ============ 1. SEÇÃO-EXEMPLO (todos os componentes) ============ -->
+<div class="pb"></div>
+<h2>1. [Título da seção]</h2>
+
+<h3>1.1 Cards em duas colunas</h3>
+<table class="cards">
+  <tr>
+    <td><b class="t">Card azul</b>[texto]</td>
+    <td class="r"><b class="t">Card vermelho</b>[texto]</td>
+  </tr>
+</table>
+<table class="cards">
+  <tr>
+    <td class="y"><b class="t">Card amarelo</b>[texto]</td>
+    <td class="g"><b class="t">Card verde</b>[texto]</td>
+  </tr>
+</table>
+
+<h3>1.2 Tabela zebrada</h3>
+<table class="data">
+  <tr><th style="width:30%">Coluna A</th><th>Coluna B</th></tr>
+  <tr><td><b>Linha 1</b></td><td>[texto]</td></tr>
+  <tr class="alt"><td><b>Linha 2</b></td><td>[texto]</td></tr>
+  <tr><td><b>Linha 3</b></td><td>[texto]</td></tr>
+</table>
+
+<h3>1.3 Caixas</h3>
+<div class="box"><b class="t">Info</b><p>[texto]</p></div>
+<div class="box warn"><b class="t">Atenção</b><p>[texto]</p></div>
+<div class="box ok"><b class="t">Confirmado</b><p>[texto]</p></div>
+<div class="box stop"><b class="t">Não faça</b><p>[texto]</p></div>
+
+<h3>1.4 Fluxo</h3>
+<table class="flow"><tr>
+  <td><b>Passo 1</b><span>[o que]</span></td>
+  <td class="arrow">&rarr;</td>
+  <td><b>Passo 2</b><span>[o que]</span></td>
+  <td class="arrow">&rarr;</td>
+  <td><b>Passo 3</b><span>[o que]</span></td>
+</tr></table>
+
+<h3>1.5 Código</h3>
+<div class="code">
+  <div class="cap">arquivo.py</div>
+<pre>print("olá")</pre>
+</div>
+<p>Inline: <code>variavel</code>.</p>
+
+<h4>Rótulo h4 em caixa alta</h4>
+<p>[texto]</p>
+
+<h3>1.6 Espaço para anotar à mão</h3>
+<table class="notes">
+  <tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr>
+  <tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr>
+</table>
+
+</div>
+</body>
+</html>

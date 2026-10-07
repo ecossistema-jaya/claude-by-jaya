@@ -1,22 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { buscarAluno, TABELA_ACESSOS } from '@/app/lib/aluno';
-import {
-  buscarAcessoProduto,
-  PRODUTO_CONSCIENCIA,
-  PRODUTO_ZONA,
-} from '@/app/lib/acesso-produto';
-import {
-  destinoEhBiblioteca,
-  destinoEhConsciencia,
-  destinoEhZona,
-  normalizarDestinoLogin,
-} from '@/app/lib/destino-login';
-import { temAcessoBiblioteca } from '@/app/lib/exigir-acesso-produto';
+import { autorizarEntrada } from '@/app/lib/autorizar-entrada';
+import { destinoEhBiblioteca, normalizarDestinoLogin } from '@/app/lib/destino-login';
 import { clienteServidor } from '@/app/lib/supabase/servidor';
 
 /* Volta do Google. É aqui que a autorização é decidida pela primeira vez:
    ter conta Google não basta, é preciso estar na allowlist. Quem não está sai
-   da sessão no mesmo instante, antes de conseguir ver qualquer aula. */
+   da sessão no mesmo instante, antes de conseguir ver qualquer aula. A regra
+   de cada porta mora em app/lib/autorizar-entrada.ts, compartilhada com a
+   entrada por código no e-mail. */
 
 export async function GET(req: NextRequest) {
   const { origin, searchParams } = req.nextUrl;
@@ -34,54 +25,8 @@ export async function GET(req: NextRequest) {
     return NextResponse.redirect(loginComErro(origin, destino));
   }
 
-  const { data } = await supabase.auth.getUser();
-  const email = data.user?.email;
-
-  if (destinoEhBiblioteca(destino)) {
-    if (!email || !(await temAcessoBiblioteca(supabase, email))) {
-      await supabase.auth.signOut();
-      return NextResponse.redirect(new URL('/biblioteca/sem-acesso', origin));
-    }
-    return NextResponse.redirect(new URL(destino, origin));
-  }
-
-  if (destinoEhConsciencia(destino)) {
-    const acesso = email
-      ? await buscarAcessoProduto(supabase, email, PRODUTO_CONSCIENCIA)
-      : null;
-    if (!acesso) {
-      await supabase.auth.signOut();
-      return NextResponse.redirect(new URL('/sem-acesso?produto=consciencia', origin));
-    }
-    return NextResponse.redirect(new URL(destino, origin));
-  }
-
-  if (destinoEhZona(destino)) {
-    const acesso = email ? await buscarAcessoProduto(supabase, email, PRODUTO_ZONA) : null;
-    if (!acesso) {
-      await supabase.auth.signOut();
-      return NextResponse.redirect(new URL('/sem-acesso?produto=zona', origin));
-    }
-
-    return NextResponse.redirect(new URL(destino, origin));
-  }
-
-  const aluno = email ? await buscarAluno(supabase, email) : null;
-
-  if (!aluno) {
-    await supabase.auth.signOut();
-    return NextResponse.redirect(new URL('/sem-acesso', origin));
-  }
-
-  /* Registro de entrada. Falhar aqui não pode barrar a aula, então o erro é
-     ignorado de propósito. */
-  await supabase.from(TABELA_ACESSOS).insert({
-    aluno_id: aluno.id,
-    email: aluno.email,
-    user_agent: req.headers.get('user-agent'),
-  });
-
-  return NextResponse.redirect(new URL(destino, origin));
+  const para = await autorizarEntrada(supabase, destino, req.headers.get('user-agent'));
+  return NextResponse.redirect(new URL(para, origin));
 }
 
 function loginComErro(origin: string, destino: string) {

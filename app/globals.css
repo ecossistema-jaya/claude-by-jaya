@@ -468,6 +468,99 @@ a {
   background: var(--marsala-soft);
 }
 
+/* Entrada por código no e-mail: recolhida atrás de um link discreto, para o
+   Google continuar sendo o caminho principal. */
+.login .codigo {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+}
+
+.login .codigo label {
+  font-size: 14px;
+  color: var(--carvao-soft);
+}
+
+.login .codigo input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--linha);
+  border-radius: 12px;
+  background: #fff;
+  font-family: var(--font-b);
+  font-size: 16px;
+  color: var(--carvao);
+}
+
+.login .codigo input[inputmode='numeric'] {
+  letter-spacing: 0.3em;
+  text-align: center;
+  font-size: 20px;
+}
+
+.login .codigo input:focus {
+  outline: 2px solid var(--cobre);
+  outline-offset: 1px;
+}
+
+.login .codigo-enviar {
+  padding: 13px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--marsala);
+  color: #fff;
+  font-family: var(--font-b);
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.login .codigo-enviar:hover:not(:disabled) {
+  background: var(--marsala-soft);
+}
+
+.login .codigo-enviar:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.login .codigo-abrir,
+.login .codigo-ajuda button {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--font-b);
+  font-size: 14px;
+  color: var(--marsala);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.login .codigo-abrir {
+  align-self: center;
+}
+
+.login .codigo-ajuda button:disabled {
+  color: var(--carvao-soft);
+  text-decoration: none;
+  cursor: default;
+}
+
+/* .login p pintaria o recado de cinza; aqui ele volta ao marsala de erro. */
+.login .codigo .erro {
+  margin-top: 0;
+  color: var(--marsala);
+}
+
+.login .codigo-ajuda {
+  margin-top: 0;
+  font-size: 13px;
+}
+
 @media (max-width: 700px) {
   .login {
     background-image: url('/img/login-mobile.webp');

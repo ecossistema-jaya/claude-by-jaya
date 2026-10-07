@@ -15,6 +15,43 @@ quem estiver na tabela `alunos_claude` do Supabase.
    assinado de 10 minutos para não consultar o banco a cada arquivo.
 4. Desativar um aluno no painel corta o acesso dele em no máximo 10 minutos.
 
+## Entrada por código no e-mail (sem Google)
+
+Desde 02/10/2026, quem não tem conta Google entra com um código de 6 dígitos.
+Abaixo do botão do Google, o link "Não usa Google? Receba um código por e-mail"
+pede o e-mail, o Supabase manda o código e a pessoa digita na mesma aba. Vale
+**só para o curso**. Zona, Consciência e biblioteca continuam só com Google.
+
+Para liberar alguém, o processo é o mesmo do Google: o e-mail na `alunos_claude`,
+pelo painel `/admin`. O código chega para qualquer e-mail digitado;
+quem não está na lista digita, é deslogado e cai em `sem-acesso`, igual a uma conta
+Google sem cadastro. A regra de autorização mora em `app/lib/autorizar-entrada.ts`,
+usada pelos dois caminhos. Spec: [`login-codigo-email-spec.md`](login-codigo-email-spec.md).
+
+Configuração única no Supabase (Authentication):
+
+1. **Emails → SMTP Settings**: SMTP próprio (Resend, com `jayaroberta.com`
+   verificado no DNS da Hostinger). Sem isso o Supabase manda cerca de 2 e-mails
+   por hora para o projeto inteiro. Atenção: este projeto atende outros apps, e o
+   remetente dos e-mails de confirmação e de troca de senha deles muda junto.
+2. **Emails → Templates → Magic Link e Confirm signup**: o corpo dos dois precisa
+   mostrar `{{ .Token }}`. Quem nunca entrou recebe o Confirm signup; quem já tem
+   conta recebe o Magic Link. Os 5 usuários de e-mail do outro app entram por senha
+   (conferido em 02/10/2026), então mudar o Magic Link não os afeta.
+3. **Sign In / Providers → Email**: validade do código (Email OTP Expiration) em
+   `600` segundos.
+
+Template sugerido (assunto: `Seu código de acesso: {{ .Token }}`):
+
+```html
+<p>Oi!</p>
+<p>Seu código para entrar é:</p>
+<p style="font-size:28px;font-weight:600;letter-spacing:6px">{{ .Token }}</p>
+<p>Digite na mesma tela em que você pediu. Ele vale por 10 minutos.</p>
+<p>Se não foi você, pode ignorar este e-mail.</p>
+<p>Jaya Roberta</p>
+```
+
 ## Banco (projeto "Projetos", `zflksglibxhbnxndfwxo`)
 
 | Tabela | Para quê |

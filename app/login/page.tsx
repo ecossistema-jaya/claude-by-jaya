@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation';
 import BotaoGoogle from './BotaoGoogle';
+import EntrarComCodigo from './EntrarComCodigo';
 import {
   destinoEhBiblioteca,
   destinoEhConsciencia,
@@ -45,7 +46,7 @@ export default async function Login({ searchParams }: LoginProps) {
   const titulo = zona || consciencia ? 'Acesso por convite' : 'Área do aluno';
   const instrucao = zona || consciencia
     ? 'Entre com a conta Google que recebeu o convite.'
-    : 'Entre com a conta Google que você usou na inscrição.';
+    : 'Entre com o e-mail que você usou na inscrição.';
 
   return (
     <main className="login">
@@ -58,6 +59,8 @@ export default async function Login({ searchParams }: LoginProps) {
         <p>{instrucao}</p>
 
         <BotaoGoogle destino={destino} />
+        {/* O código por e-mail é só do curso; Zona e Consciência seguem com Google. */}
+        {!zona && !consciencia && <EntrarComCodigo />}
 
         <p className="erro">{erro ? RECADOS[erro] ?? RECADOS.google : ''}</p>
       </div>

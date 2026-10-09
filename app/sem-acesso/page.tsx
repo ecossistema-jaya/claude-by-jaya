@@ -32,6 +32,9 @@ export default async function SemAcesso({
         <p>
           {mensagem}
         </p>
+        {!zona && !consciencia && (
+          <p>Comprou agora há pouco? Aguarde um minuto e tente de novo.</p>
+        )}
 
         <Link className="botao" href={destino}>
           Tentar com outra conta

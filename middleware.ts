@@ -86,6 +86,7 @@ function herdarCookies(destino: NextResponse, origem: NextResponse) {
 
 /* Protege TUDO menos o que precisa ser lido sem sessão:
    - login, auth/callback e sem-acesso: as próprias telas da porta de entrada;
+   - obrigada: para onde a Hotmart manda o comprador; ele ainda não tem sessão;
    - img/login.webp e img/login-mobile.webp: as artes de fundo da tela de login;
    - icones/claude.svg: os asteriscos que flutuam atrás dessa mesma tela — quem
      está no login ainda não tem cookie, então o asset protegido virava um 307
@@ -113,6 +114,6 @@ function herdarCookies(destino: NextResponse, origem: NextResponse) {
    Os HTML em /aulas e todas as outras imagens seguem fechados. */
 export const config = {
   matcher: [
-    '/((?!arquitetura-da-consciencia/?$|consciencia/index\\.html$|api/consciencia/(?:lead|analyze)$|claude/?$|biblioteca(?:/|$)|login|auth/callback|sem-acesso|zona-de-genialidade|zona/|deck-arquitetura-da-consciencia|deck/|oferta/|api/zona/|img/login\\.webp|img/login-mobile\\.webp|icones/claude\\.svg|img/og\\.jpg|_next/static|_next/image|_vercel|favicon.ico).*)',
+    '/((?!arquitetura-da-consciencia/?$|consciencia/index\\.html$|api/consciencia/(?:lead|analyze)$|claude/?$|biblioteca(?:/|$)|login|auth/callback|sem-acesso|obrigada/?$|zona-de-genialidade|zona/|deck-arquitetura-da-consciencia|deck/|oferta/|api/zona/|img/login\\.webp|img/login-mobile\\.webp|icones/claude\\.svg|img/og\\.jpg|_next/static|_next/image|_vercel|favicon.ico).*)',
   ],
 };

@@ -44,6 +44,7 @@ export const CFG = {
   raioAnel: 243, // anel fino
   raioMarcas: 258, // anel graduado
   recursosManual: 8, // quantos recursos no Manual (layout fixo de 2 colunas de 4)
+  nomesManual: ['Projects', 'Memória', 'Artifacts', 'Busca web', 'Arquivos', 'Conectores', 'Office', 'Code & Cowork'], // um por pad, na ordem 01 a 08; aparece embaixo do pad
   fonteTitulo: 'Petrona, Georgia, serif',
   fonteMono: 'ui-monospace, Consolas, monospace',
   cores: { tinta: '#12363f', cobre: '#df6e36', brilho: '#ff8a50', marsala: '#86050c', papel: '#fffdf8', creme: '#fff6ee' },
@@ -339,18 +340,20 @@ export function svgManual() {
     const s = lado === 0 ? -1 : 1; // -1 esquerda, +1 direita
     for (let j = 0; j < metade; j++) {
       const i = lado * metade + j;
-      nos.push({ x: C + s * 212, y: yPads[j], numero: String(i + 1).padStart(2, '0') });
+      nos.push({ x: C + s * 212, y: yPads[j], numero: String(i + 1).padStart(2, '0'), nome: CFG.nomesManual[i] });
       trilhasM.push({ id: `mt${i + 1}`, d: `M${C + s * 75} ${yPinos[j]} H${C + s * desvio[j]} V${yPads[j]} H${C + s * 184}` });
       for (const yy of [yPinos[j], yPads[j]]) vias.push(`<circle cx="${C + s * desvio[j]}" cy="${yy}" r="11" fill="url(#mhalo)"/><circle cx="${C + s * desvio[j]}" cy="${yy}" r="3.8" fill="${k.cobre}"/>`);
     }
   }
   const pads = nos.map((o) => chip(o, 'm', 58, '', false, 21, 'octogono')).join('\n      ');
+  const esc = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  const nomes = nos.map((o) => `<text x="${o.x}" y="${o.y + 48}" text-anchor="middle" font-family="${T}" font-weight="600" font-size="22" fill="${k.tinta}">${esc(o.nome)}</text>`).join('\n      ');
   const rastros = trilhasM.map((t) => `<path id="${t.id}" d="${t.d}"/>`).join('');
   const dadosM = trilhasM.map((t, i) => `<g class="dado"><circle r="9" fill="url(#mhalo)"/><circle r="3.8" fill="${k.cobre}"/><animateMotion dur="3.4s" repeatCount="indefinite" begin="${f(-i * (3.4 / trilhasM.length))}s"><mpath href="#${t.id}"/></animateMotion></g>`).join('');
   const pinosLaterais = [237, 262, 287, 313, 338, 363].flatMap((y) => [`<rect x="211" y="${y - 3}" width="14" height="6" rx="1.5"/>`, `<rect x="375" y="${y - 3}" width="14" height="6" rx="1.5"/>`]).join('');
   const pinosVerticais = [250, 270, 290, 310, 330, 350].flatMap((x) => [`<rect x="${x - 3}" y="211" width="6" height="14" rx="1.5"/>`, `<rect x="${x - 3}" y="375" width="6" height="14" rx="1.5"/>`]).join('');
 
-  return `<svg viewBox="0 0 600 600" role="img" aria-label="Diagrama em estilo placa de circuito: o ícone do Claude em um chip no centro, com oito trilhas saindo dele até oito recursos numerados de 01 a 08">
+  return `<svg viewBox="0 0 600 600" role="img" aria-label="Diagrama em estilo placa de circuito: o ícone do Claude em um chip no centro, com oito trilhas saindo dele até oito recursos numerados de 01 a 08: ${esc(CFG.nomesManual.join(', '))}">
       ${defs('m')}
       <defs><linearGradient id="mscan" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="${k.cobre}" stop-opacity="0"/><stop offset=".5" stop-color="${k.brilho}" stop-opacity=".85"/><stop offset="1" stop-color="${k.cobre}" stop-opacity="0"/></linearGradient></defs>
 
@@ -390,6 +393,7 @@ export function svgManual() {
 
       <!-- os oito recursos -->
       ${pads}
+      ${nomes}
     </svg>`;
 }
 

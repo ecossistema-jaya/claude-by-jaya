@@ -1,6 +1,6 @@
 # Hotmart checkout and automatic access — spec v0 (DRAFT)
 
-Status: **decisions answered 2026-10-08; phase 1 (page) built on branch `feat/oferta-hotmart` and shown on localhost, not in production. Phase 2 (webhook) not started.**
+Status: **decisions answered 2026-10-08; phase 1 (page) built on branch `feat/oferta-hotmart`. Phase 2 (webhook) built 2026-10-09: Edge Function `hotmart-webhook` and migration `20261009120000_hotmart_eventos` are live on the Supabase project, tested end to end with Hotmart's sandbox event (payload confirmed: hottok in header `x-hotmart-hottok`, fields under `data.buyer`, `data.purchase`, `data.product`); `/obrigada` and the `/sem-acesso` line are in the code. Pending: site deploy, Hotmart thank-you URL, one real purchase.**
 Supersedes the commercial rules of `oferta-spec.md` 1.1 (Pix by WhatsApp, two offers, Sessão, "no guarantee"). That file also still says the offer lives at `/claude-do-zero`; the code (`middleware.ts`, `acesso-com-google.md`) says `/claude` is the public page and `/claude-do-zero` is the student area. Fix the old spec's route when this one is approved.
 
 ## Why

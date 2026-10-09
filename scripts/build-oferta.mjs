@@ -27,3 +27,9 @@ if (!fs.existsSync(FONTE)) {
 fs.mkdirSync(path.dirname(DEST), { recursive: true });
 fs.copyFileSync(FONTE, DEST);
 console.log('+ public/oferta/index.html');
+
+/* O botão de compra aponta para um link de mentira até o produto existir na Hotmart.
+   O aviso impede que isso seja commitado sem ninguém notar. */
+if (fs.readFileSync(FONTE, 'utf8').includes('__CHECKOUT__')) {
+  console.warn('! checkout da Hotmart ainda é __CHECKOUT__ em originais/claude-do-zero.html. Não publique assim.');
+}

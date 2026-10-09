@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Claude do Zero — o Claude sabendo quem você é</title>
-<meta name="description" content="Cinco aulas visuais e práticas, ferramentas interativas e acesso vitalício. Você sai com o seu Documento Mestre, seu mapa de autoconhecimento e uma página com a sua cara.">
+<title>Claude do Zero: o Claude respondendo como você</title>
+<meta name="description" content="Cinco aulas visuais e práticas, ferramentas interativas e acesso vitalício. Você sai com o seu Documento Mestre, o seu mapa de autoconhecimento e uma página com a sua cara.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
-<meta property="og:title" content="Claude do Zero — o Claude sabendo quem você é">
+<meta property="og:title" content="Claude do Zero: o Claude respondendo como você">
 <meta property="og:description" content="Cinco aulas visuais, exercícios, ferramentas interativas e acesso vitalício. Você sai com o seu Documento Mestre e uma página com a sua cara.">
 <link rel="canonical" href="https://jayaroberta.com/claude">
 <meta property="og:url" content="https://jayaroberta.com/claude">
@@ -34,11 +34,11 @@
     --marsala-soft: #a32530; --font-b: 'Jost', system-ui, sans-serif; --font-h: 'Petrona', Georgia, serif;
   }
   * { box-sizing: border-box; margin: 0; }
-  html { color-scheme: light; }
+  html { color-scheme: light; scroll-behavior: smooth; }
   body { background: var(--areia-bg); color: var(--carvao); font: 400 20px/1.55 var(--font-b); padding-inline: 20px; }
   .wrap { max-width: 880px; margin: 0 auto; }
   h1, h2, h3 { font-family: var(--font-h); font-weight: 600; line-height: 1.08; letter-spacing: -.01em; }
-  h1 { font-size: clamp(42px, 6.4vw, 72px); color: var(--marsala); }
+  h1 { font-size: clamp(38px, 5.4vw, 62px); color: var(--marsala); }
   h1 em { font-style: normal; color: var(--cobre); }
   h2 { font-size: clamp(32px, 4vw, 44px); color: var(--marsala); margin-bottom: 20px; }
   p { max-width: 62ch; }
@@ -58,38 +58,52 @@
     border: 1px solid var(--linha); border-radius: 24px; overflow: hidden;
     box-shadow: 0 30px 80px -48px rgba(43,35,32,.55);
   }
-  .hero > div { width: min(48%, 560px); position: relative; z-index: 1; }
-  .hero p.lead { font-size: 23px; margin-top: 22px; }
-  .cta { display: inline-block; margin-top: 28px; background: var(--marsala); color: #fff; text-decoration: none; font-weight: 600; padding: 16px 26px; border-radius: 12px; font-size: 19px; }
+  .hero > div { width: min(52%, 600px); position: relative; z-index: 1; }
+  .hero p.lead { font-size: 22px; margin-top: 18px; }
+  .hero ul { list-style: none; padding: 0; margin: 20px 0 0; display: grid; gap: 8px; font-size: 18px; }
+  .hero li { padding-left: 22px; position: relative; }
+  .hero li::before { content: ""; position: absolute; left: 3px; top: .62em; width: 9px; height: 9px; border-radius: 50%; background: var(--cobre); }
+  .cta { display: inline-block; margin-top: 26px; background: var(--marsala); color: #fff; text-decoration: none; font-weight: 600; padding: 16px 26px; border-radius: 12px; font-size: 19px; }
   .cta:hover { background: var(--marsala-soft); }
   .cta.sec { background: transparent; color: var(--marsala); border: 2px solid var(--marsala); }
   .sub { margin-top: 14px; font-size: 16px; }
 
   section { padding-block: 48px; border-top: 1px solid var(--linha); }
+  .intro { margin-bottom: 18px; }
   .aulas { display: grid; border-top: 1px solid var(--linha); margin-top: 8px; }
   .aulas > div { display: grid; grid-template-columns: 56px 1fr; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--linha); }
   .aulas b { font-family: Consolas, monospace; color: var(--cobre); font-weight: 400; padding-top: 3px; }
   .aulas h3 { font-size: 24px; margin-bottom: 4px; }
+  .fecho { margin-top: 20px; font-family: var(--font-h); font-size: 24px; color: var(--marsala); line-height: 1.25; }
   .bonus { margin-top: 26px; display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
   .bonus div { background: var(--card); border: 1px solid var(--linha); border-radius: 14px; padding: 18px 20px; }
   .bonus .mono { display: block; margin-bottom: 6px; }
 
-  .showcase { display: grid; gap: 18px; grid-template-columns: 1.25fr .75fr; margin-top: 28px; }
-  .showcase figure { background: var(--card); border: 1px solid var(--linha); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; }
-  .showcase figure:first-child { grid-row: span 2; }
-  .showcase img { display: block; width: 100%; height: 220px; object-fit: cover; object-position: top left; }
-  .showcase figure:first-child img { height: 476px; }
-  .showcase figcaption { padding: 14px 16px; font-size: 17px; color: var(--carvao-soft); border-top: 1px solid var(--linha); }
+  .tese { font-family: var(--font-h); font-size: clamp(26px, 3.2vw, 34px); line-height: 1.2; color: var(--marsala); margin-top: 22px; max-width: 28ch; }
 
-  .precos { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-top: 8px; }
-  .preco { background: var(--card); border: 1px solid var(--linha); border-radius: 18px; padding: 28px; display: flex; flex-direction: column; }
-  .preco.on { border-color: var(--cobre); box-shadow: 0 0 0 3px rgba(223,110,54,.18); }
+  .prova { display: grid; gap: 18px; grid-template-columns: 1fr 1fr; margin-top: 26px; align-items: start; }
+  .prova figure, .showcase figure { background: var(--card); border: 1px solid var(--linha); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; }
+  .prova video, .prova img, .showcase img { display: block; width: 100%; height: auto; }
+  .prova figcaption, .showcase figcaption { padding: 14px 16px; font-size: 17px; color: var(--carvao-soft); border-top: 1px solid var(--linha); }
+  .showcase { display: grid; gap: 18px; margin-top: 28px; }
+
+  .prova { align-items: center; }
+  .prova .fala { margin: 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--cobre); }
+  .prova .fala p { font-family: var(--font-h); font-weight: 500; font-size: clamp(20px, 2.1vw, 25px); line-height: 1.35; color: var(--carvao); max-width: none; }
+  .prova .fala cite { display: block; margin-top: 12px; font-style: normal; font-family: Consolas, monospace; font-size: 14px; letter-spacing: .08em; text-transform: uppercase; color: var(--cobre); }
+  .prova .print { grid-column: 1 / -1; }
+  .oferta-grid { display: grid; gap: 18px; grid-template-columns: 1fr 1fr; margin-top: 8px; align-items: stretch; }
+  .preco { background: var(--card); border: 1px solid var(--cobre); box-shadow: 0 0 0 3px rgba(223,110,54,.18); border-radius: 18px; padding: 28px; display: flex; flex-direction: column; }
   .preco h3 { font-size: 26px; }
   .preco .valor { font-family: var(--font-h); font-size: 60px; font-weight: 600; color: var(--marsala); line-height: 1; margin-top: 14px; }
+  .preco .parcela { font-size: 17px; margin-top: 6px; }
   .preco ul { padding-left: 18px; margin: 18px 0 8px; }
   .preco li { margin-bottom: 6px; }
   .preco .cta { margin-top: auto; text-align: center; }
-  .more { display: inline-block; margin-top: 14px; color: var(--marsala); font-weight: 600; text-underline-offset: 4px; }
+  .lado { display: grid; gap: 18px; grid-template-rows: auto 1fr; }
+  .lado > div { background: var(--card); border: 1px solid var(--linha); border-radius: 18px; padding: 24px 26px; }
+  .lado h3 { font-size: 24px; color: var(--marsala); margin-bottom: 8px; }
+  .lado .garantia { border-color: var(--marsala); }
   .prazo { margin-top: 18px; font-size: 16px; }
 
   .passos { display: grid; gap: 18px; grid-template-columns: repeat(3, 1fr); margin-top: 26px; }
@@ -103,27 +117,141 @@
   details p { margin-top: 8px; }
   footer { padding-block: 40px 60px; font-size: 16px; }
   footer a { color: var(--marsala); }
+
+  /* ---- elementos do esboço: diagrama, trilha, bônus ilustrados, área do aluno ---- */
+  :root { --petroleo: #12363f; }
+  .produto { display: grid; gap: 28px; grid-template-columns: .8fr 1.2fr; align-items: center; margin-block: 8px 34px; }
+  .produto .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .chip { font-size: 15px; padding: 5px 12px; border: 1px solid var(--linha); background: var(--card); border-radius: 999px; color: var(--carvao-soft); }
+  .chip b { color: var(--carvao); font-weight: 600; }
+  /* DIAGRAMA-CSS:INI */
+  .hero-art {
+    border: 1px solid var(--linha); border-radius: 24px; padding: 4px; position: relative; overflow: hidden;
+    background:
+      radial-gradient(circle at 50% 50%, rgba(223,110,54,.20) 0, rgba(223,110,54,0) 55%),
+      linear-gradient(rgba(18,54,63,.06) 1px, transparent 1px) 0 0 / 28px 28px,
+      linear-gradient(90deg, rgba(18,54,63,.06) 1px, transparent 1px) 0 0 / 28px 28px,
+      linear-gradient(160deg, #fffdf8 0%, #fbf1e4 100%);
+    box-shadow: 0 18px 40px -26px rgba(134,5,12,.35);
+  }
+  .orbit { width: 100%; height: auto; display: block; }
+  .manual-art {
+    padding: 4px; display: grid; place-items: center;
+    background:
+      radial-gradient(circle at 50% 50%, rgba(223,110,54,.20) 0, rgba(223,110,54,0) 55%),
+      linear-gradient(rgba(18,54,63,.06) 1px, transparent 1px) 0 0 / 28px 28px,
+      linear-gradient(90deg, rgba(18,54,63,.06) 1px, transparent 1px) 0 0 / 28px 28px,
+      linear-gradient(160deg, #fffdf8 0%, #fbf1e4 100%);
+  }
+  .manual-art svg { width: 100%; height: auto; max-height: 350px; display: block; }
+  .spin { transform-origin: 300px 300px; animation: spin 14s linear infinite; }
+  .spin-rev { transform-origin: 300px 300px; animation: spin 60s linear infinite reverse; }
+  .orbita { transform-origin: 300px 300px; animation: spin var(--orbita, 90s) linear infinite; }
+  .contra { transform-box: fill-box; transform-origin: center; animation: spin var(--orbita, 90s) linear infinite reverse; }
+  .pulse { transform-origin: 300px 300px; animation: pulse 4s ease-in-out infinite; }
+  .tw { animation: tw 5s ease-in-out infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes pulse { 0%, 100% { opacity: .5; transform: scale(1); } 50% { opacity: 1; transform: scale(1.08); } }
+  @keyframes tw { 0%, 100% { opacity: .2; } 50% { opacity: 1; } }
+  @keyframes scan { from { transform: translateY(-175px); } to { transform: translateY(175px); } }
+  .scan { animation: scan 6s ease-in-out infinite alternate; }
+  @media (prefers-reduced-motion: reduce) { .spin, .spin-rev, .orbita, .contra, .pulse, .scan, .tw { animation: none; } .dado { display: none; } }
+  /* DIAGRAMA-CSS:FIM */
+
+  .trilha { list-style: none; padding: 0; position: relative; display: grid; gap: 16px; margin-top: 8px; }
+  .trilha::before { content: ""; position: absolute; left: 25px; top: 24px; bottom: 24px; border-left: 2px dotted var(--cobre); opacity: .55; }
+  .aula { display: grid; grid-template-columns: 52px 1fr; gap: 18px; position: relative; }
+  .num { width: 52px; height: 52px; border-radius: 50%; background: var(--cobre); color: #fff; display: grid; place-items: center; font-family: var(--font-h); font-weight: 600; font-size: 24px; box-shadow: 0 0 0 6px var(--areia-bg); position: relative; z-index: 1; }
+  .aula.destaque .num { background: var(--marsala); }
+  .aula-body { background: var(--card); border: 1px solid var(--linha); border-radius: 14px; padding: 18px 20px; display: grid; gap: 6px; min-width: 0; }
+  .aula-body h3 { font-size: 24px; }
+  .aula-body p { font-size: 18px; }
+  .tempo { font-family: Consolas, monospace; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--cobre); }
+  .destaque .aula-body { border-color: var(--marsala); background: linear-gradient(180deg, #fff6ee, var(--card)); }
+  .doc { display: grid; gap: 5px; width: 118px; padding: 10px 12px; background: #fff; border: 1px solid var(--linha); border-radius: 6px; box-shadow: 3px 3px 0 var(--areia); margin-top: 6px; }
+  .doc i { display: block; height: 5px; background: var(--linha); border-radius: 3px; }
+  .doc i:first-child { background: var(--marsala); width: 55%; }
+  .doc i:nth-child(3) { width: 80%; } .doc i:nth-child(5) { width: 65%; }
+
+  .bonus2 { margin-top: 26px; display: grid; gap: 18px; grid-template-columns: 1fr; }
+  .bcard { background: var(--card); border: 1px solid var(--linha); border-radius: 16px; overflow: hidden; display: grid; align-content: start; min-width: 0; }
+  .bcard .txt { padding: 18px 22px 22px; display: grid; gap: 6px; }
+  .bcard h3 { font-size: 26px; }
+  .bcard .txt p { font-size: 18px; }
+  .tag { justify-self: start; font-family: Consolas, monospace; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; background: var(--areia); color: var(--marsala); }
+  .frame { border-bottom: 1px solid var(--linha); background: var(--areia); }
+  .frame .bar { display: flex; gap: 6px; padding: 9px 12px; }
+  .frame .bar span { width: 9px; height: 9px; border-radius: 50%; background: #d9c3a4; }
+  .frame img { display: block; width: 100%; height: auto; }
+  .formato { margin-top: 18px; }
+
+  .app { background: var(--card); border: 1px solid var(--linha); border-radius: 16px; overflow: hidden; margin-top: 26px; }
+  .app-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 20px; border-bottom: 1px solid var(--linha); }
+  .app-top b { font-family: var(--font-h); font-weight: 600; font-size: 22px; color: var(--marsala); }
+  .app-top small { font-size: 15px; color: var(--carvao-soft); }
+  .app-body { display: grid; grid-template-columns: 270px 1fr; min-width: 0; }
+  .menu { padding: 18px 16px; border-right: 1px solid var(--linha); display: grid; gap: 4px; align-content: start; background: #fcf7ee; }
+  .menu .rot { font-family: Consolas, monospace; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--marsala); margin: 6px 0 4px; }
+  .prog { height: 5px; background: var(--linha); border-radius: 3px; margin-bottom: 10px; }
+  .prog i { display: block; width: 20%; height: 100%; background: var(--cobre); border-radius: 3px; }
+  .menu a { display: grid; grid-template-columns: 26px 1fr; gap: 6px; padding: 8px; border-radius: 8px; font-size: 16px; color: var(--carvao-soft); text-decoration: none; line-height: 1.3; pointer-events: none; }
+  .menu a.on { background: var(--areia); color: var(--marsala); font-weight: 600; }
+  .menu a em { font-style: normal; font-size: 13px; opacity: .8; }
+  .menu a.bn { grid-template-columns: 16px 1fr; color: var(--marsala); font-weight: 600; }
+  .menu a.bn::before { content: "✦"; color: var(--cobre); }
+  .pane { padding: 22px; display: grid; gap: 12px; align-content: start; min-width: 0; }
+  .pane .banner { display: block; width: 100%; height: auto; aspect-ratio: 2160 / 675; object-fit: cover; border-radius: 14px; border: 1px solid var(--linha); }
+  .pane h3 { font-size: clamp(28px, 4vw, 38px); color: var(--marsala); }
+  .tres { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--linha); border-radius: 10px; background: #fff; }
+  .tres div { padding: 12px 14px; font-size: 15px; color: var(--carvao-soft); border-right: 1px solid var(--linha); min-width: 0; line-height: 1.4; }
+  .tres div:last-child { border-right: 0; }
+  .tres b { display: block; font-family: Consolas, monospace; font-weight: 400; font-size: 11.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--marsala); margin-bottom: 4px; }
+  .legenda { margin-top: 10px; font-size: 16px; }
   @media (max-width: 720px) {
+    /* A arte mobile antiga trazia o título gravado na imagem. Com o Quadro novo, a foto
+       sem texto vai no topo e o título volta a ser HTML. */
     .hero {
       width: calc(100vw - 24px); min-height: auto;
-      padding: calc((100vw - 24px) * 1.25 + 28px) 24px 34px; align-items: flex-end;
+      padding: calc((100vw - 24px) * .36 + 24px) 22px 30px; align-items: flex-end;
       background:
-        url('/oferta/img/hero-bg-mobile.jpg') center top / 100% auto no-repeat,
+        url('/oferta/img/hero-bg.jpg') center top / 100% auto no-repeat,
         var(--areia-bg);
       border-radius: 18px;
     }
     .hero > div { width: 100%; }
-    .hero h1, .hero p.lead {
-      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
-      overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
-    }
-    .hero, .showcase, .passos { grid-template-columns: 1fr; }
-    .showcase figure:first-child { grid-row: auto; }
-    .showcase figure:first-child img, .showcase img { min-height: 0; height: auto; }
+    .hero p.lead { font-size: 20px; }
+    .hero ul { font-size: 17px; }
+    .hero, .prova, .passos, .oferta-grid { grid-template-columns: 1fr; }
+    .lado { grid-template-rows: auto; }
+    .produto, .bonus2 { grid-template-columns: 1fr; }
+    .lbl { display: none; }
+    .aula { grid-template-columns: 44px 1fr; gap: 12px; }
+    .num { width: 44px; height: 44px; font-size: 20px; }
+    .trilha::before { left: 21px; }
+    .app-body { grid-template-columns: 1fr; }
+    .menu { border-right: 0; border-bottom: 1px solid var(--linha); }
+    .tres { grid-template-columns: 1fr; }
+    .tres div { border-right: 0; border-bottom: 1px solid var(--linha); }
+    .tres div:last-child { border-bottom: 0; }
+  }
+  .professora { display: grid; grid-template-columns: minmax(220px, 300px) 1fr; gap: 36px; align-items: center; }
+  .professora figure { margin: 0; }
+  .professora img { display: block; width: 100%; height: auto; border-radius: 20px; border: 1px solid var(--linha); box-shadow: 0 24px 50px -34px rgba(43,35,32,.6); }
+  .bcard .arte { display: block; width: 100%; height: auto; border-bottom: 1px solid var(--linha); }
+  .bcard.manual { grid-template-columns: minmax(280px, 360px) 1fr; align-items: center; }
+  .bcard.manual .txt { padding: 24px 28px; }
+  @media (max-width: 720px) {
+    .professora { grid-template-columns: 1fr; gap: 22px; }
+    .professora figure { max-width: 320px; }
+    .bcard.manual { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="claude" viewBox="0 0 1200 1200"><g id="g314">
+        <path id="path147" fill="#d97757" stroke="none" d="M 233.959793 800.214905 L 468.644287 668.536987 L 472.590637 657.100647 L 468.644287 650.738403 L 457.208069 650.738403 L 417.986633 648.322144 L 283.892639 644.69812 L 167.597321 639.865845 L 54.926208 633.825623 L 26.577238 627.785339 L 3.3e-05 592.751709 L 2.73832 575.27533 L 26.577238 559.248352 L 60.724873 562.228149 L 136.187973 567.382629 L 249.422867 575.194763 L 331.570496 580.026978 L 453.261841 592.671082 L 472.590637 592.671082 L 475.328857 584.859009 L 468.724915 580.026978 L 463.570557 575.194763 L 346.389313 495.785217 L 219.543671 411.865906 L 153.100723 363.543762 L 117.181267 339.060425 L 99.060455 316.107361 L 91.248367 266.01355 L 123.865784 230.093994 L 167.677887 233.073853 L 178.872513 236.053772 L 223.248367 270.201477 L 318.040283 343.570496 L 441.825592 434.738342 L 459.946411 449.798706 L 467.194672 444.64447 L 468.080597 441.020203 L 459.946411 427.409485 L 392.617493 305.718323 L 320.778564 181.932983 L 288.80542 130.630859 L 280.348999 99.865845 C 277.369171 87.221436 275.194641 76.590698 275.194641 63.624268 L 312.322174 13.20813 L 332.8591 6.604126 L 382.389313 13.20813 L 403.248352 31.328979 L 434.013519 101.71814 L 483.865753 212.537048 L 561.181274 363.221497 L 583.812134 407.919434 L 595.892639 449.315491 L 600.40271 461.959839 L 608.214783 461.959839 L 608.214783 454.711609 L 614.577271 369.825623 L 626.335632 265.61084 L 637.771851 131.516846 L 641.718201 93.745117 L 660.402832 48.483276 L 697.530334 24.000122 L 726.52356 37.852417 L 750.362549 72 L 747.060486 94.067139 L 732.886047 186.201416 L 705.100708 330.52356 L 686.979919 427.167847 L 697.530334 427.167847 L 709.61084 415.087341 L 758.496704 350.174561 L 840.644348 247.490051 L 876.885925 206.738342 L 919.167847 161.71814 L 946.308838 140.29541 L 997.61084 140.29541 L 1035.38269 196.429626 L 1018.469849 254.416199 L 965.637634 321.422852 L 921.825562 378.201538 L 859.006714 462.765259 L 819.785278 530.41626 L 823.409424 535.812073 L 832.75177 534.92627 L 974.657776 504.724915 L 1051.328979 490.872559 L 1142.818848 475.167786 L 1184.214844 494.496582 L 1188.724854 514.147644 L 1172.456421 554.335693 L 1074.604126 578.496765 L 959.838989 601.449829 L 788.939636 641.879272 L 786.845764 643.409485 L 789.261841 646.389343 L 866.255127 653.637634 L 899.194702 655.409424 L 979.812134 655.409424 L 1129.932861 666.604187 L 1169.154419 692.537109 L 1192.671265 724.268677 L 1188.724854 748.429688 L 1128.322144 779.194641 L 1046.818848 759.865845 L 856.590759 714.604126 L 791.355774 698.335754 L 782.335693 698.335754 L 782.335693 703.731567 L 836.69812 756.885986 L 936.322205 846.845581 L 1061.073975 962.81897 L 1067.436279 991.490112 L 1051.409424 1014.120911 L 1034.496704 1011.704712 L 924.885986 929.234924 L 882.604126 892.107544 L 786.845764 811.48999 L 780.483276 811.48999 L 780.483276 819.946289 L 802.550415 852.241699 L 919.087341 1027.409424 L 925.127625 1081.127686 L 916.671204 1098.604126 L 886.469849 1109.154419 L 853.288696 1103.114136 L 785.073914 1007.355835 L 714.684631 899.516785 L 657.906067 802.872498 L 650.979858 806.81897 L 617.476624 1167.704834 L 601.771851 1186.147705 L 565.530212 1200 L 535.328857 1177.046997 L 519.302124 1139.919556 L 535.328857 1066.550537 L 554.657776 970.792053 L 570.362488 894.68457 L 584.536926 800.134277 L 592.993347 768.724976 L 592.429626 766.630859 L 585.503479 767.516968 L 514.22821 865.369263 L 405.825531 1011.865906 L 320.053711 1103.677979 L 299.516815 1111.812256 L 263.919525 1093.369263 L 267.221497 1060.429688 L 287.114136 1031.114136 L 405.825531 880.107361 L 477.422913 786.52356 L 523.651062 732.483276 L 523.328918 724.671265 L 520.590698 724.671265 L 205.288605 929.395935 L 149.154434 936.644409 L 124.993355 914.01355 L 127.973183 876.885986 L 139.409409 864.80542 L 234.201385 799.570435 L 233.879227 799.8927 Z"/>
+    </g>
+</symbol></svg>
 <div class="wrap">
   <header>
     <span class="mono">Claude do Zero · Jaya</span>
@@ -132,84 +260,379 @@
 
   <div class="hero">
     <div>
-      <h1>O Claude sabendo <em>quem você é</em>.</h1>
-      <p class="lead">Resposta genérica, retrabalho, "não era isso". O problema não é o seu prompt. É que a ferramenta não te conhece — e isso tem conserto em cinco aulas.</p>
-      <a class="cta" href="https://wa.me/5561992634557?text=Oi%20Jaya%2C%20quero%20o%20Claude%20do%20Zero%20a%20R%24%20297." data-cta="curso" data-posicao="hero">Quero o Claude do Zero · <span data-preco="curso">R$ 297</span></a>
-      <p class="sub muted">Pix pelo WhatsApp, acesso em até 24h.</p>
+      <h1>Fazer o Claude escrever <em>como você</em> em uma tarde.</h1>
+      <p class="lead">Resposta genérica, retrabalho, "não era isso". O problema não é o seu prompt. É que a ferramenta não sabe quem você é, e isso tem conserto em cinco aulas.</p>
+      <ul>
+        <li>Você para de explicar quem é toda vez que abre uma conversa nova, e o tempo que sobra volta para o seu trabalho.</li>
+        <li>As respostas passam a soar como você, então você edita menos e envia mais rápido.</li>
+        <li>Você ganha um mapa visual da sua Zona de Genialidade, com gráficos, hipóteses e uma Carta de Travessia.</li>
+      </ul>
+      <a class="cta" href="#comprar" data-cta="curso" data-posicao="hero">Quero o Claude do Zero · <span data-preco="curso" style="white-space:nowrap">R$ 297</span></a>
+      <p class="sub muted">Cartão em até 6x ou Pix.</p>
     </div>
   </div>
 
-  <section>
-    <span class="mono">O que você sai sabendo</span>
-    <h2>Cinco aulas na ordem. Ferramentas para aplicar.</h2>
-    <div class="aulas">
-      <div><b>01</b><div><h3>Conversar com o Claude</h3><p class="muted">Planos, modelos, a fórmula OCAS e como deixar o Claude te conhecer.</p></div></div>
-      <div><b>02</b><div><h3>Botar o Claude pra Trabalhar</h3><p class="muted">Artefatos, Projetos, Conectores, Skills, Cowork e Design.</p></div></div>
-      <div><b>03</b><div><h3>Documento Mestre</h3><p class="muted">O documento que ensina o Claude quem você é — com os prompts prontos.</p></div></div>
-      <div><b>04</b><div><h3>Autoconhecimento e Zona de Genialidade</h3><p class="muted">26 perguntas + 5 opcionais que organizam suas respostas em um mapa visual, com gráficos, hipóteses e uma Carta de Travessia simbólica.</p></div></div>
-      <div><b>05</b><div><h3>Landing Page com Identidade Visual</h3><p class="muted">Os prompts para criar uma página com a sua cara, do zero.</p></div></div>
-    </div>
-    <div class="bonus">
-      <div><span class="mono">Ferramenta</span><strong>Mapa de Autoconhecimento</strong><p class="muted">Uma experiência interativa para reconhecer interesses, capacidades, modos de ação e sua Zona de Genialidade.</p></div>
-      <div><span class="mono">Ferramenta</span><strong>Manual 8 recursos do Claude</strong><p class="muted">Qual recurso abre primeiro, e por quê.</p></div>
-      <div><span class="mono">Formato</span><strong>Visual, prático e no seu ritmo</strong><p class="muted">Aulas visuais, slides guiados, exercícios e ferramentas interativas. Você aplica enquanto aprende e volta quando precisar.</p></div>
-    </div>
+  <section id="paliativo">
+    <span class="mono">O que você já tentou</span>
+    <h2>Por que mais um prompt não resolve.</h2>
+    <p class="intro">Você já tentou o caminho comum. Pediu para o ChatGPT ou o Claude "responder como especialista". Baixou uma lista de prompts prontos. Talvez tenha feito um curso de prompts.</p>
+    <p>Todos tratam o sintoma. O prompt melhora a pergunta, mas a ferramenta continua sem saber quem faz a pergunta: seu público, seu jeito de falar, o que você nunca diria. Por isso a resposta sai certa para qualquer pessoa e errada para você.</p>
+    <p class="tese">Prompt melhor ajusta a pergunta. O Documento Mestre ajusta quem responde.</p>
   </section>
 
   <section>
+    <span class="mono">O método</span>
+    <h2>Cinco aulas, uma ordem.</h2>
+    <p class="intro">Contratar uma assistente brilhante e não contar nada sobre o seu trabalho dá nisso: ela responde rápido, com educação, e errado. O Método Documento Mestre faz o caminho inverso, em cinco etapas, na ordem em que funcionam.</p>
+    <div class="produto">
+      <div>
+        <p>Cinco aulas na ordem, duas ferramentas e um documento que ensina o Claude quem você é. Aqui está o que a aluna recebe, desenhado.</p>
+        <div class="chips"><span class="chip"><b>5</b> aulas</span><span class="chip"><b>2</b> ferramentas</span><span class="chip">Acesso <b>vitalício</b></span><span class="chip">Páginas visuais, não vídeo</span></div>
+      </div>
+      <!-- DIAGRAMA:INI -->
+      <div class="hero-art">
+      <svg class="orbit" style="--orbita:90s" viewBox="0 0 600 600" role="img" aria-label="Diagrama em estilo instrumento técnico: no centro o ícone do Claude, em volta as 5 aulas (Conversar, Trabalhar, Documento Mestre, Autoconhecimento, Landing Page) e, na órbita de fora, o Mapa de Autoconhecimento e o Manual dos 8 recursos">
+      <defs>
+        <radialGradient id="aura" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#df6e36" stop-opacity=".55"/><stop offset="1" stop-color="#df6e36" stop-opacity="0"/></radialGradient>
+        <radialGradient id="halo" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ff8a50" stop-opacity=".75"/><stop offset="1" stop-color="#ff8a50" stop-opacity="0"/></radialGradient>
+        <radialGradient id="flare" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff" stop-opacity=".95"/><stop offset=".4" stop-color="#ffd9b8" stop-opacity=".4"/><stop offset="1" stop-color="#ffd9b8" stop-opacity="0"/></radialGradient>
+        <radialGradient id="flare2" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ff8a50" stop-opacity=".55"/><stop offset="1" stop-color="#ff8a50" stop-opacity="0"/></radialGradient>
+        <linearGradient id="streak" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".95"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+        <linearGradient id="varre" gradientUnits="userSpaceOnUse" x1="505" y1="300" x2="457" y2="168.2"><stop offset="0" stop-color="#df6e36" stop-opacity=".42"/><stop offset="1" stop-color="#df6e36" stop-opacity="0"/></linearGradient>
+        <linearGradient id="nucleo" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fffdf8"/><stop offset="1" stop-color="#f6e2cc"/></linearGradient>
+        <linearGradient id="chipfill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#f7e8d6"/></linearGradient>
+        <linearGradient id="rim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff9a60"/><stop offset=".3" stop-color="#12363f"/><stop offset=".7" stop-color="#12363f"/><stop offset="1" stop-color="#ff7a3d"/></linearGradient>
+        <filter id="sombra" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#86050c" flood-opacity=".22"/></filter>
+        <filter id="glowS" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <clipPath id="cunha"><path d="M300 300 L505 300 A205 205 0 0 0 457 168.2 Z"/></clipPath>
+      </defs>
+
+      <!-- atmosfera -->
+      <g opacity=".9">
+        <polygon points="420,0 500,0 170,600 90,600" fill="url(#streak)" opacity=".30"/>
+        <polygon points="520,0 565,0 335,600 290,600" fill="url(#streak)" opacity=".22"/>
+        <polygon points="150,0 185,0 -30,430 -65,430" fill="url(#streak)" opacity=".18"/>
+        <circle cx="575" cy="35" r="150" fill="url(#flare)" opacity=".6"/>
+        <circle cx="25" cy="575" r="125" fill="url(#flare2)" opacity=".45"/>
+      </g>
+      <g fill="none" stroke="#12363f" stroke-width="1.2" opacity=".4" stroke-linejoin="round">
+        <path d="M24 100V150L44 170V225"/><path d="M74 24H140L158 42H216"/><g transform="translate(600 0) scale(-1 1)"><path d="M24 100V150L44 170V225"/><path d="M74 24H140L158 42H216"/></g><path d="M24 500V450L44 430V375"/><g transform="translate(600 0) scale(-1 1)"><path d="M24 500V450L44 430V375"/></g>
+      </g>
+      <g fill="#df6e36" opacity=".85"><circle cx="44" cy="225" r="3"/><circle cx="216" cy="42" r="3"/><circle cx="24" cy="100" r="2.4"/><g transform="translate(600 0) scale(-1 1)"><circle cx="44" cy="225" r="3"/><circle cx="216" cy="42" r="3"/><circle cx="24" cy="100" r="2.4"/></g><circle cx="44" cy="375" r="3"/><circle cx="24" cy="500" r="2.4"/><g transform="translate(600 0) scale(-1 1)"><circle cx="44" cy="375" r="3"/><circle cx="24" cy="500" r="2.4"/></g></g>
+      <g><g class="tw" style="animation-delay:-3.1s" opacity="0.7"><circle cx="20.7" cy="49.4" r="15.1" fill="url(#halo)"/><circle cx="20.7" cy="49.4" r="2.6" fill="#fff"/></g><g class="tw" style="animation-delay:-4.4s" opacity="0.6"><circle cx="246" cy="280.7" r="6.9" fill="url(#halo)"/><circle cx="246" cy="280.7" r="1.2" fill="#fff"/></g><g class="tw" style="animation-delay:-1.2s" opacity="0.6"><circle cx="161.5" cy="103.2" r="12.8" fill="url(#halo)"/><circle cx="161.5" cy="103.2" r="2.2" fill="#fff"/></g><g class="tw" style="animation-delay:-5.9s" opacity="0.5"><circle cx="224.5" cy="181.7" r="10.2" fill="url(#halo)"/><circle cx="224.5" cy="181.7" r="1.7" fill="#fff"/></g><g class="tw" style="animation-delay:-0.9s" opacity="0.4"><circle cx="155.6" cy="516.1" r="6.3" fill="url(#halo)"/><circle cx="155.6" cy="516.1" r="1.1" fill="#fff"/></g><g class="tw" style="animation-delay:-5.5s" opacity="0.4"><circle cx="180.4" cy="327.4" r="12.7" fill="url(#halo)"/><circle cx="180.4" cy="327.4" r="2.2" fill="#fff"/></g><g class="tw" style="animation-delay:-3.7s" opacity="0.8"><circle cx="330.7" cy="369.6" r="11.8" fill="url(#halo)"/><circle cx="330.7" cy="369.6" r="2" fill="#fff"/></g><g class="tw" style="animation-delay:-2.1s" opacity="0.4"><circle cx="540.9" cy="487.4" r="4.6" fill="url(#halo)"/><circle cx="540.9" cy="487.4" r="0.8" fill="#fff"/></g><g class="tw" style="animation-delay:-2.2s" opacity="0.7"><circle cx="257.3" cy="25.5" r="5.2" fill="url(#halo)"/><circle cx="257.3" cy="25.5" r="0.9" fill="#fff"/></g><g class="tw" style="animation-delay:-4.1s" opacity="0.7"><circle cx="258.1" cy="282.1" r="14.8" fill="url(#halo)"/><circle cx="258.1" cy="282.1" r="2.5" fill="#fff"/></g><g class="tw" style="animation-delay:-5.5s" opacity="0.4"><circle cx="203.1" cy="217.8" r="5.8" fill="url(#halo)"/><circle cx="203.1" cy="217.8" r="1" fill="#fff"/></g><g class="tw" style="animation-delay:-0.3s" opacity="0.5"><circle cx="198.4" cy="122.9" r="11.3" fill="url(#halo)"/><circle cx="198.4" cy="122.9" r="1.9" fill="#fff"/></g><g class="tw" style="animation-delay:-3.9s" opacity="0.8"><circle cx="405.4" cy="541" r="10.3" fill="url(#halo)"/><circle cx="405.4" cy="541" r="1.8" fill="#fff"/></g><g class="tw" style="animation-delay:-5.3s" opacity="0.7"><circle cx="540.2" cy="80.9" r="10.1" fill="url(#halo)"/><circle cx="540.2" cy="80.9" r="1.7" fill="#fff"/></g><g class="tw" style="animation-delay:-5.8s" opacity="0.8"><circle cx="563.4" cy="493.3" r="10.9" fill="url(#halo)"/><circle cx="563.4" cy="493.3" r="1.9" fill="#fff"/></g><g class="tw" style="animation-delay:-2s" opacity="0.6"><circle cx="327.8" cy="482.2" r="4.3" fill="url(#halo)"/><circle cx="327.8" cy="482.2" r="0.7" fill="#fff"/></g><g class="tw" style="animation-delay:-3.3s" opacity="0.8"><circle cx="428.3" cy="328.3" r="12.7" fill="url(#halo)"/><circle cx="428.3" cy="328.3" r="2.2" fill="#fff"/></g><g class="tw" style="animation-delay:-3.3s" opacity="0.7"><circle cx="484.8" cy="260" r="11.4" fill="url(#halo)"/><circle cx="484.8" cy="260" r="2" fill="#fff"/></g><g class="tw" style="animation-delay:-5.7s" opacity="0.4"><circle cx="192.7" cy="149.5" r="4.3" fill="url(#halo)"/><circle cx="192.7" cy="149.5" r="0.7" fill="#fff"/></g><g class="tw" style="animation-delay:-3.6s" opacity="0.7"><circle cx="490.7" cy="374.7" r="4.4" fill="url(#halo)"/><circle cx="490.7" cy="374.7" r="0.7" fill="#fff"/></g><g class="tw" style="animation-delay:-3.9s" opacity="0.8"><circle cx="424" cy="583.1" r="7.3" fill="url(#halo)"/><circle cx="424" cy="583.1" r="1.3" fill="#fff"/></g><g class="tw" style="animation-delay:-6s" opacity="0.4"><circle cx="474.4" cy="371.2" r="13.5" fill="url(#halo)"/><circle cx="474.4" cy="371.2" r="2.3" fill="#fff"/></g><g class="tw" style="animation-delay:-1.3s" opacity="0.5"><circle cx="304" cy="338.3" r="6" fill="url(#halo)"/><circle cx="304" cy="338.3" r="1" fill="#fff"/></g><g class="tw" style="animation-delay:-5.9s" opacity="0.7"><circle cx="479.3" cy="506.8" r="12.4" fill="url(#halo)"/><circle cx="479.3" cy="506.8" r="2.1" fill="#fff"/></g><g class="tw" style="animation-delay:-1.4s" opacity="0.6"><circle cx="362.5" cy="435.3" r="14.9" fill="url(#halo)"/><circle cx="362.5" cy="435.3" r="2.6" fill="#fff"/></g><g class="tw" style="animation-delay:-3.3s" opacity="0.4"><circle cx="348.1" cy="469.1" r="13.8" fill="url(#halo)"/><circle cx="348.1" cy="469.1" r="2.4" fill="#fff"/></g></g>
+      <g fill="none" stroke="#12363f" stroke-width="2.4" opacity=".7" stroke-linecap="square">
+        <path d="M18 52V18H52"/><path d="M548 18H582V52"/><path d="M18 548V582H52"/><path d="M582 548V582H548"/>
+      </g>
+      <g font-family="ui-monospace, Consolas, monospace" font-size="11" letter-spacing="1.6" fill="#12363f" opacity=".8">
+        <text x="30" y="40"><tspan fill="#df6e36">//</tspan> CLAUDE DO ZERO</text>
+        <text x="570" y="570" text-anchor="end">05 AULAS . 02 FERRAMENTAS</text>
+      </g>
+      <g class="spin-rev">
+        <circle cx="300" cy="300" r="258" fill="none" stroke="#12363f" stroke-width="7" stroke-dasharray="1.4 25.6" opacity=".5"/>
+        <circle cx="300" cy="300" r="258" fill="none" stroke="#ff8a50" stroke-width="32" stroke-dasharray="2.4 132.7" opacity=".16"/>
+        <circle cx="300" cy="300" r="258" fill="none" stroke="#ff8a50" stroke-width="20" stroke-dasharray="2.4 132.7" opacity=".22"/>
+        <circle cx="300" cy="300" r="258" fill="none" stroke="#df6e36" stroke-width="15" stroke-dasharray="2.4 132.7" opacity=".95"/>
+      </g>
+      <circle cx="300" cy="300" r="243" fill="none" stroke="#12363f" stroke-width="1" opacity=".4"/>
+      <circle cx="300" cy="300" r="225" fill="none" stroke="#12363f" stroke-width="1" stroke-dasharray="1 5" opacity=".3"/>
+      <circle cx="300" cy="300" r="205" fill="none" stroke="#df6e36" stroke-width="1" opacity=".3"/>
+      <circle cx="300" cy="300" r="165" fill="none" stroke="#df6e36" stroke-width="1" stroke-dasharray="2 7" opacity=".6"/>
+      <circle cx="300" cy="300" r="108" fill="none" stroke="#12363f" stroke-width="1" opacity=".3"/>
+      <circle cx="300" cy="300" r="68" fill="none" stroke="#df6e36" stroke-width=".8" stroke-dasharray="1 4" opacity=".4"/>
+      <g font-family="ui-monospace, Consolas, monospace" font-size="10" fill="#12363f" opacity=".7" text-anchor="middle">
+        <text x="300" y="24">000</text><text x="300" y="587">180</text>
+        <text x="583" y="304" text-anchor="end">090</text><text x="17" y="304" text-anchor="start">270</text>
+      </g>
+      <g class="spin"><path d="M300 300 L505 300 A205 205 0 0 0 457 168.2 Z" fill="url(#varre)"/>
+        <g clip-path="url(#cunha)" stroke="#df6e36" stroke-width=".8" opacity=".4" fill="none"><line x1="300" y1="300" x2="505" y2="300"/><line x1="300" y1="300" x2="503" y2="271.5"/><line x1="300" y1="300" x2="497.1" y2="243.5"/><line x1="300" y1="300" x2="487.3" y2="216.6"/><line x1="300" y1="300" x2="473.8" y2="191.4"/><line x1="300" y1="300" x2="457" y2="168.2"/><path d="M360 300 A60 60 0 0 0 346 261.4"/><path d="M410 300 A110 110 0 0 0 384.3 229.3"/><path d="M460 300 A160 160 0 0 0 422.6 197.2"/><path d="M505 300 A205 205 0 0 0 457 168.2"/></g>
+        <line x1="300" y1="300" x2="505" y2="300" stroke="#ff8a50" stroke-width="1.6" opacity=".9"/></g>
+
+      <g stroke="#12363f" stroke-width="1.3" opacity=".6" fill="none"><path id="t1" d="M300 300 L300 192"/><path id="t2" d="M300 300 L402.7 266.6"/><path id="t3" d="M300 300 L363.5 387.4"/><path id="t4" d="M300 300 L236.5 387.4"/><path id="t5" d="M300 300 L197.3 266.6"/></g><g><circle cx="300" cy="222" r="12" fill="url(#halo)"/><circle cx="300" cy="222" r="4.3" fill="#df6e36"/><circle cx="300" cy="229" r="12" fill="url(#halo)"/><circle cx="300" cy="229" r="4.3" fill="#df6e36"/><circle cx="374.2" cy="275.9" r="12" fill="url(#halo)"/><circle cx="374.2" cy="275.9" r="4.3" fill="#df6e36"/><circle cx="367.5" cy="278" r="12" fill="url(#halo)"/><circle cx="367.5" cy="278" r="4.3" fill="#df6e36"/><circle cx="345.8" cy="363.1" r="12" fill="url(#halo)"/><circle cx="345.8" cy="363.1" r="4.3" fill="#df6e36"/><circle cx="341.8" cy="357.5" r="12" fill="url(#halo)"/><circle cx="341.8" cy="357.5" r="4.3" fill="#df6e36"/><circle cx="254.2" cy="363.1" r="12" fill="url(#halo)"/><circle cx="254.2" cy="363.1" r="4.3" fill="#df6e36"/><circle cx="258.2" cy="357.5" r="12" fill="url(#halo)"/><circle cx="258.2" cy="357.5" r="4.3" fill="#df6e36"/><circle cx="225.8" cy="275.9" r="12" fill="url(#halo)"/><circle cx="225.8" cy="275.9" r="4.3" fill="#df6e36"/><circle cx="232.5" cy="278" r="12" fill="url(#halo)"/><circle cx="232.5" cy="278" r="4.3" fill="#df6e36"/></g><g><g class="dado"><circle r="9" fill="url(#halo)"/><circle r="3.6" fill="#df6e36"/><animateMotion dur="3.2s" repeatCount="indefinite" begin="0s"><mpath href="#t1"/></animateMotion></g><g class="dado"><circle r="9" fill="url(#halo)"/><circle r="3.6" fill="#df6e36"/><animateMotion dur="3.2s" repeatCount="indefinite" begin="-0.6s"><mpath href="#t2"/></animateMotion></g><g class="dado"><circle r="9" fill="url(#halo)"/><circle r="3.6" fill="#df6e36"/><animateMotion dur="3.2s" repeatCount="indefinite" begin="-1.3s"><mpath href="#t3"/></animateMotion></g><g class="dado"><circle r="9" fill="url(#halo)"/><circle r="3.6" fill="#df6e36"/><animateMotion dur="3.2s" repeatCount="indefinite" begin="-1.9s"><mpath href="#t4"/></animateMotion></g><g class="dado"><circle r="9" fill="url(#halo)"/><circle r="3.6" fill="#df6e36"/><animateMotion dur="3.2s" repeatCount="indefinite" begin="-2.6s"><mpath href="#t5"/></animateMotion></g></g>
+        <g transform="translate(300 192)"><g>
+          <rect x="-27" y="-27" width="54" height="54" rx="12" fill="none" stroke="#ff8a50" stroke-width="3" opacity=".55" filter="url(#glowS)"/>
+          <rect x="-27" y="-27" width="54" height="54" rx="12" fill="url(#chipfill)" stroke="url(#rim)" stroke-width="1.8"/>
+          <path d="M-18 -23.5H18" stroke="#fff" stroke-width="1.4" stroke-linecap="round" opacity="0.95"/>
+          <path d="M-27 -14V-27H-14" fill="none" stroke="#df6e36" stroke-width="2" stroke-linecap="round"/><path d="M27 14V27H14" fill="none" stroke="#df6e36" stroke-width="2" stroke-linecap="round" opacity=".85"/>
+          <text y="6" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="17" font-weight="700" fill="#86050c">01</text>
+        </g></g>
+        <g transform="translate(402.7 266.6)"><g>
+          <rect x="-27" y="-27" width="54" height="54" rx="12" fill="none" stroke="#ff8a50" stroke-width="3" opacity=".55" filter="url(#glowS)"/>
+          <rect x="-27" y="-27" width="54" height="54" rx="12" fill="url(#chipfill)" stroke="url(#rim)" stroke-width="1.8"/>
+          <path d="M-18 -23.5H18" stroke="#fff" stroke-width="1.4" stroke-linecap="round" opacity="0.95"/>
+          <path d="M-27 -14V-27H-14" fill="none" stroke="#df6e36" stroke-width="2" stroke-linecap="round"/><path d="M27 14V27H14" fill="none" stroke="#df6e36" stroke-width="2" stroke-linecap="round" opacity=".85"/>
+          <text y="6" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="17" font-weight="700" fill="#86050c">02</text>
+        </g></g>
+        <g transform="translate(363.5 387.4)"><g>
+          <rect x="-27" y="-27" width="54" height="54" rx="12" fill="none" stroke="#ff5a4a" stroke-width="3" opacity=".55" filter="url(#glowS)"/>
+          <rect x="-27" y="-27" width="54" height="54" rx="12" fill="#86050c" stroke="#ff6a5a" stroke-width="1.8"/>
+          <path d="M-18 -23.5H18" stroke="#fff" stroke-width="1.4" stroke-linecap="round" opacity="0.5"/>
+          <path d="M-27 -14V-27H-14" fill="none" stroke="#ffb27a" stroke-width="2" stroke-linecap="round"/><path d="M27 14V27H14" fill="none" stroke="#ffb27a" stroke-width="2" stroke-linecap="round" opacity=".85"/>
+          <text y="6" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="17" font-weight="700" fill="#fff6ee">03</text>
+        </g></g>
+        <g transform="translate(236.5 387.4)"><g>
+          <rect x="-27" y="-27" width="54" height="54" rx="12" fill="none" stroke="#ff8a50" stroke-width="3" opacity=".55" filter="url(#glowS)"/>
+          <rect x="-27" y="-27" width="54" height="54" rx="12" fill="url(#chipfill)" stroke="url(#rim)" stroke-width="1.8"/>
+          <path d="M-18 -23.5H18" stroke="#fff" stroke-width="1.4" stroke-linecap="round" opacity="0.95"/>
+          <path d="M-27 -14V-27H-14" fill="none" stroke="#df6e36" stroke-width="2" stroke-linecap="round"/><path d="M27 14V27H14" fill="none" stroke="#df6e36" stroke-width="2" stroke-linecap="round" opacity=".85"/>
+          <text y="6" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="17" font-weight="700" fill="#86050c">04</text>
+        </g></g>
+        <g transform="translate(197.3 266.6)"><g>
+          <rect x="-27" y="-27" width="54" height="54" rx="12" fill="none" stroke="#ff8a50" stroke-width="3" opacity=".55" filter="url(#glowS)"/>
+          <rect x="-27" y="-27" width="54" height="54" rx="12" fill="url(#chipfill)" stroke="url(#rim)" stroke-width="1.8"/>
+          <path d="M-18 -23.5H18" stroke="#fff" stroke-width="1.4" stroke-linecap="round" opacity="0.95"/>
+          <path d="M-27 -14V-27H-14" fill="none" stroke="#df6e36" stroke-width="2" stroke-linecap="round"/><path d="M27 14V27H14" fill="none" stroke="#df6e36" stroke-width="2" stroke-linecap="round" opacity=".85"/>
+          <text y="6" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="17" font-weight="700" fill="#86050c">05</text>
+        </g></g>
+      <g class="lbl" font-family="ui-monospace, Consolas, monospace" font-size="12" font-weight="700" letter-spacing="1.4" fill="#12363f">
+        <text x="300" y="153" text-anchor="middle">CONVERSAR</text>
+        <text x="439.7" y="270.6" text-anchor="start">TRABALHAR</text>
+        <text x="400.5" y="384.4" text-anchor="start">DOCUMENTO</text><text x="400.5" y="398.4" text-anchor="start">MESTRE</text>
+        <text x="199.5" y="384.4" text-anchor="end">AUTO</text><text x="199.5" y="398.4" text-anchor="end">CONHECIMENTO</text>
+        <text x="160.3" y="263.6" text-anchor="end">LANDING</text><text x="160.3" y="277.6" text-anchor="end">PAGE</text>
+      </g>
+
+      <circle class="pulse" cx="300" cy="300" r="100" fill="url(#aura)"/>
+      <circle cx="300" cy="300" r="62" fill="none" stroke="#ff8a50" stroke-width="3" opacity=".8" filter="url(#glowS)"/>
+      <g class="spin-rev"><circle cx="300" cy="300" r="72" fill="none" stroke="#df6e36" stroke-width="1.5" stroke-dasharray="4 6"/></g>
+      <circle cx="300" cy="300" r="52" fill="url(#nucleo)" stroke="#df6e36" stroke-width="2" filter="url(#sombra)"/>
+      <use href="#claude" x="266" y="266" width="68" height="68"/>
+
+      <g>
+        <polygon points="457.2,95.4 483.2,110.4 483.2,140.4 457.2,155.4 431.2,140.4 431.2,110.4" fill="none" stroke="#ff8a50" stroke-width="3" opacity=".5" filter="url(#glowS)"/>
+        <polygon points="142.8,444.6 168.8,459.6 168.8,489.6 142.8,504.6 116.8,489.6 116.8,459.6" fill="none" stroke="#ff8a50" stroke-width="3" opacity=".5" filter="url(#glowS)"/>
+        <polygon points="457.2,95.4 483.2,110.4 483.2,140.4 457.2,155.4 431.2,140.4 431.2,110.4" fill="url(#chipfill)" stroke="url(#rim)" stroke-width="2"/><polygon points="142.8,444.6 168.8,459.6 168.8,489.6 142.8,504.6 116.8,489.6 116.8,459.6" fill="url(#chipfill)" stroke="url(#rim)" stroke-width="2"/>
+      </g>
+      <circle cx="457.2" cy="125.4" r="14" fill="none" stroke="#12363f" stroke-width="1.5"/>
+      <polygon points="457.2,111 461.4,125.4 457.2,139.8 453,125.4" fill="#df6e36"/>
+      <polygon points="457.2,111 461.4,125.4 453,125.4" fill="#86050c"/>
+      <g fill="#df6e36"><circle cx="154.8" cy="474.6" r="3.6"/><circle cx="151.3" cy="483.1" r="3.6"/><circle cx="142.8" cy="486.6" r="3.6"/><circle cx="134.3" cy="483.1" r="3.6"/><circle cx="130.8" cy="474.6" r="3.6"/><circle cx="134.3" cy="466.1" r="3.6"/><circle cx="142.8" cy="462.6" r="3.6"/><circle cx="151.3" cy="466.1" r="3.6"/></g>
+      <g font-family="ui-monospace, Consolas, monospace" font-size="12" font-weight="700" letter-spacing="2" fill="#86050c" text-anchor="middle">
+        <text x="457.2" y="182.4">MAPA</text><text x="142.8" y="531.6">MANUAL 8</text>
+      </g>
+    </svg>
+      </div>
+      <!-- DIAGRAMA:FIM -->
+    </div>
+    <ol class="trilha">
+      <li class="aula"><div class="num">1</div><div class="aula-body"><span class="tempo">Aulas 1 a 3: numa tarde</span><h3>Conversar com o Claude</h3><p class="muted">Planos, modelos, a fórmula OCAS e o jeito de deixar o Claude te conhecer desde a primeira conversa.</p></div></li>
+      <li class="aula"><div class="num">2</div><div class="aula-body"><h3>Botar o Claude pra Trabalhar</h3><p class="muted">Artefatos, Projetos, Conectores, Skills, Cowork e Design. Os recursos que tiram o Claude do bate-papo e põem no seu trabalho.</p></div></li>
+      <li class="aula destaque"><div class="num">3</div><div class="aula-body"><h3>Documento Mestre</h3><p class="muted">O documento que ensina o Claude quem você é, com os prompts prontos. Você escreve uma vez e reaproveita.</p><div class="doc" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div></div></li>
+      <li class="aula"><div class="num">4</div><div class="aula-body"><span class="tempo">Cerca de uma hora com você mesma</span><h3>Autoconhecimento e Zona de Genialidade</h3><p class="muted">26 perguntas, mais 5 opcionais, viram um mapa visual com gráficos, hipóteses e a sua Zona de Genialidade. Fecha com uma Carta de Travessia simbólica.</p></div></li>
+      <li class="aula"><div class="num">5</div><div class="aula-body"><span class="tempo">Depende do que você quer construir</span><h3>Landing Page com Identidade Visual</h3><p class="muted">Os prompts para criar uma página com a sua cara, do zero.</p></div></li>
+    </ol>
+    <p class="fecho">Cada etapa deixa algo pronto: uma conversa melhor, um recurso funcionando, um documento, um mapa e uma página.</p>
+    <div class="bonus2">
+      <article class="bcard">
+        <img class="arte" src="/oferta/img/mapa-autoconhecimento-arte.webp" alt="Ilustração do Mapa de Autoconhecimento, Zona de Genialidade: uma mulher de cabelo cacheado olha para um caminho em espiral que atravessa um vale com árvores, montanhas e um rio até um sol nascente" width="1800" height="600" loading="lazy">
+        <div class="txt"><span class="tag">Ferramenta</span><h3>Mapa de Autoconhecimento</h3><p class="muted">Você responde, ele devolve: interesses, capacidades, modos de ação e a sua Zona de Genialidade, num mapa que dá para olhar.</p></div>
+      </article>
+      <article class="bcard manual">
+        <!-- DIAGRAMA-MANUAL:INI -->
+        <div class="manual-art">
+        <svg viewBox="0 0 600 600" role="img" aria-label="Diagrama em estilo placa de circuito: o ícone do Claude em um chip no centro, com oito trilhas saindo dele até oito recursos numerados de 01 a 08">
+      <defs>
+        <radialGradient id="maura" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#df6e36" stop-opacity=".55"/><stop offset="1" stop-color="#df6e36" stop-opacity="0"/></radialGradient>
+        <radialGradient id="mhalo" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ff8a50" stop-opacity=".75"/><stop offset="1" stop-color="#ff8a50" stop-opacity="0"/></radialGradient>
+        <radialGradient id="mflare" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff" stop-opacity=".95"/><stop offset=".4" stop-color="#ffd9b8" stop-opacity=".4"/><stop offset="1" stop-color="#ffd9b8" stop-opacity="0"/></radialGradient>
+        <radialGradient id="mflare2" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ff8a50" stop-opacity=".55"/><stop offset="1" stop-color="#ff8a50" stop-opacity="0"/></radialGradient>
+        <linearGradient id="mstreak" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".95"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+        <linearGradient id="mvarre" gradientUnits="userSpaceOnUse" x1="505" y1="300" x2="457" y2="168.2"><stop offset="0" stop-color="#df6e36" stop-opacity=".42"/><stop offset="1" stop-color="#df6e36" stop-opacity="0"/></linearGradient>
+        <linearGradient id="mnucleo" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fffdf8"/><stop offset="1" stop-color="#f6e2cc"/></linearGradient>
+        <linearGradient id="mchipfill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#f7e8d6"/></linearGradient>
+        <linearGradient id="mrim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff9a60"/><stop offset=".3" stop-color="#12363f"/><stop offset=".7" stop-color="#12363f"/><stop offset="1" stop-color="#ff7a3d"/></linearGradient>
+        <filter id="msombra" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#86050c" flood-opacity=".22"/></filter>
+        <filter id="mglowS" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="mglow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <clipPath id="mcunha"><path d="M300 300 L505 300 A205 205 0 0 0 457 168.2 Z"/></clipPath>
+      </defs>
+      <defs><linearGradient id="mscan" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#df6e36" stop-opacity="0"/><stop offset=".5" stop-color="#ff8a50" stop-opacity=".85"/><stop offset="1" stop-color="#df6e36" stop-opacity="0"/></linearGradient></defs>
+
+      <!-- atmosfera -->
+      <g opacity=".9">
+        <polygon points="420,0 500,0 170,600 90,600" fill="url(#mstreak)" opacity=".30"/>
+        <polygon points="520,0 565,0 335,600 290,600" fill="url(#mstreak)" opacity=".22"/>
+        <polygon points="150,0 185,0 -30,430 -65,430" fill="url(#mstreak)" opacity=".18"/>
+        <circle cx="575" cy="35" r="150" fill="url(#mflare)" opacity=".6"/>
+        <circle cx="25" cy="575" r="125" fill="url(#mflare2)" opacity=".45"/>
+      </g>
+      <g fill="none" stroke="#12363f" stroke-width="1.2" opacity=".4" stroke-linejoin="round">
+        <path d="M24 100V150L44 170V225"/><path d="M74 24H140L158 42H216"/><g transform="translate(600 0) scale(-1 1)"><path d="M24 100V150L44 170V225"/><path d="M74 24H140L158 42H216"/></g><path d="M24 500V450L44 430V375"/><g transform="translate(600 0) scale(-1 1)"><path d="M24 500V450L44 430V375"/></g>
+      </g>
+      <g fill="#df6e36" opacity=".85"><circle cx="44" cy="225" r="3"/><circle cx="216" cy="42" r="3"/><circle cx="24" cy="100" r="2.4"/><g transform="translate(600 0) scale(-1 1)"><circle cx="44" cy="225" r="3"/><circle cx="216" cy="42" r="3"/><circle cx="24" cy="100" r="2.4"/></g><circle cx="44" cy="375" r="3"/><circle cx="24" cy="500" r="2.4"/><g transform="translate(600 0) scale(-1 1)"><circle cx="44" cy="375" r="3"/><circle cx="24" cy="500" r="2.4"/></g></g>
+      <g><g class="tw" style="animation-delay:-2.9s" opacity="0.5"><circle cx="261.3" cy="269.7" r="7.4" fill="url(#mhalo)"/><circle cx="261.3" cy="269.7" r="1.3" fill="#fff"/></g><g class="tw" style="animation-delay:-4.7s" opacity="0.6"><circle cx="524.2" cy="511.7" r="8.1" fill="url(#mhalo)"/><circle cx="524.2" cy="511.7" r="1.4" fill="#fff"/></g><g class="tw" style="animation-delay:-0.6s" opacity="0.5"><circle cx="122" cy="208.6" r="11.1" fill="url(#mhalo)"/><circle cx="122" cy="208.6" r="1.9" fill="#fff"/></g><g class="tw" style="animation-delay:-0.3s" opacity="0.8"><circle cx="538" cy="132.1" r="10.4" fill="url(#mhalo)"/><circle cx="538" cy="132.1" r="1.8" fill="#fff"/></g><g class="tw" style="animation-delay:-0.6s" opacity="0.6"><circle cx="293.5" cy="146.1" r="10.4" fill="url(#mhalo)"/><circle cx="293.5" cy="146.1" r="1.8" fill="#fff"/></g><g class="tw" style="animation-delay:-3.5s" opacity="0.7"><circle cx="396.6" cy="474.2" r="14.3" fill="url(#mhalo)"/><circle cx="396.6" cy="474.2" r="2.4" fill="#fff"/></g><g class="tw" style="animation-delay:-3.8s" opacity="0.5"><circle cx="119" cy="204.3" r="8.5" fill="url(#mhalo)"/><circle cx="119" cy="204.3" r="1.5" fill="#fff"/></g><g class="tw" style="animation-delay:-4.5s" opacity="0.6"><circle cx="257.3" cy="236.3" r="14.6" fill="url(#mhalo)"/><circle cx="257.3" cy="236.3" r="2.5" fill="#fff"/></g><g class="tw" style="animation-delay:-3.8s" opacity="0.7"><circle cx="193.8" cy="508.6" r="14.5" fill="url(#mhalo)"/><circle cx="193.8" cy="508.6" r="2.5" fill="#fff"/></g><g class="tw" style="animation-delay:-4.3s" opacity="0.4"><circle cx="87.1" cy="283.7" r="4.9" fill="url(#mhalo)"/><circle cx="87.1" cy="283.7" r="0.8" fill="#fff"/></g><g class="tw" style="animation-delay:-4s" opacity="0.5"><circle cx="238.3" cy="463.3" r="7.3" fill="url(#mhalo)"/><circle cx="238.3" cy="463.3" r="1.3" fill="#fff"/></g><g class="tw" style="animation-delay:-1.3s" opacity="0.4"><circle cx="495.5" cy="34.1" r="4.5" fill="url(#mhalo)"/><circle cx="495.5" cy="34.1" r="0.8" fill="#fff"/></g><g class="tw" style="animation-delay:-1.3s" opacity="0.8"><circle cx="358.3" cy="444.1" r="7.3" fill="url(#mhalo)"/><circle cx="358.3" cy="444.1" r="1.2" fill="#fff"/></g><g class="tw" style="animation-delay:-0.1s" opacity="0.5"><circle cx="529.5" cy="569.5" r="7.1" fill="url(#mhalo)"/><circle cx="529.5" cy="569.5" r="1.2" fill="#fff"/></g><g class="tw" style="animation-delay:-2.5s" opacity="0.7"><circle cx="63.4" cy="448" r="13.4" fill="url(#mhalo)"/><circle cx="63.4" cy="448" r="2.3" fill="#fff"/></g><g class="tw" style="animation-delay:-1.5s" opacity="0.7"><circle cx="194.9" cy="142.3" r="9.5" fill="url(#mhalo)"/><circle cx="194.9" cy="142.3" r="1.6" fill="#fff"/></g><g class="tw" style="animation-delay:-0.3s" opacity="0.5"><circle cx="230.8" cy="106.6" r="10.4" fill="url(#mhalo)"/><circle cx="230.8" cy="106.6" r="1.8" fill="#fff"/></g><g class="tw" style="animation-delay:-4.4s" opacity="0.6"><circle cx="332.6" cy="534.1" r="8.2" fill="url(#mhalo)"/><circle cx="332.6" cy="534.1" r="1.4" fill="#fff"/></g><g class="tw" style="animation-delay:-3.5s" opacity="0.8"><circle cx="206.4" cy="126.7" r="12" fill="url(#mhalo)"/><circle cx="206.4" cy="126.7" r="2.1" fill="#fff"/></g><g class="tw" style="animation-delay:-0s" opacity="0.7"><circle cx="549.2" cy="278.1" r="4.8" fill="url(#mhalo)"/><circle cx="549.2" cy="278.1" r="0.8" fill="#fff"/></g><g class="tw" style="animation-delay:-1.6s" opacity="0.7"><circle cx="402.9" cy="29.9" r="12.1" fill="url(#mhalo)"/><circle cx="402.9" cy="29.9" r="2.1" fill="#fff"/></g><g class="tw" style="animation-delay:-2.7s" opacity="0.6"><circle cx="306.3" cy="498.4" r="6.7" fill="url(#mhalo)"/><circle cx="306.3" cy="498.4" r="1.2" fill="#fff"/></g><g class="tw" style="animation-delay:-4.4s" opacity="0.4"><circle cx="280.8" cy="373.2" r="14.4" fill="url(#mhalo)"/><circle cx="280.8" cy="373.2" r="2.5" fill="#fff"/></g><g class="tw" style="animation-delay:-3.5s" opacity="0.8"><circle cx="247" cy="438" r="11" fill="url(#mhalo)"/><circle cx="247" cy="438" r="1.9" fill="#fff"/></g><g class="tw" style="animation-delay:-2.5s" opacity="0.8"><circle cx="389" cy="490.5" r="9.5" fill="url(#mhalo)"/><circle cx="389" cy="490.5" r="1.6" fill="#fff"/></g><g class="tw" style="animation-delay:-0.4s" opacity="0.7"><circle cx="47.1" cy="126.7" r="6.9" fill="url(#mhalo)"/><circle cx="47.1" cy="126.7" r="1.2" fill="#fff"/></g></g>
+      <g fill="none" stroke="#12363f" stroke-width="2.4" opacity=".7" stroke-linecap="square">
+        <path d="M18 52V18H52"/><path d="M548 18H582V52"/><path d="M18 548V582H52"/><path d="M582 548V582H548"/>
+      </g>
+      <g font-family="ui-monospace, Consolas, monospace" font-size="11" letter-spacing="1.6" fill="#12363f" opacity=".8">
+        <text x="30" y="40"><tspan fill="#df6e36">//</tspan> MANUAL</text>
+        <text x="570" y="570" text-anchor="end">08 RECURSOS</text>
+      </g>
+
+      <!-- contornos em volta do chip -->
+      <rect x="185" y="185" width="230" height="230" rx="28" fill="none" stroke="#12363f" stroke-width="1" opacity=".3"/>
+      <rect x="160" y="160" width="280" height="280" rx="38" fill="none" stroke="#df6e36" stroke-width="1" stroke-dasharray="2 7" opacity=".6"/>
+      <circle cx="300" cy="300" r="205" fill="none" stroke="#df6e36" stroke-width=".8" stroke-dasharray="1 5" opacity=".35"/>
+
+      <!-- trilhas decorativas que não levam a nada, só para a placa parecer uma placa -->
+      <g fill="none" stroke="#12363f" stroke-width="1.2" opacity=".32" stroke-linejoin="round">
+        <path d="M270 211V150H238V108"/><path d="M330 211V150H362V108"/><path d="M270 389V450H238V492"/><path d="M330 389V450H362V492"/>
+      </g>
+      <g fill="none" stroke="#12363f" stroke-width="1.4" opacity=".4"><circle cx="238" cy="104" r="5"/><circle cx="362" cy="104" r="5"/><circle cx="238" cy="496" r="5"/><circle cx="362" cy="496" r="5"/></g>
+
+      <!-- as oito trilhas, as vias luminosas nas dobras e os pontinhos de dados -->
+      <g fill="none" stroke="#12363f" stroke-width="1.8" opacity=".65" stroke-linejoin="round" stroke-linecap="round"><path id="mt1" d="M225 262 H190 V150 H116"/><path id="mt2" d="M225 287 H170 V250 H116"/><path id="mt3" d="M225 313 H170 V350 H116"/><path id="mt4" d="M225 338 H190 V450 H116"/><path id="mt5" d="M375 262 H410 V150 H484"/><path id="mt6" d="M375 287 H430 V250 H484"/><path id="mt7" d="M375 313 H430 V350 H484"/><path id="mt8" d="M375 338 H410 V450 H484"/></g>
+      <g><circle cx="190" cy="262" r="11" fill="url(#mhalo)"/><circle cx="190" cy="262" r="3.8" fill="#df6e36"/><circle cx="190" cy="150" r="11" fill="url(#mhalo)"/><circle cx="190" cy="150" r="3.8" fill="#df6e36"/><circle cx="170" cy="287" r="11" fill="url(#mhalo)"/><circle cx="170" cy="287" r="3.8" fill="#df6e36"/><circle cx="170" cy="250" r="11" fill="url(#mhalo)"/><circle cx="170" cy="250" r="3.8" fill="#df6e36"/><circle cx="170" cy="313" r="11" fill="url(#mhalo)"/><circle cx="170" cy="313" r="3.8" fill="#df6e36"/><circle cx="170" cy="350" r="11" fill="url(#mhalo)"/><circle cx="170" cy="350" r="3.8" fill="#df6e36"/><circle cx="190" cy="338" r="11" fill="url(#mhalo)"/><circle cx="190" cy="338" r="3.8" fill="#df6e36"/><circle cx="190" cy="450" r="11" fill="url(#mhalo)"/><circle cx="190" cy="450" r="3.8" fill="#df6e36"/><circle cx="410" cy="262" r="11" fill="url(#mhalo)"/><circle cx="410" cy="262" r="3.8" fill="#df6e36"/><circle cx="410" cy="150" r="11" fill="url(#mhalo)"/><circle cx="410" cy="150" r="3.8" fill="#df6e36"/><circle cx="430" cy="287" r="11" fill="url(#mhalo)"/><circle cx="430" cy="287" r="3.8" fill="#df6e36"/><circle cx="430" cy="250" r="11" fill="url(#mhalo)"/><circle cx="430" cy="250" r="3.8" fill="#df6e36"/><circle cx="430" cy="313" r="11" fill="url(#mhalo)"/><circle cx="430" cy="313" r="3.8" fill="#df6e36"/><circle cx="430" cy="350" r="11" fill="url(#mhalo)"/><circle cx="430" cy="350" r="3.8" fill="#df6e36"/><circle cx="410" cy="338" r="11" fill="url(#mhalo)"/><circle cx="410" cy="338" r="3.8" fill="#df6e36"/><circle cx="410" cy="450" r="11" fill="url(#mhalo)"/><circle cx="410" cy="450" r="3.8" fill="#df6e36"/></g>
+      <g><g class="dado"><circle r="9" fill="url(#mhalo)"/><circle r="3.8" fill="#df6e36"/><animateMotion dur="3.4s" repeatCount="indefinite" begin="0s"><mpath href="#mt1"/></animateMotion></g><g class="dado"><circle r="9" fill="url(#mhalo)"/><circle r="3.8" fill="#df6e36"/><animateMotion dur="3.4s" repeatCount="indefinite" begin="-0.4s"><mpath href="#mt2"/></animateMotion></g><g class="dado"><circle r="9" fill="url(#mhalo)"/><circle r="3.8" fill="#df6e36"/><animateMotion dur="3.4s" repeatCount="indefinite" begin="-0.8s"><mpath href="#mt3"/></animateMotion></g><g class="dado"><circle r="9" fill="url(#mhalo)"/><circle r="3.8" fill="#df6e36"/><animateMotion dur="3.4s" repeatCount="indefinite" begin="-1.3s"><mpath href="#mt4"/></animateMotion></g><g class="dado"><circle r="9" fill="url(#mhalo)"/><circle r="3.8" fill="#df6e36"/><animateMotion dur="3.4s" repeatCount="indefinite" begin="-1.7s"><mpath href="#mt5"/></animateMotion></g><g class="dado"><circle r="9" fill="url(#mhalo)"/><circle r="3.8" fill="#df6e36"/><animateMotion dur="3.4s" repeatCount="indefinite" begin="-2.1s"><mpath href="#mt6"/></animateMotion></g><g class="dado"><circle r="9" fill="url(#mhalo)"/><circle r="3.8" fill="#df6e36"/><animateMotion dur="3.4s" repeatCount="indefinite" begin="-2.5s"><mpath href="#mt7"/></animateMotion></g><g class="dado"><circle r="9" fill="url(#mhalo)"/><circle r="3.8" fill="#df6e36"/><animateMotion dur="3.4s" repeatCount="indefinite" begin="-3s"><mpath href="#mt8"/></animateMotion></g></g>
+
+      <!-- varredura -->
+      <g class="scan"><rect x="62" y="298" width="476" height="3" fill="url(#mscan)"/></g>
+
+      <!-- chip com o ícone do Claude -->
+      <circle class="pulse" cx="300" cy="300" r="125" fill="url(#maura)"/>
+      <g fill="#ff8a50" stroke="#df6e36" stroke-width=".8" filter="url(#mglowS)"><rect x="211" y="234" width="14" height="6" rx="1.5"/><rect x="375" y="234" width="14" height="6" rx="1.5"/><rect x="211" y="259" width="14" height="6" rx="1.5"/><rect x="375" y="259" width="14" height="6" rx="1.5"/><rect x="211" y="284" width="14" height="6" rx="1.5"/><rect x="375" y="284" width="14" height="6" rx="1.5"/><rect x="211" y="310" width="14" height="6" rx="1.5"/><rect x="375" y="310" width="14" height="6" rx="1.5"/><rect x="211" y="335" width="14" height="6" rx="1.5"/><rect x="375" y="335" width="14" height="6" rx="1.5"/><rect x="211" y="360" width="14" height="6" rx="1.5"/><rect x="375" y="360" width="14" height="6" rx="1.5"/><rect x="247" y="211" width="6" height="14" rx="1.5"/><rect x="247" y="375" width="6" height="14" rx="1.5"/><rect x="267" y="211" width="6" height="14" rx="1.5"/><rect x="267" y="375" width="6" height="14" rx="1.5"/><rect x="287" y="211" width="6" height="14" rx="1.5"/><rect x="287" y="375" width="6" height="14" rx="1.5"/><rect x="307" y="211" width="6" height="14" rx="1.5"/><rect x="307" y="375" width="6" height="14" rx="1.5"/><rect x="327" y="211" width="6" height="14" rx="1.5"/><rect x="327" y="375" width="6" height="14" rx="1.5"/><rect x="347" y="211" width="6" height="14" rx="1.5"/><rect x="347" y="375" width="6" height="14" rx="1.5"/></g>
+      <rect x="225" y="225" width="150" height="150" rx="18" fill="none" stroke="#ff8a50" stroke-width="4" opacity=".5" filter="url(#mglow)"/>
+      <rect x="225" y="225" width="150" height="150" rx="18" fill="url(#mchipfill)" stroke="url(#mrim)" stroke-width="2.4" filter="url(#msombra)"/>
+      <path d="M241 229H359" stroke="#fff" stroke-width="1.6" stroke-linecap="round" opacity=".95"/>
+      <rect x="246" y="246" width="108" height="108" rx="12" fill="url(#mnucleo)" stroke="#df6e36" stroke-width="2" filter="url(#mglowS)"/>
+      <circle cx="238" cy="238" r="3" fill="#df6e36"/>
+      <use href="#claude" x="260" y="260" width="80" height="80"/>
+      <circle cx="372" cy="228" r="17" fill="#86050c" stroke="#fffdf8" stroke-width="2"/>
+      <text x="372" y="236" text-anchor="middle" font-family="Petrona, Georgia, serif" font-weight="600" font-size="22" fill="#fff6ee">8</text>
+
+      <!-- os oito recursos -->
+      <g transform="translate(88 150)"><g>
+          <polygon points="-16,-29 16,-29 29,-16 29,16 16,29 -16,29 -29,16 -29,-16" fill="none" stroke="#ff8a50" stroke-width="3" opacity=".55" filter="url(#mglowS)"/>
+          <polygon points="-16,-29 16,-29 29,-16 29,16 16,29 -16,29 -29,16 -29,-16" fill="url(#mchipfill)" stroke="url(#mrim)" stroke-width="1.8"/>
+          <path d="M-20 -25.5H20" stroke="#fff" stroke-width="1.4" stroke-linecap="round" opacity="0.95"/>
+          <path d="M-16 -29L-29 -16" stroke="#df6e36" stroke-width="3" stroke-linecap="round" fill="none"/><path d="M16 29L29 16" stroke="#df6e36" stroke-width="3" stroke-linecap="round" fill="none"/>
+          <text y="8" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="21" font-weight="700" fill="#86050c">01</text>
+        </g></g>
+      <g transform="translate(88 250)"><g>
+          <polygon points="-16,-29 16,-29 29,-16 29,16 16,29 -16,29 -29,16 -29,-16" fill="none" stroke="#ff8a50" stroke-width="3" opacity=".55" filter="url(#mglowS)"/>
+          <polygon points="-16,-29 16,-29 29,-16 29,16 16,29 -16,29 -29,16 -29,-16" fill="url(#mchipfill)" stroke="url(#mrim)" stroke-width="1.8"/>
+          <path d="M-20 -25.5H20" stroke="#fff" stroke-width="1.4" stroke-linecap="round" opacity="0.95"/>
+          <path d="M-16 -29L-29 -16" stroke="#df6e36" stroke-width="3" stroke-linecap="round" fill="none"/><path d="M16 29L29 16" stroke="#df6e36" stroke-width="3" stroke-linecap="round" fill="none"/>
+          <text y="8" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="21" font-weight="700" fill="#86050c">02</text>
+        </g></g>
+      <g transform="translate(88 350)"><g>
+          <polygon points="-16,-29 16,-29 29,-16 29,16 16,29 -16,29 -29,16 -29,-16" fill="none" stroke="#ff8a50" stroke-width="3" opacity=".55" filter="url(#mglowS)"/>
+          <polygon points="-16,-29 16,-29 29,-16 29,16 16,29 -16,29 -29,16 -29,-16" fill="url(#mchipfill)" stroke="url(#mrim)" stroke-width="1.8"/>
+          <path d="M-20 -25.5H20" stroke="#fff" stroke-width="1.4" stroke-linecap="round" opacity="0.95"/>
+          <path d="M-16 -29L-29 -16" stroke="#df6e36" stroke-width="3" stroke-linecap="round" fill="none"/><path d="M16 29L29 16" stroke="#df6e36" stroke-width="3" stroke-linecap="round" fill="none"/>
+          <text y="8" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="21" font-weight="700" fill="#86050c">03</text>
+        </g></g>
+      <g transform="translate(88 450)"><g>
+          <polygon points="-16,-29 16,-29 29,-16 29,16 16,29 -16,29 -29,16 -29,-16" fill="none" stroke="#ff8a50" stroke-width="3" opacity=".55" filter="url(#mglowS)"/>
+          <polygon points="-16,-29 16,-29 29,-16 29,16 16,29 -16,29 -29,16 -29,-16" fill="url(#mchipfill)" stroke="url(#mrim)" stroke-width="1.8"/>
+          <path d="M-20 -25.5H20" stroke="#fff" stroke-width="1.4" stroke-linecap="round" opacity="0.95"/>
+          <path d="M-16 -29L-29 -16" stroke="#df6e36" stroke-width="3" stroke-linecap="round" fill="none"/><path d="M16 29L29 16" stroke="#df6e36" stroke-width="3" stroke-linecap="round" fill="none"/>
+          <text y="8" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="21" font-weight="700" fill="#86050c">04</text>
+        </g></g>
+      <g transform="translate(512 150)"><g>
+          <polygon points="-16,-29 16,-29 29,-16 29,16 16,29 -16,29 -29,16 -29,-16" fill="none" stroke="#ff8a50" stroke-width="3" opacity=".55" filter="url(#mglowS)"/>
+          <polygon points="-16,-29 16,-29 29,-16 29,16 16,29 -16,29 -29,16 -29,-16" fill="url(#mchipfill)" stroke="url(#mrim)" stroke-width="1.8"/>
+          <path d="M-20 -25.5H20" stroke="#fff" stroke-width="1.4" stroke-linecap="round" opacity="0.95"/>
+          <path d="M-16 -29L-29 -16" stroke="#df6e36" stroke-width="3" stroke-linecap="round" fill="none"/><path d="M16 29L29 16" stroke="#df6e36" stroke-width="3" stroke-linecap="round" fill="none"/>
+          <text y="8" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="21" font-weight="700" fill="#86050c">05</text>
+        </g></g>
+      <g transform="translate(512 250)"><g>
+          <polygon points="-16,-29 16,-29 29,-16 29,16 16,29 -16,29 -29,16 -29,-16" fill="none" stroke="#ff8a50" stroke-width="3" opacity=".55" filter="url(#mglowS)"/>
+          <polygon points="-16,-29 16,-29 29,-16 29,16 16,29 -16,29 -29,16 -29,-16" fill="url(#mchipfill)" stroke="url(#mrim)" stroke-width="1.8"/>
+          <path d="M-20 -25.5H20" stroke="#fff" stroke-width="1.4" stroke-linecap="round" opacity="0.95"/>
+          <path d="M-16 -29L-29 -16" stroke="#df6e36" stroke-width="3" stroke-linecap="round" fill="none"/><path d="M16 29L29 16" stroke="#df6e36" stroke-width="3" stroke-linecap="round" fill="none"/>
+          <text y="8" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="21" font-weight="700" fill="#86050c">06</text>
+        </g></g>
+      <g transform="translate(512 350)"><g>
+          <polygon points="-16,-29 16,-29 29,-16 29,16 16,29 -16,29 -29,16 -29,-16" fill="none" stroke="#ff8a50" stroke-width="3" opacity=".55" filter="url(#mglowS)"/>
+          <polygon points="-16,-29 16,-29 29,-16 29,16 16,29 -16,29 -29,16 -29,-16" fill="url(#mchipfill)" stroke="url(#mrim)" stroke-width="1.8"/>
+          <path d="M-20 -25.5H20" stroke="#fff" stroke-width="1.4" stroke-linecap="round" opacity="0.95"/>
+          <path d="M-16 -29L-29 -16" stroke="#df6e36" stroke-width="3" stroke-linecap="round" fill="none"/><path d="M16 29L29 16" stroke="#df6e36" stroke-width="3" stroke-linecap="round" fill="none"/>
+          <text y="8" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="21" font-weight="700" fill="#86050c">07</text>
+        </g></g>
+      <g transform="translate(512 450)"><g>
+          <polygon points="-16,-29 16,-29 29,-16 29,16 16,29 -16,29 -29,16 -29,-16" fill="none" stroke="#ff8a50" stroke-width="3" opacity=".55" filter="url(#mglowS)"/>
+          <polygon points="-16,-29 16,-29 29,-16 29,16 16,29 -16,29 -29,16 -29,-16" fill="url(#mchipfill)" stroke="url(#mrim)" stroke-width="1.8"/>
+          <path d="M-20 -25.5H20" stroke="#fff" stroke-width="1.4" stroke-linecap="round" opacity="0.95"/>
+          <path d="M-16 -29L-29 -16" stroke="#df6e36" stroke-width="3" stroke-linecap="round" fill="none"/><path d="M16 29L29 16" stroke="#df6e36" stroke-width="3" stroke-linecap="round" fill="none"/>
+          <text y="8" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="21" font-weight="700" fill="#86050c">08</text>
+        </g></g>
+    </svg>
+        </div>
+        <!-- DIAGRAMA-MANUAL:FIM -->
+        <div class="txt"><span class="tag">Ferramenta</span><h3>Manual 8 recursos do Claude</h3><p class="muted">Oito recursos, uma dúvida: qual abre primeiro. O manual responde, e explica por quê.</p></div>
+      </article>
+    </div>
+    <p class="formato muted"><strong>Visual, prático e no seu ritmo.</strong> Sem certificado, sem turma, sem diploma na parede. É curso de trabalho, com aulas visuais, slides guiados, exercícios e ferramentas interativas. Acesso vitalício: você paga uma vez e volta quando quiser.</p>
+  </section>
+
+  <section id="prova">
     <span class="mono">Por dentro do curso</span>
     <h2>Você vê, faz e guarda o resultado.</h2>
-    <p class="muted">Estas são telas reais da experiência: percurso organizado, conteúdo visual e um mapa que transforma suas respostas em material de reflexão.</p>
-    <div class="showcase">
-      <figure><img src="/oferta/img/area-do-aluno.png" alt="Área do aluno do Claude do Zero com menu lateral e Aula 1" width="1440" height="900"><figcaption>As cinco aulas ficam organizadas em um percurso único, com bônus e materiais no mesmo menu.</figcaption></figure>
-      <figure><img src="/oferta/img/aula-pratica.png" alt="Demonstração visual de um artefato criado no Claude" width="1200" height="675"><figcaption>Slides guiados mostram onde clicar e o que construir.</figcaption></figure>
-      <figure><img src="/oferta/img/mapa-autoconhecimento.png" alt="Mapa de Autoconhecimento com menu lateral e Zona de Genialidade" width="1440" height="1009"><figcaption>O novo mapa reúne autoconhecimento, gráficos, Zona de Genialidade e Carta de Travessia.</figcaption></figure>
+    <p class="muted">O Filipe fez o curso e montou um site de construtora no Claude. A mensagem dele e um trecho do site estão aqui.</p>
+    <div class="prova">
+      <figure>
+        <video id="prova-video" autoplay muted loop playsinline preload="metadata" width="480" height="340" aria-label="Trecho do site de uma construtora criado pelo Filipe no Claude: página inicial com filtro de imóveis, plantas e mapa de localização">
+          <source src="/oferta/prova-filipe-loop.webm" type="video/webm">
+          <source src="/oferta/prova-filipe-loop.mp4" type="video/mp4">
+        </video>
+        <figcaption>Site de uma construtora, feito pelo Filipe depois do curso.</figcaption>
+      </figure>
+      <blockquote class="fala"><p>"Passando pra te agradecer, no nosso bate papo no Fire nossa conversa abriu minha mente quanto ao uso da IA, eu ja usava e sempre me ajudou, mas depois da nossa conversa percebi que tava deixando muita coisa útil de lado, e após aprender mais com seu curso acredito bastante que vou conseguir me desenvolver ainda mais, muito obrigado"</p><cite>Filipe Chagas, aluno</cite></blockquote>
+      <figure class="print">
+        <img src="/oferta/img/prova-filipe-whatsapp.png" alt="Mensagem de WhatsApp do Filipe Chagas agradecendo a conversa e dizendo que, depois de aprender mais com o curso, acredita que vai conseguir se desenvolver ainda mais no uso de IA" width="790" height="226" loading="lazy">
+        <figcaption>Mensagem do Filipe depois de conversar comigo e fazer o curso.</figcaption>
+      </figure>
     </div>
+    <div class="app" role="img" aria-label="Ilustração da área do aluno: menu lateral com as cinco aulas e os dois bônus, e a Aula 1 aberta">
+      <div class="app-top"><b>Claude do Zero</b><small>Aula 01 de 5</small></div>
+      <div class="app-body">
+        <nav class="menu" aria-hidden="true">
+          <span class="rot">Seu percurso</span>
+          <div class="prog"><i></i></div>
+          <a class="on"><em>01</em>Conversar com o Claude</a>
+          <a><em>02</em>Botar o Claude pra Trabalhar</a>
+          <a><em>03</em>Documento Mestre</a>
+          <a><em>04</em>Autoconhecimento e Zona de Genialidade</a>
+          <a><em>05</em>Landing Page com Identidade Visual</a>
+          <span class="rot" style="margin-top:14px">Bônus e materiais</span>
+          <a class="bn">Mapa de Autoconhecimento</a>
+          <a class="bn">Manual 8 recursos do Claude</a>
+        </nav>
+        <div class="pane">
+          <img class="banner" src="/oferta/img/aula-01-header.webp" alt="" width="2160" height="675" loading="lazy">
+          <span class="mono">Módulo 01 · Aula 01</span>
+          <h3>Conversar com o Claude</h3>
+          <div class="tres">
+            <div><b>Você vai fazer</b>Transformar uma tarefa real em um prompt OCAS.</div>
+            <div><b>Tenha em mãos</b>Uma tarefa desta semana que você quer resolver.</div>
+            <div><b>Entrega da aula</b>Um resultado aproveitável, refinado em pelo menos uma rodada.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="legenda muted">Ilustração da área do aluno. Os três quadros da Aula 1 vêm da tela real do curso.</p>
   </section>
 
   <section id="quem-ensina">
-    <span class="mono">Quem ensina</span>
-    <h2>Jaya Roberta.</h2>
-    <p>20 anos como analista de TI em monitoração de sistemas bancários. 10 anos atendendo gente como terapeuta. Toco meu próprio negócio com IA e um framework de agentes de IA em código aberto. O curso sai do que eu uso todo dia.</p>
-  </section>
-
-  <section id="precos">
-    <span class="mono">Investimento</span>
-    <h2>Duas formas de entrar.</h2>
-    <div class="precos">
-      <div class="preco on">
-        <h3>Claude do Zero</h3>
-        <div class="valor" data-preco="curso">R$ 297</div>
-        <ul>
-          <li>As cinco aulas</li>
-          <li>Mapa de Autoconhecimento e Zona de Genialidade</li>
-          <li>Manual 8 recursos do Claude</li>
-          <li>Acesso vitalício</li>
-        </ul>
-        <a class="cta" href="https://wa.me/5561992634557?text=Oi%20Jaya%2C%20quero%20o%20Claude%20do%20Zero%20a%20R%24%20297." data-cta="curso" data-posicao="investimento">Quero o Claude do Zero</a>
-      </div>
-      <div class="preco">
-        <h3>Claude do Zero + Sessão</h3>
-        <div class="valor" data-preco="bundle">R$ 697</div>
-        <ul>
-          <li>Tudo do Claude do Zero</li>
-          <li>Sessão Estratégica de IA: 90 minutos, individual, online</li>
-          <li>A sessão começa com o seu Documento Mestre já feito</li>
-        </ul>
-        <a class="cta sec" href="https://wa.me/5561992634557?text=Oi%20Jaya%2C%20quero%20o%20Claude%20do%20Zero%20%2B%20Sess%C3%A3o%20a%20R%24%20697." data-cta="bundle" data-posicao="investimento">Quero com a Sessão</a>
-        <a class="more" href="https://jayaroberta.com.br/sessao-estrategica-ia" target="_blank" rel="noopener" data-sessao-link>Entenda a Sessão Estratégica →</a>
+    <div class="professora">
+      <figure><img src="/oferta/img/professora-jaya.webp" alt="Jaya Roberta sorrindo, de blazer bege, com a mão no queixo e uma caneta sobre um caderno, ao lado de um notebook, em um ambiente com símbolos luminosos ao fundo" width="760" height="950" loading="lazy"></figure>
+      <div>
+        <span class="mono">Quem ensina</span>
+        <h2>Jaya Roberta.</h2>
+        <p>20 anos como analista de TI em monitoração de sistemas bancários. 10 anos atendendo gente como terapeuta. Toco meu próprio negócio com IA e um framework de agentes de IA em código aberto. O curso sai do que eu uso todo dia.</p>
       </div>
     </div>
-    <p class="prazo muted">Pagamento por Pix, combinado no WhatsApp. Acesso liberado em até 24h com a sua conta Google.</p>
   </section>
 
   <section>
-    <span class="mono">Depois do Pix</span>
+    <span class="mono">Depois da compra</span>
     <h2>Do pagamento ao primeiro acesso.</h2>
+    <!-- Texto da fase 2 (liberação automática). Na fase 1, a liberação é manual: trocar o passo 03 por "em até 24 horas". -->
     <div class="passos">
-      <div class="passo"><b>01</b><h3>Você chama no WhatsApp</h3><p class="muted">Escolhe o curso ou o pacote com sessão e recebe os dados do Pix diretamente comigo.</p></div>
-      <div class="passo"><b>02</b><h3>Envia a confirmação</h3><p class="muted">Depois do pagamento, envia o comprovante e o e-mail da conta Google que usará para entrar.</p></div>
-      <div class="passo"><b>03</b><h3>Eu libero seu acesso</h3><p class="muted">Em até 24 horas, seu e-mail é ativado. Você entra pela Área do Aluno e começa pela Aula 1.</p></div>
+      <div class="passo"><b>01</b><h3>Você paga</h3><p class="muted">Cartão em até 6x ou Pix, direto na página de pagamento da Hotmart.</p></div>
+      <div class="passo"><b>02</b><h3>Você usa o e-mail da compra</h3><p class="muted">É com ele que você entra. Pode ser pelo Google ou por um código que chega no seu e-mail.</p></div>
+      <div class="passo"><b>03</b><h3>Seu acesso é liberado</h3><p class="muted">Você entra pela Área do Aluno e começa pela Aula 1. Se não abrir na hora, espere alguns minutos e tente de novo.</p></div>
     </div>
   </section>
 
@@ -217,7 +640,7 @@
     <div class="duas">
       <div>
         <h2>Pra quem é</h2>
-        <p>Quem já usa — ou tentou usar — Claude ou ChatGPT no trabalho e sente que a ferramenta não te conhece. Terapeuta, mentora, autônoma, empresária: gente que vende o próprio jeito de pensar.</p>
+        <p>Quem já usa, ou tentou usar, Claude ou ChatGPT no trabalho e sente que a ferramenta não te conhece. Terapeuta, mentora, autônoma, empresária: gente que vende o próprio jeito de pensar.</p>
       </div>
       <div>
         <h2>Pra quem não é</h2>
@@ -226,39 +649,70 @@
     </div>
   </section>
 
+  <section id="comprar">
+    <span class="mono">Investimento</span>
+    <h2>Como entrar.</h2>
+    <div class="oferta-grid">
+      <div class="preco">
+        <h3>Claude do Zero</h3>
+        <div class="valor" data-preco="curso">R$ 297</div>
+        <p class="parcela muted">ou em até 6x no cartão</p>
+        <ul>
+          <li>As cinco aulas</li>
+          <li>Mapa de Autoconhecimento</li>
+          <li>Manual 8 recursos do Claude</li>
+          <li>Acesso vitalício</li>
+        </ul>
+        <a class="cta" href="https://pay.hotmart.com/G107954558U" data-checkout="curso" data-posicao="investimento">Quero o Claude do Zero</a>
+      </div>
+      <div class="lado">
+        <div class="garantia">
+          <h3>Garantia de 7 dias</h3>
+          <p>Se nesse prazo você achar que o curso não é para você, peça o reembolso pela Hotmart, ou me chame no WhatsApp que eu te ajudo com o pedido. O valor volta para você.</p>
+        </div>
+        <div>
+          <h3>Quanto custa não resolver</h3>
+          <p>Se você já assina o Claude Pro, paga cerca de R$ 100 por mês por uma ferramenta que ainda trata você como desconhecida. O curso custa menos que três meses disso, uma vez só, e é a apresentação que faltava.</p>
+        </div>
+      </div>
+    </div>
+    <p class="prazo muted">Pagamento seguro pela Hotmart, com cartão em até 6x ou Pix.</p>
+  </section>
+
   <section>
     <h2>Perguntas</h2>
     <details><summary>É vídeo?</summary><p>O curso não depende de vídeo. As aulas combinam páginas visuais, slides guiados, prompts, exercícios e ferramentas interativas para você aplicar no seu ritmo.</p></details>
-    <details><summary>Preciso do Claude pago?</summary><p>O Free serve pra começar. O Pro (~R$ 100/mês) pra usar de verdade — a Aula 1 explica qual faz sentido pra você.</p></details>
+    <details><summary>Preciso do Claude pago?</summary><p>O Free serve pra começar. O Pro (~R$ 100/mês) pra usar de verdade. A Aula 1 explica qual faz sentido pra você.</p></details>
     <details><summary>Funciona com ChatGPT?</summary><p>O Documento Mestre e o Mapa de Autoconhecimento podem apoiar seu uso de outras IAs. As demonstrações de recursos e a navegação do curso são feitas no Claude.</p></details>
     <details><summary>Quanto tempo leva?</summary><p>Aulas 1 a 3 numa tarde. A 4 pede uma hora com você mesma. A 5 depende do que você quer construir.</p></details>
     <details><summary>Tem certificado, turma ou suporte?</summary><p>Não. É curso de trabalho, não de diploma.</p></details>
-    <details><summary>Como recebo o acesso?</summary><p>Você manda o comprovante do Pix e o e-mail da sua conta Google no WhatsApp. Em até 24h o acesso está liberado e você entra em jayaroberta.com/claude-do-zero.</p></details>
+    <details><summary>Posso pedir reembolso?</summary><p>Pode, em até 7 dias depois da compra. O pedido é feito pela Hotmart, e eu ajudo se você preferir falar comigo.</p></details>
+    <details><summary>Como recebo o acesso?</summary><p>Depois da compra, você entra em jayaroberta.com/claude-do-zero com o e-mail que usou no pagamento, pelo Google ou por um código enviado a esse e-mail.</p></details>
   </section>
 
   <footer class="muted">
+    Dúvidas antes de comprar? <a href="https://wa.me/5561992634557?text=Oi%20Jaya%2C%20tenho%20uma%20d%C3%BAvida%20sobre%20o%20Claude%20do%20Zero." data-wa="duvida">Me chame no WhatsApp</a>.<br>
     Jaya Roberta · <a href="/claude-do-zero">entrar</a>
   </footer>
 </div>
 
 <script>
-  document.querySelectorAll('[data-cta]').forEach((link) => {
-    link.addEventListener('click', () => {
-      try {
-        window.va('event', {
-          name: 'oferta_whatsapp',
-          data: {
-            oferta: link.dataset.cta,
-            posicao: link.dataset.posicao,
-          },
-        });
-      } catch (_) {}
-    });
-  });
+  function evento(nome, link) {
+    try {
+      window.va('event', { name: nome, data: { oferta: link.dataset.cta || link.dataset.checkout || link.dataset.wa, posicao: link.dataset.posicao || 'rodape' } });
+    } catch (_) {}
+  }
+  document.querySelectorAll('[data-cta]').forEach((l) => l.addEventListener('click', () => evento('oferta_ir_para_oferta', l)));
+  document.querySelectorAll('[data-checkout]').forEach((l) => l.addEventListener('click', () => evento('oferta_checkout', l)));
+  document.querySelectorAll('[data-wa]').forEach((l) => l.addEventListener('click', () => evento('oferta_whatsapp', l)));
 
-  document.querySelector('[data-sessao-link]')?.addEventListener('click', () => {
-    try { window.va('event', { name: 'oferta_sessao_detalhes' }); } catch (_) {}
-  });
+  /* Quem pediu menos movimento recebe o vídeo parado, com controles. */
+  const video = document.getElementById('prova-video');
+  if (video && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    video.removeAttribute('autoplay');
+    video.pause();
+    video.setAttribute('controls', '');
+  }
 </script>
 </body>
 </html>

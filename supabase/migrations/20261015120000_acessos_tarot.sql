@@ -20,7 +20,7 @@ create table if not exists public.acessos_tarot (
 );
 
 comment on table public.acessos_tarot is
-  'Acesso ao Tarot da Jaya. expira_em nulo = sem validade (liberação manual). Compra na Hotmart concede 12 meses; recompra soma 12 meses.';
+  'Acesso ao Tarot da Jaya. expira_em nulo = sem validade (liberação manual). Compra na Hotmart concede 12 meses.';
 
 alter table public.acessos_tarot enable row level security;
 revoke all on public.acessos_tarot from anon;
@@ -66,11 +66,10 @@ grant select, insert, update on public.hotmart_eventos_tarot to service_role;
 -- ---------------------------------------------------------------------------
 -- Regra de conceder, renovar e retirar o acesso.
 --   PURCHASE_APPROVED : sem linha -> concede 12 meses (concedido);
---                       linha manual sem validade -> nada muda (ja_ativo);
---                       linha ativa e dentro da validade -> soma 12 meses (renovado);
+--                       linha ativa e dentro da validade (ou sem validade) -> nada muda (ja_ativo);
 --                       linha vencida ou desativada -> 12 meses a partir de agora (reativado).
---   REFUNDED / CHARGEBACK / CANCELED : só desfaz o que ESTA transação concedeu:
---                       se sobrou outra compra, tira 12 meses; senão desativa.
+--   REFUNDED / CHARGEBACK / CANCELED : só desativa se ESTA transação concedeu
+--                       ou reativou o acesso; qualquer outro caso é sem_concessao.
 -- ---------------------------------------------------------------------------
 create or replace function public.hotmart_processar_evento_tarot(
   p_transacao  text,
@@ -108,15 +107,10 @@ begin
         insert into public.acessos_tarot (email, nome, ativo, expira_em, origem, transacao, criado_por)
         values (v_email, nullif(p_nome, ''), true, now() + interval '12 months', 'hotmart', p_transacao, 'hotmart');
         v_resultado := 'concedido';
-      elsif v_acesso.ativo and v_acesso.expira_em is null then
-        -- Liberada à mão, sem validade: a compra não pode encurtar nem o reembolso retirar.
+      elsif v_acesso.ativo and (v_acesso.expira_em is null or v_acesso.expira_em > now()) then
+        -- Já tem acesso (liberado à mão ou ainda dentro dos 12 meses): nada muda,
+        -- e o reembolso desta transação não pode retirá-lo.
         v_resultado := 'ja_ativo';
-      elsif v_acesso.ativo and v_acesso.expira_em > now() then
-        update public.acessos_tarot
-           set expira_em = v_acesso.expira_em + interval '12 months',
-               transacao = p_transacao
-         where id = v_acesso.id;
-        v_resultado := 'renovado';
       else
         update public.acessos_tarot
            set ativo = true,
@@ -133,19 +127,13 @@ begin
       select 1 from public.hotmart_eventos_tarot
        where transacao = p_transacao
          and evento = 'PURCHASE_APPROVED'
-         and resultado in ('concedido', 'renovado', 'reativado')
+         and resultado in ('concedido', 'reativado')
     ) then
       v_resultado := 'sem_concessao';
     else
       select * into v_acesso from public.acessos_tarot where email = v_email for update;
-      if not found or v_acesso.expira_em is null then
+      if not found then
         v_resultado := 'sem_concessao';
-      elsif v_acesso.expira_em - interval '12 months' > now() then
-        -- Havia outra compra por cima: tira só os 12 meses desta.
-        update public.acessos_tarot
-           set expira_em = v_acesso.expira_em - interval '12 months'
-         where id = v_acesso.id;
-        v_resultado := 'reduzido';
       else
         update public.acessos_tarot set ativo = false where id = v_acesso.id;
         v_resultado := 'revogado';

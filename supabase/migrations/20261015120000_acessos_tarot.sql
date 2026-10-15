@@ -64,7 +64,7 @@ revoke all on public.hotmart_eventos_tarot from anon, authenticated;
 grant select, insert, update on public.hotmart_eventos_tarot to service_role;
 
 -- ---------------------------------------------------------------------------
--- Regra de conceder, renovar e retirar o acesso.
+-- Regra de conceder e retirar o acesso.
 --   PURCHASE_APPROVED : sem linha -> concede 12 meses (concedido);
 --                       linha ativa e dentro da validade (ou sem validade) -> nada muda (ja_ativo);
 --                       linha vencida ou desativada -> 12 meses a partir de agora (reativado).

@@ -53,3 +53,17 @@ export function tokenValido(recebido: string | null, esperado: string | undefine
   }
   return diferenca === 0;
 }
+
+export type Destino = 'curso' | 'tarot';
+
+/* Cada produto da Hotmart libera um acesso diferente. Id vazio nunca casa, para
+   que um segredo não cadastrado não aceite o produto "0" do sandbox. */
+export function destinoDoProduto(
+  produtoId: string,
+  ids: { curso?: string; tarot?: string },
+): Destino | null {
+  if (!produtoId) return null;
+  if (ids.curso && produtoId === ids.curso) return 'curso';
+  if (ids.tarot && produtoId === ids.tarot) return 'tarot';
+  return null;
+}

@@ -3,7 +3,7 @@
    (2026-10-09), com dados fictícios do próprio sandbox deles. */
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { lerEvento, normalizarEmail, tokenValido } from './logic.ts';
+import { destinoDoProduto, lerEvento, normalizarEmail, tokenValido } from './logic.ts';
 
 function corpo(sobrescrever: Record<string, unknown> = {}) {
   return {
@@ -64,4 +64,18 @@ test('hottok: igual passa; diferente, vazio, ausente ou de outro tamanho falha',
   assert.equal(tokenValido(null, segredo), false);
   assert.equal(tokenValido(segredo, undefined), false);
   assert.equal(tokenValido(segredo, ''), false);
+});
+
+test('produto decide o destino: curso, tarot ou nenhum', () => {
+  const ids = { curso: '8691723', tarot: '8738738' };
+  assert.equal(destinoDoProduto('8691723', ids), 'curso');
+  assert.equal(destinoDoProduto('8738738', ids), 'tarot');
+  assert.equal(destinoDoProduto('7429373', ids), null);
+  assert.equal(destinoDoProduto('', ids), null);
+});
+
+test('segredo não cadastrado nunca casa, nem com o produto "0" do sandbox', () => {
+  assert.equal(destinoDoProduto('0', {}), null);
+  assert.equal(destinoDoProduto('', { curso: '', tarot: '' }), null);
+  assert.equal(destinoDoProduto('8738738', { curso: '8691723' }), null);
 });

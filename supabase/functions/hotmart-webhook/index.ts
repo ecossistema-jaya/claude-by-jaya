@@ -1,12 +1,15 @@
-/* Webhook da Hotmart: confirma o pagamento e libera (ou retira) o acesso ao
-   Claude do Zero em `alunos_claude`. Publicada com verify_jwt desligado, porque
+/* Webhook da Hotmart: confirma o pagamento e libera (ou retira) o acesso. Cada
+   produto tem o seu destino: o Claude do Zero grava em `alunos_claude` e o Tarot
+   da Jaya em `acessos_tarot` (12 meses). Publicada com verify_jwt desligado, porque
    a Hotmart não manda JWT do Supabase: o único portão é o hottok, então esta
-   função fica mínima. A regra de concessão mora em
-   public.hotmart_processar_evento (migração 20261009120000).
-   Segredos: HOTMART_HOTTOK, HOTMART_PRODUCT_ID. Nunca registrar e-mail nem corpo. */
+   função fica mínima. As regras de concessão moram em
+   public.hotmart_processar_evento (curso, migração 20261009120000) e em
+   public.hotmart_processar_evento_tarot (migração 20261015120000).
+   Segredos: HOTMART_HOTTOK, HOTMART_PRODUCT_ID, HOTMART_PRODUCT_ID_TAROT.
+   Nunca registrar e-mail nem corpo. */
 import 'jsr:@supabase/functions-js/edge-runtime.d.ts';
 import { createClient } from 'jsr:@supabase/supabase-js@2';
-import { lerEvento, tokenValido } from './logic.ts';
+import { destinoDoProduto, lerEvento, tokenValido } from './logic.ts';
 
 function responder(status: number, corpo: Record<string, unknown>) {
   return new Response(JSON.stringify(corpo), {
@@ -32,16 +35,19 @@ Deno.serve(async (req: Request) => {
   /* 200 nos casos ignorados: a Hotmart repete a entrega enquanto receber erro. */
   const ev = lerEvento(corpo);
   if (!ev) return responder(200, { ignorado: 'formato' });
-  if (ev.produtoId !== Deno.env.get('HOTMART_PRODUCT_ID')) {
-    return responder(200, { ignorado: 'produto' });
-  }
+  const destino = destinoDoProduto(ev.produtoId, {
+    curso: Deno.env.get('HOTMART_PRODUCT_ID'),
+    tarot: Deno.env.get('HOTMART_PRODUCT_ID_TAROT'),
+  });
+  if (!destino) return responder(200, { ignorado: 'produto' });
 
   const supabase = createClient(
     Deno.env.get('SUPABASE_URL')!,
     Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,
     { auth: { persistSession: false } },
   );
-  const { data, error } = await supabase.rpc('hotmart_processar_evento', {
+  const funcao = destino === 'tarot' ? 'hotmart_processar_evento_tarot' : 'hotmart_processar_evento';
+  const { data, error } = await supabase.rpc(funcao, {
     p_transacao: ev.transacao,
     p_evento: ev.evento,
     p_email: ev.email,
@@ -51,10 +57,10 @@ Deno.serve(async (req: Request) => {
 
   /* 5xx só para falha transitória: assim a Hotmart tenta de novo. */
   if (error) {
-    console.error('hotmart-webhook: falha no banco', ev.evento, ev.transacao, error.code);
+    console.error('hotmart-webhook: falha no banco', destino, ev.evento, ev.transacao, error.code);
     return responder(500, { erro: 'banco' });
   }
 
-  console.log('hotmart-webhook', ev.evento, ev.transacao, data);
+  console.log('hotmart-webhook', destino, ev.evento, ev.transacao, data);
   return responder(200, { resultado: data });
 });

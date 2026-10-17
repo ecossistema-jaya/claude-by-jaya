@@ -237,6 +237,7 @@
   .professora { display: grid; grid-template-columns: minmax(220px, 300px) 1fr; gap: 36px; align-items: center; }
   .professora figure { margin: 0; }
   .professora img { display: block; width: 100%; height: auto; border-radius: 20px; border: 1px solid var(--linha); box-shadow: 0 24px 50px -34px rgba(43,35,32,.6); }
+  .bonus-titulo { margin-top: 30px; font-size: 26px; color: var(--marsala); }
   .bcard .arte { display: block; width: 100%; height: auto; border-bottom: 1px solid var(--linha); }
   .bcard.manual { grid-template-columns: minmax(280px, 360px) 1fr; align-items: center; }
   .bcard.manual .txt { padding: 24px 28px; }
@@ -261,11 +262,12 @@
   <div class="hero">
     <div>
       <h1>Fazer o Claude escrever <em>como você</em> em uma tarde.</h1>
+      <p class="lead">Você configura o Claude uma única vez e ele passa a entender como você pensa, fala e trabalha. Você edita menos, refaz menos e sobra tempo para o que só você faz.</p>
       <p class="lead">Resposta genérica, retrabalho, "não era isso". O problema não é o seu prompt. É que a ferramenta não sabe quem você é, e isso tem conserto em cinco aulas.</p>
       <ul>
         <li>Você para de explicar quem é toda vez que abre uma conversa nova, e o tempo que sobra volta para o seu trabalho.</li>
         <li>As respostas passam a soar como você, então você edita menos e envia mais rápido.</li>
-        <li>Você ganha um mapa visual da sua Zona de Genialidade, com gráficos, hipóteses e uma Carta de Travessia.</li>
+        <li>Seu texto passa a soar como você em todos os canais, e quem te lê reconhece a sua voz.</li>
       </ul>
       <a class="cta" href="#comprar" data-cta="curso" data-posicao="hero">Quero o Claude do Zero · <span data-preco="curso" style="white-space:nowrap">R$ 297</span></a>
       <p class="sub muted">Cartão em até 6x ou Pix.</p>
@@ -422,10 +424,11 @@
       <li class="aula"><div class="num">5</div><div class="aula-body"><span class="tempo">Depende do que você quer construir</span><h3>Landing Page com Identidade Visual</h3><p class="muted">Os prompts para criar uma página com a sua cara, do zero.</p></div></li>
     </ol>
     <p class="fecho">Cada etapa deixa algo pronto: uma conversa melhor, um recurso funcionando, um documento, um mapa e uma página.</p>
+    <h3 class="bonus-titulo">Além das cinco aulas, você leva três bônus.</h3>
     <div class="bonus2">
       <article class="bcard">
         <img class="arte" src="/oferta/img/mapa-autoconhecimento-arte.webp" alt="Ilustração do Mapa de Autoconhecimento, Zona de Genialidade: uma mulher de cabelo cacheado olha para um caminho em espiral que atravessa um vale com árvores, montanhas e um rio até um sol nascente" width="1800" height="600" loading="lazy">
-        <div class="txt"><span class="tag">Ferramenta</span><h3>Mapa de Autoconhecimento</h3><p class="muted">Você responde, ele devolve: interesses, capacidades, modos de ação e a sua Zona de Genialidade, num mapa que dá para olhar.</p></div>
+        <div class="txt"><span class="tag">Bônus 1</span><h3>Mapa de Autoconhecimento</h3><p class="muted">Você responde, ele devolve: interesses, capacidades, modos de ação e a sua Zona de Genialidade, num mapa que dá para olhar. É a ferramenta que você usa na Aula 4.</p></div>
       </article>
       <article class="bcard manual">
         <!-- DIAGRAMA-MANUAL:INI -->
@@ -568,7 +571,11 @@
     </svg>
         </div>
         <!-- DIAGRAMA-MANUAL:FIM -->
-        <div class="txt"><span class="tag">Ferramenta</span><h3>Manual 8 recursos do Claude</h3><p class="muted">Oito recursos, uma dúvida: qual abre primeiro. O manual responde, e explica por quê.</p></div>
+        <div class="txt"><span class="tag">Bônus 2</span><h3>Manual 8 recursos do Claude</h3><p class="muted">Oito recursos, uma dúvida: qual abre primeiro. O manual responde, e explica por quê.</p></div>
+      </article>
+      <article class="bcard">
+        <img class="arte" src="/oferta/img/caderno-criacao-visual-arte.webp" alt="Ilustração de um caderno aberto sobre uma mesa de madeira, com dezenas de cartões de direções visuais saindo das páginas diante de uma paisagem ao pôr do sol" width="1800" height="600" loading="lazy">
+        <div class="txt"><span class="tag">Bônus 3</span><h3>Caderno de Criação Visual</h3><p class="muted">243 direções visuais prontas para você pedir imagens e páginas com estética definida, em vez de pedir "faz bonito" e torcer.</p></div>
       </article>
     </div>
     <p class="formato muted"><strong>Visual, prático e no seu ritmo.</strong> Sem certificado, sem turma, sem diploma na parede. É curso de trabalho, com aulas visuais, slides guiados, exercícios e ferramentas interativas. Acesso vitalício: você paga uma vez e volta quando quiser.</p>
@@ -592,7 +599,7 @@
         <figcaption>Mensagem do Filipe depois de conversar comigo e fazer o curso.</figcaption>
       </figure>
     </div>
-    <div class="app" role="img" aria-label="Ilustração da área do aluno: menu lateral com as cinco aulas e os dois bônus, e a Aula 1 aberta">
+    <div class="app" role="img" aria-label="Ilustração da área do aluno: menu lateral com as cinco aulas e os três bônus, e a Aula 1 aberta">
       <div class="app-top"><b>Claude do Zero</b><small>Aula 01 de 5</small></div>
       <div class="app-body">
         <nav class="menu" aria-hidden="true">
@@ -604,8 +611,9 @@
           <a><em>04</em>Autoconhecimento e Zona de Genialidade</a>
           <a><em>05</em>Landing Page com Identidade Visual</a>
           <span class="rot" style="margin-top:14px">Bônus e materiais</span>
-          <a class="bn">Mapa de Autoconhecimento</a>
-          <a class="bn">Manual 8 recursos do Claude</a>
+          <a class="bn">Bônus 1 · Mapa de Autoconhecimento</a>
+          <a class="bn">Bônus 2 · Manual 8 recursos do Claude</a>
+          <a class="bn">Bônus 3 · Caderno de Criação Visual</a>
         </nav>
         <div class="pane">
           <img class="banner" src="/oferta/img/aula-01-header.webp" alt="" width="2160" height="675" loading="lazy">
@@ -667,8 +675,9 @@
         <p class="parcela muted">ou em até 6x no cartão</p>
         <ul>
           <li>As cinco aulas</li>
-          <li>Mapa de Autoconhecimento</li>
-          <li>Manual 8 recursos do Claude</li>
+          <li>Bônus 1 · Mapa de Autoconhecimento</li>
+          <li>Bônus 2 · Manual 8 recursos do Claude</li>
+          <li>Bônus 3 · Caderno de Criação Visual</li>
           <li>Acesso vitalício</li>
         </ul>
         <a class="cta" href="https://pay.hotmart.com/G107954558U" data-checkout="curso" data-posicao="investimento">Quero o Claude do Zero</a>

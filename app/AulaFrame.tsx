@@ -123,13 +123,21 @@ export default function AulaFrame({
                 <span aria-hidden="true">✦</span>
                 <strong>Minha Personalidade<small>Disponível na Aula 3</small></strong>
               </Link>
+              <a href="/mapa-autoconhecimento-v0.html" className="course-bonus-link">
+                <span aria-hidden="true">✦</span>
+                <strong>Bônus 1 · Mapa de Autoconhecimento<small>Disponível na Aula 4</small></strong>
+              </a>
               <Link href="/recursos" className="course-bonus-link">
                 <span aria-hidden="true">✦</span>
-                <strong>8 recursos do Claude<small>Manual de trabalho</small></strong>
+                <strong>Bônus 2 · Manual 8 recursos do Claude<small>Manual de trabalho</small></strong>
               </Link>
               <Link href="/guia-7-agentes" className="course-bonus-link">
                 <span aria-hidden="true">✦</span>
                 <strong>7 agentes que fazem conteúdo<small>Guia bônus</small></strong>
+              </Link>
+              <Link href="/atlas-visual" className="course-bonus-link">
+                <span aria-hidden="true">✦</span>
+                <strong>Bônus 3 · Caderno de Criação Visual<small>243 direções visuais</small></strong>
               </Link>
             </div>
             <div className="course-rail-note">

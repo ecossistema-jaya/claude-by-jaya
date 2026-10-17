@@ -290,7 +290,7 @@ export function svg() {
       ${defs('')}
 
       ${atmosfera('', 7)}
-      ${moldura(' CLAUDE DO ZERO', `${String(n).padStart(2, '0')} AULAS . 02 FERRAMENTAS`)}
+      ${moldura(' CLAUDE DO ZERO', `${String(n).padStart(2, '0')} AULAS . 05 BÔNUS`)}
       ${aneis(CFG.raioOrbita)}
       ${radar('')}
 

@@ -28,7 +28,7 @@ const AULAS = [
     top: 61.14,
     alt: 7.06,
     titulo: 'Documento Mestre',
-    desc: 'O documento que ensina o Claude quem você é — com os prompts prontos.',
+    desc: 'O documento que ensina o Claude quem você é, com os prompts prontos.',
     icone: (
       <>
         <path d="M6 2.5h8l5 5v14H6z" />
@@ -109,25 +109,38 @@ export default async function Home() {
           logo abaixo do último card e "Cinco aulas na ordem" estampado no pixel.
           O bônus não é uma sexta aula — é um brinde, e mora depois da arte. */}
       <Link href="/aula-3" className="bonus">
-        <span className="selo">Bônus</span>
+        <span className="selo">Bônus 1</span>
         <div className="txt">
           <h2>A skill Minha Personalidade</h2>
           <p>
             O arquivo que entrevista você e escreve o seu Documento Mestre. Instala no Claude ou
-            cola no ChatGPT — está dentro da Aula 3.
+            cola no ChatGPT. Está dentro da Aula 3.
           </p>
         </div>
         <span className="seta" aria-hidden="true">
           →
         </span>
       </Link>
+      <a href="/mapa-autoconhecimento-v0.html" className="bonus">
+        <span className="selo">Bônus 2</span>
+        <div className="txt">
+          <h2>Mapa de Autoconhecimento</h2>
+          <p>
+            Você responde, ele devolve: interesses, capacidades, modos de ação e a sua Zona de
+            Genialidade, num mapa que dá para olhar.
+          </p>
+        </div>
+        <span className="seta" aria-hidden="true">
+          →
+        </span>
+      </a>
       <Link href="/recursos" className="bonus">
-        <span className="selo">Bônus</span>
+        <span className="selo">Bônus 3</span>
         <div className="txt">
           <h2>8 recursos do Claude</h2>
           <p>
             O manual de trabalho: Projects, memória, Artifacts, busca na web, arquivos, conectores,
-            Excel e PowerPoint, Code e Cowork — cada um com o seu comando de partida.
+            Excel e PowerPoint, Code e Cowork, cada um com o seu comando de partida.
           </p>
         </div>
         <span className="seta" aria-hidden="true">
@@ -135,12 +148,25 @@ export default async function Home() {
         </span>
       </Link>
       <Link href="/guia-7-agentes" className="bonus">
-        <span className="selo">Bônus</span>
+        <span className="selo">Bônus 4</span>
         <div className="txt">
           <h2>7 agentes que fazem conteúdo</h2>
           <p>
             Um time no Claude que acha o tema, escreve, desenha, organiza, publica e mede. A parte
             repetitiva sai das suas costas; a opinião continua sua. Com os prompts prontos.
+          </p>
+        </div>
+        <span className="seta" aria-hidden="true">
+          →
+        </span>
+      </Link>
+      <Link href="/atlas-visual" className="bonus">
+        <span className="selo">Bônus 5</span>
+        <div className="txt">
+          <h2>Caderno de Criação Visual</h2>
+          <p>
+            243 direções visuais prontas para você pedir imagens e páginas com estética definida, em
+            vez de pedir "faz bonito" e torcer.
           </p>
         </div>
         <span className="seta" aria-hidden="true">

@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /claude
+Allow: /llms.txt
+Disallow: /api/
+Disallow: /admin/
+
+Sitemap: https://jayaroberta.com/sitemap.xml

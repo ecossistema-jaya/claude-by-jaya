@@ -750,7 +750,7 @@
      oferece navigator.modelContext. Os dados saem da própria página, então não divergem dela.
      Nenhuma ferramenta conclui pagamento: a compra é confirmada pela pessoa, na Hotmart. */
   (function () {
-    var mc = navigator.modelContext;
+    var mc = navigator.modelContext || document.modelContext;
     if (!mc || typeof mc.registerTool !== 'function') return;
     function texto(el) { return el ? el.textContent.replace(/\s+/g, ' ').trim() : ''; }
     function resposta(dados) { return { content: [{ type: 'text', text: JSON.stringify(dados) }] }; }

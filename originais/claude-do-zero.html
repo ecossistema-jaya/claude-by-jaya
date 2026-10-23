@@ -745,5 +745,57 @@
     video.setAttribute('controls', '');
   }
 </script>
+<script>
+  /* WebMCP: expõe a página para agentes de IA no navegador. Só existe onde o navegador
+     oferece navigator.modelContext. Os dados saem da própria página, então não divergem dela.
+     Nenhuma ferramenta conclui pagamento: a compra é confirmada pela pessoa, na Hotmart. */
+  (function () {
+    var mc = navigator.modelContext;
+    if (!mc || typeof mc.registerTool !== 'function') return;
+    function texto(el) { return el ? el.textContent.replace(/\s+/g, ' ').trim() : ''; }
+    function resposta(dados) { return { content: [{ type: 'text', text: JSON.stringify(dados) }] }; }
+    try {
+      mc.registerTool({
+        name: 'listar_aulas',
+        description: 'Lista as cinco aulas do curso Claude do Zero, na ordem em que são feitas.',
+        inputSchema: { type: 'object', properties: {} },
+        annotations: { readOnlyHint: true },
+        execute: function () {
+          return resposta(Array.prototype.map.call(document.querySelectorAll('.trilha .aula'), function (li) {
+            return { ordem: Number(texto(li.querySelector('.num'))), titulo: texto(li.querySelector('h3')), resumo: texto(li.querySelector('p')), tempo: texto(li.querySelector('.tempo')) || null };
+          }));
+        }
+      });
+      mc.registerTool({
+        name: 'ver_oferta',
+        description: 'Mostra a oferta do Claude do Zero: preço, parcelamento, o que está incluso e a garantia.',
+        inputSchema: { type: 'object', properties: {} },
+        annotations: { readOnlyHint: true },
+        execute: function () {
+          return resposta({
+            produto: texto(document.querySelector('#comprar .preco h3')),
+            preco: texto(document.querySelector('#comprar [data-preco]')),
+            parcelamento: texto(document.querySelector('#comprar .parcela')),
+            inclui: Array.prototype.map.call(document.querySelectorAll('#comprar .preco li'), texto),
+            garantia: texto(document.querySelector('#comprar .garantia p')),
+            pagamento: texto(document.querySelector('#comprar .prazo'))
+          });
+        }
+      });
+      mc.registerTool({
+        name: 'ir_para_checkout',
+        description: 'Abre a página de pagamento do Claude do Zero na Hotmart. Não conclui a compra: quem confirma é a pessoa, na página de pagamento.',
+        inputSchema: { type: 'object', properties: {} },
+        execute: function () {
+          var link = document.querySelector('#comprar a[data-checkout]');
+          if (!link) return resposta({ erro: 'Link de pagamento não encontrado.' });
+          if (typeof evento === 'function') evento('oferta_checkout', link);
+          window.location.assign(link.href);
+          return resposta({ aberto: link.href, aviso: 'A compra só termina quando a pessoa confirma o pagamento na Hotmart.' });
+        }
+      });
+    } catch (_) {}
+  })();
+</script>
 </body>
 </html>

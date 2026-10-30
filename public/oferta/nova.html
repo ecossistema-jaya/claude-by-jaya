@@ -7,6 +7,10 @@
 <meta name="description" content="Ensine o Claude a escrever com o seu tom de voz. Curso online com o Método A Sua Cara, por Jaya Roberta.">
 <meta property="og:title" content="Claude, Seu Redator Pessoal · Jaya Roberta">
 <meta property="og:description" content="Ensine o Claude a escrever com o seu tom de voz.">
+<meta property="og:image" content="https://jayaroberta.com/oferta/img/og-redator-pessoal.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Jaya Roberta ao lado do título Claude, Seu Redator Pessoal">
 <script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
 </script>
@@ -23,7 +27,7 @@
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=976405741684117&ev=PageView&noscript=1" alt=""></noscript>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
-<link href="https://fonts.googleapis.com/css2?family=Marcellus&amp;family=Marcellus+SC&amp;family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&amp;family=Marcellus+SC&amp;family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&amp;display=swap" rel="stylesheet">
 <style>
 body{margin:0;background:#f6f5f0}
 a{color:#225572}a:hover{color:#152d38}
@@ -33,15 +37,22 @@ a{color:#225572}a:hover{color:#152d38}
 .three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
 .four{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
 .offer{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,0.8fr);gap:40px;align-items:start}
-.cta{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:8px;background:#fcb655;color:#0a2229;font-family:'Open Sans',sans-serif;font-weight:700;font-size:17px;text-decoration:none}
-.cta:hover{background:#f3a73c;color:#0a2229}
+.cta{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;padding:16px 30px;border-radius:0;background:#fcb655;color:#0a2229;font-family:'Open Sans',sans-serif;font-weight:700;font-size:14px;line-height:1.4;text-transform:uppercase;letter-spacing:3px;text-align:center;text-decoration:none;transition:background-color .25s,color .25s}
+.cta:hover{background:#002f3b;color:#fdb657}
+.cta-escuro:hover{background:#f6f5f0;color:#0a2229}
 .sticky{display:none}
 details{border-top:1px solid #d8d5c9;padding:18px 0}
 details:last-of-type{border-bottom:1px solid #d8d5c9}
 summary{cursor:pointer;font-family:Marcellus,serif;font-size:21px;color:#152d38}
+/* design system SAND */
+h1,h2,summary{letter-spacing:normal}
+.rot{display:block;align-self:flex-start;width:fit-content;max-width:100%;padding-bottom:10px;border-bottom:1px solid #d8d5c9;font-family:'Open Sans',sans-serif;font-weight:600;font-size:12px;line-height:1.5;text-transform:uppercase;letter-spacing:.2em;color:#517d86}
+.rot-escuro{color:#f4cf85}
+.retrato{margin:0;width:100%;max-width:320px;box-sizing:border-box;padding:8px;border:1px solid #f4cf85;border-radius:50%}
+.retrato img{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;object-position:50% 8%;border:1px dotted #f4cf85;box-sizing:border-box;border-radius:50%}
 /* foto da professora e diagrama em órbita, vindos de index.html */
 .prof{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:40px;align-items:center}
-.hero-art{width:100%;max-width:420px;margin:0 auto;box-sizing:border-box;border:1px solid #e5e3da;border-radius:12px;padding:4px;overflow:hidden;background:radial-gradient(circle at 50% 50%,rgba(223,110,54,.20) 0,rgba(223,110,54,0) 55%),linear-gradient(rgba(18,54,63,.06) 1px,transparent 1px) 0 0/28px 28px,linear-gradient(90deg,rgba(18,54,63,.06) 1px,transparent 1px) 0 0/28px 28px,linear-gradient(160deg,#fffdf8 0%,#fbf1e4 100%)}
+.hero-art{width:100%;max-width:420px;margin:0 auto;box-sizing:border-box;border:1px solid #e5e3da;padding:4px;overflow:hidden;background:radial-gradient(circle at 50% 50%,rgba(223,110,54,.20) 0,rgba(223,110,54,0) 55%),linear-gradient(rgba(18,54,63,.06) 1px,transparent 1px) 0 0/28px 28px,linear-gradient(90deg,rgba(18,54,63,.06) 1px,transparent 1px) 0 0/28px 28px,linear-gradient(160deg,#fffdf8 0%,#fbf1e4 100%)}
 .orbit{width:100%;height:auto;display:block}
 .spin{transform-origin:300px 300px;animation:spin 14s linear infinite}
 .spin-rev{transform-origin:300px 300px;animation:spin 60s linear infinite reverse}
@@ -53,6 +64,7 @@ summary{cursor:pointer;font-family:Marcellus,serif;font-size:21px;color:#152d38}
 @media (prefers-reduced-motion:reduce){.spin,.spin-rev,.pulse,.tw{animation:none}.dado{display:none}}
 @media (max-width:900px){
 .prof{grid-template-columns:minmax(0,1fr);gap:24px}
+.retrato{margin:0 auto}
 .hero,.offer{grid-template-columns:minmax(0,1fr);gap:32px}
 .four{grid-template-columns:repeat(2,minmax(0,1fr))}
 .three{grid-template-columns:minmax(0,1fr)}
@@ -60,8 +72,8 @@ summary{cursor:pointer;font-family:Marcellus,serif;font-size:21px;color:#152d38}
 @media (max-width:700px){
 .wrap{padding:0 16px}
 .two,.four{grid-template-columns:minmax(0,1fr)}
-.h1{font-size:40px !important}
-.h2{font-size:31px !important}
+.h1{font-size:36px !important}
+.h2{font-size:28px !important}
 .sec{padding-top:64px !important;padding-bottom:64px !important}
 .sticky{display:flex;position:sticky;bottom:0;z-index:5;padding:10px 16px;background:#ffffff;border-top:1px solid #d8d5c9;gap:12px;align-items:center;justify-content:space-between}
 }
@@ -72,7 +84,7 @@ summary{cursor:pointer;font-family:Marcellus,serif;font-size:21px;color:#152d38}
         <path id="path147" fill="#d97757" stroke="none" d="M 233.959793 800.214905 L 468.644287 668.536987 L 472.590637 657.100647 L 468.644287 650.738403 L 457.208069 650.738403 L 417.986633 648.322144 L 283.892639 644.69812 L 167.597321 639.865845 L 54.926208 633.825623 L 26.577238 627.785339 L 3.3e-05 592.751709 L 2.73832 575.27533 L 26.577238 559.248352 L 60.724873 562.228149 L 136.187973 567.382629 L 249.422867 575.194763 L 331.570496 580.026978 L 453.261841 592.671082 L 472.590637 592.671082 L 475.328857 584.859009 L 468.724915 580.026978 L 463.570557 575.194763 L 346.389313 495.785217 L 219.543671 411.865906 L 153.100723 363.543762 L 117.181267 339.060425 L 99.060455 316.107361 L 91.248367 266.01355 L 123.865784 230.093994 L 167.677887 233.073853 L 178.872513 236.053772 L 223.248367 270.201477 L 318.040283 343.570496 L 441.825592 434.738342 L 459.946411 449.798706 L 467.194672 444.64447 L 468.080597 441.020203 L 459.946411 427.409485 L 392.617493 305.718323 L 320.778564 181.932983 L 288.80542 130.630859 L 280.348999 99.865845 C 277.369171 87.221436 275.194641 76.590698 275.194641 63.624268 L 312.322174 13.20813 L 332.8591 6.604126 L 382.389313 13.20813 L 403.248352 31.328979 L 434.013519 101.71814 L 483.865753 212.537048 L 561.181274 363.221497 L 583.812134 407.919434 L 595.892639 449.315491 L 600.40271 461.959839 L 608.214783 461.959839 L 608.214783 454.711609 L 614.577271 369.825623 L 626.335632 265.61084 L 637.771851 131.516846 L 641.718201 93.745117 L 660.402832 48.483276 L 697.530334 24.000122 L 726.52356 37.852417 L 750.362549 72 L 747.060486 94.067139 L 732.886047 186.201416 L 705.100708 330.52356 L 686.979919 427.167847 L 697.530334 427.167847 L 709.61084 415.087341 L 758.496704 350.174561 L 840.644348 247.490051 L 876.885925 206.738342 L 919.167847 161.71814 L 946.308838 140.29541 L 997.61084 140.29541 L 1035.38269 196.429626 L 1018.469849 254.416199 L 965.637634 321.422852 L 921.825562 378.201538 L 859.006714 462.765259 L 819.785278 530.41626 L 823.409424 535.812073 L 832.75177 534.92627 L 974.657776 504.724915 L 1051.328979 490.872559 L 1142.818848 475.167786 L 1184.214844 494.496582 L 1188.724854 514.147644 L 1172.456421 554.335693 L 1074.604126 578.496765 L 959.838989 601.449829 L 788.939636 641.879272 L 786.845764 643.409485 L 789.261841 646.389343 L 866.255127 653.637634 L 899.194702 655.409424 L 979.812134 655.409424 L 1129.932861 666.604187 L 1169.154419 692.537109 L 1192.671265 724.268677 L 1188.724854 748.429688 L 1128.322144 779.194641 L 1046.818848 759.865845 L 856.590759 714.604126 L 791.355774 698.335754 L 782.335693 698.335754 L 782.335693 703.731567 L 836.69812 756.885986 L 936.322205 846.845581 L 1061.073975 962.81897 L 1067.436279 991.490112 L 1051.409424 1014.120911 L 1034.496704 1011.704712 L 924.885986 929.234924 L 882.604126 892.107544 L 786.845764 811.48999 L 780.483276 811.48999 L 780.483276 819.946289 L 802.550415 852.241699 L 919.087341 1027.409424 L 925.127625 1081.127686 L 916.671204 1098.604126 L 886.469849 1109.154419 L 853.288696 1103.114136 L 785.073914 1007.355835 L 714.684631 899.516785 L 657.906067 802.872498 L 650.979858 806.81897 L 617.476624 1167.704834 L 601.771851 1186.147705 L 565.530212 1200 L 535.328857 1177.046997 L 519.302124 1139.919556 L 535.328857 1066.550537 L 554.657776 970.792053 L 570.362488 894.68457 L 584.536926 800.134277 L 592.993347 768.724976 L 592.429626 766.630859 L 585.503479 767.516968 L 514.22821 865.369263 L 405.825531 1011.865906 L 320.053711 1103.677979 L 299.516815 1111.812256 L 263.919525 1093.369263 L 267.221497 1060.429688 L 287.114136 1031.114136 L 405.825531 880.107361 L 477.422913 786.52356 L 523.651062 732.483276 L 523.328918 724.671265 L 520.590698 724.671265 L 205.288605 929.395935 L 149.154434 936.644409 L 124.993355 914.01355 L 127.973183 876.885986 L 139.409409 864.80542 L 234.201385 799.570435 L 233.879227 799.8927 Z"/>
     </g>
 </symbol></svg>
-<div style="background: #f6f5f0; color: #292929; font-family: 'Open Sans', sans-serif; font-size: 18px; line-height: 1.65;">
+<div style="background: #f6f5f0; color: #292929; font-family: 'Open Sans', sans-serif; font-size: 18px; font-weight: 300; line-height: 1.75; letter-spacing: 0.5px;">
 
 <header style="border-bottom: 1px solid #e5e3da; background: #fffaf5;">
 <div class="wrap" style="display: flex; align-items: center; justify-content: space-between; min-height: 64px; gap: 16px;">
@@ -84,9 +96,9 @@ summary{cursor:pointer;font-family:Marcellus,serif;font-size:21px;color:#152d38}
 <section class="sec" style="padding: 88px 0 96px;">
 <div class="wrap hero">
 <div style="display: flex; flex-direction: column; gap: 24px;">
-<span style="font-family: 'Marcellus SC', serif; font-size: 15px; letter-spacing: 0.08em; color: #3f6670;">Claude, Seu Redator Pessoal · Método A Sua Cara</span>
-<h1 class="h1" style="margin: 0; font-family: Marcellus, serif; font-weight: 400; font-size: 62px; line-height: 1.06; color: #152d38;">Ensine o Claude a escrever com o seu tom de voz.</h1>
-<p style="margin: 0; font-size: 20px; line-height: 1.55; color: #3b4246; max-width: 560px;">Hoje ele responde certo para qualquer pessoa e errado para você. No Método A Sua Cara, você escreve o documento que conta ao Claude quem você é, como você fala e com quem você trabalha. A primeira versão fica pronta em uma tarde.</p>
+<span class="rot">Claude, Seu Redator Pessoal · Método A Sua Cara</span>
+<h1 class="h1" style="margin: 0; font-family: Marcellus, serif; font-weight: 400; font-size: 55px; line-height: 1.28; color: #152d38;">Ensine o Claude a escrever com o seu tom de voz.</h1>
+<p style="margin: 0; font-size: 20px; color: #3b4246; max-width: 560px;">Hoje ele responde certo para qualquer pessoa e errado para você. No Método A Sua Cara, você escreve o documento que conta ao Claude quem você é, como você fala e com quem você trabalha. A primeira versão fica pronta em uma tarde.</p>
 <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px;">
 <a class="cta" href="#oferta" data-cta="curso" data-posicao="hero">Quero escrever com a minha voz</a>
 <span style="font-size: 15px; color: #606864;">R$ 297 ou até 6x · acesso vitalício</span>
@@ -94,8 +106,8 @@ summary{cursor:pointer;font-family:Marcellus,serif;font-size:21px;color:#152d38}
 <p style="margin: 0; font-size: 15px; color: #606864;">Para quem já usa IA no trabalho e para quem está começando agora. Garantia de 7 dias.</p>
 </div>
 
-<figure style="margin: 0; background: #ffffff; border: 1px solid #e5e3da; border-radius: 12px; padding: 28px; box-shadow: 0 24px 48px -32px rgba(10,34,41,0.35);">
-<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 2px solid #fcb655;">
+<figure style="margin: 0; background: #ffffff; border: 1px solid #e5e3da; padding: 28px;">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 2px solid #517d86;">
 <span style="font-family: Marcellus, serif; font-size: 26px; color: #152d38;">A Sua Cara</span>
 <span style="font-family: 'Marcellus SC', serif; font-size: 14px; color: #606864;">versão 1</span>
 </div>
@@ -113,17 +125,17 @@ summary{cursor:pointer;font-family:Marcellus,serif;font-size:21px;color:#152d38}
 <section class="sec" style="padding: 96px 0; background: #efede4;">
 <div class="wrap" style="display: flex; flex-direction: column; gap: 32px;">
 <div style="display: flex; flex-direction: column; gap: 12px; max-width: 720px;">
-<span style="font-family: 'Marcellus SC', serif; font-size: 15px; letter-spacing: 0.08em; color: #3f6670;">Mesma tarefa, duas respostas</span>
-<h2 class="h2" style="margin: 0; font-family: Marcellus, serif; font-weight: 400; font-size: 44px; line-height: 1.12; color: #152d38;">Veja a diferença antes de comprar.</h2>
+<span class="rot">Mesma tarefa, duas respostas</span>
+<h2 class="h2" style="margin: 0; font-family: Marcellus, serif; font-weight: 400; font-size: 40px; line-height: 1.15; color: #152d38;">Veja a diferença antes de comprar.</h2>
 </div>
-<div style="background: #ffffff; border: 1px solid #e5e3da; border-radius: 12px; padding: 18px 22px;">
+<div style="background: #ffffff; border: 1px solid #e5e3da; padding: 18px 22px;">
 <span style="font-family: 'Marcellus SC', serif; font-size: 14px; letter-spacing: 0.06em; color: #606864;">O pedido</span>
 <p style="margin: 6px 0 0; font-size: 18px;">"Escreva uma legenda de Instagram contando por que eu comecei a usar o Claude no meu negócio."</p>
 </div>
 <div class="two">
-<div style="background: #ffffff; border: 1px solid #e5e3da; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 14px;">
+<div style="background: #ffffff; border: 1px solid #e5e3da; padding: 24px; display: flex; flex-direction: column; gap: 14px;">
 <span style="font-family: 'Marcellus SC', serif; font-size: 14px; letter-spacing: 0.06em; color: #606864;">Antes</span>
-<div style="border: 1px solid #e5e3da; border-radius: 8px; padding: 18px; background: #f6f5f0; color: #3b4246; font-size: 15px; line-height: 1.55; white-space: pre-line;">Por que eu comecei a usar o Claude no meu negócio ✨
+<div style="border: 1px solid #e5e3da; padding: 18px; background: #f6f5f0; color: #3b4246; font-size: 15px; white-space: pre-line;">Por que eu comecei a usar o Claude no meu negócio ✨
 
 Confesso: eu vivia correndo atrás do tempo. Responder cliente, criar conteúdo, organizar ideias, escrever proposta… tudo ao mesmo tempo e tudo “pra ontem”.
 
@@ -143,15 +155,15 @@ Já usa IA no seu negócio? Me conta nos comentários como tem sido! 👇
 
 #empreendedorismo #inteligenciaartificial #produtividade #negociosdigitais #claude #marketingdigital #gestaodotempo</div>
 </div>
-<div style="background: #ffffff; border: 2px solid #152d38; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 14px;">
+<div style="background: #ffffff; border: 2px solid #152d38; padding: 24px; display: flex; flex-direction: column; gap: 14px;">
 <span style="font-family: 'Marcellus SC', serif; font-size: 14px; letter-spacing: 0.06em; color: #152d38;">Depois do Método A Sua Cara</span>
-<div style="border: 1px solid #e5e3da; border-radius: 8px; padding: 18px; background: #f6f5f0; color: #292929; font-size: 15px; line-height: 1.55; white-space: pre-line;">Eu trabalho com tecnologia há cerca de 20 anos. E também passei anos estudando sistemas humanos: corpo, relação, padrão.
+<div style="border: 1px solid #e5e3da; padding: 18px; background: #f6f5f0; color: #292929; font-size: 15px; white-space: pre-line;">Eu trabalho com tecnologia há cerca de 20 anos. E também passei anos estudando sistemas humanos: corpo, relação, padrão.
 
 Os dois mundos sempre fizeram o mesmo movimento na minha cabeça: pegar uma coisa cheia de ruído, achar a estrutura e transformar em algo que dá para usar.
 
 Só que eu tenho um padrão que conheço bem. Eu começo muito, construo muito, e a parte de manter e distribuir pesa. Eu criava mais rápido do que conseguia colocar no mundo.
 
-<span style="background: #fbf0dc; color: #6b4a14; padding: 2px 4px; border-radius: 4px;">[Aqui entra a cena real: o dia, a tarefa ou o travamento que te fez abrir o Claude pela primeira vez.]</span>
+<span style="background: #fbf0dc; color: #6b4a14; padding: 2px 4px;">[Aqui entra a cena real: o dia, a tarefa ou o travamento que te fez abrir o Claude pela primeira vez.]</span>
 
 O que me fez ficar foi isso: ele acompanha a complexidade do meu pensamento. Me ajuda a organizar o que importa, me mostra onde eu estou errando e me devolve um rascunho para eu criticar, em vez de me deixar planejando para sempre.
 
@@ -171,22 +183,22 @@ Se você sente que sabe muito, tem ideia demais e entrega de menos, me conta aqu
 
 <section class="sec" style="padding: 96px 0;">
 <div class="wrap" style="display: flex; flex-direction: column; gap: 36px; max-width: 880px;">
-<h2 class="h2" style="margin: 0; font-family: Marcellus, serif; font-weight: 400; font-size: 44px; line-height: 1.12; color: #152d38;">Você conhece esse cansaço.</h2>
+<h2 class="h2" style="margin: 0; font-family: Marcellus, serif; font-weight: 400; font-size: 40px; line-height: 1.15; color: #152d38;">Você conhece esse cansaço.</h2>
 <div>
 <p style="margin: 0; padding: 18px 0; border-top: 1px solid #d8d5c9; font-size: 20px;">Você explica quem é toda vez que abre uma conversa nova.</p>
 <p style="margin: 0; padding: 18px 0; border-top: 1px solid #d8d5c9; font-size: 20px;">A resposta serviria para qualquer pessoa. Para você, precisa de reforma.</p>
 <p style="margin: 0; padding: 18px 0; border-top: 1px solid #d8d5c9; font-size: 20px;">Você edita tanto que teria sido mais rápido escrever sozinha.</p>
 <p style="margin: 0; padding: 18px 0; border-top: 1px solid #d8d5c9; border-bottom: 1px solid #d8d5c9; font-size: 20px;">Alguém lê o seu post e percebe que foi a IA que escreveu.</p>
 </div>
-<p style="margin: 0; font-size: 20px; line-height: 1.6; color: #3b4246;">Um bom prompt resolve metade do problema: ele explica a tarefa. A outra metade é contexto. Quem está pedindo, para quem, com que palavras, e o que você nunca diria. Lista de prompts não carrega isso. No curso, você aprende as duas partes, e o documento que você escreve guarda a segunda para o Claude ler sempre.</p>
+<p style="margin: 0; font-size: 20px; color: #3b4246;">Um bom prompt resolve metade do problema: ele explica a tarefa. A outra metade é contexto. Quem está pedindo, para quem, com que palavras, e o que você nunca diria. Lista de prompts não carrega isso. No curso, você aprende as duas partes, e o documento que você escreve guarda a segunda para o Claude ler sempre.</p>
 </div>
 </section>
 
 <section class="sec" style="padding: 96px 0; background: #0a2229; color: #f6f5f0;">
 <div class="wrap" style="display: flex; flex-direction: column; gap: 40px;">
 <div style="display: flex; flex-direction: column; gap: 12px; max-width: 760px;">
-<span style="font-family: 'Marcellus SC', serif; font-size: 15px; letter-spacing: 0.08em; color: #fcb655;">Método A Sua Cara</span>
-<h2 class="h2" style="margin: 0; font-family: Marcellus, serif; font-weight: 400; font-size: 44px; line-height: 1.12; color: #f6f5f0;">Quatro movimentos para o Claude te reconhecer.</h2>
+<span class="rot rot-escuro">Método A Sua Cara</span>
+<h2 class="h2" style="margin: 0; font-family: Marcellus, serif; font-weight: 400; font-size: 40px; line-height: 1.15; color: #f6f5f0;">Quatro movimentos para o Claude te reconhecer.</h2>
 <p style="margin: 0; font-size: 19px; color: #c9d5d8;">Cinco aulas em ordem. Cada movimento deixa uma coisa pronta, e o terceiro volta para o segundo: o que você descobre sobre si entra no seu documento.</p>
 </div>
 <div class="hero-art">
@@ -308,26 +320,26 @@ Se você sente que sabe muito, tem ideia demais e entrega de menos, me conta aqu
 </svg>
 </div>
 <ol class="four" style="list-style: none; margin: 0; padding: 0;">
-<li style="background: #0f2e3a; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
-<span style="font-family: 'Marcellus SC', serif; font-size: 14px; color: #fcb655;">1 · Aulas 1 e 2</span>
+<li style="background: #0f2e3a; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+<span style="font-family: 'Marcellus SC', serif; font-size: 14px; color: #f4cf85;">1 · Aulas 1 e 2</span>
 <span style="font-family: Marcellus, serif; font-size: 28px; line-height: 1.15; color: #f6f5f0;">Conhecer o Claude</span>
 <span style="font-size: 15px; color: #c9d5d8;">Planos, modelos e a fórmula OCAS para pedir bem. Depois, os recursos que tiram o Claude do bate-papo e põem no seu trabalho.</span>
 <span style="margin-top: auto; padding-top: 12px; border-top: 1px solid #1d4452; font-size: 14px; color: #f6f5f0;">Pronto: você sabe como pedir e qual recurso abrir para cada tarefa.</span>
 </li>
-<li style="background: #f6f5f0; color: #292929; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+<li style="background: #f6f5f0; color: #292929; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
 <span style="font-family: 'Marcellus SC', serif; font-size: 14px; color: #3f6670;">2 · Aula 3 · o centro</span>
 <span style="font-family: Marcellus, serif; font-size: 28px; line-height: 1.15; color: #152d38;">Mostrar a cara</span>
 <span style="font-size: 15px; color: #3b4246;">Você escreve o documento que mostra ao Claude quem você é, como fala e para quem escreve. A skill te entrevista e monta o rascunho.</span>
 <span style="margin-top: auto; padding-top: 12px; border-top: 1px solid #d8d5c9; font-size: 14px; color: #292929;">Pronto: a primeira versão do seu documento.</span>
 </li>
-<li style="background: #0f2e3a; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
-<span style="font-family: 'Marcellus SC', serif; font-size: 14px; color: #fcb655;">3 · Aula 4 · volta para o 2</span>
+<li style="background: #0f2e3a; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+<span style="font-family: 'Marcellus SC', serif; font-size: 14px; color: #f4cf85;">3 · Aula 4 · volta para o 2</span>
 <span style="font-family: Marcellus, serif; font-size: 28px; line-height: 1.15; color: #f6f5f0;">Aprofundar</span>
 <span style="font-size: 15px; color: #c9d5d8;">26 perguntas viram um mapa visual com a sua Zona de Genialidade e uma Carta de Travessia. O que aparece ali entra no documento.</span>
 <span style="margin-top: auto; padding-top: 12px; border-top: 1px solid #1d4452; font-size: 14px; color: #f6f5f0;">Pronto: seu mapa, e um documento mais fundo.</span>
 </li>
-<li style="background: #0f2e3a; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
-<span style="font-family: 'Marcellus SC', serif; font-size: 14px; color: #fcb655;">4 · Aula 5 e bônus</span>
+<li style="background: #0f2e3a; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+<span style="font-family: 'Marcellus SC', serif; font-size: 14px; color: #f4cf85;">4 · Aula 5 e bônus</span>
 <span style="font-family: Marcellus, serif; font-size: 28px; line-height: 1.15; color: #f6f5f0;">Assinar</span>
 <span style="font-size: 15px; color: #c9d5d8;">Você coloca a sua voz para trabalhar: uma página com a sua identidade, conteúdo e criação visual.</span>
 <span style="margin-top: auto; padding-top: 12px; border-top: 1px solid #1d4452; font-size: 14px; color: #f6f5f0;">Pronto: uma página sua, feita no Claude.</span>
@@ -345,42 +357,42 @@ Se você sente que sabe muito, tem ideia demais e entrega de menos, me conta aqu
 <section class="sec" style="padding: 96px 0;">
 <div class="wrap" style="display: flex; flex-direction: column; gap: 36px;">
 <div style="display: flex; flex-direction: column; gap: 12px; max-width: 760px;">
-<span style="font-family: 'Marcellus SC', serif; font-size: 15px; letter-spacing: 0.08em; color: #3f6670;">5 bônus</span>
-<h2 class="h2" style="margin: 0; font-family: Marcellus, serif; font-weight: 400; font-size: 44px; line-height: 1.12; color: #152d38;">Com o Claude te conhecendo, é isso que você passa a fazer.</h2>
+<span class="rot">5 bônus</span>
+<h2 class="h2" style="margin: 0; font-family: Marcellus, serif; font-weight: 400; font-size: 40px; line-height: 1.15; color: #152d38;">Com o Claude te conhecendo, é isso que você passa a fazer.</h2>
 </div>
 <div class="three">
-<div style="border: 1px solid #e5e3da; border-radius: 12px; padding: 24px; background: #ffffff; display: flex; flex-direction: column; gap: 8px;">
-<img style="display:block;width:100%;height:auto;border-radius:8px" src="/oferta/img/bonus-skill-minha-personalidade.webp" alt="Ilustração de uma mulher de cabelos ruivos cacheados, de costas, escrevendo numa mesa de madeira; do caderno aberto sobe uma luz dourada que forma o retrato dela" width="1800" height="600" loading="lazy">
+<div style="border: 1px solid #e5e3da; padding: 24px; background: #ffffff; display: flex; flex-direction: column; gap: 8px;">
+<img style="display:block;width:100%;height:auto" src="/oferta/img/bonus-skill-minha-personalidade.webp" alt="Ilustração de uma mulher de cabelos ruivos cacheados, de costas, escrevendo numa mesa de madeira; do caderno aberto sobe uma luz dourada que forma o retrato dela" width="1800" height="600" loading="lazy">
 <span style="font-size: 14px; color: #3f6670;">Para quando a página em branco travar</span>
 <span style="font-family: Marcellus, serif; font-size: 24px; color: #152d38;">Skill A Sua Cara</span>
 <span style="font-size: 16px; color: #3b4246;">O Claude te entrevista e escreve o primeiro rascunho do seu documento. As mesmas perguntas funcionam coladas no Claude ou no ChatGPT.</span>
 </div>
-<div style="border: 1px solid #e5e3da; border-radius: 12px; padding: 24px; background: #ffffff; display: flex; flex-direction: column; gap: 8px;">
-<img style="display:block;width:100%;height:auto;border-radius:8px" src="/oferta/img/mapa-autoconhecimento-arte.webp" alt="Ilustração do Mapa de Autoconhecimento, Zona de Genialidade: uma mulher de cabelo cacheado olha para um caminho em espiral que atravessa um vale com árvores, montanhas e um rio até um sol nascente" width="1800" height="600" loading="lazy">
+<div style="border: 1px solid #e5e3da; padding: 24px; background: #ffffff; display: flex; flex-direction: column; gap: 8px;">
+<img style="display:block;width:100%;height:auto" src="/oferta/img/mapa-autoconhecimento-arte.webp" alt="Ilustração do Mapa de Autoconhecimento, Zona de Genialidade: uma mulher de cabelo cacheado olha para um caminho em espiral que atravessa um vale com árvores, montanhas e um rio até um sol nascente" width="1800" height="600" loading="lazy">
 <span style="font-size: 14px; color: #3f6670;">Para quando você não souber dizer o que faz de melhor</span>
 <span style="font-family: Marcellus, serif; font-size: 24px; color: #152d38;">Mapa de Autoconhecimento</span>
 <span style="font-size: 16px; color: #3b4246;">Interesses, capacidades, modos de ação e a sua Zona de Genialidade num painel que dá para olhar.</span>
 </div>
-<div style="border: 1px solid #e5e3da; border-radius: 12px; padding: 24px; background: #ffffff; display: flex; flex-direction: column; gap: 8px;">
+<div style="border: 1px solid #e5e3da; padding: 24px; background: #ffffff; display: flex; flex-direction: column; gap: 8px;">
 <span style="font-size: 14px; color: #3f6670;">Para quando não souber qual recurso abrir</span>
 <span style="font-family: Marcellus, serif; font-size: 24px; color: #152d38;">Manual dos 8 recursos do Claude</span>
 <span style="font-size: 16px; color: #3b4246;">Oito recursos, uma dúvida: qual usar primeiro. O manual responde e explica por quê.</span>
 </div>
-<div style="border: 1px solid #e5e3da; border-radius: 12px; padding: 24px; background: #ffffff; display: flex; flex-direction: column; gap: 8px;">
-<img style="display:block;width:100%;height:auto;border-radius:8px" src="/oferta/img/banner-bonus-7agentes.webp" alt="Jaya Roberta sorrindo ao lado de ícones dos sete agentes: pesquisa, gancho, roteiro, design, plano, publicar e análise" width="1800" height="600" loading="lazy">
+<div style="border: 1px solid #e5e3da; padding: 24px; background: #ffffff; display: flex; flex-direction: column; gap: 8px;">
+<img style="display:block;width:100%;height:auto" src="/oferta/img/banner-bonus-7agentes.webp" alt="Jaya Roberta sorrindo ao lado de ícones dos sete agentes: pesquisa, gancho, roteiro, design, plano, publicar e análise" width="1800" height="600" loading="lazy">
 <span style="font-size: 14px; color: #3f6670;">Para quando postar engolir a sua semana</span>
 <span style="font-family: Marcellus, serif; font-size: 24px; color: #152d38;">7 Agentes que fazem conteúdo</span>
 <span style="font-size: 16px; color: #3b4246;">Sete agentes no Claude, um para cada etapa: pesquisa o tema, escreve o gancho e o roteiro, desenha, monta a semana, deixa cada post pronto para sair no horário e mede o que rendeu. A parte repetitiva sai das suas costas. O ângulo e a opinião continuam seus.</span>
 </div>
-<div style="border: 1px solid #e5e3da; border-radius: 12px; padding: 24px; background: #ffffff; display: flex; flex-direction: column; gap: 8px;">
-<img style="display:block;width:100%;height:auto;border-radius:8px" src="/oferta/img/caderno-criacao-visual-arte.webp" alt="Ilustração de um caderno aberto sobre uma mesa de madeira, com dezenas de cartões de direções visuais saindo das páginas diante de uma paisagem ao pôr do sol" width="1800" height="600" loading="lazy">
+<div style="border: 1px solid #e5e3da; padding: 24px; background: #ffffff; display: flex; flex-direction: column; gap: 8px;">
+<img style="display:block;width:100%;height:auto" src="/oferta/img/caderno-criacao-visual-arte.webp" alt="Ilustração de um caderno aberto sobre uma mesa de madeira, com dezenas de cartões de direções visuais saindo das páginas diante de uma paisagem ao pôr do sol" width="1800" height="600" loading="lazy">
 <span style="font-size: 14px; color: #3f6670;">Para quando "faz bonito" não funcionar</span>
 <span style="font-family: Marcellus, serif; font-size: 24px; color: #152d38;">Caderno de Criação Visual</span>
 <span style="font-size: 16px; color: #3b4246;">243 direções visuais prontas para pedir imagens e páginas com estética definida.</span>
 </div>
-<div style="border-radius: 12px; padding: 24px; background: #152d38; color: #f6f5f0; display: flex; flex-direction: column; justify-content: space-between; gap: 16px;">
+<div style="padding: 24px; background: #152d38; color: #f6f5f0; display: flex; flex-direction: column; justify-content: space-between; gap: 16px;">
 <span style="font-family: Marcellus, serif; font-size: 24px; line-height: 1.3;">Os bônus rendem mais depois do segundo movimento, quando o Claude já sabe quem você é.</span>
-<a class="cta" href="#oferta" data-cta="curso" data-posicao="incluido" style="align-self: flex-start;">Ver o que está incluído</a>
+<a class="cta cta-escuro" href="#oferta" data-cta="curso" data-posicao="incluido" style="align-self: flex-start;">Ver o que está incluído</a>
 </div>
 </div>
 </div>
@@ -388,10 +400,10 @@ Se você sente que sabe muito, tem ideia demais e entrega de menos, me conta aqu
 
 <section class="sec" style="padding: 96px 0; background: #efede4;">
 <div class="wrap" style="display: flex; flex-direction: column; gap: 32px;">
-<h2 class="h2" style="margin: 0; font-family: Marcellus, serif; font-weight: 400; font-size: 44px; line-height: 1.12; color: #152d38;">Quem já fez.</h2>
+<h2 class="h2" style="margin: 0; font-family: Marcellus, serif; font-weight: 400; font-size: 40px; line-height: 1.15; color: #152d38;">Quem já fez.</h2>
 <div class="three">
-<div style="background: #ffffff; border-radius: 12px; padding: 26px; display: flex; flex-direction: column; gap: 16px;">
-<figure style="margin: 0; border-radius: 8px; overflow: hidden; border: 1px solid #e5e3da;">
+<div style="background: #ffffff; padding: 26px; display: flex; flex-direction: column; gap: 16px;">
+<figure style="margin: 0; overflow: hidden; border: 1px solid #e5e3da;">
 <video id="prova-video" style="display:block;width:100%;height:auto" autoplay muted loop playsinline preload="metadata" width="480" height="340" aria-label="Trecho do site de uma construtora criado pelo Filipe no Claude: página inicial com filtro de imóveis, plantas e mapa de localização">
 <source src="/oferta/prova-filipe-loop.webm" type="video/webm">
 <source src="/oferta/prova-filipe-loop.mp4" type="video/mp4">
@@ -399,19 +411,19 @@ Se você sente que sabe muito, tem ideia demais e entrega de menos, me conta aqu
 <figcaption style="font-size: 14px; color: #606864; padding: 10px 12px;">Site de uma construtora, feito pelo Filipe depois do curso.</figcaption>
 </figure>
 <blockquote style="margin: 0; display: flex; flex-direction: column; gap: 16px;">
-<p style="margin: 0; font-size: 18px; line-height: 1.55; font-style: italic; color: #292929;">"Passando pra te agradecer. No nosso bate-papo abriu minha mente quanto ao uso da IA. Eu já usava, mas depois da conversa e do curso percebi que tava deixando muita coisa útil de lado. Montei o site de uma construtora inteiro no Claude."</p>
+<p style="margin: 0; font-size: 18px; font-style: italic; color: #292929;">"Passando pra te agradecer. No nosso bate-papo abriu minha mente quanto ao uso da IA. Eu já usava, mas depois da conversa e do curso percebi que tava deixando muita coisa útil de lado. Montei o site de uma construtora inteiro no Claude."</p>
 <span style="font-size: 15px; color: #606864;">Filipe Chagas, aluno</span>
 </blockquote>
-<figure style="margin: 0; border-radius: 8px; overflow: hidden; border: 1px solid #e5e3da;">
+<figure style="margin: 0; overflow: hidden; border: 1px solid #e5e3da;">
 <img style="display:block;width:100%;height:auto" src="/oferta/img/prova-filipe-whatsapp.png" alt="Mensagem de WhatsApp do Filipe Chagas agradecendo a conversa e dizendo que, depois de aprender mais com o curso, acredita que vai conseguir se desenvolver ainda mais no uso de IA" width="790" height="226" loading="lazy">
 <figcaption style="font-size: 14px; color: #606864; padding: 10px 12px;">Mensagem do Filipe depois de conversar comigo e fazer o curso.</figcaption>
 </figure>
 </div>
-<div style="border: 1px dashed #c9c6b8; border-radius: 12px; padding: 26px; display: flex; flex-direction: column; gap: 12px; color: #606864;">
+<div style="border: 1px dashed #c9c6b8; padding: 26px; display: flex; flex-direction: column; gap: 12px; color: #606864;">
 <span style="font-size: 16px;">[Depoimento real a coletar, com autorização para publicar.]</span>
 <span style="font-size: 15px;">Pergunta para os compradores: "O que o Claude escreveu depois do curso que ele não escrevia antes?"</span>
 </div>
-<div style="border: 1px dashed #c9c6b8; border-radius: 12px; padding: 26px; display: flex; flex-direction: column; gap: 12px; color: #606864;">
+<div style="border: 1px dashed #c9c6b8; padding: 26px; display: flex; flex-direction: column; gap: 12px; color: #606864;">
 <span style="font-size: 16px;">[Depoimento real a coletar, com autorização para publicar.]</span>
 <span style="font-size: 15px;">Se não chegar a tempo, este espaço sai da página.</span>
 </div>
@@ -422,16 +434,16 @@ Se você sente que sabe muito, tem ideia demais e entrega de menos, me conta aqu
 <section class="sec" style="padding: 96px 0;">
 <div class="wrap" style="display: flex; flex-direction: column; gap: 48px;">
 <div class="prof">
-<figure style="margin: 0;"><img style="display:block;width:100%;max-width:320px;height:auto;border-radius:12px" src="/oferta/img/professora-jaya.webp" alt="Jaya Roberta sorrindo, de blazer bege, com a mão no queixo e uma caneta sobre um caderno, ao lado de um notebook, em um ambiente com símbolos luminosos ao fundo" width="760" height="950" loading="lazy"></figure>
+<figure class="retrato"><img src="/oferta/img/professora-jaya-sand.webp" alt="Jaya Roberta sorrindo, de blusa verde-azulada, apoiada num muro com folhas e um círculo dourado ao fundo" width="760" height="760" loading="lazy"></figure>
 <div style="display: flex; flex-direction: column; gap: 16px;">
-<span style="font-family: 'Marcellus SC', serif; font-size: 15px; letter-spacing: 0.08em; color: #3f6670;">Quem ensina</span>
-<h2 class="h2" style="margin: 0; font-family: Marcellus, serif; font-weight: 400; font-size: 44px; line-height: 1.12; color: #152d38;">Jaya Roberta</h2>
+<span class="rot">Quem ensina</span>
+<h2 class="h2" style="margin: 0; font-family: Marcellus, serif; font-weight: 400; font-size: 40px; line-height: 1.15; color: #152d38;">Jaya Roberta</h2>
 <p style="margin: 0; font-size: 19px; color: #3b4246;">Há cerca de 20 anos trabalho com tecnologia, com experiência em monitoração de sistemas bancários críticos. Há mais de 10, atendo pessoas como terapeuta integrativa. A primeira parte me ensinou a montar sistemas que não podem falhar. A segunda me ensinou a perguntar quem uma pessoa é. O Método A Sua Cara junta as duas: ninguém consegue descrever a própria voz sem antes se olhar.</p>
 <p style="margin: 0; font-size: 19px; color: #3b4246;">Toco o meu negócio com o Claude todos os dias. O que está no curso é o que eu uso.</p>
 </div>
 </div>
 <div class="two" style="align-items: start; gap: 48px;">
-<div style="border-top: 2px solid #fcb655; padding-top: 18px;">
+<div style="border-top: 2px solid #517d86; padding-top: 18px;">
 <span style="display: block; font-family: Marcellus, serif; font-size: 26px; color: #152d38;">É para você se</span>
 <p style="margin: 8px 0 0; font-size: 18px; color: #3b4246;">Você vende o próprio jeito de pensar: terapeuta, mentora, consultora, autônoma, dona do próprio negócio. Já usa o Claude ou o ChatGPT e sente que a ferramenta não te conhece, ou vai começar agora e quer começar do jeito certo.</p>
 </div>
@@ -446,18 +458,18 @@ Se você sente que sabe muito, tem ideia demais e entrega de menos, me conta aqu
 <section id="oferta" class="sec" style="padding: 96px 0; background: #0a2229; color: #f6f5f0;">
 <div class="wrap offer">
 <div style="display: flex; flex-direction: column; gap: 20px;">
-<span style="font-family: 'Marcellus SC', serif; font-size: 15px; letter-spacing: 0.08em; color: #fcb655;">O que você leva</span>
-<h2 class="h2" style="margin: 0; font-family: Marcellus, serif; font-weight: 400; font-size: 44px; line-height: 1.12; color: #f6f5f0;">Claude, Seu Redator Pessoal</h2>
+<span class="rot rot-escuro">O que você leva</span>
+<h2 class="h2" style="margin: 0; font-family: Marcellus, serif; font-weight: 400; font-size: 40px; line-height: 1.15; color: #f6f5f0;">Claude, Seu Redator Pessoal</h2>
 <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column;">
-<li style="padding: 14px 0; border-top: 1px solid #1d4452; display: flex; justify-content: space-between; gap: 16px;"><span>As 5 aulas do Método A Sua Cara</span><span style="color: #fcb655; font-size: 15px; text-align: right;">a base</span></li>
-<li style="padding: 14px 0; border-top: 1px solid #1d4452; display: flex; justify-content: space-between; gap: 16px;"><span>Skill A Sua Cara</span><span style="color: #fcb655; font-size: 15px; text-align: right;">o rascunho sai sozinho</span></li>
-<li style="padding: 14px 0; border-top: 1px solid #1d4452; display: flex; justify-content: space-between; gap: 16px;"><span>Mapa de Autoconhecimento e Zona de Genialidade</span><span style="color: #fcb655; font-size: 15px; text-align: right;">mais fundo</span></li>
-<li style="padding: 14px 0; border-top: 1px solid #1d4452; display: flex; justify-content: space-between; gap: 16px;"><span>Manual dos 8 recursos do Claude</span><span style="color: #fcb655; font-size: 15px; text-align: right;">consulta rápida</span></li>
-<li style="padding: 14px 0; border-top: 1px solid #1d4452; display: flex; justify-content: space-between; gap: 16px;"><span>7 Agentes que fazem conteúdo</span><span style="color: #fcb655; font-size: 15px; text-align: right;">aplicação</span></li>
-<li style="padding: 14px 0; border-top: 1px solid #1d4452; border-bottom: 1px solid #1d4452; display: flex; justify-content: space-between; gap: 16px;"><span>Caderno de Criação Visual, 243 direções</span><span style="color: #fcb655; font-size: 15px; text-align: right;">aplicação</span></li>
+<li style="padding: 14px 0; border-top: 1px solid #1d4452; display: flex; justify-content: space-between; gap: 16px;"><span>As 5 aulas do Método A Sua Cara</span><span style="color: #f4cf85; font-size: 15px; text-align: right;">a base</span></li>
+<li style="padding: 14px 0; border-top: 1px solid #1d4452; display: flex; justify-content: space-between; gap: 16px;"><span>Skill A Sua Cara</span><span style="color: #f4cf85; font-size: 15px; text-align: right;">o rascunho sai sozinho</span></li>
+<li style="padding: 14px 0; border-top: 1px solid #1d4452; display: flex; justify-content: space-between; gap: 16px;"><span>Mapa de Autoconhecimento e Zona de Genialidade</span><span style="color: #f4cf85; font-size: 15px; text-align: right;">mais fundo</span></li>
+<li style="padding: 14px 0; border-top: 1px solid #1d4452; display: flex; justify-content: space-between; gap: 16px;"><span>Manual dos 8 recursos do Claude</span><span style="color: #f4cf85; font-size: 15px; text-align: right;">consulta rápida</span></li>
+<li style="padding: 14px 0; border-top: 1px solid #1d4452; display: flex; justify-content: space-between; gap: 16px;"><span>7 Agentes que fazem conteúdo</span><span style="color: #f4cf85; font-size: 15px; text-align: right;">aplicação</span></li>
+<li style="padding: 14px 0; border-top: 1px solid #1d4452; border-bottom: 1px solid #1d4452; display: flex; justify-content: space-between; gap: 16px;"><span>Caderno de Criação Visual, 243 direções</span><span style="color: #f4cf85; font-size: 15px; text-align: right;">aplicação</span></li>
 </ul>
 </div>
-<div style="background: #ffffff; color: #292929; border-radius: 12px; padding: 32px; display: flex; flex-direction: column; gap: 16px;">
+<div style="background: #ffffff; color: #292929; padding: 32px; display: flex; flex-direction: column; gap: 16px;">
 <span style="font-size: 15px; color: #606864;">Pagamento único</span>
 <span style="font-family: Marcellus, serif; font-size: 60px; line-height: 1; color: #152d38;">R$ 297</span>
 <span style="font-size: 16px; color: #3b4246;">ou em até 6x no cartão · Pix · acesso vitalício</span>
@@ -473,7 +485,7 @@ Se você sente que sabe muito, tem ideia demais e entrega de menos, me conta aqu
 
 <section class="sec" style="padding: 96px 0;">
 <div class="wrap" style="max-width: 880px; display: flex; flex-direction: column; gap: 24px;">
-<h2 class="h2" style="margin: 0; font-family: Marcellus, serif; font-weight: 400; font-size: 44px; line-height: 1.12; color: #152d38;">Perguntas frequentes</h2>
+<h2 class="h2" style="margin: 0; font-family: Marcellus, serif; font-weight: 400; font-size: 40px; line-height: 1.15; color: #152d38;">Perguntas frequentes</h2>
 <div>
 <details open><summary>Estou começando agora. Consigo acompanhar?</summary><p style="margin: 10px 0 0; color: #3b4246;">Sim. A Aula 1 começa do primeiro acesso: planos, modelos e como pedir. Se você já usa o Claude, vai reconhecer o começo e chegar mais rápido ao seu documento.</p></details>
 <details><summary>É vídeo?</summary><p style="margin: 10px 0 0; color: #3b4246;">Não. As aulas são páginas visuais, slides guiados, prompts prontos, exercícios e ferramentas interativas. Você lê, copia, aplica e volta quando precisar.</p></details>
@@ -488,7 +500,7 @@ Se você sente que sabe muito, tem ideia demais e entrega de menos, me conta aqu
 
 <section class="sec" style="padding: 104px 0; background: #efede4; text-align: center;">
 <div class="wrap" style="display: flex; flex-direction: column; align-items: center; gap: 22px;">
-<h2 class="h2" style="margin: 0; font-family: Marcellus, serif; font-weight: 400; font-size: 48px; line-height: 1.12; max-width: 760px; color: #152d38;">Pare de se apresentar ao Claude a cada conversa.</h2>
+<h2 class="h2" style="margin: 0; font-family: Marcellus, serif; font-weight: 400; font-size: 40px; line-height: 1.15; max-width: 760px; color: #152d38;">Pare de se apresentar ao Claude a cada conversa.</h2>
 <p style="margin: 0; font-size: 19px; color: #3b4246; max-width: 620px;">Mostre a sua cara uma vez. Atualize quando a vida mudar. Deixe o resto da tarde para o que só você faz.</p>
 <a class="cta" href="#oferta" data-cta="curso" data-posicao="final">Quero escrever com a minha voz</a>
 <span style="font-size: 15px; color: #606864;">R$ 297 · acesso vitalício · garantia de 7 dias</span>
@@ -504,7 +516,7 @@ Se você sente que sabe muito, tem ideia demais e entrega de menos, me conta aqu
 
 <div class="sticky">
 <span style="font-size: 15px;"><strong style="font-weight: 700;">R$ 297</strong> · garantia de 7 dias</span>
-<a class="cta" href="#oferta" data-cta="curso" data-posicao="fixo" style="min-height: 46px; padding: 0 20px; font-size: 16px;">Quero</a>
+<a class="cta" href="#oferta" data-cta="curso" data-posicao="fixo">Quero</a>
 </div>
 
 </div>

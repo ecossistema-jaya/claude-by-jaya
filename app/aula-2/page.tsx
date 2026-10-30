@@ -51,7 +51,7 @@ Use uma interface clara, legível no celular, com uma única ação principal. A
     { title: 'Artefato funciona', text: 'Recebe uma entrada e devolve uma saída útil.' },
     { title: 'Foi refinado', text: 'Você pediu pelo menos duas mudanças conversando.' },
   ],
-  next: { href: '/aula-3', number: 3, title: 'Documento Mestre' },
+  next: { href: '/aula-3', number: 3, title: 'Mostrar a cara' },
 };
 
 export default function Page() {

@@ -6,7 +6,7 @@ import Link from 'next/link';
    (supabase/functions/hotmart-webhook) e confirmado quando a pessoa entra. */
 
 export const metadata: Metadata = {
-  title: 'Compra confirmada · Claude do Zero',
+  title: 'Compra confirmada · Claude, Seu Redator Pessoal',
   robots: { index: false, follow: false },
 };
 
@@ -20,7 +20,7 @@ export default function Obrigada() {
       <span className="claude-float f2" aria-hidden="true" />
       <span className="claude-float f3" aria-hidden="true" />
       <div className="caixa">
-        <div className="eyebrow">Série Claude do Zero</div>
+        <div className="eyebrow">Claude, Seu Redator Pessoal</div>
         <h1>Sua entrada está sendo liberada</h1>
         <p>
           Entre com o e-mail que você usou na compra, pelo Google ou por um código que chega nesse

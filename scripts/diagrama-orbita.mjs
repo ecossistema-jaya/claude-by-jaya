@@ -33,9 +33,9 @@ const LOGO = path.join(ROOT, 'public', 'icones', 'claude.svg');
 const AVULSO = 'C:/Users/Jaya/Projetos/ecosistema-jaya/jaya/diagrama-claude-do-zero.html';
 
 export const CFG = {
-  aulas: ['Conversar', 'Trabalhar', 'Documento Mestre', 'Autoconhecimento', 'Landing Page'], // nomes completos (aria-label)
+  aulas: ['Conversar', 'Trabalhar', 'Mostrar a cara', 'Autoconhecimento', 'Landing Page'], // nomes completos (aria-label)
   rotulos: [['Conversar'], ['Trabalhar'], ['Documento', 'Mestre'], ['Auto', 'conhecimento'], ['Landing', 'Page']], // o que aparece no desenho, uma linha por item
-  destaque: 2, // índice da aula em marsala (a 3, Documento Mestre)
+  destaque: 2, // índice da aula em marsala (a 3, Mostrar a cara)
   orbitar: false, // true: as aulas giram em volta do Claude (sem nomes no desenho)
   periodoOrbita: '90s', // uma volta das aulas, se orbitar; menor = mais rápido
   raioOrbita: 108, // onde as aulas ficam (menor = nomes mais longe do anel graduado)
@@ -290,7 +290,7 @@ export function svg() {
       ${defs('')}
 
       ${atmosfera('', 7)}
-      ${moldura(' CLAUDE DO ZERO', `${String(n).padStart(2, '0')} AULAS . 05 BÔNUS`)}
+      ${moldura(' CLAUDE, SEU REDATOR PESSOAL', `${String(n).padStart(2, '0')} AULAS . 05 BÔNUS`)}
       ${aneis(CFG.raioOrbita)}
       ${radar('')}
 
@@ -436,7 +436,7 @@ fs.writeFileSync(
   AVULSO,
   `<!doctype html>
 <html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Diagramas Claude do Zero</title>
+<title>Diagramas Claude, Seu Redator Pessoal</title>
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600&family=Petrona:wght@500;600&display=swap" rel="stylesheet">
 <style>
   :root { --card: #fffdf8; --linha: #e7d6be; --areia-bg: #faf4ea; }

@@ -1,4 +1,4 @@
-# Documento Mestre — versão para colar
+# A Sua Cara — versão para colar
 
 Presente da masterclass **Primeira Conversa** · Jay.AI
 
@@ -20,7 +20,7 @@ Os dois caminhos entregam o mesmo resultado.
 
 ## ▼ COPIE DAQUI PARA BAIXO ▼
 
-Você vai me entrevistar e depois montar o meu Documento Mestre: o texto que ensina a IA quem eu sou, quem eu atendo, o que eu entrego e como ela deve trabalhar comigo.
+Você vai me entrevistar e depois montar o meu documento: o texto que ensina a IA quem eu sou, quem eu atendo, o que eu entrego e como ela deve trabalhar comigo.
 
 **Regras que você não pode quebrar:**
 
@@ -55,10 +55,10 @@ Antes da pergunta 11, avise: "agora muda o jogo — as próximas cinco perguntas
 14. O que precisa estar entregue para você considerar "pronto"?
 15. Tem alguma coisa que eu nunca posso fazer no seu contexto? Promessa que você não faz, tema que não toca, conselho que não dá?
 
-**Depois da entrevista, monte o Documento Mestre nesta estrutura, usando as MINHAS palavras e não as suas:**
+**Depois da entrevista, monte o documento nesta estrutura, usando as MINHAS palavras e não as suas:**
 
 ```
-# Documento Mestre — [Nome]
+# A Sua Cara · [Nome]
 
 ## Sobre mim
 Nome / Profissão / Especialidade / Uma linha

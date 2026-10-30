@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
 
-const TITULO = 'Claude do Zero · Jaya Roberta';
+const TITULO = 'Claude, Seu Redator Pessoal · Jaya Roberta';
 const DESCRICAO = 'Cinco aulas na ordem. Cada uma é pra fazer junto — abra o Claude do lado.';
 
 /* A URL precisa ser absoluta na prévia das redes sociais. A Vercel expõe o
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'pt_BR',
-    siteName: 'Claude do Zero',
+    siteName: 'Claude, Seu Redator Pessoal',
     title: TITULO,
     description: DESCRICAO,
     images: [{ url: '/img/og.jpg', width: 1254, height: 1254, alt: TITULO }],

@@ -33,7 +33,7 @@ export type CourseLessonData = {
 const LESSONS = [
   'Conversar com o Claude',
   'Botar o Claude pra trabalhar',
-  'Documento Mestre',
+  'Mostrar a cara',
   'Psicometria e Zona de Genialidade',
   'Landing Page com Identidade Visual',
 ];
@@ -47,7 +47,7 @@ function CourseBonusNav({ footer = false }: { footer?: boolean }) {
       <p>Bônus e materiais</p>
       <Link href="/aula-3" className="course-bonus-link">
         <span aria-hidden="true">✦</span>
-        <strong>Bônus 1 · Skill Minha Personalidade<small>Disponível na Aula 3</small></strong>
+        <strong>Bônus 1 · Skill A Sua Cara<small>Disponível na Aula 3</small></strong>
       </Link>
       <a href="/mapa-autoconhecimento-v0.html" className="course-bonus-link">
         <span aria-hidden="true">✦</span>
@@ -132,7 +132,7 @@ export default function CourseLessonPage({ lesson }: { lesson: CourseLessonData 
       <header className="course-topbar">
         <Link href="/" className="course-brand" aria-label="Voltar ao índice do curso">
           <small>Curso</small>
-          Claude do Zero
+          Claude, Seu Redator Pessoal
         </Link>
         <div className="course-position">
           Aula {String(lesson.number).padStart(2, '0')} de {LESSONS.length}

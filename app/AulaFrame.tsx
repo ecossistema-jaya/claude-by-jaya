@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 const AULAS = [
   'Conversar com o Claude',
   'Botar o Claude pra trabalhar',
-  'Documento Mestre',
+  'Mostrar a cara',
   'Psicometria e Zona de Genialidade',
   'Landing Page com Identidade Visual',
 ];
@@ -81,7 +81,7 @@ export default function AulaFrame({
         <header className="course-topbar">
           <Link href="/" className="course-brand" aria-label="Voltar ao índice do curso">
             <small>Curso</small>
-            Claude do Zero
+            Claude, Seu Redator Pessoal
           </Link>
           <div className="course-position">
             Aula {String(courseNumber).padStart(2, '0')} de {AULAS.length}
@@ -121,7 +121,7 @@ export default function AulaFrame({
               <p>Bônus e materiais</p>
               <Link href="/aula-3" className="course-bonus-link">
                 <span aria-hidden="true">✦</span>
-                <strong>Bônus 1 · Skill Minha Personalidade<small>Disponível na Aula 3</small></strong>
+                <strong>Bônus 1 · Skill A Sua Cara<small>Disponível na Aula 3</small></strong>
               </Link>
               <a href="/mapa-autoconhecimento-v0.html" className="course-bonus-link">
                 <span aria-hidden="true">✦</span>
@@ -164,7 +164,7 @@ export default function AulaFrame({
                   transformar uma conversa em trabalho pronto.
                 </p>
                 <div>
-                  <Link href="/aula-3">Minha Personalidade <span aria-hidden="true">→</span></Link>
+                  <Link href="/aula-3">A Sua Cara <span aria-hidden="true">→</span></Link>
                   <Link href="/recursos">8 recursos do Claude <span aria-hidden="true">→</span></Link>
                   <Link href="/guia-7-agentes">7 agentes que fazem conteúdo <span aria-hidden="true">→</span></Link>
                 </div>

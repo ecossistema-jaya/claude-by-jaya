@@ -27,7 +27,7 @@ const AULAS = [
     n: 3,
     top: 61.14,
     alt: 7.06,
-    titulo: 'Documento Mestre',
+    titulo: 'Mostrar a cara',
     desc: 'O documento que ensina o Claude quem você é, com os prompts prontos.',
     icone: (
       <>
@@ -111,9 +111,9 @@ export default async function Home() {
       <Link href="/aula-3" className="bonus">
         <span className="selo">Bônus 1</span>
         <div className="txt">
-          <h2>A skill Minha Personalidade</h2>
+          <h2>A skill A Sua Cara</h2>
           <p>
-            O arquivo que entrevista você e escreve o seu Documento Mestre. Instala no Claude ou
+            O arquivo que entrevista você e escreve o seu documento. Instala no Claude ou
             cola no ChatGPT. Está dentro da Aula 3.
           </p>
         </div>

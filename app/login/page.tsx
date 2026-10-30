@@ -20,7 +20,7 @@ export async function generateMetadata({ searchParams }: LoginProps) {
       ? 'Acesso à Zona de Genialidade · Jaya Roberta'
       : destinoEhConsciencia(destino)
         ? 'Acesso à Arquitetura da Consciência · Jaya Roberta'
-        : 'Área do aluno · Claude do Zero',
+        : 'Área do aluno · Claude, Seu Redator Pessoal',
   };
 }
 
@@ -42,7 +42,7 @@ export default async function Login({ searchParams }: LoginProps) {
     ? 'Zona de Genialidade'
     : consciencia
       ? 'Arquitetura da Consciência'
-      : 'Série Claude do Zero';
+      : 'Claude, Seu Redator Pessoal';
   const titulo = zona || consciencia ? 'Acesso por convite' : 'Área do aluno';
   const instrucao = zona || consciencia
     ? 'Entre com a conta Google que recebeu o convite.'

@@ -17,7 +17,7 @@ export default async function SemAcesso({
     ? 'Zona de Genialidade'
     : consciencia
       ? 'Arquitetura da Consciência'
-      : 'Série Claude do Zero';
+      : 'Claude, Seu Redator Pessoal';
   const mensagem = zona
     ? 'Essa conta Google ainda não recebeu convite para a Zona de Genialidade. Se o convite foi enviado para outro e-mail, entre com ele.'
     : consciencia

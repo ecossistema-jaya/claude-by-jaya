@@ -39,7 +39,20 @@ a{color:#225572}a:hover{color:#152d38}
 details{border-top:1px solid #d8d5c9;padding:18px 0}
 details:last-of-type{border-bottom:1px solid #d8d5c9}
 summary{cursor:pointer;font-family:Marcellus,serif;font-size:21px;color:#152d38}
+/* foto da professora e diagrama em órbita, vindos de index.html */
+.prof{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:40px;align-items:center}
+.hero-art{width:100%;max-width:420px;margin:0 auto;box-sizing:border-box;border:1px solid #e5e3da;border-radius:12px;padding:4px;overflow:hidden;background:radial-gradient(circle at 50% 50%,rgba(223,110,54,.20) 0,rgba(223,110,54,0) 55%),linear-gradient(rgba(18,54,63,.06) 1px,transparent 1px) 0 0/28px 28px,linear-gradient(90deg,rgba(18,54,63,.06) 1px,transparent 1px) 0 0/28px 28px,linear-gradient(160deg,#fffdf8 0%,#fbf1e4 100%)}
+.orbit{width:100%;height:auto;display:block}
+.spin{transform-origin:300px 300px;animation:spin 14s linear infinite}
+.spin-rev{transform-origin:300px 300px;animation:spin 60s linear infinite reverse}
+.pulse{transform-origin:300px 300px;animation:pulse 4s ease-in-out infinite}
+.tw{animation:tw 5s ease-in-out infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:1;transform:scale(1.08)}}
+@keyframes tw{0%,100%{opacity:.2}50%{opacity:1}}
+@media (prefers-reduced-motion:reduce){.spin,.spin-rev,.pulse,.tw{animation:none}.dado{display:none}}
 @media (max-width:900px){
+.prof{grid-template-columns:minmax(0,1fr);gap:24px}
 .hero,.offer{grid-template-columns:minmax(0,1fr);gap:32px}
 .four{grid-template-columns:repeat(2,minmax(0,1fr))}
 .three{grid-template-columns:minmax(0,1fr)}
@@ -55,6 +68,10 @@ summary{cursor:pointer;font-family:Marcellus,serif;font-size:21px;color:#152d38}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="claude" viewBox="0 0 1200 1200"><g id="g314">
+        <path id="path147" fill="#d97757" stroke="none" d="M 233.959793 800.214905 L 468.644287 668.536987 L 472.590637 657.100647 L 468.644287 650.738403 L 457.208069 650.738403 L 417.986633 648.322144 L 283.892639 644.69812 L 167.597321 639.865845 L 54.926208 633.825623 L 26.577238 627.785339 L 3.3e-05 592.751709 L 2.73832 575.27533 L 26.577238 559.248352 L 60.724873 562.228149 L 136.187973 567.382629 L 249.422867 575.194763 L 331.570496 580.026978 L 453.261841 592.671082 L 472.590637 592.671082 L 475.328857 584.859009 L 468.724915 580.026978 L 463.570557 575.194763 L 346.389313 495.785217 L 219.543671 411.865906 L 153.100723 363.543762 L 117.181267 339.060425 L 99.060455 316.107361 L 91.248367 266.01355 L 123.865784 230.093994 L 167.677887 233.073853 L 178.872513 236.053772 L 223.248367 270.201477 L 318.040283 343.570496 L 441.825592 434.738342 L 459.946411 449.798706 L 467.194672 444.64447 L 468.080597 441.020203 L 459.946411 427.409485 L 392.617493 305.718323 L 320.778564 181.932983 L 288.80542 130.630859 L 280.348999 99.865845 C 277.369171 87.221436 275.194641 76.590698 275.194641 63.624268 L 312.322174 13.20813 L 332.8591 6.604126 L 382.389313 13.20813 L 403.248352 31.328979 L 434.013519 101.71814 L 483.865753 212.537048 L 561.181274 363.221497 L 583.812134 407.919434 L 595.892639 449.315491 L 600.40271 461.959839 L 608.214783 461.959839 L 608.214783 454.711609 L 614.577271 369.825623 L 626.335632 265.61084 L 637.771851 131.516846 L 641.718201 93.745117 L 660.402832 48.483276 L 697.530334 24.000122 L 726.52356 37.852417 L 750.362549 72 L 747.060486 94.067139 L 732.886047 186.201416 L 705.100708 330.52356 L 686.979919 427.167847 L 697.530334 427.167847 L 709.61084 415.087341 L 758.496704 350.174561 L 840.644348 247.490051 L 876.885925 206.738342 L 919.167847 161.71814 L 946.308838 140.29541 L 997.61084 140.29541 L 1035.38269 196.429626 L 1018.469849 254.416199 L 965.637634 321.422852 L 921.825562 378.201538 L 859.006714 462.765259 L 819.785278 530.41626 L 823.409424 535.812073 L 832.75177 534.92627 L 974.657776 504.724915 L 1051.328979 490.872559 L 1142.818848 475.167786 L 1184.214844 494.496582 L 1188.724854 514.147644 L 1172.456421 554.335693 L 1074.604126 578.496765 L 959.838989 601.449829 L 788.939636 641.879272 L 786.845764 643.409485 L 789.261841 646.389343 L 866.255127 653.637634 L 899.194702 655.409424 L 979.812134 655.409424 L 1129.932861 666.604187 L 1169.154419 692.537109 L 1192.671265 724.268677 L 1188.724854 748.429688 L 1128.322144 779.194641 L 1046.818848 759.865845 L 856.590759 714.604126 L 791.355774 698.335754 L 782.335693 698.335754 L 782.335693 703.731567 L 836.69812 756.885986 L 936.322205 846.845581 L 1061.073975 962.81897 L 1067.436279 991.490112 L 1051.409424 1014.120911 L 1034.496704 1011.704712 L 924.885986 929.234924 L 882.604126 892.107544 L 786.845764 811.48999 L 780.483276 811.48999 L 780.483276 819.946289 L 802.550415 852.241699 L 919.087341 1027.409424 L 925.127625 1081.127686 L 916.671204 1098.604126 L 886.469849 1109.154419 L 853.288696 1103.114136 L 785.073914 1007.355835 L 714.684631 899.516785 L 657.906067 802.872498 L 650.979858 806.81897 L 617.476624 1167.704834 L 601.771851 1186.147705 L 565.530212 1200 L 535.328857 1177.046997 L 519.302124 1139.919556 L 535.328857 1066.550537 L 554.657776 970.792053 L 570.362488 894.68457 L 584.536926 800.134277 L 592.993347 768.724976 L 592.429626 766.630859 L 585.503479 767.516968 L 514.22821 865.369263 L 405.825531 1011.865906 L 320.053711 1103.677979 L 299.516815 1111.812256 L 263.919525 1093.369263 L 267.221497 1060.429688 L 287.114136 1031.114136 L 405.825531 880.107361 L 477.422913 786.52356 L 523.651062 732.483276 L 523.328918 724.671265 L 520.590698 724.671265 L 205.288605 929.395935 L 149.154434 936.644409 L 124.993355 914.01355 L 127.973183 876.885986 L 139.409409 864.80542 L 234.201385 799.570435 L 233.879227 799.8927 Z"/>
+    </g>
+</symbol></svg>
 <div style="background: #f6f5f0; color: #292929; font-family: 'Open Sans', sans-serif; font-size: 18px; line-height: 1.65;">
 
 <header style="border-bottom: 1px solid #e5e3da; background: #fffaf5;">
@@ -172,6 +189,124 @@ Se você sente que sabe muito, tem ideia demais e entrega de menos, me conta aqu
 <h2 class="h2" style="margin: 0; font-family: Marcellus, serif; font-weight: 400; font-size: 44px; line-height: 1.12; color: #f6f5f0;">Quatro movimentos para o Claude te reconhecer.</h2>
 <p style="margin: 0; font-size: 19px; color: #c9d5d8;">Cinco aulas em ordem. Cada movimento deixa uma coisa pronta, e o terceiro volta para o segundo: o que você descobre sobre si entra no seu documento.</p>
 </div>
+<div class="hero-art">
+<svg class="orbit" style="--orbita:90s" viewBox="0 0 600 600" role="img" aria-label="Diagrama em estilo instrumento técnico: no centro o ícone do Claude, em volta as 5 aulas (Conversar, Trabalhar, Mostrar a cara, Autoconhecimento, Landing Page) e, na órbita de fora, o Mapa de Autoconhecimento e o Manual dos 8 recursos">
+<defs>
+<radialGradient id="aura" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#df6e36" stop-opacity=".55"/><stop offset="1" stop-color="#df6e36" stop-opacity="0"/></radialGradient>
+<radialGradient id="halo" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ff8a50" stop-opacity=".75"/><stop offset="1" stop-color="#ff8a50" stop-opacity="0"/></radialGradient>
+<radialGradient id="flare" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff" stop-opacity=".95"/><stop offset=".4" stop-color="#ffd9b8" stop-opacity=".4"/><stop offset="1" stop-color="#ffd9b8" stop-opacity="0"/></radialGradient>
+<radialGradient id="flare2" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ff8a50" stop-opacity=".55"/><stop offset="1" stop-color="#ff8a50" stop-opacity="0"/></radialGradient>
+<linearGradient id="streak" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".95"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<linearGradient id="varre" gradientUnits="userSpaceOnUse" x1="505" y1="300" x2="457" y2="168.2"><stop offset="0" stop-color="#df6e36" stop-opacity=".42"/><stop offset="1" stop-color="#df6e36" stop-opacity="0"/></linearGradient>
+<linearGradient id="nucleo" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fffdf8"/><stop offset="1" stop-color="#f6e2cc"/></linearGradient>
+<linearGradient id="chipfill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#f7e8d6"/></linearGradient>
+<linearGradient id="rim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff9a60"/><stop offset=".3" stop-color="#12363f"/><stop offset=".7" stop-color="#12363f"/><stop offset="1" stop-color="#ff7a3d"/></linearGradient>
+<filter id="sombra" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#86050c" flood-opacity=".22"/></filter>
+<filter id="glowS" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<filter id="glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<clipPath id="cunha"><path d="M300 300 L505 300 A205 205 0 0 0 457 168.2 Z"/></clipPath>
+</defs>
+<!-- atmosfera -->
+<g opacity=".9">
+<polygon points="420,0 500,0 170,600 90,600" fill="url(#streak)" opacity=".30"/>
+<polygon points="520,0 565,0 335,600 290,600" fill="url(#streak)" opacity=".22"/>
+<polygon points="150,0 185,0 -30,430 -65,430" fill="url(#streak)" opacity=".18"/>
+<circle cx="575" cy="35" r="150" fill="url(#flare)" opacity=".6"/>
+<circle cx="25" cy="575" r="125" fill="url(#flare2)" opacity=".45"/>
+</g>
+<g fill="none" stroke="#12363f" stroke-width="1.2" opacity=".4" stroke-linejoin="round">
+<path d="M24 100V150L44 170V225"/><path d="M74 24H140L158 42H216"/><g transform="translate(600 0) scale(-1 1)"><path d="M24 100V150L44 170V225"/><path d="M74 24H140L158 42H216"/></g><path d="M24 500V450L44 430V375"/><g transform="translate(600 0) scale(-1 1)"><path d="M24 500V450L44 430V375"/></g>
+</g>
+<g fill="#df6e36" opacity=".85"><circle cx="44" cy="225" r="3"/><circle cx="216" cy="42" r="3"/><circle cx="24" cy="100" r="2.4"/><g transform="translate(600 0) scale(-1 1)"><circle cx="44" cy="225" r="3"/><circle cx="216" cy="42" r="3"/><circle cx="24" cy="100" r="2.4"/></g><circle cx="44" cy="375" r="3"/><circle cx="24" cy="500" r="2.4"/><g transform="translate(600 0) scale(-1 1)"><circle cx="44" cy="375" r="3"/><circle cx="24" cy="500" r="2.4"/></g></g>
+<g><g class="tw" style="animation-delay:-3.1s" opacity="0.7"><circle cx="20.7" cy="49.4" r="15.1" fill="url(#halo)"/><circle cx="20.7" cy="49.4" r="2.6" fill="#fff"/></g><g class="tw" style="animation-delay:-4.4s" opacity="0.6"><circle cx="246" cy="280.7" r="6.9" fill="url(#halo)"/><circle cx="246" cy="280.7" r="1.2" fill="#fff"/></g><g class="tw" style="animation-delay:-1.2s" opacity="0.6"><circle cx="161.5" cy="103.2" r="12.8" fill="url(#halo)"/><circle cx="161.5" cy="103.2" r="2.2" fill="#fff"/></g><g class="tw" style="animation-delay:-5.9s" opacity="0.5"><circle cx="224.5" cy="181.7" r="10.2" fill="url(#halo)"/><circle cx="224.5" cy="181.7" r="1.7" fill="#fff"/></g><g class="tw" style="animation-delay:-0.9s" opacity="0.4"><circle cx="155.6" cy="516.1" r="6.3" fill="url(#halo)"/><circle cx="155.6" cy="516.1" r="1.1" fill="#fff"/></g><g class="tw" style="animation-delay:-5.5s" opacity="0.4"><circle cx="180.4" cy="327.4" r="12.7" fill="url(#halo)"/><circle cx="180.4" cy="327.4" r="2.2" fill="#fff"/></g><g class="tw" style="animation-delay:-3.7s" opacity="0.8"><circle cx="330.7" cy="369.6" r="11.8" fill="url(#halo)"/><circle cx="330.7" cy="369.6" r="2" fill="#fff"/></g><g class="tw" style="animation-delay:-2.1s" opacity="0.4"><circle cx="540.9" cy="487.4" r="4.6" fill="url(#halo)"/><circle cx="540.9" cy="487.4" r="0.8" fill="#fff"/></g><g class="tw" style="animation-delay:-2.2s" opacity="0.7"><circle cx="257.3" cy="25.5" r="5.2" fill="url(#halo)"/><circle cx="257.3" cy="25.5" r="0.9" fill="#fff"/></g><g class="tw" style="animation-delay:-4.1s" opacity="0.7"><circle cx="258.1" cy="282.1" r="14.8" fill="url(#halo)"/><circle cx="258.1" cy="282.1" r="2.5" fill="#fff"/></g><g class="tw" style="animation-delay:-5.5s" opacity="0.4"><circle cx="203.1" cy="217.8" r="5.8" fill="url(#halo)"/><circle cx="203.1" cy="217.8" r="1" fill="#fff"/></g><g class="tw" style="animation-delay:-0.3s" opacity="0.5"><circle cx="198.4" cy="122.9" r="11.3" fill="url(#halo)"/><circle cx="198.4" cy="122.9" r="1.9" fill="#fff"/></g><g class="tw" style="animation-delay:-3.9s" opacity="0.8"><circle cx="405.4" cy="541" r="10.3" fill="url(#halo)"/><circle cx="405.4" cy="541" r="1.8" fill="#fff"/></g><g class="tw" style="animation-delay:-5.3s" opacity="0.7"><circle cx="540.2" cy="80.9" r="10.1" fill="url(#halo)"/><circle cx="540.2" cy="80.9" r="1.7" fill="#fff"/></g><g class="tw" style="animation-delay:-5.8s" opacity="0.8"><circle cx="563.4" cy="493.3" r="10.9" fill="url(#halo)"/><circle cx="563.4" cy="493.3" r="1.9" fill="#fff"/></g><g class="tw" style="animation-delay:-2s" opacity="0.6"><circle cx="327.8" cy="482.2" r="4.3" fill="url(#halo)"/><circle cx="327.8" cy="482.2" r="0.7" fill="#fff"/></g><g class="tw" style="animation-delay:-3.3s" opacity="0.8"><circle cx="428.3" cy="328.3" r="12.7" fill="url(#halo)"/><circle cx="428.3" cy="328.3" r="2.2" fill="#fff"/></g><g class="tw" style="animation-delay:-3.3s" opacity="0.7"><circle cx="484.8" cy="260" r="11.4" fill="url(#halo)"/><circle cx="484.8" cy="260" r="2" fill="#fff"/></g><g class="tw" style="animation-delay:-5.7s" opacity="0.4"><circle cx="192.7" cy="149.5" r="4.3" fill="url(#halo)"/><circle cx="192.7" cy="149.5" r="0.7" fill="#fff"/></g><g class="tw" style="animation-delay:-3.6s" opacity="0.7"><circle cx="490.7" cy="374.7" r="4.4" fill="url(#halo)"/><circle cx="490.7" cy="374.7" r="0.7" fill="#fff"/></g><g class="tw" style="animation-delay:-3.9s" opacity="0.8"><circle cx="424" cy="583.1" r="7.3" fill="url(#halo)"/><circle cx="424" cy="583.1" r="1.3" fill="#fff"/></g><g class="tw" style="animation-delay:-6s" opacity="0.4"><circle cx="474.4" cy="371.2" r="13.5" fill="url(#halo)"/><circle cx="474.4" cy="371.2" r="2.3" fill="#fff"/></g><g class="tw" style="animation-delay:-1.3s" opacity="0.5"><circle cx="304" cy="338.3" r="6" fill="url(#halo)"/><circle cx="304" cy="338.3" r="1" fill="#fff"/></g><g class="tw" style="animation-delay:-5.9s" opacity="0.7"><circle cx="479.3" cy="506.8" r="12.4" fill="url(#halo)"/><circle cx="479.3" cy="506.8" r="2.1" fill="#fff"/></g><g class="tw" style="animation-delay:-1.4s" opacity="0.6"><circle cx="362.5" cy="435.3" r="14.9" fill="url(#halo)"/><circle cx="362.5" cy="435.3" r="2.6" fill="#fff"/></g><g class="tw" style="animation-delay:-3.3s" opacity="0.4"><circle cx="348.1" cy="469.1" r="13.8" fill="url(#halo)"/><circle cx="348.1" cy="469.1" r="2.4" fill="#fff"/></g></g>
+<g fill="none" stroke="#12363f" stroke-width="2.4" opacity=".7" stroke-linecap="square">
+<path d="M18 52V18H52"/><path d="M548 18H582V52"/><path d="M18 548V582H52"/><path d="M582 548V582H548"/>
+</g>
+<g font-family="ui-monospace, Consolas, monospace" font-size="11" letter-spacing="1.6" fill="#12363f" opacity=".8">
+<text x="30" y="40"><tspan fill="#df6e36">//</tspan> CLAUDE, SEU REDATOR PESSOAL</text>
+<text x="570" y="570" text-anchor="end">05 AULAS . 05 BÔNUS</text>
+</g>
+<g class="spin-rev">
+<circle cx="300" cy="300" r="258" fill="none" stroke="#12363f" stroke-width="7" stroke-dasharray="1.4 25.6" opacity=".5"/>
+<circle cx="300" cy="300" r="258" fill="none" stroke="#ff8a50" stroke-width="32" stroke-dasharray="2.4 132.7" opacity=".16"/>
+<circle cx="300" cy="300" r="258" fill="none" stroke="#ff8a50" stroke-width="20" stroke-dasharray="2.4 132.7" opacity=".22"/>
+<circle cx="300" cy="300" r="258" fill="none" stroke="#df6e36" stroke-width="15" stroke-dasharray="2.4 132.7" opacity=".95"/>
+</g>
+<circle cx="300" cy="300" r="243" fill="none" stroke="#12363f" stroke-width="1" opacity=".4"/>
+<circle cx="300" cy="300" r="225" fill="none" stroke="#12363f" stroke-width="1" stroke-dasharray="1 5" opacity=".3"/>
+<circle cx="300" cy="300" r="205" fill="none" stroke="#df6e36" stroke-width="1" opacity=".3"/>
+<circle cx="300" cy="300" r="165" fill="none" stroke="#df6e36" stroke-width="1" stroke-dasharray="2 7" opacity=".6"/>
+<circle cx="300" cy="300" r="108" fill="none" stroke="#12363f" stroke-width="1" opacity=".3"/>
+<circle cx="300" cy="300" r="68" fill="none" stroke="#df6e36" stroke-width=".8" stroke-dasharray="1 4" opacity=".4"/>
+<g font-family="ui-monospace, Consolas, monospace" font-size="10" fill="#12363f" opacity=".7" text-anchor="middle">
+<text x="300" y="24">000</text><text x="300" y="587">180</text>
+<text x="583" y="304" text-anchor="end">090</text><text x="17" y="304" text-anchor="start">270</text>
+</g>
+<g class="spin"><path d="M300 300 L505 300 A205 205 0 0 0 457 168.2 Z" fill="url(#varre)"/>
+<g clip-path="url(#cunha)" stroke="#df6e36" stroke-width=".8" opacity=".4" fill="none"><line x1="300" y1="300" x2="505" y2="300"/><line x1="300" y1="300" x2="503" y2="271.5"/><line x1="300" y1="300" x2="497.1" y2="243.5"/><line x1="300" y1="300" x2="487.3" y2="216.6"/><line x1="300" y1="300" x2="473.8" y2="191.4"/><line x1="300" y1="300" x2="457" y2="168.2"/><path d="M360 300 A60 60 0 0 0 346 261.4"/><path d="M410 300 A110 110 0 0 0 384.3 229.3"/><path d="M460 300 A160 160 0 0 0 422.6 197.2"/><path d="M505 300 A205 205 0 0 0 457 168.2"/></g>
+<line x1="300" y1="300" x2="505" y2="300" stroke="#ff8a50" stroke-width="1.6" opacity=".9"/></g>
+<g stroke="#12363f" stroke-width="1.3" opacity=".6" fill="none"><path id="t1" d="M300 300 L300 192"/><path id="t2" d="M300 300 L402.7 266.6"/><path id="t3" d="M300 300 L363.5 387.4"/><path id="t4" d="M300 300 L236.5 387.4"/><path id="t5" d="M300 300 L197.3 266.6"/></g><g><circle cx="300" cy="222" r="12" fill="url(#halo)"/><circle cx="300" cy="222" r="4.3" fill="#df6e36"/><circle cx="300" cy="229" r="12" fill="url(#halo)"/><circle cx="300" cy="229" r="4.3" fill="#df6e36"/><circle cx="374.2" cy="275.9" r="12" fill="url(#halo)"/><circle cx="374.2" cy="275.9" r="4.3" fill="#df6e36"/><circle cx="367.5" cy="278" r="12" fill="url(#halo)"/><circle cx="367.5" cy="278" r="4.3" fill="#df6e36"/><circle cx="345.8" cy="363.1" r="12" fill="url(#halo)"/><circle cx="345.8" cy="363.1" r="4.3" fill="#df6e36"/><circle cx="341.8" cy="357.5" r="12" fill="url(#halo)"/><circle cx="341.8" cy="357.5" r="4.3" fill="#df6e36"/><circle cx="254.2" cy="363.1" r="12" fill="url(#halo)"/><circle cx="254.2" cy="363.1" r="4.3" fill="#df6e36"/><circle cx="258.2" cy="357.5" r="12" fill="url(#halo)"/><circle cx="258.2" cy="357.5" r="4.3" fill="#df6e36"/><circle cx="225.8" cy="275.9" r="12" fill="url(#halo)"/><circle cx="225.8" cy="275.9" r="4.3" fill="#df6e36"/><circle cx="232.5" cy="278" r="12" fill="url(#halo)"/><circle cx="232.5" cy="278" r="4.3" fill="#df6e36"/></g><g><g class="dado"><circle r="9" fill="url(#halo)"/><circle r="3.6" fill="#df6e36"/><animateMotion dur="3.2s" repeatCount="indefinite" begin="0s"><mpath href="#t1"/></animateMotion></g><g class="dado"><circle r="9" fill="url(#halo)"/><circle r="3.6" fill="#df6e36"/><animateMotion dur="3.2s" repeatCount="indefinite" begin="-0.6s"><mpath href="#t2"/></animateMotion></g><g class="dado"><circle r="9" fill="url(#halo)"/><circle r="3.6" fill="#df6e36"/><animateMotion dur="3.2s" repeatCount="indefinite" begin="-1.3s"><mpath href="#t3"/></animateMotion></g><g class="dado"><circle r="9" fill="url(#halo)"/><circle r="3.6" fill="#df6e36"/><animateMotion dur="3.2s" repeatCount="indefinite" begin="-1.9s"><mpath href="#t4"/></animateMotion></g><g class="dado"><circle r="9" fill="url(#halo)"/><circle r="3.6" fill="#df6e36"/><animateMotion dur="3.2s" repeatCount="indefinite" begin="-2.6s"><mpath href="#t5"/></animateMotion></g></g>
+<g transform="translate(300 192)"><g>
+<rect x="-27" y="-27" width="54" height="54" rx="12" fill="none" stroke="#ff8a50" stroke-width="3" opacity=".55" filter="url(#glowS)"/>
+<rect x="-27" y="-27" width="54" height="54" rx="12" fill="url(#chipfill)" stroke="url(#rim)" stroke-width="1.8"/>
+<path d="M-18 -23.5H18" stroke="#fff" stroke-width="1.4" stroke-linecap="round" opacity="0.95"/>
+<path d="M-27 -14V-27H-14" fill="none" stroke="#df6e36" stroke-width="2" stroke-linecap="round"/><path d="M27 14V27H14" fill="none" stroke="#df6e36" stroke-width="2" stroke-linecap="round" opacity=".85"/>
+<text y="6" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="17" font-weight="700" fill="#86050c">01</text>
+</g></g>
+<g transform="translate(402.7 266.6)"><g>
+<rect x="-27" y="-27" width="54" height="54" rx="12" fill="none" stroke="#ff8a50" stroke-width="3" opacity=".55" filter="url(#glowS)"/>
+<rect x="-27" y="-27" width="54" height="54" rx="12" fill="url(#chipfill)" stroke="url(#rim)" stroke-width="1.8"/>
+<path d="M-18 -23.5H18" stroke="#fff" stroke-width="1.4" stroke-linecap="round" opacity="0.95"/>
+<path d="M-27 -14V-27H-14" fill="none" stroke="#df6e36" stroke-width="2" stroke-linecap="round"/><path d="M27 14V27H14" fill="none" stroke="#df6e36" stroke-width="2" stroke-linecap="round" opacity=".85"/>
+<text y="6" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="17" font-weight="700" fill="#86050c">02</text>
+</g></g>
+<g transform="translate(363.5 387.4)"><g>
+<rect x="-27" y="-27" width="54" height="54" rx="12" fill="none" stroke="#ff5a4a" stroke-width="3" opacity=".55" filter="url(#glowS)"/>
+<rect x="-27" y="-27" width="54" height="54" rx="12" fill="#86050c" stroke="#ff6a5a" stroke-width="1.8"/>
+<path d="M-18 -23.5H18" stroke="#fff" stroke-width="1.4" stroke-linecap="round" opacity="0.5"/>
+<path d="M-27 -14V-27H-14" fill="none" stroke="#ffb27a" stroke-width="2" stroke-linecap="round"/><path d="M27 14V27H14" fill="none" stroke="#ffb27a" stroke-width="2" stroke-linecap="round" opacity=".85"/>
+<text y="6" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="17" font-weight="700" fill="#fff6ee">03</text>
+</g></g>
+<g transform="translate(236.5 387.4)"><g>
+<rect x="-27" y="-27" width="54" height="54" rx="12" fill="none" stroke="#ff8a50" stroke-width="3" opacity=".55" filter="url(#glowS)"/>
+<rect x="-27" y="-27" width="54" height="54" rx="12" fill="url(#chipfill)" stroke="url(#rim)" stroke-width="1.8"/>
+<path d="M-18 -23.5H18" stroke="#fff" stroke-width="1.4" stroke-linecap="round" opacity="0.95"/>
+<path d="M-27 -14V-27H-14" fill="none" stroke="#df6e36" stroke-width="2" stroke-linecap="round"/><path d="M27 14V27H14" fill="none" stroke="#df6e36" stroke-width="2" stroke-linecap="round" opacity=".85"/>
+<text y="6" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="17" font-weight="700" fill="#86050c">04</text>
+</g></g>
+<g transform="translate(197.3 266.6)"><g>
+<rect x="-27" y="-27" width="54" height="54" rx="12" fill="none" stroke="#ff8a50" stroke-width="3" opacity=".55" filter="url(#glowS)"/>
+<rect x="-27" y="-27" width="54" height="54" rx="12" fill="url(#chipfill)" stroke="url(#rim)" stroke-width="1.8"/>
+<path d="M-18 -23.5H18" stroke="#fff" stroke-width="1.4" stroke-linecap="round" opacity="0.95"/>
+<path d="M-27 -14V-27H-14" fill="none" stroke="#df6e36" stroke-width="2" stroke-linecap="round"/><path d="M27 14V27H14" fill="none" stroke="#df6e36" stroke-width="2" stroke-linecap="round" opacity=".85"/>
+<text y="6" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="17" font-weight="700" fill="#86050c">05</text>
+</g></g>
+<g class="lbl" font-family="ui-monospace, Consolas, monospace" font-size="12" font-weight="700" letter-spacing="1.4" fill="#12363f">
+<text x="300" y="153" text-anchor="middle">CONVERSAR</text>
+<text x="439.7" y="270.6" text-anchor="start">TRABALHAR</text>
+<text x="400.5" y="384.4" text-anchor="start">MOSTRAR</text><text x="400.5" y="398.4" text-anchor="start">A CARA</text>
+<text x="199.5" y="384.4" text-anchor="end">AUTO</text><text x="199.5" y="398.4" text-anchor="end">CONHECIMENTO</text>
+<text x="160.3" y="263.6" text-anchor="end">LANDING</text><text x="160.3" y="277.6" text-anchor="end">PAGE</text>
+</g>
+<circle class="pulse" cx="300" cy="300" r="100" fill="url(#aura)"/>
+<circle cx="300" cy="300" r="62" fill="none" stroke="#ff8a50" stroke-width="3" opacity=".8" filter="url(#glowS)"/>
+<g class="spin-rev"><circle cx="300" cy="300" r="72" fill="none" stroke="#df6e36" stroke-width="1.5" stroke-dasharray="4 6"/></g>
+<circle cx="300" cy="300" r="52" fill="url(#nucleo)" stroke="#df6e36" stroke-width="2" filter="url(#sombra)"/>
+<use href="#claude" x="266" y="266" width="68" height="68"/>
+<g>
+<polygon points="457.2,95.4 483.2,110.4 483.2,140.4 457.2,155.4 431.2,140.4 431.2,110.4" fill="none" stroke="#ff8a50" stroke-width="3" opacity=".5" filter="url(#glowS)"/>
+<polygon points="142.8,444.6 168.8,459.6 168.8,489.6 142.8,504.6 116.8,489.6 116.8,459.6" fill="none" stroke="#ff8a50" stroke-width="3" opacity=".5" filter="url(#glowS)"/>
+<polygon points="457.2,95.4 483.2,110.4 483.2,140.4 457.2,155.4 431.2,140.4 431.2,110.4" fill="url(#chipfill)" stroke="url(#rim)" stroke-width="2"/><polygon points="142.8,444.6 168.8,459.6 168.8,489.6 142.8,504.6 116.8,489.6 116.8,459.6" fill="url(#chipfill)" stroke="url(#rim)" stroke-width="2"/>
+</g>
+<circle cx="457.2" cy="125.4" r="14" fill="none" stroke="#12363f" stroke-width="1.5"/>
+<polygon points="457.2,111 461.4,125.4 457.2,139.8 453,125.4" fill="#df6e36"/>
+<polygon points="457.2,111 461.4,125.4 453,125.4" fill="#86050c"/>
+<g fill="#df6e36"><circle cx="154.8" cy="474.6" r="3.6"/><circle cx="151.3" cy="483.1" r="3.6"/><circle cx="142.8" cy="486.6" r="3.6"/><circle cx="134.3" cy="483.1" r="3.6"/><circle cx="130.8" cy="474.6" r="3.6"/><circle cx="134.3" cy="466.1" r="3.6"/><circle cx="142.8" cy="462.6" r="3.6"/><circle cx="151.3" cy="466.1" r="3.6"/></g>
+<g font-family="ui-monospace, Consolas, monospace" font-size="12" font-weight="700" letter-spacing="2" fill="#86050c" text-anchor="middle">
+<text x="457.2" y="182.4">MAPA</text><text x="142.8" y="531.6">MANUAL 8</text>
+</g>
+</svg>
+</div>
 <ol class="four" style="list-style: none; margin: 0; padding: 0;">
 <li style="background: #0f2e3a; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
 <span style="font-family: 'Marcellus SC', serif; font-size: 14px; color: #fcb655;">1 · Aulas 1 e 2</span>
@@ -215,11 +350,13 @@ Se você sente que sabe muito, tem ideia demais e entrega de menos, me conta aqu
 </div>
 <div class="three">
 <div style="border: 1px solid #e5e3da; border-radius: 12px; padding: 24px; background: #ffffff; display: flex; flex-direction: column; gap: 8px;">
+<img style="display:block;width:100%;height:auto;border-radius:8px" src="/oferta/img/bonus-skill-minha-personalidade.webp" alt="Ilustração de uma mulher de cabelos ruivos cacheados, de costas, escrevendo numa mesa de madeira; do caderno aberto sobe uma luz dourada que forma o retrato dela" width="1800" height="600" loading="lazy">
 <span style="font-size: 14px; color: #3f6670;">Para quando a página em branco travar</span>
 <span style="font-family: Marcellus, serif; font-size: 24px; color: #152d38;">Skill A Sua Cara</span>
 <span style="font-size: 16px; color: #3b4246;">O Claude te entrevista e escreve o primeiro rascunho do seu documento. As mesmas perguntas funcionam coladas no Claude ou no ChatGPT.</span>
 </div>
 <div style="border: 1px solid #e5e3da; border-radius: 12px; padding: 24px; background: #ffffff; display: flex; flex-direction: column; gap: 8px;">
+<img style="display:block;width:100%;height:auto;border-radius:8px" src="/oferta/img/mapa-autoconhecimento-arte.webp" alt="Ilustração do Mapa de Autoconhecimento, Zona de Genialidade: uma mulher de cabelo cacheado olha para um caminho em espiral que atravessa um vale com árvores, montanhas e um rio até um sol nascente" width="1800" height="600" loading="lazy">
 <span style="font-size: 14px; color: #3f6670;">Para quando você não souber dizer o que faz de melhor</span>
 <span style="font-family: Marcellus, serif; font-size: 24px; color: #152d38;">Mapa de Autoconhecimento</span>
 <span style="font-size: 16px; color: #3b4246;">Interesses, capacidades, modos de ação e a sua Zona de Genialidade num painel que dá para olhar.</span>
@@ -230,11 +367,13 @@ Se você sente que sabe muito, tem ideia demais e entrega de menos, me conta aqu
 <span style="font-size: 16px; color: #3b4246;">Oito recursos, uma dúvida: qual usar primeiro. O manual responde e explica por quê.</span>
 </div>
 <div style="border: 1px solid #e5e3da; border-radius: 12px; padding: 24px; background: #ffffff; display: flex; flex-direction: column; gap: 8px;">
+<img style="display:block;width:100%;height:auto;border-radius:8px" src="/oferta/img/banner-bonus-7agentes.webp" alt="Jaya Roberta sorrindo ao lado de ícones dos sete agentes: pesquisa, gancho, roteiro, design, plano, publicar e análise" width="1800" height="600" loading="lazy">
 <span style="font-size: 14px; color: #3f6670;">Para quando postar engolir a sua semana</span>
 <span style="font-family: Marcellus, serif; font-size: 24px; color: #152d38;">7 Agentes que fazem conteúdo</span>
 <span style="font-size: 16px; color: #3b4246;">Sete agentes no Claude, um para cada etapa: pesquisa o tema, escreve o gancho e o roteiro, desenha, monta a semana, deixa cada post pronto para sair no horário e mede o que rendeu. A parte repetitiva sai das suas costas. O ângulo e a opinião continuam seus.</span>
 </div>
 <div style="border: 1px solid #e5e3da; border-radius: 12px; padding: 24px; background: #ffffff; display: flex; flex-direction: column; gap: 8px;">
+<img style="display:block;width:100%;height:auto;border-radius:8px" src="/oferta/img/caderno-criacao-visual-arte.webp" alt="Ilustração de um caderno aberto sobre uma mesa de madeira, com dezenas de cartões de direções visuais saindo das páginas diante de uma paisagem ao pôr do sol" width="1800" height="600" loading="lazy">
 <span style="font-size: 14px; color: #3f6670;">Para quando "faz bonito" não funcionar</span>
 <span style="font-family: Marcellus, serif; font-size: 24px; color: #152d38;">Caderno de Criação Visual</span>
 <span style="font-size: 16px; color: #3b4246;">243 direções visuais prontas para pedir imagens e páginas com estética definida.</span>
@@ -251,10 +390,23 @@ Se você sente que sabe muito, tem ideia demais e entrega de menos, me conta aqu
 <div class="wrap" style="display: flex; flex-direction: column; gap: 32px;">
 <h2 class="h2" style="margin: 0; font-family: Marcellus, serif; font-weight: 400; font-size: 44px; line-height: 1.12; color: #152d38;">Quem já fez.</h2>
 <div class="three">
-<blockquote style="margin: 0; background: #ffffff; border-radius: 12px; padding: 26px; display: flex; flex-direction: column; gap: 16px;">
+<div style="background: #ffffff; border-radius: 12px; padding: 26px; display: flex; flex-direction: column; gap: 16px;">
+<figure style="margin: 0; border-radius: 8px; overflow: hidden; border: 1px solid #e5e3da;">
+<video id="prova-video" style="display:block;width:100%;height:auto" autoplay muted loop playsinline preload="metadata" width="480" height="340" aria-label="Trecho do site de uma construtora criado pelo Filipe no Claude: página inicial com filtro de imóveis, plantas e mapa de localização">
+<source src="/oferta/prova-filipe-loop.webm" type="video/webm">
+<source src="/oferta/prova-filipe-loop.mp4" type="video/mp4">
+</video>
+<figcaption style="font-size: 14px; color: #606864; padding: 10px 12px;">Site de uma construtora, feito pelo Filipe depois do curso.</figcaption>
+</figure>
+<blockquote style="margin: 0; display: flex; flex-direction: column; gap: 16px;">
 <p style="margin: 0; font-size: 18px; line-height: 1.55; font-style: italic; color: #292929;">"Passando pra te agradecer. No nosso bate-papo abriu minha mente quanto ao uso da IA. Eu já usava, mas depois da conversa e do curso percebi que tava deixando muita coisa útil de lado. Montei o site de uma construtora inteiro no Claude."</p>
 <span style="font-size: 15px; color: #606864;">Filipe Chagas, aluno</span>
 </blockquote>
+<figure style="margin: 0; border-radius: 8px; overflow: hidden; border: 1px solid #e5e3da;">
+<img style="display:block;width:100%;height:auto" src="/oferta/img/prova-filipe-whatsapp.png" alt="Mensagem de WhatsApp do Filipe Chagas agradecendo a conversa e dizendo que, depois de aprender mais com o curso, acredita que vai conseguir se desenvolver ainda mais no uso de IA" width="790" height="226" loading="lazy">
+<figcaption style="font-size: 14px; color: #606864; padding: 10px 12px;">Mensagem do Filipe depois de conversar comigo e fazer o curso.</figcaption>
+</figure>
+</div>
 <div style="border: 1px dashed #c9c6b8; border-radius: 12px; padding: 26px; display: flex; flex-direction: column; gap: 12px; color: #606864;">
 <span style="font-size: 16px;">[Depoimento real a coletar, com autorização para publicar.]</span>
 <span style="font-size: 15px;">Pergunta para os compradores: "O que o Claude escreveu depois do curso que ele não escrevia antes?"</span>
@@ -268,14 +420,17 @@ Se você sente que sabe muito, tem ideia demais e entrega de menos, me conta aqu
 </section>
 
 <section class="sec" style="padding: 96px 0;">
-<div class="wrap two" style="align-items: start; gap: 48px;">
+<div class="wrap" style="display: flex; flex-direction: column; gap: 48px;">
+<div class="prof">
+<figure style="margin: 0;"><img style="display:block;width:100%;max-width:320px;height:auto;border-radius:12px" src="/oferta/img/professora-jaya.webp" alt="Jaya Roberta sorrindo, de blazer bege, com a mão no queixo e uma caneta sobre um caderno, ao lado de um notebook, em um ambiente com símbolos luminosos ao fundo" width="760" height="950" loading="lazy"></figure>
 <div style="display: flex; flex-direction: column; gap: 16px;">
 <span style="font-family: 'Marcellus SC', serif; font-size: 15px; letter-spacing: 0.08em; color: #3f6670;">Quem ensina</span>
 <h2 class="h2" style="margin: 0; font-family: Marcellus, serif; font-weight: 400; font-size: 44px; line-height: 1.12; color: #152d38;">Jaya Roberta</h2>
 <p style="margin: 0; font-size: 19px; color: #3b4246;">Há cerca de 20 anos trabalho com tecnologia, com experiência em monitoração de sistemas bancários críticos. Há mais de 10, atendo pessoas como terapeuta integrativa. A primeira parte me ensinou a montar sistemas que não podem falhar. A segunda me ensinou a perguntar quem uma pessoa é. O Método A Sua Cara junta as duas: ninguém consegue descrever a própria voz sem antes se olhar.</p>
 <p style="margin: 0; font-size: 19px; color: #3b4246;">Toco o meu negócio com o Claude todos os dias. O que está no curso é o que eu uso.</p>
 </div>
-<div style="display: flex; flex-direction: column; gap: 24px;">
+</div>
+<div class="two" style="align-items: start; gap: 48px;">
 <div style="border-top: 2px solid #fcb655; padding-top: 18px;">
 <span style="display: block; font-family: Marcellus, serif; font-size: 26px; color: #152d38;">É para você se</span>
 <p style="margin: 8px 0 0; font-size: 18px; color: #3b4246;">Você vende o próprio jeito de pensar: terapeuta, mentora, consultora, autônoma, dona do próprio negócio. Já usa o Claude ou o ChatGPT e sente que a ferramenta não te conhece, ou vai começar agora e quer começar do jeito certo.</p>
@@ -362,6 +517,14 @@ Se você sente que sabe muito, tem ideia demais e entrega de menos, me conta aqu
   document.querySelectorAll('[data-cta]').forEach((l) => l.addEventListener('click', () => evento('oferta_ir_para_oferta', l)));
   document.querySelectorAll('[data-checkout]').forEach((l) => l.addEventListener('click', () => evento('oferta_checkout', l)));
   document.querySelectorAll('[data-wa]').forEach((l) => l.addEventListener('click', () => evento('oferta_whatsapp', l)));
+
+  /* Quem pediu menos movimento recebe o vídeo parado, com controles. */
+  const video = document.getElementById('prova-video');
+  if (video && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    video.removeAttribute('autoplay');
+    video.pause();
+    video.setAttribute('controls', '');
+  }
 </script>
 </body>
 </html>

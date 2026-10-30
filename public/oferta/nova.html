@@ -47,6 +47,19 @@ body{margin:0;background:var(--bg)}
 :root{color-scheme:light;--bg:#F6F5F0;--bg-rgb:246,245,240;--bg-alt:#EFEDE4;--card:#FFFFFF;--band:#0A2229;--dark-card:#152D38;--hdr:#FFFAF5;--text:#292929;--title:#152D38;--text-2:#3B4246;--muted:#606864;--sec:#517D86;--sec2:#3F6670;--line:#E5E3DA;--line-2:#D8D5C9;--hl:#225572;--ft-bg:#F6F1E7;--dg-tinta:#152D38;--dg-sec:#517D86;--dg-papel:#F6F5F0}
 :root[data-theme="dark"]{color-scheme:dark;--bg:#0A2229;--bg-rgb:10,34,41;--bg-alt:#123542;--card:#0F2E3A;--band:#061418;--dark-card:#061418;--hdr:#061418;--text:#E4E2D9;--title:#F6F5F0;--text-2:#C9D5D8;--muted:#A9B9BD;--sec:#8FB3BB;--sec2:#8FB3BB;--line:#1D4452;--line-2:#2A5463;--hl:#F4CF85;--ft-bg:#04272D;--dg-tinta:#F6F5F0;--dg-sec:#8FB3BB;--dg-papel:#0F2E3A}
 :root[data-theme="dark"] .cta:hover{background:#F6F5F0;color:#0A2229}
+/* rodapé: imagem encostada embaixo (marfim no claro, dourado no escuro) e o conteúdo sobre a parte vazia dela */
+:root{--ft-img:url(/oferta/img/rodape-marfim.webp)}
+:root[data-theme="dark"]{--ft-img:url(/oferta/img/rodape-dourado.webp)}
+.ft{background:var(--ft-bg);text-align:center;overflow:hidden}
+.ft-in{position:relative;z-index:1;box-sizing:border-box;max-width:720px;margin:0 auto;padding:88px 24px 0;display:flex;flex-direction:column;align-items:center;gap:22px}
+.ft-logo{font:400 18px/1 'Marcellus SC',serif;letter-spacing:.08em;color:var(--title)}
+.ft-frase{margin:0;font:400 34px/1.2 Marcellus,serif;color:var(--title)}
+.ft-links{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px 14px;font:600 12px/1.6 'Open Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--sec)}
+.ft-links a{color:var(--title);text-decoration:none;transition:color .25s}
+.ft-links a:hover{color:var(--hl);text-decoration:underline}
+.ft-mini{margin:0;font:400 12px/1.7 'Open Sans',sans-serif;letter-spacing:.5px;color:var(--text-2)}
+.ft-art{aspect-ratio:3/1;margin-top:-16.7%;background:var(--ft-img) center bottom/100% 100% no-repeat;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 24%);mask-image:linear-gradient(to bottom,transparent 0,#000 24%)}
+@media (max-width:1024px){.ft-art{margin-top:32px}}
 /* botão de tema, igual ao da plataforma */
 .theme-toggle{position:relative;display:grid;place-items:center;flex:0 0 auto;width:44px;height:44px;padding:0;overflow:hidden;background:none;border:1px solid var(--line-2);border-radius:50%;color:var(--title);cursor:pointer;transition:background-color .25s,color .25s}
 @media (hover:hover){.theme-toggle:hover{background:var(--title);color:var(--bg)}}
@@ -183,6 +196,8 @@ h1,h2,summary{letter-spacing:normal}
 .three,.duas{grid-template-columns:minmax(0,1fr)}
 }
 @media (max-width:700px){
+.ft-frase{font-size:28px}
+.ft-in{padding-top:64px}
 .wrap{padding:0 16px}
 .two,.four{grid-template-columns:minmax(0,1fr)}
 .h1{font-size:36px !important}
@@ -877,11 +892,19 @@ Se você sente que sabe muito, tem ideia demais e entrega de menos, me conta aqu
 </div>
 </section>
 
-<footer style="border-top: 1px solid var(--line); background: var(--hdr);">
-<div class="wrap" style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding-top: 28px; padding-bottom: 28px; font-size: 14px; color: var(--muted);">
-<span>JAY.AI · Jaya Roberta · 2026</span>
-<span>@jayaroberta.ai</span>
+<footer class="ft">
+<div class="ft-in">
+<span class="ft-logo">JAY.AI</span>
+<p class="ft-frase">A IA escreve. A voz é sua.</p>
+<a class="cta" href="#oferta" data-cta="curso" data-posicao="rodape">Quero escrever com a minha voz</a>
+<nav class="ft-links" aria-label="Links da Jaya">
+<a href="https://www.instagram.com/jayaroberta.ai/" target="_blank" rel="noopener">Instagram @jayaroberta.ai</a><span aria-hidden="true">·</span>
+<a href="https://wa.me/5561992634557?text=Oi%20Jaya%2C%20tenho%20uma%20d%C3%BAvida%20sobre%20o%20Claude%20do%20Zero." target="_blank" rel="noopener" data-wa="rodape">WhatsApp</a><span aria-hidden="true">·</span>
+<a href="https://plataforma.jayaroberta.com.br" target="_blank" rel="noopener">Plataforma</a>
+</nav>
+<p class="ft-mini">© 2026 Jaya Roberta · JAY.AI · Pagamento processado com segurança pela Hotmart.<br>Claude é uma marca da Anthropic. Este curso é independente e não tem vínculo com a Anthropic.</p>
 </div>
+<div class="ft-art" aria-hidden="true"></div>
 </footer>
 
 <div class="sticky">

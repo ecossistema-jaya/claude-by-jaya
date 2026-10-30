@@ -22,14 +22,20 @@
       traços largos de baixa opacidade, para a animação ficar leve no celular.
    6. Radar, anel de marcas e núcleo giram ou pulsam por CSS (.spin, .spin-rev, .pulse).
       Com "reduzir movimento" no sistema, tudo para.
-   7. CFG.orbitar = true faz as aulas girarem em volta do centro (.orbita); cada chip gira ao
+   7. Modo SAND (node scripts/diagrama-orbita.mjs --sand): mesmos desenhos na paleta clara do
+      design system (linhas e textos #152D38, secundários #517D86, destaque #F4CF85, fundo
+      transparente). Grava só em public/oferta/nova.html, entre os mesmos marcadores; não toca em
+      originais/claude-do-zero.html nem no arquivo avulso. Sem a flag, nada muda.
+   8. CFG.orbitar = true faz as aulas girarem em volta do centro (.orbita); cada chip gira ao
       contrário (.contra) para o número ficar em pé. Nesse modo os nomes saem do desenho. */
 import fs from 'node:fs';
 import path from 'node:path';
+import { pathToFileURL } from 'node:url';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const PAGINA = path.join(ROOT, 'originais', 'claude-do-zero.html');
 const LOGO = path.join(ROOT, 'public', 'icones', 'claude.svg');
+const NOVA = path.join(ROOT, 'public', 'oferta', 'nova.html');
 const AVULSO = 'C:/Users/Jaya/Projetos/ecosistema-jaya/jaya/diagrama-claude-do-zero.html';
 
 export const CFG = {
@@ -47,8 +53,28 @@ export const CFG = {
   nomesManual: ['Projects', 'Memória', 'Artifacts', 'Busca web', 'Arquivos', 'Conectores', 'Office', 'Code & Cowork'], // um por pad, na ordem 01 a 08; aparece embaixo do pad
   fonteTitulo: 'Petrona, Georgia, serif',
   fonteMono: 'ui-monospace, Consolas, monospace',
-  cores: { tinta: '#12363f', cobre: '#df6e36', brilho: '#ff8a50', marsala: '#86050c', papel: '#fffdf8', creme: '#fff6ee' },
+  cores: {
+    tinta: '#12363f', cobre: '#df6e36', brilho: '#ff8a50', marsala: '#86050c', papel: '#fffdf8', creme: '#fff6ee',
+    sec: '#12363f', reflexo: '#fff', flare: '#ffd9b8', flare2: '#ff8a50', chipTopo: '#fff', chipBase: '#f7e8d6', nucleoBase: '#f6e2cc',
+    rimA: '#ff9a60', rimB: '#ff7a3d', acento: '#ffb27a', luzDestaque: '#ff5a4a', bordaDestaque: '#ff6a5a', sombra: '.22', ponto: '#fff', opTxt: '.8', opCoord: '.7',
+  },
 };
+
+/* paleta clara do SAND: tinta e textos em #152D38, secundários em #517D86, destaque em #F4CF85 */
+const SAND = {
+  fonteTitulo: "Marcellus, Georgia, serif",
+  fonteMono: "'Open Sans', sans-serif",
+  cores: {
+    tinta: '#152d38', cobre: '#f4cf85', brilho: '#f4cf85', marsala: '#152d38', papel: '#f6f5f0', creme: '#f6f5f0',
+    sec: '#517d86', reflexo: '#f6f5f0', flare: '#f6f5f0', flare2: '#f6f5f0', chipTopo: '#f6f5f0', chipBase: '#f6f5f0', nucleoBase: '#f6f5f0',
+    rimA: '#f4cf85', rimB: '#f4cf85', acento: '#f4cf85', luzDestaque: '#f4cf85', bordaDestaque: '#f4cf85', sombra: '0', ponto: '#f4cf85', opTxt: '1', opCoord: '1',
+  },
+};
+export function usarSand() {
+  CFG.fonteTitulo = SAND.fonteTitulo;
+  CFG.fonteMono = SAND.fonteMono;
+  CFG.cores = { ...SAND.cores };
+}
 
 const C = 300;
 const f = (x) => Number(x.toFixed(1));
@@ -108,14 +134,14 @@ function defs(p) {
   return `<defs>
         <radialGradient id="${p}aura" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="${k.cobre}" stop-opacity=".55"/><stop offset="1" stop-color="${k.cobre}" stop-opacity="0"/></radialGradient>
         <radialGradient id="${p}halo" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="${k.brilho}" stop-opacity=".75"/><stop offset="1" stop-color="${k.brilho}" stop-opacity="0"/></radialGradient>
-        <radialGradient id="${p}flare" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff" stop-opacity=".95"/><stop offset=".4" stop-color="#ffd9b8" stop-opacity=".4"/><stop offset="1" stop-color="#ffd9b8" stop-opacity="0"/></radialGradient>
-        <radialGradient id="${p}flare2" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="${k.brilho}" stop-opacity=".55"/><stop offset="1" stop-color="${k.brilho}" stop-opacity="0"/></radialGradient>
-        <linearGradient id="${p}streak" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".95"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+        <radialGradient id="${p}flare" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="${k.reflexo}" stop-opacity=".95"/><stop offset=".4" stop-color="${k.flare}" stop-opacity=".4"/><stop offset="1" stop-color="${k.flare}" stop-opacity="0"/></radialGradient>
+        <radialGradient id="${p}flare2" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="${k.flare2}" stop-opacity=".55"/><stop offset="1" stop-color="${k.flare2}" stop-opacity="0"/></radialGradient>
+        <linearGradient id="${p}streak" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="${k.reflexo}" stop-opacity="0"/><stop offset=".5" stop-color="${k.reflexo}" stop-opacity=".95"/><stop offset="1" stop-color="${k.reflexo}" stop-opacity="0"/></linearGradient>
         <linearGradient id="${p}varre" gradientUnits="userSpaceOnUse" x1="${C + 205}" y1="${C}" x2="${f(vx)}" y2="${f(vy)}"><stop offset="0" stop-color="${k.cobre}" stop-opacity=".42"/><stop offset="1" stop-color="${k.cobre}" stop-opacity="0"/></linearGradient>
-        <linearGradient id="${p}nucleo" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${k.papel}"/><stop offset="1" stop-color="#f6e2cc"/></linearGradient>
-        <linearGradient id="${p}chipfill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#f7e8d6"/></linearGradient>
-        <linearGradient id="${p}rim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff9a60"/><stop offset=".3" stop-color="${k.tinta}"/><stop offset=".7" stop-color="${k.tinta}"/><stop offset="1" stop-color="#ff7a3d"/></linearGradient>
-        <filter id="${p}sombra" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="${k.marsala}" flood-opacity=".22"/></filter>
+        <linearGradient id="${p}nucleo" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${k.papel}"/><stop offset="1" stop-color="${k.nucleoBase}"/></linearGradient>
+        <linearGradient id="${p}chipfill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${k.chipTopo}"/><stop offset="1" stop-color="${k.chipBase}"/></linearGradient>
+        <linearGradient id="${p}rim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${k.rimA}"/><stop offset=".3" stop-color="${k.tinta}"/><stop offset=".7" stop-color="${k.tinta}"/><stop offset="1" stop-color="${k.rimB}"/></linearGradient>
+        <filter id="${p}sombra" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="${k.marsala}" flood-opacity="${k.sombra}"/></filter>
         <filter id="${p}glowS" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
         <filter id="${p}glow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
         <clipPath id="${p}cunha"><path d="${cunha}"/></clipPath>
@@ -132,7 +158,7 @@ function atmosfera(p, semente) {
     const s = 0.6 + r() * 1.6;
     const op = 0.35 + r() * 0.5;
     const atraso = f(r() * 6);
-    return `<g class="tw" style="animation-delay:-${atraso}s" opacity="${f(op)}"><circle cx="${f(x)}" cy="${f(y)}" r="${f(s * 7)}" fill="url(#${p}halo)"/><circle cx="${f(x)}" cy="${f(y)}" r="${f(s * 1.2)}" fill="#fff"/></g>`;
+    return `<g class="tw" style="animation-delay:-${atraso}s" opacity="${f(op)}"><circle cx="${f(x)}" cy="${f(y)}" r="${f(s * 7)}" fill="url(#${p}halo)"/><circle cx="${f(x)}" cy="${f(y)}" r="${f(s * 1.2)}" fill="${k.ponto}"/></g>`;
   }).join('');
   const canto = `<path d="M24 100V150L44 170V225"/><path d="M74 24H140L158 42H216"/>`;
   const cantoPontos = `<circle cx="44" cy="225" r="3"/><circle cx="216" cy="42" r="3"/><circle cx="24" cy="100" r="2.4"/>`;
@@ -147,7 +173,7 @@ function atmosfera(p, semente) {
         <circle cx="575" cy="35" r="150" fill="url(#${p}flare)" opacity=".6"/>
         <circle cx="25" cy="575" r="125" fill="url(#${p}flare2)" opacity=".45"/>
       </g>
-      <g fill="none" stroke="${k.tinta}" stroke-width="1.2" opacity=".4" stroke-linejoin="round">
+      <g fill="none" stroke="${k.sec}" stroke-width="1.2" opacity=".4" stroke-linejoin="round">
         ${canto}${espelho(canto, 600, 0)}${baixo}${espelho(baixo, 600, 0)}
       </g>
       <g fill="${k.cobre}" opacity=".85">${cantoPontos}${espelho(cantoPontos, 600, 0)}${baixoPontos}${espelho(baixoPontos, 600, 0)}</g>
@@ -156,10 +182,10 @@ function atmosfera(p, semente) {
 
 function moldura(textoEsq, textoDir) {
   const { cores: k, fonteMono: M } = CFG;
-  return `<g fill="none" stroke="${k.tinta}" stroke-width="2.4" opacity=".7" stroke-linecap="square">
+  return `<g fill="none" stroke="${k.sec}" stroke-width="2.4" opacity=".7" stroke-linecap="square">
         <path d="M18 52V18H52"/><path d="M548 18H582V52"/><path d="M18 548V582H52"/><path d="M582 548V582H548"/>
       </g>
-      <g font-family="${M}" font-size="11" letter-spacing="1.6" fill="${k.tinta}" opacity=".8">
+      <g font-family="${M}" font-size="11" letter-spacing="1.6" fill="${k.sec}" opacity="${k.opTxt}">
         <text x="30" y="40"><tspan fill="${k.cobre}">//</tspan>${textoEsq}</text>
         <text x="570" y="570" text-anchor="end">${textoDir}</text>
       </g>`;
@@ -175,13 +201,13 @@ function aneis(raioInterno) {
         <circle cx="${C}" cy="${C}" r="${CFG.raioMarcas}" fill="none" stroke="${k.brilho}" stroke-width="20" ${longa} opacity=".22"/>
         <circle cx="${C}" cy="${C}" r="${CFG.raioMarcas}" fill="none" stroke="${k.cobre}" stroke-width="15" ${longa} opacity=".95"/>
       </g>
-      <circle cx="${C}" cy="${C}" r="${CFG.raioAnel}" fill="none" stroke="${k.tinta}" stroke-width="1" opacity=".4"/>
-      <circle cx="${C}" cy="${C}" r="225" fill="none" stroke="${k.tinta}" stroke-width="1" stroke-dasharray="1 5" opacity=".3"/>
+      <circle cx="${C}" cy="${C}" r="${CFG.raioAnel}" fill="none" stroke="${k.sec}" stroke-width="1" opacity=".4"/>
+      <circle cx="${C}" cy="${C}" r="225" fill="none" stroke="${k.sec}" stroke-width="1" stroke-dasharray="1 5" opacity=".3"/>
       <circle cx="${C}" cy="${C}" r="205" fill="none" stroke="${k.cobre}" stroke-width="1" opacity=".3"/>
       <circle cx="${C}" cy="${C}" r="165" fill="none" stroke="${k.cobre}" stroke-width="1" stroke-dasharray="2 7" opacity=".6"/>
-      <circle cx="${C}" cy="${C}" r="${raioInterno}" fill="none" stroke="${k.tinta}" stroke-width="1" opacity=".3"/>
+      <circle cx="${C}" cy="${C}" r="${raioInterno}" fill="none" stroke="${k.sec}" stroke-width="1" opacity=".3"/>
       <circle cx="${C}" cy="${C}" r="${raioInterno - 40}" fill="none" stroke="${k.cobre}" stroke-width=".8" stroke-dasharray="1 4" opacity=".4"/>
-      <g font-family="${M}" font-size="10" fill="${k.tinta}" opacity=".7" text-anchor="middle">
+      <g font-family="${M}" font-size="10" fill="${k.sec}" opacity="${k.opCoord}" text-anchor="middle">
         <text x="${C}" y="24">000</text><text x="${C}" y="587">180</text>
         <text x="583" y="304" text-anchor="end">090</text><text x="17" y="304" text-anchor="start">270</text>
       </g>`;
@@ -230,15 +256,15 @@ function chip(o, p, tam, classe, destaque, fonte = tam > 50 ? 17 : 15, forma = '
   const c = 13;
   const oct = [[-m + c, -m], [m - c, -m], [m, -m + c], [m, m - c], [m - c, m], [-m + c, m], [-m, m - c], [-m, -m + c]].map((q) => q.join(',')).join(' ');
   const desenho = (attrs) => (forma === 'octogono' ? `<polygon points="${oct}" ${attrs}/>` : `<rect x="-${m}" y="-${m}" width="${tam}" height="${tam}" rx="${tam > 50 ? 12 : 11}" ${attrs}/>`);
-  const luz = destaque ? '#ff5a4a' : k.brilho;
+  const luz = destaque ? k.luzDestaque : k.brilho;
   const acentos =
     forma === 'octogono'
-      ? `<path d="M${-m + c} ${-m}L${-m} ${-m + c}" stroke="${destaque ? '#ffb27a' : k.cobre}" stroke-width="3" stroke-linecap="round" fill="none"/><path d="M${m - c} ${m}L${m} ${m - c}" stroke="${destaque ? '#ffb27a' : k.cobre}" stroke-width="3" stroke-linecap="round" fill="none"/>`
-      : `<path d="M-${m} -${m - 13}V-${m}H-${m - 13}" fill="none" stroke="${destaque ? '#ffb27a' : k.cobre}" stroke-width="2" stroke-linecap="round"/><path d="M${m} ${m - 13}V${m}H${m - 13}" fill="none" stroke="${destaque ? '#ffb27a' : k.cobre}" stroke-width="2" stroke-linecap="round" opacity=".85"/>`;
+      ? `<path d="M${-m + c} ${-m}L${-m} ${-m + c}" stroke="${destaque ? k.acento : k.cobre}" stroke-width="3" stroke-linecap="round" fill="none"/><path d="M${m - c} ${m}L${m} ${m - c}" stroke="${destaque ? k.acento : k.cobre}" stroke-width="3" stroke-linecap="round" fill="none"/>`
+      : `<path d="M-${m} -${m - 13}V-${m}H-${m - 13}" fill="none" stroke="${destaque ? k.acento : k.cobre}" stroke-width="2" stroke-linecap="round"/><path d="M${m} ${m - 13}V${m}H${m - 13}" fill="none" stroke="${destaque ? k.acento : k.cobre}" stroke-width="2" stroke-linecap="round" opacity=".85"/>`;
   return `<g transform="translate(${o.x} ${o.y})"><g${classe ? ` class="${classe}"` : ''}>
           ${desenho(`fill="none" stroke="${luz}" stroke-width="3" opacity=".55" filter="url(#${p}glowS)"`)}
-          ${desenho(`fill="${destaque ? k.marsala : `url(#${p}chipfill)`}" stroke="${destaque ? '#ff6a5a' : `url(#${p}rim)`}" stroke-width="1.8"`)}
-          <path d="M${-m + 9} ${-m + 3.5}H${m - 9}" stroke="#fff" stroke-width="1.4" stroke-linecap="round" opacity="${destaque ? 0.5 : 0.95}"/>
+          ${desenho(`fill="${destaque ? k.marsala : `url(#${p}chipfill)`}" stroke="${destaque ? k.bordaDestaque : `url(#${p}rim)`}" stroke-width="1.8"`)}
+          <path d="M${-m + 9} ${-m + 3.5}H${m - 9}" stroke="${k.ponto}" stroke-width="1.4" stroke-linecap="round" opacity="${destaque ? 0.5 : 0.95}"/>
           ${acentos}
           <text y="${Math.round(fonte * 0.36)}" text-anchor="middle" font-family="${M}" font-size="${fonte}" font-weight="700" fill="${destaque ? k.creme : k.marsala}">${o.numero}</text>
         </g></g>`;
@@ -366,10 +392,10 @@ export function svgManual() {
       <circle cx="${C}" cy="${C}" r="205" fill="none" stroke="${k.cobre}" stroke-width=".8" stroke-dasharray="1 5" opacity=".35"/>
 
       <!-- trilhas decorativas que não levam a nada, só para a placa parecer uma placa -->
-      <g fill="none" stroke="${k.tinta}" stroke-width="1.2" opacity=".32" stroke-linejoin="round">
+      <g fill="none" stroke="${k.sec}" stroke-width="1.2" opacity=".32" stroke-linejoin="round">
         <path d="M270 211V150H238V108"/><path d="M330 211V150H362V108"/><path d="M270 389V450H238V492"/><path d="M330 389V450H362V492"/>
       </g>
-      <g fill="none" stroke="${k.tinta}" stroke-width="1.4" opacity=".4"><circle cx="238" cy="104" r="5"/><circle cx="362" cy="104" r="5"/><circle cx="238" cy="496" r="5"/><circle cx="362" cy="496" r="5"/></g>
+      <g fill="none" stroke="${k.sec}" stroke-width="1.4" opacity=".4"><circle cx="238" cy="104" r="5"/><circle cx="362" cy="104" r="5"/><circle cx="238" cy="496" r="5"/><circle cx="362" cy="496" r="5"/></g>
 
       <!-- as oito trilhas, as vias luminosas nas dobras e os pontinhos de dados -->
       <g fill="none" stroke="${k.tinta}" stroke-width="1.8" opacity=".65" stroke-linejoin="round" stroke-linecap="round">${rastros}</g>
@@ -384,7 +410,7 @@ export function svgManual() {
       <g fill="${k.brilho}" stroke="${k.cobre}" stroke-width=".8" filter="url(#mglowS)">${pinosLaterais}${pinosVerticais}</g>
       <rect x="225" y="225" width="150" height="150" rx="18" fill="none" stroke="${k.brilho}" stroke-width="4" opacity=".5" filter="url(#mglow)"/>
       <rect x="225" y="225" width="150" height="150" rx="18" fill="url(#mchipfill)" stroke="url(#mrim)" stroke-width="2.4" filter="url(#msombra)"/>
-      <path d="M241 229H359" stroke="#fff" stroke-width="1.6" stroke-linecap="round" opacity=".95"/>
+      <path d="M241 229H359" stroke="${k.ponto}" stroke-width="1.6" stroke-linecap="round" opacity=".95"/>
       <rect x="246" y="246" width="108" height="108" rx="12" fill="url(#mnucleo)" stroke="${k.cobre}" stroke-width="2" filter="url(#mglowS)"/>
       <circle cx="238" cy="238" r="3" fill="${k.cobre}"/>
       <use href="#claude" x="${C - 40}" y="${C - 40}" width="80" height="80"/>
@@ -396,6 +422,12 @@ export function svgManual() {
       ${nomes}
     </svg>`;
 }
+
+/* CSS do modo SAND: sem sombra, cantos retos, fundo transparente. O painel do método é creme porque
+   a seção dele é escura; o do Manual fica solto dentro do card. As animações são as mesmas. */
+export const CSS_SAND = CSS_DIAGRAMA
+  .replace(/\.hero-art \{[\s\S]*?\n  \}\n/, '.hero-art { width: 100%; max-width: 420px; margin: 0 auto; box-sizing: border-box; padding: 8px; background: #f6f5f0; border: 1px solid #d8d5c9; }\n')
+  .replace(/\.manual-art \{[\s\S]*?\n  \}\n/, '.manual-art { padding: 0; display: grid; place-items: center; }\n');
 
 /* ---------- escrita ---------- */
 const blocoMetodo = () => `<!-- DIAGRAMA:INI -->\n      <div class="hero-art">\n      ${svg()}\n      </div>\n      <!-- DIAGRAMA:FIM -->`;
@@ -409,47 +441,62 @@ function trocar(texto, ini, fim, novo) {
   return texto.slice(0, a) + novo + texto.slice(b + fim.length);
 }
 
-if (process.argv.includes('--bootstrap')) {
-  let h = fs.readFileSync(PAGINA, 'utf8');
-  if (!h.includes('DIAGRAMA:INI')) throw new Error('a página precisa já ter os marcadores do diagrama do método');
-  if (!h.includes('DIAGRAMA-MANUAL:INI')) {
-    const a = h.indexOf('<div class="manual-art"');
-    const fimSvg = h.indexOf('</svg>', a) + '</svg>'.length;
-    const fimDiv = h.indexOf('</div>', fimSvg) + '</div>'.length;
-    h = h.slice(0, a) + '<!-- DIAGRAMA-MANUAL:INI -->\n        <!-- DIAGRAMA-MANUAL:FIM -->' + h.slice(fimDiv);
-    console.log('marcadores do Manual colocados');
+/* Só roda como script. Importar este arquivo (para testar, por exemplo) não escreve nada. */
+const comoScript = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
+
+if (comoScript && process.argv.includes('--sand')) {
+  /* Modo SAND: só a página nova. Os marcadores DIAGRAMA:INI/FIM, DIAGRAMA-MANUAL:INI/FIM e
+     DIAGRAMA-CSS:INI/FIM precisam existir em public/oferta/nova.html. */
+  usarSand();
+  let h = fs.readFileSync(NOVA, 'utf8');
+  h = trocar(h, '<!-- DIAGRAMA:INI -->', '<!-- DIAGRAMA:FIM -->', blocoMetodo());
+  h = trocar(h, '<!-- DIAGRAMA-MANUAL:INI -->', '<!-- DIAGRAMA-MANUAL:FIM -->', blocoManual());
+  h = trocar(h, '/* DIAGRAMA-CSS:INI */', '/* DIAGRAMA-CSS:FIM */', `/* DIAGRAMA-CSS:INI */${CSS_SAND}  /* DIAGRAMA-CSS:FIM */`);
+  fs.writeFileSync(NOVA, h);
+  console.log('+ diagramas SAND em public/oferta/nova.html');
+} else if (comoScript) {
+  if (process.argv.includes('--bootstrap')) {
+    let h = fs.readFileSync(PAGINA, 'utf8');
+    if (!h.includes('DIAGRAMA:INI')) throw new Error('a página precisa já ter os marcadores do diagrama do método');
+    if (!h.includes('DIAGRAMA-MANUAL:INI')) {
+      const a = h.indexOf('<div class="manual-art"');
+      const fimSvg = h.indexOf('</svg>', a) + '</svg>'.length;
+      const fimDiv = h.indexOf('</div>', fimSvg) + '</div>'.length;
+      h = h.slice(0, a) + '<!-- DIAGRAMA-MANUAL:INI -->\n        <!-- DIAGRAMA-MANUAL:FIM -->' + h.slice(fimDiv);
+      console.log('marcadores do Manual colocados');
+    }
+    fs.writeFileSync(PAGINA, h);
   }
+
+  let h = fs.readFileSync(PAGINA, 'utf8');
+  h = trocar(h, '<!-- DIAGRAMA:INI -->', '<!-- DIAGRAMA:FIM -->', blocoMetodo());
+  h = trocar(h, '<!-- DIAGRAMA-MANUAL:INI -->', '<!-- DIAGRAMA-MANUAL:FIM -->', blocoManual());
+  h = trocar(h, '/* DIAGRAMA-CSS:INI */', '/* DIAGRAMA-CSS:FIM */', cssBloco());
   fs.writeFileSync(PAGINA, h);
+  console.log('+ diagramas na página (' + CFG.aulas.length + ' aulas' + (CFG.orbitar ? ', em órbita, volta em ' + CFG.periodoOrbita : ', paradas') + '; ' + CFG.recursosManual + ' recursos no Manual)');
+
+  // arquivo avulso, para abrir direto no navegador
+  const logo = fs.readFileSync(LOGO, 'utf8');
+  const simbolo = `<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="claude" viewBox="0 0 1200 1200">${logo.slice(logo.indexOf('<g'), logo.lastIndexOf('</svg>'))}</symbol></svg>`;
+  fs.writeFileSync(
+    AVULSO,
+    `<!doctype html>
+  <html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Diagramas Claude, Seu Redator Pessoal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600&family=Petrona:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    :root { --card: #fffdf8; --linha: #e7d6be; --areia-bg: #faf4ea; }
+    body { margin: 0; background: var(--areia-bg); display: grid; gap: 28px; justify-items: center; padding: 24px 20px; }
+    .caixa { width: min(640px, 100%); }
+  ${CSS_DIAGRAMA}
+    .caixa .manual-art { border: 1px solid var(--linha); border-radius: 24px; }
+  </style></head>
+  <body>
+  ${simbolo}
+  <div class="caixa"><div class="hero-art">${svg()}</div></div>
+  <div class="caixa"><div class="manual-art">${svgManual()}</div></div>
+  </body></html>
+  `,
+  );
+  console.log('+ ' + AVULSO);
 }
-
-let h = fs.readFileSync(PAGINA, 'utf8');
-h = trocar(h, '<!-- DIAGRAMA:INI -->', '<!-- DIAGRAMA:FIM -->', blocoMetodo());
-h = trocar(h, '<!-- DIAGRAMA-MANUAL:INI -->', '<!-- DIAGRAMA-MANUAL:FIM -->', blocoManual());
-h = trocar(h, '/* DIAGRAMA-CSS:INI */', '/* DIAGRAMA-CSS:FIM */', cssBloco());
-fs.writeFileSync(PAGINA, h);
-console.log('+ diagramas na página (' + CFG.aulas.length + ' aulas' + (CFG.orbitar ? ', em órbita, volta em ' + CFG.periodoOrbita : ', paradas') + '; ' + CFG.recursosManual + ' recursos no Manual)');
-
-// arquivo avulso, para abrir direto no navegador
-const logo = fs.readFileSync(LOGO, 'utf8');
-const simbolo = `<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="claude" viewBox="0 0 1200 1200">${logo.slice(logo.indexOf('<g'), logo.lastIndexOf('</svg>'))}</symbol></svg>`;
-fs.writeFileSync(
-  AVULSO,
-  `<!doctype html>
-<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Diagramas Claude, Seu Redator Pessoal</title>
-<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600&family=Petrona:wght@500;600&display=swap" rel="stylesheet">
-<style>
-  :root { --card: #fffdf8; --linha: #e7d6be; --areia-bg: #faf4ea; }
-  body { margin: 0; background: var(--areia-bg); display: grid; gap: 28px; justify-items: center; padding: 24px 20px; }
-  .caixa { width: min(640px, 100%); }
-${CSS_DIAGRAMA}
-  .caixa .manual-art { border: 1px solid var(--linha); border-radius: 24px; }
-</style></head>
-<body>
-${simbolo}
-<div class="caixa"><div class="hero-art">${svg()}</div></div>
-<div class="caixa"><div class="manual-art">${svgManual()}</div></div>
-</body></html>
-`,
-);
-console.log('+ ' + AVULSO);

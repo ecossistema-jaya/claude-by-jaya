@@ -51,11 +51,84 @@ h1,h2,summary{letter-spacing:normal}
 .rot-escuro{color:#f4cf85}
 .retrato{margin:0;width:100%;max-width:320px;box-sizing:border-box;padding:8px;border:1px solid #f4cf85;border-radius:50%}
 .retrato img{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;object-position:50% 8%;border:1px dotted #f4cf85;box-sizing:border-box;border-radius:50%}
-/* foto do topo */
-.hero-visual{position:relative;width:100%;max-width:460px;margin-left:auto}
-.hero-foto{display:block;width:100%;height:auto;aspect-ratio:2/3;object-fit:cover}
-.doc-card figcaption{display:none}
-.doc-card{position:absolute;left:-32px;bottom:28px;width:300px;max-width:calc(100% - 16px);box-sizing:border-box;margin:0;padding:20px;background:#ffffff;border:1px solid #e5e3da}
+/* topo e faixa "por dentro do método" (hero-e-mecanismo.html) */
+/* ---------- HERO ---------- */
+.hx{position:relative;background:#F6F5F0;overflow:hidden}
+.hx-photo{position:absolute;top:0;right:0;width:60%;height:660px}
+.hx-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 38%;display:block}
+.hx-photo::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(to right,#F6F5F0 0%,rgba(246,245,240,.92) 16%,rgba(246,245,240,0) 46%)}
+.hx-photo::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(to top,#F6F5F0 0%,rgba(246,245,240,0) 26%)}
+.hx-geo{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none}
+.hx-vert{position:absolute;left:24px;top:110px;transform:rotate(180deg);z-index:3;writing-mode:vertical-rl;font:600 11px/1 'Open Sans',sans-serif;letter-spacing:.32em;text-transform:uppercase;color:#152D38}
+.hx-wrap{position:relative;z-index:3;max-width:1120px;margin:0 auto;padding:96px 40px 0;min-height:600px;box-sizing:border-box}
+.hx-text{max-width:470px;display:flex;flex-direction:column;gap:22px}
+.hx-eyebrow{font:600 12px/1.4 'Open Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#517D86}
+.hx-h1{margin:0;font:400 58px/1.08 Marcellus,serif;color:#152D38;letter-spacing:0}
+.hx-h1 span{display:block;color:#225572}
+.hx-label{display:flex;align-items:center;gap:14px;font:600 12px/1.6 'Open Sans',sans-serif;letter-spacing:.24em;text-transform:uppercase;color:#152D38}
+.hx-label i{display:block;width:34px;height:1px;background:#517D86}
+.hx-sub{margin:0;font:400 25px/1.4 Marcellus,serif;color:#292929;max-width:440px}
+.hx-meta{font:600 11px/1.9 'Open Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#517D86}
+.hx-down{display:inline-flex;align-items:center;gap:14px;align-self:flex-start;font:700 13px 'Open Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#152D38;text-decoration:none}
+.hx-down b{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border:1px solid #C9C6B8;border-radius:50%;font-weight:400;transition:background .25s,color .25s}
+.hx-down:hover b{background:#152D38;color:#F6F5F0}
+
+.hx-cards{position:relative;z-index:4;max-width:1120px;margin:-18px auto 0;padding:0 40px 88px;box-sizing:border-box;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.hx-card{display:flex;align-items:center;gap:16px;padding:22px 22px;background:#FFFFFF;border:1px solid #E5E3DA;text-decoration:none;color:#292929;transition:border-color .25s}
+.hx-card:hover{border-color:#517D86}
+.hx-ico{flex:0 0 44px;height:44px;border:1px solid #D8D5C9;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#152D38}
+.hx-ico svg{width:20px;height:20px}
+.hx-card-t{flex:1;display:flex;flex-direction:column;gap:3px}
+.hx-card-t strong{font:400 21px/1.2 Marcellus,serif;color:#152D38}
+.hx-card-t small{font:400 14px/1.45 'Open Sans',sans-serif;color:#3B4246}
+.hx-arrow{flex:0 0 36px;height:36px;border-radius:50%;background:#152D38;color:#F6F5F0;display:flex;align-items:center;justify-content:center;font:400 17px 'Open Sans',sans-serif}
+.hx-card.hx-cta{background:#0A2229;border-color:#0A2229}
+.hx-card.hx-cta .hx-ico{border-color:#2A5463;color:#F4CF85}
+.hx-card.hx-cta strong{color:#F6F5F0}
+.hx-card.hx-cta small{color:#C9D5D8}
+.hx-card.hx-cta .hx-arrow{background:#FCB655;color:#0A2229}
+.hx-card.hx-cta:hover{border-color:#FCB655}
+
+@media (max-width:900px){
+  .hx-photo{position:relative;width:100%;height:440px}
+  .hx-photo::before{display:none}
+  .hx-vert{display:none}
+  .hx-wrap{padding:0 16px;min-height:0;margin-top:-40px}
+  .hx-h1{font-size:40px}
+  .hx-sub{font-size:21px}
+  .hx-cards{grid-template-columns:minmax(0,1fr);margin-top:32px;padding:0 16px 64px}
+}
+
+/* ---------- FAIXA POR DENTRO DO MÉTODO ---------- */
+.mx{background:#0A2229;color:#F6F5F0;padding:88px 0}
+.mx-wrap{max-width:1120px;margin:0 auto;padding:0 40px;box-sizing:border-box;display:flex;flex-direction:column;gap:14px}
+.mx-eyebrow{font:600 12px/1.4 'Open Sans',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#F4CF85}
+.mx-h2{margin:0;font:400 40px/1.15 Marcellus,serif;color:#F6F5F0}
+.mx-p{margin:0 0 26px;font:400 18px/1.75 'Open Sans',sans-serif;color:#C9D5D8;max-width:640px}
+.mx svg{width:100%;height:auto;display:block}
+.mx .mx-m{display:none}
+@media (max-width:760px){
+  .mx{padding:64px 0}
+  .mx-wrap{padding:0 16px}
+  .mx-h2{font-size:28px}
+  .mx .mx-d{display:none}
+  .mx .mx-m{display:block;max-width:360px;margin:0 auto}
+}
+@media (prefers-reduced-motion:reduce){ .mx svg *{animation:none!important} }
+.mx-flow{stroke-dasharray:4 8;animation:mxflow 1.6s linear infinite}
+@keyframes mxflow{to{stroke-dashoffset:-24}}
+.mx-spin{transform-box:fill-box;transform-origin:center;animation:mxspin 18s linear infinite}
+.mx-spin-r{transform-box:fill-box;transform-origin:center;animation:mxspin 26s linear infinite reverse}
+@keyframes mxspin{to{transform:rotate(360deg)}}
+.mx-scan{animation:mxscan 3.2s ease-in-out infinite}
+@keyframes mxscan{0%{transform:translateY(0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(176px);opacity:0}}
+.mx-scan-m{animation:mxscanm 3.2s ease-in-out infinite}
+@keyframes mxscanm{0%{transform:translateY(0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(120px);opacity:0}}
+.mx-type{transform-box:fill-box;transform-origin:left center;animation:mxtype 4.8s ease-out infinite}
+.mx-type.d2{animation-delay:.35s}.mx-type.d3{animation-delay:.7s}.mx-type.d4{animation-delay:1.05s}.mx-type.d5{animation-delay:1.4s}
+@keyframes mxtype{0%,18%{transform:scaleX(0)}38%,88%{transform:scaleX(1)}100%{transform:scaleX(1);opacity:0}}
+.mx-pulse{transform-box:fill-box;transform-origin:center;animation:mxpulse 2.4s ease-in-out infinite}
+@keyframes mxpulse{0%,100%{opacity:.35;transform:scale(1)}50%{opacity:.9;transform:scale(1.18)}}
 /* foto da professora e diagrama em órbita, vindos de index.html */
 .prof{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:40px;align-items:center}
 /* DIAGRAMA-CSS:INI */
@@ -78,9 +151,6 @@ h1,h2,summary{letter-spacing:normal}
   /* DIAGRAMA-CSS:FIM */
 @media (max-width:900px){
 .prof{grid-template-columns:minmax(0,1fr);gap:24px}
-.hero-visual{max-width:none;margin-left:0}
-.doc-card{position:static;width:100%;max-width:none;margin-top:16px}
-.doc-card figcaption{display:block}
 .retrato{margin:0 auto}
 .hero,.offer{grid-template-columns:minmax(0,1fr);gap:32px}
 .four{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -110,39 +180,57 @@ h1,h2,summary{letter-spacing:normal}
 </div>
 </header>
 
-<section class="sec" style="padding: 88px 0 96px;">
-<div class="wrap hero">
-<div style="display: flex; flex-direction: column; gap: 24px;">
-<span class="rot">Claude, Seu Redator Pessoal · Método A Sua Cara</span>
-<h1 class="h1" style="margin: 0; font-family: Marcellus, serif; font-weight: 400; font-size: 55px; line-height: 1.28; color: #152d38;">Ensine o Claude a escrever com o seu tom de voz.</h1>
-<p style="margin: 0; font-size: 20px; font-weight: 600; color: #3b4246; max-width: 560px;">Hoje ele responde certo para qualquer pessoa e errado para você. No Método A Sua Cara, você escreve o documento que conta ao Claude quem você é, como você fala e com quem você trabalha. A primeira versão fica pronta em uma tarde.</p>
-<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px;">
-<a class="cta" href="#oferta" data-cta="curso" data-posicao="hero">Quero escrever com a minha voz</a>
-<span style="font-size: 15px; color: #3b4246;">R$ 297 ou até 6x · acesso vitalício</span>
-</div>
-<p style="margin: 0; font-size: 15px; color: #3b4246;">Para quem já usa IA no trabalho e para quem está começando agora. Garantia de 7 dias.</p>
-</div>
+<section class="hx">
+  <div class="hx-photo">
+    <img src="/oferta/img/hero-jaya09-sand.webp" alt="Jaya Roberta sentada ao pôr do sol em Brasília, sorrindo, com folhas e geometria dourada" width="1024" height="1536" fetchpriority="high">
+    <svg class="hx-geo" viewBox="0 0 820 660" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>
+        <radialGradient id="hxGold" cx="35%" cy="35%" r="70%"><stop offset="0" stop-color="#F8E3A8"/><stop offset=".55" stop-color="#D9B162"/><stop offset="1" stop-color="#A9823C"/></radialGradient>
+      </defs>
+      <circle cx="455" cy="300" r="262" fill="none" stroke="#D9B162" stroke-width="1.2" opacity=".85"/>
+      <circle cx="232" cy="168" r="15" fill="url(#hxGold)"/>
+      <circle cx="712" cy="350" r="10" fill="url(#hxGold)"/>
+      <circle cx="270" cy="470" r="11" fill="url(#hxGold)"/>
+      <circle cx="560" cy="58" r="7" fill="url(#hxGold)"/>
+      <g transform="translate(330 556)" opacity=".9">
+        <path d="M0 -26 L5 -5 L26 0 L5 5 L0 26 L-5 5 L-26 0 L-5 -5 Z" fill="#D9B162"/>
+        <circle r="34" fill="none" stroke="#D9B162" stroke-width=".8" opacity=".6"/>
+      </g>
+    </svg>
+  </div>
+  <span class="hx-vert" aria-hidden="true">A IA escreve · A voz é sua</span>
 
-<div class="hero-visual">
-<img class="hero-foto" src="/oferta/img/hero-jaya-sand.webp" alt="Jaya Roberta ao pôr do sol em Brasília, com folhas e geometria dourada" width="900" height="1350" fetchpriority="high" decoding="async">
-<figure class="doc-card">
-<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 2px solid #517d86;">
-<span style="font-family: Marcellus, serif; font-size: 22px; color: #152d38;">A Sua Cara</span>
-<span style="font-family: 'Marcellus SC', serif; font-size: 14px; color: #606864;">versão 1</span>
-</div>
-<div style="display: flex; flex-direction: column; gap: 12px;">
-<div><span style="display: block; font-family: 'Marcellus SC', serif; font-size: 14px; letter-spacing: 0.06em; color: #3f6670;">Quem eu sou</span><span style="display: block; height: 10px; border-bottom: 1px solid #e5e3da;"></span></div>
-<div><span style="display: block; font-family: 'Marcellus SC', serif; font-size: 14px; letter-spacing: 0.06em; color: #3f6670;">Como eu falo</span><span style="display: block; height: 10px; border-bottom: 1px solid #e5e3da;"></span></div>
-<div><span style="display: block; font-family: 'Marcellus SC', serif; font-size: 14px; letter-spacing: 0.06em; color: #3f6670;">Para quem eu escrevo</span><span style="display: block; height: 10px; border-bottom: 1px solid #e5e3da;"></span></div>
-<div><span style="display: block; font-family: 'Marcellus SC', serif; font-size: 14px; letter-spacing: 0.06em; color: #3f6670;">O que eu nunca diria</span><span style="display: block; height: 10px; border-bottom: 1px solid #e5e3da;"></span></div>
-</div>
-<figcaption style="margin-top: 14px; font-size: 14px; color: #606864;">Você escreve uma vez, com a skill te entrevistando. O Claude lê antes de responder.</figcaption>
-</figure>
-</div>
-</div>
+  <div class="hx-wrap">
+    <div class="hx-text">
+      <span class="hx-eyebrow">Claude, Seu Redator Pessoal</span>
+      <h1 class="hx-h1">Ensine o Claude <span>a escrever com o seu tom de voz.</span></h1>
+      <span class="hx-label"><i></i>Método A Sua Cara</span>
+      <p class="hx-sub">Hoje ele responde certo para qualquer pessoa. E errado para você.</p>
+      <span class="hx-meta">5 aulas práticas · 5 bônus<br>Acesso vitalício · Garantia de 7 dias</span>
+      <a class="hx-down" href="#prova" data-cta="curso" data-posicao="hero">Veja a diferença <b>↓</b></a>
+    </div>
+  </div>
+
+  <div class="hx-cards">
+    <a class="hx-card hx-cta" href="#oferta" data-cta="curso" data-posicao="hero-card">
+      <span class="hx-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 19l4-1 10-10-3-3L5 15l-1 4z"/><path d="M13 7l3 3"/></svg></span>
+      <span class="hx-card-t"><strong>Quero escrever com a minha voz</strong><small>R$ 297 ou até 6x</small></span>
+      <span class="hx-arrow">→</span>
+    </a>
+    <a class="hx-card" href="#prova">
+      <span class="hx-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="5" width="8" height="14"/><rect x="13" y="5" width="8" height="14"/></svg></span>
+      <span class="hx-card-t"><strong>O antes e o depois</strong><small>A mesma tarefa, duas respostas</small></span>
+      <span class="hx-arrow">→</span>
+    </a>
+    <a class="hx-card" href="#metodo">
+      <span class="hx-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.5"/><circle cx="12" cy="4" r="1.2" fill="currentColor"/></svg></span>
+      <span class="hx-card-t"><strong>Como funciona</strong><small>Quatro movimentos, cinco aulas</small></span>
+      <span class="hx-arrow">→</span>
+    </a>
+  </div>
 </section>
 
-<section class="sec" style="padding: 96px 0; background: #efede4;">
+<section id="prova" class="sec" style="padding: 96px 0; background: #efede4;">
 <div class="wrap" style="display: flex; flex-direction: column; gap: 32px;">
 <div style="display: flex; flex-direction: column; gap: 12px; max-width: 720px;">
 <span class="rot">Mesma tarefa, duas respostas</span>
@@ -214,7 +302,98 @@ Se você sente que sabe muito, tem ideia demais e entrega de menos, me conta aqu
 </div>
 </section>
 
-<section class="sec" style="padding: 96px 0; background: #0a2229; color: #f6f5f0;">
+<section class="mx">
+  <div class="mx-wrap">
+    <span class="mx-eyebrow">Por dentro do método</span>
+    <h2 class="mx-h2">O seu documento entra. A sua voz sai.</h2>
+    <p class="mx-p">Você escreve uma vez quem é, como fala, para quem escreve e o que nunca diria. O Claude lê isso antes de cada resposta.</p>
+
+    <!-- desktop -->
+    <svg class="mx-d" viewBox="0 0 1040 340" role="img" aria-label="Ilustração: o documento A Sua Cara é lido pelo Claude, que devolve uma resposta escrita na voz da pessoa">
+      <defs>
+        <radialGradient id="mxCore" cx="40%" cy="40%" r="70%"><stop offset="0" stop-color="#FCE7B0"/><stop offset=".6" stop-color="#F4CF85"/><stop offset="1" stop-color="#C9A55C"/></radialGradient>
+        <linearGradient id="mxScan" x1="0" x2="1"><stop offset="0" stop-color="#F4CF85" stop-opacity="0"/><stop offset=".5" stop-color="#F4CF85" stop-opacity=".9"/><stop offset="1" stop-color="#F4CF85" stop-opacity="0"/></linearGradient>
+      </defs>
+      <!-- documento -->
+      <rect x="20" y="40" width="300" height="260" fill="#0F2E3A" stroke="#2A5463"/>
+      <text x="44" y="76" font-family="Open Sans, sans-serif" font-weight="600" font-size="12" letter-spacing="2.6" fill="#F4CF85">A-SUA-CARA.MD</text>
+      <line x1="44" y1="90" x2="296" y2="90" stroke="#2A5463"/>
+      <g font-family="Marcellus, serif" font-size="17" fill="#F6F5F0">
+        <text x="44" y="126">Quem eu sou</text>
+        <text x="44" y="172">Como eu falo</text>
+        <text x="44" y="218">Para quem eu escrevo</text>
+        <text x="44" y="264">O que eu nunca diria</text>
+      </g>
+      <g fill="#1D4452">
+        <rect x="44" y="136" width="210" height="4"/><rect x="44" y="182" width="170" height="4"/><rect x="44" y="228" width="230" height="4"/><rect x="44" y="274" width="150" height="4"/>
+      </g>
+      <rect class="mx-scan" x="30" y="100" width="280" height="2" fill="url(#mxScan)"/>
+
+      <!-- fluxos -->
+      <path class="mx-flow" d="M322 170 C 380 170, 400 170, 452 170" fill="none" stroke="#F4CF85" stroke-width="1.6"/>
+      <path class="mx-flow" d="M588 170 C 640 170, 660 170, 718 170" fill="none" stroke="#F4CF85" stroke-width="1.6"/>
+
+      <!-- núcleo -->
+      <g transform="translate(520 170)">
+        <circle r="96" fill="none" stroke="#1D4452"/>
+        <g class="mx-spin"><circle r="74" fill="none" stroke="#F4CF85" stroke-width="1" stroke-dasharray="2 9" opacity=".8"/><circle cx="74" cy="0" r="4" fill="#F4CF85"/></g>
+        <g class="mx-spin-r"><circle r="54" fill="none" stroke="#517D86" stroke-width="1"/><circle cx="0" cy="-54" r="3" fill="#C9D5D8"/></g>
+        <circle class="mx-pulse" r="36" fill="#F4CF85" opacity=".25"/>
+        <circle r="26" fill="url(#mxCore)"/>
+        <path d="M0 -13 L3 -3 L13 0 L3 3 L0 13 L-3 3 L-13 0 L-3 -3 Z" fill="#0A2229"/>
+        <text y="128" text-anchor="middle" font-family="Open Sans, sans-serif" font-weight="600" font-size="12" letter-spacing="3" fill="#C9D5D8">CLAUDE</text>
+      </g>
+
+      <!-- resposta -->
+      <rect x="720" y="40" width="300" height="260" fill="#F6F5F0"/>
+      <path d="M720 150 L702 170 L720 190 Z" fill="#F6F5F0"/>
+      <text x="744" y="76" font-family="Open Sans, sans-serif" font-weight="600" font-size="12" letter-spacing="2.6" fill="#517D86">NA SUA VOZ</text>
+      <line x1="744" y1="90" x2="996" y2="90" stroke="#D8D5C9"/>
+      <g fill="#152D38">
+        <rect class="mx-type" x="744" y="116" width="230" height="7"/>
+        <rect class="mx-type d2" x="744" y="140" width="200" height="7"/>
+        <rect class="mx-type d3" x="744" y="164" width="240" height="7"/>
+        <rect class="mx-type d4" x="744" y="188" width="180" height="7"/>
+        <rect class="mx-type d5" x="744" y="212" width="214" height="7"/>
+      </g>
+      <text x="744" y="270" font-family="Marcellus, serif" font-size="17" fill="#152D38">Com a sua cara.</text>
+    </svg>
+
+    <!-- celular -->
+    <svg class="mx-m" viewBox="0 0 360 640" role="img" aria-label="Ilustração: o documento A Sua Cara é lido pelo Claude, que devolve uma resposta escrita na voz da pessoa">
+      <defs>
+        <radialGradient id="mxCoreM" cx="40%" cy="40%" r="70%"><stop offset="0" stop-color="#FCE7B0"/><stop offset=".6" stop-color="#F4CF85"/><stop offset="1" stop-color="#C9A55C"/></radialGradient>
+        <linearGradient id="mxScanM" x1="0" x2="1"><stop offset="0" stop-color="#F4CF85" stop-opacity="0"/><stop offset=".5" stop-color="#F4CF85" stop-opacity=".9"/><stop offset="1" stop-color="#F4CF85" stop-opacity="0"/></linearGradient>
+      </defs>
+      <rect x="20" y="10" width="320" height="200" fill="#0F2E3A" stroke="#2A5463"/>
+      <text x="42" y="42" font-family="Open Sans, sans-serif" font-weight="600" font-size="12" letter-spacing="2.4" fill="#F4CF85">A-SUA-CARA.MD</text>
+      <line x1="42" y1="54" x2="318" y2="54" stroke="#2A5463"/>
+      <g font-family="Marcellus, serif" font-size="17" fill="#F6F5F0">
+        <text x="42" y="86">Quem eu sou</text><text x="42" y="120">Como eu falo</text><text x="42" y="154">Para quem eu escrevo</text><text x="42" y="188">O que eu nunca diria</text>
+      </g>
+      <rect class="mx-scan-m" x="30" y="64" width="300" height="2" fill="url(#mxScanM)"/>
+      <path class="mx-flow" d="M180 212 L180 252" fill="none" stroke="#F4CF85" stroke-width="1.6"/>
+      <g transform="translate(180 320)">
+        <circle r="66" fill="none" stroke="#1D4452"/>
+        <g class="mx-spin"><circle r="52" fill="none" stroke="#F4CF85" stroke-width="1" stroke-dasharray="2 8" opacity=".8"/><circle cx="52" cy="0" r="3.5" fill="#F4CF85"/></g>
+        <circle class="mx-pulse" r="28" fill="#F4CF85" opacity=".25"/>
+        <circle r="21" fill="url(#mxCoreM)"/>
+        <path d="M0 -10 L2.5 -2.5 L10 0 L2.5 2.5 L0 10 L-2.5 2.5 L-10 0 L-2.5 -2.5 Z" fill="#0A2229"/>
+      </g>
+      <text x="252" y="324" font-family="Open Sans, sans-serif" font-weight="600" font-size="11" letter-spacing="2.6" fill="#C9D5D8">CLAUDE</text>
+      <path class="mx-flow" d="M180 388 L180 428" fill="none" stroke="#F4CF85" stroke-width="1.6"/>
+      <rect x="20" y="430" width="320" height="200" fill="#F6F5F0"/>
+      <text x="42" y="462" font-family="Open Sans, sans-serif" font-weight="600" font-size="12" letter-spacing="2.4" fill="#517D86">NA SUA VOZ</text>
+      <line x1="42" y1="474" x2="318" y2="474" stroke="#D8D5C9"/>
+      <g fill="#152D38">
+        <rect class="mx-type" x="42" y="494" width="250" height="7"/><rect class="mx-type d2" x="42" y="516" width="220" height="7"/><rect class="mx-type d3" x="42" y="538" width="260" height="7"/><rect class="mx-type d4" x="42" y="560" width="190" height="7"/>
+      </g>
+      <text x="42" y="606" font-family="Marcellus, serif" font-size="17" fill="#152D38">Com a sua cara.</text>
+    </svg>
+  </div>
+</section>
+
+<section id="metodo" class="sec" style="padding: 96px 0; background: #0a2229; color: #f6f5f0;">
 <div class="wrap" style="display: flex; flex-direction: column; gap: 40px;">
 <div style="display: flex; flex-direction: column; gap: 12px; max-width: 760px;">
 <span class="rot rot-escuro">Método A Sua Cara</span>

@@ -46,3 +46,7 @@ originais/sanddesignsystem.html
 # Cache local da CLI da Vercel e capturas de verificação manual.
 .vercel-cli-cache/
 .verify-*.html
+
+# Material visual do SAND (documento de referência), fora do site e do repositório.
+docs/sand/
+docs/sand-v2-assets/

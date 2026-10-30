@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAND — Design System &amp; Identidade JAYA · v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ===== Fontes locais (pasta Fontes) ===== */
+@font-face{font-family:'Marcellus';font-weight:400;font-style:normal;font-display:swap;src:url('sand-v2-assets/fonts/Marcellus-Regular.ttf') format('truetype')}
+@font-face{font-family:'Marcellus SC';font-weight:400;font-style:normal;font-display:swap;src:url('sand-v2-assets/fonts/MarcellusSC-Regular.ttf') format('truetype')}
+@font-face{font-family:'Open Sans';font-weight:300;font-style:normal;font-display:swap;src:url('sand-v2-assets/fonts/OpenSans-Light.ttf') format('truetype')}
+@font-face{font-family:'Open Sans';font-weight:300;font-style:italic;font-display:swap;src:url('sand-v2-assets/fonts/OpenSans-LightItalic.ttf') format('truetype')}
+@font-face{font-family:'Open Sans';font-weight:400;font-style:normal;font-display:swap;src:url('sand-v2-assets/fonts/OpenSans-Regular.ttf') format('truetype')}
+@font-face{font-family:'Open Sans';font-weight:400;font-style:italic;font-display:swap;src:url('sand-v2-assets/fonts/OpenSans-Italic.ttf') format('truetype')}
+@font-face{font-family:'Open Sans';font-weight:600;font-style:normal;font-display:swap;src:url('sand-v2-assets/fonts/OpenSans-Semibold.ttf') format('truetype')}
+@font-face{font-family:'Open Sans';font-weight:700;font-style:normal;font-display:swap;src:url('sand-v2-assets/fonts/OpenSans-Bold.ttf') format('truetype')}
+@font-face{font-family:'Articulat CF';font-weight:300;font-style:normal;font-display:swap;src:url('sand-v2-assets/fonts/ArticulatCF-Light.otf') format('opentype')}
+@font-face{font-family:'Articulat CF';font-weight:400;font-style:normal;font-display:swap;src:url('sand-v2-assets/fonts/ArticulatCF-Regular.otf') format('opentype')}
+@font-face{font-family:'Articulat CF';font-weight:500;font-style:normal;font-display:swap;src:url('sand-v2-assets/fonts/ArticulatCF-Medium.otf') format('opentype')}
+@font-face{font-family:'Articulat CF';font-weight:600;font-style:normal;font-display:swap;src:url('sand-v2-assets/fonts/ArticulatCF-DemiBold.otf') format('opentype')}
+@font-face{font-family:'Articulat CF';font-weight:700;font-style:normal;font-display:swap;src:url('sand-v2-assets/fonts/ArticulatCF-Bold.otf') format('opentype')}
+/* ============ DOC BASE — construído com os próprios tokens do SAND ============ */
+:root{
+  /* Tintas teal */
+  --teal-deep:#0f2e3a; --teal-ink:#002f3b; --teal-night:#0a2229; --teal-heading:#152d38;
+  /* Âmbar */
+  --amber:#fcb655; --amber-soft:#f3b867; --amber-hot:#ffa62f; --gold-light:#f4cf85;
+  /* Fundos */
+  --cream:#f6f5f0; --warm-white:#fffaf5; --white:#ffffff; --dark-content:#202020;
+  /* Azuis */
+  --link-blue:#2d90bf; --cyan-hover:#00a4d6; --cyan-btn:#43a0cc; --dusty-blue:#5a8db6;
+  --steel-blue:#4f92ab; --deep-steel:#225572; --meta-teal:#517d86; --mist:#819da3;
+  /* Verdes */
+  --olive-link:#587115; --olive-hover:#57730a; --olive-deep:#445120; --moss:#656b62; --sage:#a3a889;
+  /* Outros */
+  --lavender:#807fa7; --lavender-hover:#817eab; --peach:#f2d3bc;
+  /* Neutros */
+  --text:#292929; --text-secondary:#a3a3a3; --excerpt:#717275; --hairline:#eeeeee;
+  /* Motion */
+  --t-fast:0.25s; --t-base:0.3s ease-in-out; --t-header:0.4s; --t-slow:0.5s ease;
+  --radius-btn:0px; --radius-input:4px; --radius-tag:5px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Open Sans',sans-serif;font-weight:300;font-size:17px;line-height:1.75;letter-spacing:.02em;color:var(--text);background:var(--cream)}
+h1,h2,h3,.serif{font-family:'Marcellus',serif;font-weight:400;color:var(--teal-heading)}
+main{max-width:1160px;margin:0 auto;padding:0 28px}
+section{padding:64px 0;border-bottom:1px solid #e5e3da}
+section:last-of-type{border-bottom:none}
+h2.sec{font-size:40px;line-height:1.15;margin-bottom:6px}
+.sec-label{font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--meta-teal);display:block;margin-bottom:14px;border-bottom:1px solid #d8d5c9;padding-bottom:10px}
+.lead{font-size:18px;max-width:820px;color:var(--excerpt);margin-bottom:26px}
+p+p{margin-top:12px}
+code,.mono{font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;font-size:.82em;background:#ecebe3;padding:1px 6px;border-radius:3px;color:var(--teal-ink)}
+a{color:var(--link-blue);text-decoration:none;border-bottom:1px solid transparent;transition:color var(--t-fast),border-color var(--t-fast)}
+a:hover{color:var(--cyan-hover);border-bottom-color:var(--cyan-hover)}
+table{width:100%;border-collapse:collapse;font-size:14px;background:var(--white)}
+th{font-family:'Open Sans';font-weight:600;font-size:11px;letter-spacing:.14em;text-transform:uppercase;text-align:left;color:var(--teal-ink);background:#efede4;padding:10px 12px;border-bottom:2px solid var(--teal-deep)}
+td{padding:9px 12px;border-bottom:1px solid var(--hairline);vertical-align:top}
+tr:hover td{background:#fbfaf5}
+.note{font-size:13.5px;color:var(--excerpt);background:#efede4;border-left:3px solid var(--amber);padding:10px 16px;margin:18px 0}
+.evi{font-size:11.5px;color:#8a8a80;display:block;margin-top:3px}
+.grid{display:grid;gap:18px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.card{background:var(--white);border:1px solid #e7e5dc;padding:20px}
+/* ---- capa ---- */
+.cover{background:linear-gradient(rgba(10,34,41,.5),rgba(10,34,41,.72)),url('sand-v2-assets/rodape-paisagem.webp') center/cover,var(--teal-night);color:var(--cream);padding:90px 28px 70px;text-align:center}
+.cover .wordmark{font-family:'Marcellus',serif;font-size:clamp(42px,7vw,72px);letter-spacing:.85em;text-indent:.85em;color:#fff;line-height:1.1}
+.cover .sub{font-family:'Marcellus',serif;font-size:clamp(16px,2.4vw,24px);letter-spacing:.28em;text-transform:uppercase;color:var(--gold-light);margin-top:18px}
+.cover .meta{font-size:13px;color:#9fb3ba;margin-top:34px;line-height:1.9}
+.cover .meta b{color:var(--amber-soft);font-weight:600}
+/* ---- nav âncora ---- */
+.docnav{position:sticky;top:0;z-index:50;background:rgba(255,250,245,.93);backdrop-filter:blur(6px);border-bottom:1px solid #e2dfd3;transition:transform var(--t-header)}
+.docnav ul{display:flex;flex-wrap:wrap;gap:2px;list-style:none;max-width:1160px;margin:0 auto;padding:10px 20px}
+.docnav a{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--teal-ink);padding:6px 10px;border-bottom:none;transition:background var(--t-fast),color var(--t-fast)}
+.docnav a:hover{background:var(--teal-ink);color:var(--amber-soft)}
+/* ---- swatches ---- */
+.sw{border:1px solid #e0ddd2;background:var(--white)}
+.sw .chip{height:86px;position:relative}
+.sw .chip span{position:absolute;bottom:8px;left:10px;font-size:11px;font-weight:600;letter-spacing:.06em;font-family:ui-monospace,Menlo,monospace}
+.sw .info{padding:10px 12px 12px}
+.sw .info b{font-size:13px;font-weight:600;color:var(--teal-ink);display:block}
+.sw .info small{font-size:11.5px;color:#8a8a80;line-height:1.5;display:block;margin-top:2px}
+/* ---- type specimens ---- */
+.spec{background:var(--white);border:1px solid #e7e5dc;padding:26px 28px;margin-bottom:14px}
+.spec .lab{font-size:10.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--meta-teal);margin-bottom:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+.spec .lab .mono{background:none;color:#98978d;padding:0;letter-spacing:0;text-transform:none}
+/* ---- demo blocks ---- */
+.demo{background:var(--white);border:1px dashed #cfccc0;padding:28px;display:flex;flex-wrap:wrap;gap:22px;align-items:center}
+.demo-dark{background:var(--teal-deep);border:none}
+.demo-cream{background:var(--cream)}
+figcaption{font-size:12px;color:#8a8a80;margin-top:8px;line-height:1.6}
+.imgbox{background:#fff;border:1px solid #e7e5dc;padding:10px}
+.imgbox img{width:100%;display:block}
+.tagrow{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.kbd{display:inline-block;font-size:11px;border:1px solid #cfccc0;border-bottom-width:2px;border-radius:3px;padding:0 6px;background:#fff}
+@media(max-width:760px){h2.sec{font-size:30px}.cover .wordmark{letter-spacing:.5em;text-indent:.5em}}
+.gal{display:grid;gap:14px;align-items:start}
+.gal figure{background:#fff;border:1px solid #e7e5dc;padding:8px}
+.gal img{width:100%;display:block}
+.gal figcaption{font-size:11.5px;margin-top:6px}
+.gp{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+.gm{grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
+.logo-dark{background:var(--teal-night)}
+</style>
+</head>
+<body>
+
+<!-- ================= CAPA ================= -->
+<header class="cover">
+  <div class="wordmark">SAND</div>
+  <div class="sub">Design System · Identidade JAYA</div>
+  <p class="meta">
+    Raspagem completa de <b>scienceandnonduality.com</b> — Science and Nonduality<br>
+    Extraído ao vivo do DOM, CSSOM e assets do site em <b>19·08·2026</b> · 48 stylesheets (~2,0 MB de CSS) analisadas<br>
+    Páginas auditadas: <b>Home · Evento (Rumi &amp; The Fire of Radical Love) · Films · Podcast (Arborescence) · Mission</b> + menu offcanvas e preloader<br>
+    <b>v2 · 22·10·2026</b> — seção 00 (identidade Jay.AI / Jaya em SAND) + todas as imagens vindas da sua pasta, sem hotlink<br>
+    Seções 01–12 = sistema de referência extraído do site · Seção 00 e imagens = identidade da JAYA
+  </p>
+</header>
+
+<nav class="docnav"><ul>
+  <li><a href="#identidade">Identidade JAYA</a></li>
+  <li><a href="#essencia">Essência</a></li>
+  <li><a href="#cores">Cores</a></li>
+  <li><a href="#tipografia">Tipografia</a></li>
+  <li><a href="#layout">Layout</a></li>
+  <li><a href="#componentes">Componentes</a></li>
+  <li><a href="#friccoes">Fricções</a></li>
+  <li><a href="#animacoes">Animações</a></li>
+  <li><a href="#imagens">Imagens</a></li>
+  <li><a href="#dark">Dark / Podcast</a></li>
+  <li><a href="#stack">Stack</a></li>
+  <li><a href="#tokens">Tokens JSON</a></li>
+  <li><a href="#metodo">Método</a></li>
+</ul></nav>
+
+<main>
+
+<!-- ================= 0. IDENTIDADE JAYA ================= -->
+<section id="identidade">
+  <span class="sec-label">00 · Identidade JAYA em SAND</span>
+  <h2 class="sec">Teal, ouro e creme sobre o chassi SAND</h2>
+  <p class="lead">As seções 01–12 documentam o sistema SAND como ele existe no site de origem. Esta seção mostra como ele aparece na identidade da JAYA: dois lockups, <b>Jay.AI</b> (Área de Membros) e <b>Jaya</b> (Terapeuta Integrativa), cada um em versão clara (creme) e escura (teal-noite). Todas as imagens deste documento vêm da pasta SAND.</p>
+
+  <h3 style="font-size:22px;margin:26px 0 12px">Jay.AI — logo, horizontal e ícone de app</h3>
+  <div class="grid g3">
+    <figure class="imgbox" style="padding:0"><img src="sand-v2-assets/logo-jayai-vertical-claro.webp" alt="Vertical · claro" loading="lazy" decoding="async"><figcaption style="padding:8px 10px;"><b>Vertical · claro</b> · <code>identidade-visual/25.png</code></figcaption></figure>
+    <figure class="imgbox logo-dark" style="padding:0"><img src="sand-v2-assets/logo-jayai-vertical-escuro.webp" alt="Vertical · escuro" loading="lazy" decoding="async"><figcaption style="padding:8px 10px;color:#c5d2d6"><b>Vertical · escuro</b> · <code>identidade-visual/21.png</code></figcaption></figure>
+    <figure class="imgbox" style="padding:0"><img src="sand-v2-assets/logo-jayai-horizontal-claro.webp" alt="Horizontal · claro" loading="lazy" decoding="async"><figcaption style="padding:8px 10px;"><b>Horizontal · claro</b> · <code>identidade-visual/27.png</code></figcaption></figure>
+    <figure class="imgbox logo-dark" style="padding:0"><img src="sand-v2-assets/logo-jayai-horizontal-escuro.webp" alt="Horizontal · escuro" loading="lazy" decoding="async"><figcaption style="padding:8px 10px;color:#c5d2d6"><b>Horizontal · escuro</b> · <code>identidade-visual/24.png</code></figcaption></figure>
+    <figure class="imgbox" style="padding:0"><img src="sand-v2-assets/logo-jayai-app-claro.webp" alt="Ícone de app · claro" loading="lazy" decoding="async"><figcaption style="padding:8px 10px;"><b>Ícone de app · claro</b> · <code>identidade-visual/28.png</code></figcaption></figure>
+    <figure class="imgbox logo-dark" style="padding:0"><img src="sand-v2-assets/logo-jayai-app-escuro.webp" alt="Ícone de app · escuro" loading="lazy" decoding="async"><figcaption style="padding:8px 10px;color:#c5d2d6"><b>Ícone de app · escuro</b> · <code>identidade-visual/22.png</code></figcaption></figure>
+  </div>
+
+  <h3 style="font-size:22px;margin:30px 0 12px">Jaya — logo, Terapeuta Integrativa e emblema</h3>
+  <div class="grid g3">
+    <figure class="imgbox" style="padding:0"><img src="sand-v2-assets/logo-jaya-claro.webp" alt="Jaya · claro" loading="lazy" decoding="async"><figcaption style="padding:8px 10px;"><b>Jaya · claro</b> · <code>jaya-sand-clara.png</code></figcaption></figure>
+    <figure class="imgbox logo-dark" style="padding:0"><img src="sand-v2-assets/logo-jaya-escuro.webp" alt="Jaya · escuro" loading="lazy" decoding="async"><figcaption style="padding:8px 10px;color:#c5d2d6"><b>Jaya · escuro</b> · <code>jaya-sand-escura.png</code></figcaption></figure>
+    <figure class="imgbox" style="padding:0"><img src="sand-v2-assets/logo-jaya-terapeuta-claro.webp" alt="Terapeuta Integrativa · claro" loading="lazy" decoding="async"><figcaption style="padding:8px 10px;"><b>Terapeuta Integrativa · claro</b> · <code>identidade-visual/46.png</code></figcaption></figure>
+    <figure class="imgbox logo-dark" style="padding:0"><img src="sand-v2-assets/logo-jaya-terapeuta-escuro.webp" alt="Terapeuta Integrativa · escuro" loading="lazy" decoding="async"><figcaption style="padding:8px 10px;color:#c5d2d6"><b>Terapeuta Integrativa · escuro</b> · <code>identidade-visual/49.png</code></figcaption></figure>
+    <figure class="imgbox" style="padding:0"><img src="sand-v2-assets/emblema-jaya-roberta-claro.webp" alt="Emblema Jaya Roberta · claro" loading="lazy" decoding="async"><figcaption style="padding:8px 10px;"><b>Emblema Jaya Roberta · claro</b> · <code>identidade-visual/32.png</code></figcaption></figure>
+    <figure class="imgbox logo-dark" style="padding:0"><img src="sand-v2-assets/emblema-jaya-roberta-escuro.webp" alt="Emblema Jaya Roberta · escuro" loading="lazy" decoding="async"><figcaption style="padding:8px 10px;color:#c5d2d6"><b>Emblema Jaya Roberta · escuro</b> · <code>identidade-visual/41.png</code></figcaption></figure>
+  </div>
+  <div class="note">A pasta <code>identidade-visual/</code> tem 31 variações (19–49). Aqui entram 12, uma por lockup × versão. As demais continuam na pasta.</div>
+
+  <h3 style="font-size:22px;margin:30px 0 12px">Paleta medida nos logos</h3>
+  <div class="grid g4">
+    <div class="sw"><div class="chip" style="background:#104044"><span style="color:#fff">#104044</span></div><div class="info"><b>teal da marca</b><small>Folhas do símbolo no logo claro. Gradiente de <code>#01343A</code> a <code>#225454</code>. Vizinho no sistema: <code>teal-deep #0F2E3A</code></small></div></div>
+    <div class="sw"><div class="chip" style="background:#01232a"><span style="color:#fff">#01232A</span></div><div class="info"><b>teal-noite da JAYA</b><small>Fundo do logo escuro (<code>#00161F</code> a <code>#032A35</code> conforme o arquivo). Vizinho: <code>teal-night #0A2229</code></small></div></div>
+    <div class="sw"><div class="chip" style="background:#e5b870"><span style="color:#0a2229">#E5B870</span></div><div class="info"><b>ouro</b><small>Símbolo dourado no logo Jay.AI claro. Vizinho: <code>amber-soft #F3B867</code> e <code>gold-light #F4CF85</code></small></div></div>
+    <div class="sw"><div class="chip" style="background:#f7f0e3"><span style="color:#0a2229">#F7F0E3</span></div><div class="info"><b>creme</b><small>Fundo do logo Jaya claro (<code>#FCF8EF</code> no Jay.AI claro). Vizinho: <code>cream #F6F5F0</code></small></div></div>
+  </div>
+  <div class="note"><b>n/i:</b> não há arquivo com os hex oficiais da identidade na pasta. Os quatro valores acima foram medidos por amostragem de pixels nos PNGs (arredondados, e os arquivos têm gradiente). Servem para comparar com os tokens SAND, não como especificação final.</div>
+  <h3 style="font-size:22px;margin:34px 0 12px">Logos nas cores SAND</h3>
+  <p style="font-size:15px;max-width:820px;margin-bottom:6px">Os logos Jay.AI e Jaya recoloridos com os tokens das quatro famílias da paleta. Cada versão é monocromática: a máscara vem dos PNGs claros e o dourado e o teal originais saem na mesma cor. Cada logo fica sobre o fundo (creme ou teal-noite) que dá mais contraste.</p>
+  <h4 style="font-family:Marcellus,serif;font-weight:400;font-size:19px;margin:22px 0 10px;color:var(--teal-heading)">Núcleo institucional — Teals</h4>
+  <div class="grid g4">
+    <div class="sw"><div style="background:#f6f5f0;padding:20px 14px;display:flex;flex-direction:column;gap:16px;align-items:center"><img src="sand-v2-assets/cores/teal-deep-jayai-horizontal.webp" alt="Jay.AI em teal-deep" style="width:82%;display:block" loading="lazy" decoding="async"><img src="sand-v2-assets/cores/teal-deep-jaya.webp" alt="Jaya em teal-deep" style="width:48%;display:block" loading="lazy" decoding="async"></div><div class="info"><b>teal-deep</b><small><code>#0F2E3A</code> · sobre creme</small></div></div>
+    <div class="sw"><div style="background:#f6f5f0;padding:20px 14px;display:flex;flex-direction:column;gap:16px;align-items:center"><img src="sand-v2-assets/cores/teal-ink-jayai-horizontal.webp" alt="Jay.AI em teal-ink" style="width:82%;display:block" loading="lazy" decoding="async"><img src="sand-v2-assets/cores/teal-ink-jaya.webp" alt="Jaya em teal-ink" style="width:48%;display:block" loading="lazy" decoding="async"></div><div class="info"><b>teal-ink</b><small><code>#002F3B</code> · sobre creme</small></div></div>
+    <div class="sw"><div style="background:#f6f5f0;padding:20px 14px;display:flex;flex-direction:column;gap:16px;align-items:center"><img src="sand-v2-assets/cores/teal-night-jayai-horizontal.webp" alt="Jay.AI em teal-night" style="width:82%;display:block" loading="lazy" decoding="async"><img src="sand-v2-assets/cores/teal-night-jaya.webp" alt="Jaya em teal-night" style="width:48%;display:block" loading="lazy" decoding="async"></div><div class="info"><b>teal-night</b><small><code>#0A2229</code> · sobre creme</small></div></div>
+    <div class="sw"><div style="background:#f6f5f0;padding:20px 14px;display:flex;flex-direction:column;gap:16px;align-items:center"><img src="sand-v2-assets/cores/teal-heading-jayai-horizontal.webp" alt="Jay.AI em teal-heading" style="width:82%;display:block" loading="lazy" decoding="async"><img src="sand-v2-assets/cores/teal-heading-jaya.webp" alt="Jaya em teal-heading" style="width:48%;display:block" loading="lazy" decoding="async"></div><div class="info"><b>teal-heading</b><small><code>#152D38</code> · sobre creme</small></div></div>
+  </div>
+  <h4 style="font-family:Marcellus,serif;font-weight:400;font-size:19px;margin:22px 0 10px;color:var(--teal-heading)">Ação — Âmbar / Ouro</h4>
+  <div class="grid g4">
+    <div class="sw"><div style="background:#0a2229;padding:20px 14px;display:flex;flex-direction:column;gap:16px;align-items:center"><img src="sand-v2-assets/cores/amber-jayai-horizontal.webp" alt="Jay.AI em amber" style="width:82%;display:block" loading="lazy" decoding="async"><img src="sand-v2-assets/cores/amber-jaya.webp" alt="Jaya em amber" style="width:48%;display:block" loading="lazy" decoding="async"></div><div class="info"><b>amber</b><small><code>#FCB655</code> · sobre teal-noite</small></div></div>
+    <div class="sw"><div style="background:#0a2229;padding:20px 14px;display:flex;flex-direction:column;gap:16px;align-items:center"><img src="sand-v2-assets/cores/amber-soft-jayai-horizontal.webp" alt="Jay.AI em amber-soft" style="width:82%;display:block" loading="lazy" decoding="async"><img src="sand-v2-assets/cores/amber-soft-jaya.webp" alt="Jaya em amber-soft" style="width:48%;display:block" loading="lazy" decoding="async"></div><div class="info"><b>amber-soft</b><small><code>#F3B867</code> · sobre teal-noite</small></div></div>
+    <div class="sw"><div style="background:#0a2229;padding:20px 14px;display:flex;flex-direction:column;gap:16px;align-items:center"><img src="sand-v2-assets/cores/amber-hot-jayai-horizontal.webp" alt="Jay.AI em amber-hot" style="width:82%;display:block" loading="lazy" decoding="async"><img src="sand-v2-assets/cores/amber-hot-jaya.webp" alt="Jaya em amber-hot" style="width:48%;display:block" loading="lazy" decoding="async"></div><div class="info"><b>amber-hot</b><small><code>#FFA62F</code> · sobre teal-noite</small></div></div>
+    <div class="sw"><div style="background:#0a2229;padding:20px 14px;display:flex;flex-direction:column;gap:16px;align-items:center"><img src="sand-v2-assets/cores/gold-light-jayai-horizontal.webp" alt="Jay.AI em gold-light" style="width:82%;display:block" loading="lazy" decoding="async"><img src="sand-v2-assets/cores/gold-light-jaya.webp" alt="Jaya em gold-light" style="width:48%;display:block" loading="lazy" decoding="async"></div><div class="info"><b>gold-light</b><small><code>#F4CF85</code> · sobre teal-noite</small></div></div>
+  </div>
+  <h4 style="font-family:Marcellus,serif;font-weight:400;font-size:19px;margin:22px 0 10px;color:var(--teal-heading)">Azuis — links e atmosferas</h4>
+  <div class="grid g4">
+    <div class="sw"><div style="background:#0a2229;padding:20px 14px;display:flex;flex-direction:column;gap:16px;align-items:center"><img src="sand-v2-assets/cores/link-blue-jayai-horizontal.webp" alt="Jay.AI em link-blue" style="width:82%;display:block" loading="lazy" decoding="async"><img src="sand-v2-assets/cores/link-blue-jaya.webp" alt="Jaya em link-blue" style="width:48%;display:block" loading="lazy" decoding="async"></div><div class="info"><b>link-blue</b><small><code>#2D90BF</code> · sobre teal-noite</small></div></div>
+    <div class="sw"><div style="background:#0a2229;padding:20px 14px;display:flex;flex-direction:column;gap:16px;align-items:center"><img src="sand-v2-assets/cores/cyan-hover-jayai-horizontal.webp" alt="Jay.AI em cyan-hover" style="width:82%;display:block" loading="lazy" decoding="async"><img src="sand-v2-assets/cores/cyan-hover-jaya.webp" alt="Jaya em cyan-hover" style="width:48%;display:block" loading="lazy" decoding="async"></div><div class="info"><b>cyan-hover</b><small><code>#00A4D6</code> · sobre teal-noite</small></div></div>
+    <div class="sw"><div style="background:#0a2229;padding:20px 14px;display:flex;flex-direction:column;gap:16px;align-items:center"><img src="sand-v2-assets/cores/cyan-btn-jayai-horizontal.webp" alt="Jay.AI em cyan-btn" style="width:82%;display:block" loading="lazy" decoding="async"><img src="sand-v2-assets/cores/cyan-btn-jaya.webp" alt="Jaya em cyan-btn" style="width:48%;display:block" loading="lazy" decoding="async"></div><div class="info"><b>cyan-btn</b><small><code>#43A0CC</code> · sobre teal-noite</small></div></div>
+    <div class="sw"><div style="background:#0a2229;padding:20px 14px;display:flex;flex-direction:column;gap:16px;align-items:center"><img src="sand-v2-assets/cores/dusty-blue-jayai-horizontal.webp" alt="Jay.AI em dusty-blue" style="width:82%;display:block" loading="lazy" decoding="async"><img src="sand-v2-assets/cores/dusty-blue-jaya.webp" alt="Jaya em dusty-blue" style="width:48%;display:block" loading="lazy" decoding="async"></div><div class="info"><b>dusty-blue</b><small><code>#5A8DB6</code> · sobre teal-noite</small></div></div>
+    <div class="sw"><div style="background:#0a2229;padding:20px 14px;display:flex;flex-direction:column;gap:16px;align-items:center"><img src="sand-v2-assets/cores/steel-blue-jayai-horizontal.webp" alt="Jay.AI em steel-blue" style="width:82%;display:block" loading="lazy" decoding="async"><img src="sand-v2-assets/cores/steel-blue-jaya.webp" alt="Jaya em steel-blue" style="width:48%;display:block" loading="lazy" decoding="async"></div><div class="info"><b>steel-blue</b><small><code>#4F92AB</code> · sobre teal-noite</small></div></div>
+    <div class="sw"><div style="background:#f6f5f0;padding:20px 14px;display:flex;flex-direction:column;gap:16px;align-items:center"><img src="sand-v2-assets/cores/deep-steel-jayai-horizontal.webp" alt="Jay.AI em deep-steel" style="width:82%;display:block" loading="lazy" decoding="async"><img src="sand-v2-assets/cores/deep-steel-jaya.webp" alt="Jaya em deep-steel" style="width:48%;display:block" loading="lazy" decoding="async"></div><div class="info"><b>deep-steel</b><small><code>#225572</code> · sobre creme</small></div></div>
+    <div class="sw"><div style="background:#f6f5f0;padding:20px 14px;display:flex;flex-direction:column;gap:16px;align-items:center"><img src="sand-v2-assets/cores/meta-teal-jayai-horizontal.webp" alt="Jay.AI em meta-teal" style="width:82%;display:block" loading="lazy" decoding="async"><img src="sand-v2-assets/cores/meta-teal-jaya.webp" alt="Jaya em meta-teal" style="width:48%;display:block" loading="lazy" decoding="async"></div><div class="info"><b>meta-teal</b><small><code>#517D86</code> · sobre creme</small></div></div>
+    <div class="sw"><div style="background:#0a2229;padding:20px 14px;display:flex;flex-direction:column;gap:16px;align-items:center"><img src="sand-v2-assets/cores/mist-jayai-horizontal.webp" alt="Jay.AI em mist" style="width:82%;display:block" loading="lazy" decoding="async"><img src="sand-v2-assets/cores/mist-jaya.webp" alt="Jaya em mist" style="width:48%;display:block" loading="lazy" decoding="async"></div><div class="info"><b>mist</b><small><code>#819DA3</code> · sobre teal-noite</small></div></div>
+  </div>
+  <h4 style="font-family:Marcellus,serif;font-weight:400;font-size:19px;margin:22px 0 10px;color:var(--teal-heading)">Verdes — a camada orgânica</h4>
+  <div class="grid g4">
+    <div class="sw"><div style="background:#f6f5f0;padding:20px 14px;display:flex;flex-direction:column;gap:16px;align-items:center"><img src="sand-v2-assets/cores/olive-link-jayai-horizontal.webp" alt="Jay.AI em olive-link" style="width:82%;display:block" loading="lazy" decoding="async"><img src="sand-v2-assets/cores/olive-link-jaya.webp" alt="Jaya em olive-link" style="width:48%;display:block" loading="lazy" decoding="async"></div><div class="info"><b>olive-link</b><small><code>#587115</code> · sobre creme</small></div></div>
+    <div class="sw"><div style="background:#f6f5f0;padding:20px 14px;display:flex;flex-direction:column;gap:16px;align-items:center"><img src="sand-v2-assets/cores/olive-hover-jayai-horizontal.webp" alt="Jay.AI em olive-hover" style="width:82%;display:block" loading="lazy" decoding="async"><img src="sand-v2-assets/cores/olive-hover-jaya.webp" alt="Jaya em olive-hover" style="width:48%;display:block" loading="lazy" decoding="async"></div><div class="info"><b>olive-hover</b><small><code>#57730A</code> · sobre creme</small></div></div>
+    <div class="sw"><div style="background:#f6f5f0;padding:20px 14px;display:flex;flex-direction:column;gap:16px;align-items:center"><img src="sand-v2-assets/cores/olive-deep-jayai-horizontal.webp" alt="Jay.AI em olive-deep" style="width:82%;display:block" loading="lazy" decoding="async"><img src="sand-v2-assets/cores/olive-deep-jaya.webp" alt="Jaya em olive-deep" style="width:48%;display:block" loading="lazy" decoding="async"></div><div class="info"><b>olive-deep</b><small><code>#445120</code> · sobre creme</small></div></div>
+    <div class="sw"><div style="background:#f6f5f0;padding:20px 14px;display:flex;flex-direction:column;gap:16px;align-items:center"><img src="sand-v2-assets/cores/moss-jayai-horizontal.webp" alt="Jay.AI em moss" style="width:82%;display:block" loading="lazy" decoding="async"><img src="sand-v2-assets/cores/moss-jaya.webp" alt="Jaya em moss" style="width:48%;display:block" loading="lazy" decoding="async"></div><div class="info"><b>moss</b><small><code>#656B62</code> · sobre creme</small></div></div>
+    <div class="sw"><div style="background:#0a2229;padding:20px 14px;display:flex;flex-direction:column;gap:16px;align-items:center"><img src="sand-v2-assets/cores/sage-jayai-horizontal.webp" alt="Jay.AI em sage" style="width:82%;display:block" loading="lazy" decoding="async"><img src="sand-v2-assets/cores/sage-jaya.webp" alt="Jaya em sage" style="width:48%;display:block" loading="lazy" decoding="async"></div><div class="info"><b>sage</b><small><code>#A3A889</code> · sobre teal-noite</small></div></div>
+  </div>
+  <div class="note">Arquivos em PNG transparente, 4 logos (Jay.AI horizontal e vertical, Jaya, Jaya Terapeuta Integrativa) × 21 cores, em <code>logos-sand-cores/&lt;família&gt;/&lt;token&gt;/</code>. Os tons claros (âmbar, azuis médios, sage) vão sobre teal-noite; os escuros, sobre creme.</div>
+  <div class="note">Aplicações (banners, telas de login, área de membros), retratos, ilustrações e formatos: seção <a href="#imagens">08 · Imagens</a>.</div>
+</section>
+
+<!-- ================= 1. ESSÊNCIA ================= -->
+<section id="essencia">
+  <span class="sec-label">01 · Essência da marca</span>
+  <h2 class="sec">Misticismo terroso sobre estrutura editorial</h2>
+  <p class="lead">O SAND opera uma tensão deliberada: <em>conteúdo visionário</em> (colagens surreais, geometria sagrada, dunas, cosmos) contido por um <em>chassi editorial sóbrio</em> (grid de revista, serifada clássica, cantos retos, quase zero sombra). O resultado lê como "periódico acadêmico que tomou ayahuasca": credibilidade científica na estrutura, êxtase na imagem.</p>
+  <div class="grid g3">
+    <div class="card"><h3 style="font-size:19px;margin-bottom:8px">Modelo mental</h3><p style="font-size:14.5px">Portais circulares (mandalas, discos, retratos em círculo) flutuando sobre paisagens oníricas, ancorados por tipografia serifada trackeada e um sistema de UI plano e retangular.</p></div>
+    <div class="card"><h3 style="font-size:19px;margin-bottom:8px">Ação central</h3><p style="font-size:14.5px">Conversão contemplativa: assistir, inscrever-se, doar. Cada seção termina em um CTA âmbar — a única cor "quente e alta" do sistema, reservada para ação.</p></div>
+    <div class="card"><h3 style="font-size:19px;margin-bottom:8px">Assinatura</h3><p style="font-size:14.5px">O círculo é o motivo mestre: mandala do preloader, ícones de categoria, retratos de apresentadores, botões play, paginação em pontos, scroll-to-top. O quadrado segura; o círculo respira.</p></div>
+  </div>
+  <div class="note">Personalidade em 5 adjetivos (leitura da evidência visual): <b>contemplativo · terroso · erudito · artesanal · caloroso</b>. Tom nada corporativo — laurels de festival, arte de colagem por programa, land acknowledgment no rodapé.</div>
+</section>
+
+<!-- ================= 3. CORES ================= -->
+<section id="cores">
+  <span class="sec-label">02 · Paleta de cores</span>
+  <h2 class="sec">Teal profundo, âmbar, creme — e névoas</h2>
+  <p class="lead">Sistema de três forças: <b>teal-noite</b> (a tinta institucional), <b>âmbar-açafrão</b> (exclusivo de ação/CTA) e <b>creme</b> (o papel). Ao redor, uma família de azuis empoeirados e verdes-oliva faz o trabalho atmosférico. Valores extraídos das variáveis CSS <code>--cs-*</code> resolvidas no DOM e do censo de frequência no CSS do tema filho.</p>
+
+  <h3 style="font-size:22px;margin:26px 0 12px">Núcleo institucional — Teals</h3>
+  <div class="grid g4">
+    <div class="sw"><div class="chip" style="background:#0f2e3a"><span style="color:#fff">#0F2E3A</span></div><div class="info"><b>teal-deep</b><small>Rodapé, botões dark, painéis. A cor mais frequente do tema filho (42×). Var: <code>--cs-color-footer-background</code></small></div></div>
+    <div class="sw"><div class="chip" style="background:#002f3b"><span style="color:#fff">#002F3B</span></div><div class="info"><b>teal-ink</b><small>Tinta de UI: links do menu, hovers de botão (33×). Par com âmbar em inversões</small></div></div>
+    <div class="sw"><div class="chip" style="background:#0a2229"><span style="color:#fff">#0A2229</span></div><div class="info"><b>teal-night</b><small>Preloader em tela cheia; <code>--cs-color-accent</code>; contraste do botão âmbar</small></div></div>
+    <div class="sw"><div class="chip" style="background:#152d38"><span style="color:#fff">#152D38</span></div><div class="info"><b>teal-heading</b><small>H1/H2 em páginas claras (medido no h1 do evento)</small></div></div>
+  </div>
+
+  <h3 style="font-size:22px;margin:26px 0 12px">Ação — Âmbar / Ouro</h3>
+  <div class="grid g4">
+    <div class="sw"><div class="chip" style="background:#fcb655"><span style="color:#0a2229">#FCB655</span></div><div class="info"><b>amber (botão)</b><small><code>--cs-color-button</code>. Texto em #0A2229. Hover: inverte para teal</small></div></div>
+    <div class="sw"><div class="chip" style="background:#f3b867"><span style="color:#0a2229">#F3B867</span></div><div class="info"><b>amber-soft</b><small>Texto âmbar sobre botões teal (JOIN SAND, medido ao vivo)</small></div></div>
+    <div class="sw"><div class="chip" style="background:#ffa62f"><span style="color:#0a2229">#FFA62F</span></div><div class="info"><b>amber-hot</b><small>Hover do botão "dark-orange" (regra <code>:hover</code> do tema filho)</small></div></div>
+    <div class="sw"><div class="chip" style="background:#f4cf85"><span style="color:#0a2229">#F4CF85</span></div><div class="info"><b>gold-light</b><small>Detalhes dourados; família do ouro do universo "Sounds of SAND"</small></div></div>
+  </div>
+
+  <h3 style="font-size:22px;margin:26px 0 12px">Papel — Fundos</h3>
+  <div class="grid g4">
+    <div class="sw"><div class="chip" style="background:#ffffff;border-bottom:1px solid #eee"><span style="color:#292929">#FFFFFF</span></div><div class="info"><b>site-background</b><small><code>--cs-color-site-background</code>. Base das páginas de conteúdo</small></div></div>
+    <div class="sw"><div class="chip" style="background:#f6f5f0"><span style="color:#292929">#F6F5F0</span></div><div class="info"><b>cream</b><small>Seções de eventos/blogs, página Films, texto claro sobre dark (15×)</small></div></div>
+    <div class="sw"><div class="chip" style="background:#fffaf5"><span style="color:#292929">#FFFAF5</span></div><div class="info"><b>warm-white</b><small>Menu offcanvas: <code>rgba(255,250,245,0.95)</code> (medido ao vivo)</small></div></div>
+    <div class="sw"><div class="chip" style="background:#202020"><span style="color:#f6f5f0">#202020</span></div><div class="info"><b>dark-content</b><small>Área de conteúdo das páginas de podcast (medido ao vivo)</small></div></div>
+  </div>
+
+  <h3 style="font-size:22px;margin:26px 0 12px">Azuis — links e atmosferas</h3>
+  <div class="grid g4">
+    <div class="sw"><div class="chip" style="background:#2d90bf"><span style="color:#fff">#2D90BF</span></div><div class="info"><b>link-blue</b><small>Cor de link/hover global do tema filho (30×): <code>a:hover</code>, sublinhados via border-bottom</small></div></div>
+    <div class="sw"><div class="chip" style="background:#00a4d6"><span style="color:#fff">#00A4D6</span></div><div class="info"><b>cyan-hover</b><small>Hover de categorias/botões roxos; irmão #00A1D0 no submit de busca</small></div></div>
+    <div class="sw"><div class="chip" style="background:#43a0cc"><span style="color:#fff">#43A0CC</span></div><div class="info"><b>cyan-btn</b><small>Hover do submit da newsletter (Gravity Forms)</small></div></div>
+    <div class="sw"><div class="chip" style="background:#5a8db6"><span style="color:#fff">#5A8DB6</span></div><div class="info"><b>dusty-blue</b><small>Fundo do bloco de doação (medido: rgb(90,141,182))</small></div></div>
+    <div class="sw"><div class="chip" style="background:#517d86"><span style="color:#fff">#517D86</span></div><div class="info"><b>meta-teal</b><small>Datas/meta de eventos (medido no single-event)</small></div></div>
+    <div class="sw"><div class="chip" style="background:#819da3"><span style="color:#fff">#819DA3</span></div><div class="info"><b>mist</b><small>Hover de títulos em listagens de arquivo</small></div></div>
+    <div class="sw"><div class="chip" style="background:#4f92ab"><span style="color:#fff">#4F92AB</span></div><div class="info"><b>steel-blue</b><small>Apoio em painéis/gradientes (5× no CSS filho)</small></div></div>
+    <div class="sw"><div class="chip" style="background:#225572"><span style="color:#fff">#225572</span></div><div class="info"><b>deep-steel</b><small>Apoio escuro dos azuis (5×)</small></div></div>
+  </div>
+
+  <h3 style="font-size:22px;margin:26px 0 12px">Verdes — a camada orgânica</h3>
+  <div class="grid g4">
+    <div class="sw"><div class="chip" style="background:#656b62"><span style="color:#fff">#656B62</span></div><div class="info"><b>moss</b><small>Verde do logo em fundo claro (10×; família #646B61)</small></div></div>
+    <div class="sw"><div class="chip" style="background:#587115"><span style="color:#fff">#587115</span></div><div class="info"><b>olive-link</b><small><code>--cs-color-link</code> do framework; hover #57730A (botões verdes)</small></div></div>
+    <div class="sw"><div class="chip" style="background:#445120"><span style="color:#fff">#445120</span></div><div class="info"><b>olive-deep</b><small>Oliva profundo de apoio (7×)</small></div></div>
+    <div class="sw"><div class="chip" style="background:#a3a889"><span style="color:#292929">#A3A889</span></div><div class="info"><b>sage</b><small>Sálvia de apoio (5×); ecoa a paleta natural das colagens</small></div></div>
+  </div>
+
+  <h3 style="font-size:22px;margin:26px 0 12px">Acentos e neutros</h3>
+  <div class="grid g4">
+    <div class="sw"><div class="chip" style="background:#807fa7"><span style="color:#fff">#807FA7</span></div><div class="info"><b>lavender</b><small>Botão SIGN UP da newsletter; hover #817EAB (botões "blue")</small></div></div>
+    <div class="sw"><div class="chip" style="background:#f2d3bc"><span style="color:#292929">#F2D3BC</span></div><div class="info"><b>peach</b><small>Pêssego de apoio dos gradientes de dunas</small></div></div>
+    <div class="sw"><div class="chip" style="background:#292929"><span style="color:#fff">#292929</span></div><div class="info"><b>text-primary</b><small><code>--cs-color-primary</code>: corpo de texto global</small></div></div>
+    <div class="sw"><div class="chip" style="background:#717275"><span style="color:#fff">#717275</span></div><div class="info"><b>excerpt</b><small><code>--cs-color-excerpt</code>; secundário #A3A3A3</small></div></div>
+  </div>
+
+  <h3 style="font-size:22px;margin:26px 0 12px">Paleta editorial &amp; badges (variáveis do tema)</h3>
+  <div class="tagrow">
+    <span style="background:#59BACC;color:#062a33;padding:4px 12px;font-size:12px;font-weight:600">blue #59BACC</span>
+    <span style="background:#58AD69;color:#0b2a12;padding:4px 12px;font-size:12px;font-weight:600">green #58AD69</span>
+    <span style="background:#FFBC49;color:#3a2600;padding:4px 12px;font-size:12px;font-weight:600">orange #FFBC49</span>
+    <span style="background:#E32C26;color:#fff;padding:4px 12px;font-size:12px;font-weight:600">red #E32C26</span>
+    <span style="background:#5c6693;color:#fff;padding:4px 12px;font-size:12px;font-weight:600">badge-info #5C6693</span>
+    <span style="background:#484f7e;color:#fff;padding:4px 12px;font-size:12px;font-weight:600">badge-primary #484F7E</span>
+    <span style="background:#cfa0b1;color:#3a0d1c;padding:4px 12px;font-size:12px;font-weight:600">badge-danger #CFA0B1</span>
+    <span style="background:#9db8ad;color:#12291e;padding:4px 12px;font-size:12px;font-weight:600">badge-success #9DB8AD</span>
+    <span style="background:#cac6b4;color:#33301f;padding:4px 12px;font-size:12px;font-weight:600">badge-warning #CAC6B4</span>
+  </div>
+  <p style="font-size:14px;color:var(--excerpt)">Escala de cinzas (contraste 50→900, herança Bootstrap no framework): <code>#F8F9FA · #E9ECEF · #DEE2E6 · #CED4DA · #ADB5BD · #6C757D · #495057 · #343A40 · #212529</code></p>
+  <div class="note"><b>Overlays sobre imagem:</b> <code>rgba(0,0,0,0.15)</code> (primário) e <code>rgba(0,0,0,0.35)</code> (secundário) — vars <code>--cs-color-overlay-*</code>. Superfícies translúcidas do header/menus: <code>rgba(255,255,255,0.85)</code> claro e <code>rgba(28,28,28,0.85)</code> escuro.</div>
+</section>
+<!-- ================= 4. TIPOGRAFIA ================= -->
+<section id="tipografia">
+  <span class="sec-label">03 · Tipografia</span>
+  <h2 class="sec">Marcellus fala, Open Sans trabalha</h2>
+  <p class="lead">Dupla clássica display-serif + texto-sans, com uma regra rígida: <b>Marcellus</b> (um único peso, 400) carrega toda a voz — títulos, wordmark, taglines trackeadas — enquanto <b>Open Sans</b> em peso leve (300) faz corpo, UI e botões. O tracking generoso é a assinatura tipográfica do site, em ambas as famílias.</p>
+
+  <table>
+    <tr><th>Família</th><th>Origem (evidência @font-face)</th><th>Papel</th></tr>
+    <tr><td><b class="serif" style="font-size:17px">Marcellus</b> (400 único)</td><td><code>…/fonts/marcellus-regular-webfont.woff2</code> (self-hosted, tema filho)</td><td>Display: h1–h3, wordmark S A N D, taglines, títulos de card, nomes de apresentadores</td></tr>
+    <tr><td><b style="font-weight:400">Open Sans</b> 300–700 + itálicos</td><td>Google Fonts (<code>fonts.gstatic.com</code>)</td><td>Corpo (300), botões (700 caps), menu (500 caps), meta/datas, formulários</td></tr>
+    <tr><td><b style="font-family:'Plus Jakarta Sans'">Plus Jakarta Sans</b> 300–800</td><td><code>…/themes/blueprint/assets/static/fonts/</code> (framework Blueprint)</td><td>Defaults do framework (vars <code>--cs-font-*</code>, logo tipográfico, alguns links de nav) — em grande parte sobreposto pelo tema filho</td></tr>
+    <tr><td><b>Articulat CF</b> 200–900 + oblíquas</td><td><code>…/themes/blueprint-child/fonts/articulatcf-*.woff2</code> (família completa, 18 arquivos)</td><td>Carregada pelo tema filho para peças/landings específicas; uso pontual fora dos templates auditados</td></tr>
+  </table>
+  <div class="note">Higiene da evidência: <b>Poppins</b> e <b>FKGroteskNeue</b> apareceram em <code>document.fonts</code>, mas vêm de extensão do navegador (<code>chrome-extension://…</code>) — <b>não</b> fazem parte da marca. Dashicons/FontAwesome/powerkit-icons são ícones de plugin.</div>
+
+  <h3 style="font-size:22px;margin:30px 0 14px">Escala real medida (desktop ~1160px)</h3>
+  <div class="spec"><div class="lab"><span>Wordmark hero "S A N D"</span><span class="mono">Marcellus 400 · tracking ≈ 0.85em · branco sobre disco teal</span></div>
+    <div class="serif" style="font-size:34px;letter-spacing:.85em;text-indent:.85em;color:#fff;background:var(--teal-night);padding:26px 10px;text-align:center">SAND</div>
+  </div>
+  <div class="spec"><div class="lab"><span>H1 · página de evento / post</span><span class="mono">55px / lh 1.27–1.3 · #152D38 (evento) ou #292929 (post)</span></div>
+    <div class="serif" style="font-size:55px;line-height:1.3;color:#152d38">Rumi &amp; The Fire of Radical Love</div>
+  </div>
+  <div class="spec"><div class="lab"><span>Subtítulo de evento</span><span class="mono">Marcellus 26px · letter-spacing 0.1em (2.6px)</span></div>
+    <div class="serif" style="font-size:26px;letter-spacing:.1em;color:#152d38">A Path Through Global Rupture</div>
+  </div>
+  <div class="spec"><div class="lab"><span>Tagline trackeada (topic categories)</span><span class="mono">Marcellus ~26px · tracking .12em · #152D38</span></div>
+    <div class="serif" style="font-size:24px;letter-spacing:.12em;color:#152d38">At the intersection of spirituality, social healing, science, and the arts.</div>
+  </div>
+  <div class="spec"><div class="lab"><span>Título de card / seção</span><span class="mono">Marcellus 28–40px · lh 1.15 (var headings: lh 1.15, ls −0.0375em no framework)</span></div>
+    <div class="serif" style="font-size:32px;line-height:1.15">Let's Learn Together</div>
+  </div>
+  <div class="spec"><div class="lab"><span>Corpo</span><span class="mono">Open Sans 300 · 17–18px · lh 1.7–2.2 · ls 0.5px · #292929</span></div>
+    <p style="font-size:18px;line-height:2;letter-spacing:.5px">Where we come together to explore beyond ultimate truths, binary thinking, and individual awakening while in deep reverence of the beauty, complexity, pain, and great mystery that weave the infinite cycles of existence.</p>
+  </div>
+  <div class="spec"><div class="lab"><span>Lede itálico (Mission)</span><span class="mono">Open Sans italic ~20px sobre branco</span></div>
+    <p style="font-size:19px;font-style:italic;color:#3a3a3a">At SAND, we explore who we are beyond ultimate truths, binary thinking, and individual awakening…</p>
+  </div>
+  <div class="spec"><div class="lab"><span>Meta / data de evento</span><span class="mono">Open Sans 18px · ls .05em · #517D86 · itálico nas datas de card</span></div>
+    <p style="font-size:17px;letter-spacing:.05em;color:#517d86">August 9, 16, 30 &amp; September 6, 2026 • 9:00am PDT</p>
+  </div>
+  <div class="spec"><div class="lab"><span>Rótulos de seção</span><span class="mono">Open Sans 600 · 11–13px · caps · tracking .15–.22em, sobre régua fina</span></div>
+    <p style="font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#152d38;border-bottom:1px solid #d8d5c9;padding-bottom:8px">MODULES&nbsp;&nbsp;·&nbsp;&nbsp;EVENTS&nbsp;&nbsp;·&nbsp;&nbsp;PRESENTERS</p>
+  </div>
+  <div class="spec"><div class="lab"><span>Botão</span><span class="mono">Open Sans 700 · 13–15px · caps · ls 3px (~0.2em)</span></div>
+    <p style="font-size:14px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#0a2229">JOIN SAND&nbsp;&nbsp;&nbsp;BOOK A SCREENING&nbsp;&nbsp;&nbsp;DONATE</p>
+  </div>
+  <div class="spec"><div class="lab"><span>Menu offcanvas</span><span class="mono">Open Sans 500 · 15px · caps · ls 1.5px · #002F3B</span></div>
+    <p style="font-size:15px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:#002f3b">FILMS&nbsp;&nbsp;&nbsp;EVENTS&nbsp;&nbsp;&nbsp;COURSES&nbsp;&nbsp;&nbsp;PODCAST</p>
+  </div>
+  <div class="note"><b>Vars tipográficas do framework</b> (defaults Blueprint, base de fallback): <code>--cs-font-base: 1rem/1.5</code> · headings <code>weight 600, lh 1.15, ls −0.0375em</code> · primary UI <code>700, ls .125em, uppercase</code> · category <code>0.625rem, 600, ls .05em, caps</code> · tags <code>0.6875rem, 600, caps</code> · input <code>0.875rem/1.625rem, 500</code>. O tema filho sobrepõe família e cor, mantendo a mecânica.</div>
+  <h3 style="font-size:22px;margin:34px 0 12px">Fontes da pasta Fontes (carregadas localmente)</h3>
+  <table>
+    <tr><th>Família</th><th>Arquivos na pasta</th><th>Usado neste documento</th><th>Licença</th></tr>
+    <tr><td><b>Marcellus</b></td><td><code>Marcellus-Regular.ttf</code></td><td>Regular 400, títulos</td><td>OFL (<code>OFL.txt</code> na pasta)</td></tr>
+    <tr><td><b>Marcellus SC</b></td><td><code>MarcellusSC-Regular.ttf</code></td><td>Regular 400, versaletes</td><td>OFL (<code>OFL.txt</code> na pasta)</td></tr>
+    <tr><td><b>Open Sans</b></td><td>Light, Regular, Semibold, Bold, ExtraBold, CondLight + itálicos (.ttf)</td><td>Light 300, Regular 400, Semibold 600, Bold 700 e itálicos 300/400</td><td>Apache 2.0 (<code>LICENSE.txt</code> na pasta)</td></tr>
+    <tr><td><b>Articulat CF</b> v3.2</td><td>20 arquivos .otf, de Thin a Heavy + oblíquas</td><td>Light, Regular, Medium, DemiBold e Bold</td><td><b>n/i</b>: a pasta não traz arquivo de licença</td></tr>
+  </table>
+  <div class="note">O peso 500 do Open Sans (menu offcanvas) não existe na pasta: o navegador usa o Regular 400 no lugar. A Plus Jakarta Sans (tema pai do SAND) não está na pasta e continua vindo do Google Fonts.</div>
+  <div class="spec"><div class="lab"><span>Articulat CF</span><span class="mono">Light 300 a Bold 700 · arquivos locais</span></div>
+      <p style="font-family:'Articulat CF',sans-serif;font-weight:300;font-size:26px;line-height:1.35;color:var(--teal-heading);margin:0">Light · Inteligência que transforma. Do conceito ao sistema.</p>
+      <p style="font-family:'Articulat CF',sans-serif;font-weight:400;font-size:26px;line-height:1.35;color:var(--teal-heading);margin:0">Regular · Inteligência que transforma. Do conceito ao sistema.</p>
+      <p style="font-family:'Articulat CF',sans-serif;font-weight:500;font-size:26px;line-height:1.35;color:var(--teal-heading);margin:0">Medium · Inteligência que transforma. Do conceito ao sistema.</p>
+      <p style="font-family:'Articulat CF',sans-serif;font-weight:600;font-size:26px;line-height:1.35;color:var(--teal-heading);margin:0">DemiBold · Inteligência que transforma. Do conceito ao sistema.</p>
+      <p style="font-family:'Articulat CF',sans-serif;font-weight:700;font-size:26px;line-height:1.35;color:var(--teal-heading);margin:0">Bold · Inteligência que transforma. Do conceito ao sistema.</p>
+      </div>
+  <div class="spec"><div class="lab"><span>Marcellus SC</span><span class="mono">versaletes · arquivo local</span></div>
+      <p style="font-family:'Marcellus SC',serif;font-size:34px;letter-spacing:.06em;color:var(--teal-heading);margin:0">Jaya Roberta · Terapeuta Integrativa</p>
+  </div>
+</section>
+
+<!-- ================= 5. LAYOUT ================= -->
+<section id="layout">
+  <span class="sec-label">04 · Layout, grid &amp; superfícies</span>
+  <h2 class="sec">Chassi editorial plano</h2>
+  <div class="grid g2">
+    <div class="card">
+      <h3 style="font-size:19px;margin-bottom:10px">Medidas estruturais (vars resolvidas)</h3>
+      <table>
+        <tr><td>Header</td><td><code>--cs-header-height: 96px</code> · fixo, transição 0.4s</td></tr>
+        <tr><td>Coluna de leitura</td><td><code>--cs-entry-content-width: 690px</code></td></tr>
+        <tr><td>Larguras médias/grandes</td><td><code>840px</code> / <code>1160px</code> · bloco base <code>544px</code></td></tr>
+        <tr><td>Padding de seção</td><td>70px (eventos, blogs) → 100px (categorias) · doação 92/82px</td></tr>
+        <tr><td>Fundos alternados</td><td>branco → creme <code>#F6F5F0</code> → painéis imersivos (azul, teal, imagem)</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3 style="font-size:19px;margin-bottom:10px">Breakpoints (censo @media, tema filho)</h3>
+      <table>
+        <tr><td><code>min-width: 768px</code></td><td>211 regras — o breakpoint mestre</td></tr>
+        <tr><td><code>min-width: 1024px</code></td><td>82 regras (preloader só ≥1024)</td></tr>
+        <tr><td><code>min-width: 1200px</code></td><td>55 regras</td></tr>
+        <tr><td><code>min-width: 1432px</code></td><td>27 regras (telas largas)</td></tr>
+        <tr><td>Estratégia</td><td>Mobile-first (max-width aparece 20×, residual)</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="grid g2" style="margin-top:18px">
+    <div class="card">
+      <h3 style="font-size:19px;margin-bottom:10px">Raios — o quadrado e o círculo</h3>
+      <table>
+        <tr><td>Botões, cards, thumbnails, paginação</td><td><b>0px</b> — cantos retos em todo o sistema de UI</td></tr>
+        <tr><td>Inputs, badges, labels de categoria</td><td><b>4px</b> · tags <b>5px</b></td></tr>
+        <tr><td>Avatares, play, scroll-top, bullets, zoom</td><td><b>50%</b> — círculo perfeito (10+ vars a 50%)</td></tr>
+        <tr><td>Letra de categoria</td><td>26px</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3 style="font-size:19px;margin-bottom:10px">Sombras &amp; profundidade</h3>
+      <p style="font-size:14.5px">Sistema deliberadamente <b>plano</b>: o censo de <code>box-shadow</code> dá 52× <code>none</code>; a única sombra recorrente é a de lightbox/modal (<code>0 10px 20px rgba(0,0,0,.19), 0 6px 6px rgba(0,0,0,.23)</code>). Profundidade se faz com <b>cor de fundo, overlay e camadas de colagem</b>, não com elevação material.</p>
+    </div>
+  </div>
+</section>
+<!-- ================= 6. COMPONENTES ================= -->
+<section id="componentes">
+  <span class="sec-label">05 · Componentes (recriados com os valores extraídos — passe o mouse)</span>
+  <h2 class="sec">Sistema de UI</h2>
+
+  <h3 style="font-size:22px;margin:22px 0 10px">Botões — a gramática da inversão</h3>
+  <p style="font-size:15px;max-width:820px;margin-bottom:14px">Todos retangulares (radius 0), caps, ls 3px, padding ~14–18px × 26–34px, transição 0.25s. O hover não escurece: <b>inverte</b> — âmbar↔teal trocam de lugar. Recriações funcionais:</p>
+  <style>
+    .b{display:inline-block;border:none;cursor:pointer;font-family:'Open Sans';font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:16px 30px;border-radius:0;transition:background .25s,color .25s,border-color .25s}
+    .b-amber{background:#fcb655;color:#0a2229}.b-amber:hover{background:#002f3b;color:#fdb657}
+    .b-teal{background:#0f2e3a;color:#f3b867}.b-teal:hover{background:#fcb655;color:#0a2229}
+    .b-green{background:#587115;color:#fff}.b-green:hover{background:#57730a}
+    .b-dkorange{background:#e8931c;color:#fff}.b-dkorange:hover{background:#ffa62f}
+    .b-purple{background:#807fa7;color:#fff}.b-purple:hover{background:#00a4d6}
+    .b-glass{background:rgba(128,127,167,.55);color:#fff;letter-spacing:6px}.b-glass:hover{background:rgba(128,127,167,.8)}
+  </style>
+  <div class="demo">
+    <button class="b b-amber">Join Sand</button>
+    <button class="b b-teal">Explore Webinars</button>
+    <button class="b b-green">Green</button>
+    <button class="b b-dkorange">Dark Orange</button>
+    <button class="b b-purple">Purple</button>
+    <button class="b b-glass">Sign Up</button>
+  </div>
+  <figcaption>Evidência: <code>button.has-orange-background-color:hover {color:#fdb657; border-color:#002f3b; background:#002f3b !important}</code> · verde → <code>#57730a</code> · dark-orange → <code>#ffa62f</code> · purple → <code>#00a4d6</code> · blue → <code>#817eab</code>. O "Sign Up" translúcido-lavanda aparece sobre a arte da newsletter.</figcaption>
+
+  <h3 style="font-size:22px;margin:30px 0 10px">Labels, badges e tags</h3>
+  <div class="demo" style="background:url('sand-v2-assets/login-escuro-1.webp') center/cover;position:relative;min-height:120px">
+    <span style="background:rgba(20,20,20,.55);color:#fff;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;padding:7px 14px;border-radius:4px;backdrop-filter:blur(2px)">Living Universe</span>
+    <span style="background:rgba(255,255,255,.92);color:#152d38;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:7px 14px;border-radius:4px">Live</span>
+    <span style="background:rgba(255,255,255,.92);color:#152d38;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:7px 14px;border-radius:4px">On-Demand</span>
+    <span style="background:#ededed;color:#292929;font-size:11px;font-weight:600;letter-spacing:.025em;text-transform:uppercase;padding:5px 12px;border-radius:5px">tag</span>
+  </div>
+  <figcaption>Categoria sobre imagem: pill translúcido escuro com texto caps trackeado. Status de evento: pills claros "LIVE / ON-DEMAND". Tags: cinza <code>#EDEDED</code>, hover inverte para preto/branco (var <code>--cs-color-tags-hover</code>).</figcaption>
+
+  <h3 style="font-size:22px;margin:30px 0 10px">Card de evento (grid editorial)</h3>
+  <div class="demo demo-cream">
+    <div style="max-width:340px;background:none">
+      <div style="overflow:hidden;position:relative">
+        <img src="sand-v2-assets/login-claro-3.webp" alt="thumb evento" style="width:100%;aspect-ratio:460/270;object-fit:cover;display:block;transition:transform .4s ease" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+        <span style="position:absolute;top:10px;left:10px;background:rgba(255,255,255,.92);color:#152d38;font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:5px 10px;border-radius:4px">Live</span>
+      </div>
+      <h3 class="serif" style="font-size:24px;line-height:1.25;margin:14px 0 6px;color:#152d38">Jaya, Entre Mundos</h3>
+      <p style="font-size:14px;font-style:italic;color:#517d86;letter-spacing:.03em">data • horário (texto de exemplo)</p>
+      <p style="font-size:13.5px;color:#717275;margin-top:6px">Inteligência Relacional</p>
+    </div>
+    <div style="max-width:300px">
+      <p style="font-size:13px;color:#717275;line-height:1.8">Anatomia: thumbnail 460×270 (recorte da tela de login da Área de Membros) com zoom 1.1 no hover + badge de status + título Marcellus + data itálica teal + excerpt Open Sans. Cantos retos, sem sombra, respiro generoso. Setas ← → de navegação no topo direito da seção.</p>
+    </div>
+  </div>
+
+  <h3 style="font-size:22px;margin:30px 0 10px">Card de módulo / sessão (evento)</h3>
+  <div class="demo demo-cream">
+    <div style="background:#fdfdfb;border:1px solid #eceadf;padding:30px 34px;max-width:420px;position:relative">
+      <p class="serif" style="font-size:15px;letter-spacing:.45em;text-transform:uppercase;color:#152d38">Módulo I</p>
+      <h3 class="serif" style="font-size:26px;margin:8px 0 4px;color:#152d38">Sessão 1: título da sessão</h3>
+      <p style="font-size:15px;color:#4b4b4b">subtítulo da sessão</p>
+      <p style="font-size:13px;font-style:italic;color:#717275;margin-top:8px">data (exemplo)</p>
+      <span style="position:absolute;right:22px;bottom:26px;color:#152d38;font-size:18px">›</span>
+    </div>
+  </div>
+
+  <h3 style="font-size:22px;margin:30px 0 10px">Bloco de apresentador (single-event)</h3>
+  <div class="demo" style="background:#5d7f8a;background-image:linear-gradient(rgba(60,88,98,.45),rgba(60,88,98,.45)),url('sand-v2-assets/obj-arvore.webp');background-size:cover;padding:40px">
+    <div style="width:150px;height:150px;border-radius:50%;background:#f6f5f0 url('sand-v2-assets/jaya-0.webp') center 20%/cover;outline:1px solid rgba(255,255,255,.9);outline-offset:8px;border:1px dotted rgba(255,255,255,.8);flex:none"></div>
+    <div style="max-width:520px">
+      <h3 class="serif" style="font-size:34px;color:#fff;margin-bottom:10px">Jaya</h3>
+      <p style="font-size:14.5px;color:#eef3f4;line-height:1.9">Painel slate-teal em largura total (paisagem dourada ao fundo), retrato em círculo com anel duplo (linha sólida + pontilhada), nome em Marcellus branco, bio em Open Sans claro.</p>
+    </div>
+  </div>
+
+  <h3 style="font-size:22px;margin:30px 0 10px">Formulário newsletter (glass sobre arte)</h3>
+  <div class="demo" style="background:linear-gradient(rgba(10,34,41,.35),rgba(10,34,41,.35)),url('sand-v2-assets/obj-arvore.webp') center/cover;flex-direction:column;padding:46px 28px">
+    <p style="color:#fff;font-size:14px;text-align:center;text-shadow:0 1px 8px rgba(0,0,60,.25)">Sign up to receive news and updates from SAND.</p>
+    <input placeholder="First Name" style="width:min(420px,90%);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.85);border-radius:4px;padding:12px;text-align:center;color:#fff;font-family:'Open Sans';font-size:14px;outline:none" onfocus="this.style.background='rgba(255,255,255,.18)'" onblur="this.style.background='rgba(255,255,255,.08)'">
+    <input placeholder="Email Address" style="width:min(420px,90%);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.85);border-radius:4px;padding:12px;text-align:center;color:#fff;font-family:'Open Sans';font-size:14px;outline:none" onfocus="this.style.background='rgba(255,255,255,.18)'" onblur="this.style.background='rgba(255,255,255,.08)'">
+    <button class="b b-glass">Sign Up</button>
+  </div>
+  <figcaption>Inputs "vidro": fundo quase transparente, borda branca 1px, radius 4px, placeholder branco centralizado, sobre arte da JAYA (<code>obj-arvore.webp</code>). Submit hover → <code>#43A0CC</code>.</figcaption>
+
+  <h3 style="font-size:22px;margin:30px 0 10px">Menu offcanvas + paginação de carrossel</h3>
+  <div class="grid g2">
+    <div class="demo" style="background:rgba(255,250,245,.97);flex-direction:column;align-items:flex-start;gap:14px;border:1px solid #e2dfd3">
+      <span style="align-self:flex-end;font-size:20px;color:#152d38;cursor:pointer">✕</span>
+      <a href="#" style="font-size:15px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:#002f3b;border:none">Films</a>
+      <a href="#" style="font-size:15px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:#002f3b;border:none">Events</a>
+      <a href="#" style="font-size:15px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:#002f3b;border:none">Courses</a>
+      <a href="#" style="font-size:15px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:#002f3b;border:none">Podcast</a>
+      <button class="b b-teal" style="padding:12px 20px;font-size:12px">Join Sand</button>
+      <figcaption>Drawer direito <code>rgba(255,250,245,.95)</code>, links 0.25s, hambúrguer hover → fundo preto.</figcaption>
+    </div>
+    <div class="demo demo-cream" style="flex-direction:column;justify-content:center">
+      <div style="width:100%;position:relative;height:2px;background:#b8b3a4;margin:20px 0">
+        <span style="position:absolute;left:25%;top:-4px;width:10px;height:10px;border-radius:50%;background:#587115"></span>
+        <span style="position:absolute;left:75%;top:-4px;width:10px;height:10px;border-radius:50%;background:#f6f5f0;border:1.5px solid #587115"></span>
+      </div>
+      <div style="display:flex;justify-content:space-around;width:100%">
+        <span class="serif" style="color:#517d86;font-size:17px;letter-spacing:.05em">films</span>
+        <span class="serif" style="color:#9aa8ab;font-size:17px;letter-spacing:.05em">webinar</span>
+      </div>
+      <div style="display:flex;gap:12px;margin-top:22px">
+        <span style="width:9px;height:9px;border-radius:50%;background:#152d38"></span>
+        <span style="width:9px;height:9px;border-radius:50%;border:1.5px solid #152d38"></span>
+        <span style="width:9px;height:9px;border-radius:50%;border:1.5px solid #152d38"></span>
+      </div>
+      <figcaption>Paginações: linha-com-pontos rotulada em Marcellus (carrosséis de posters, slick) e dots simples (hero). Setas ← → finas nos carrosséis de cards.</figcaption>
+    </div>
+  </div>
+</section>
+<!-- ================= 7. FRICÇÕES ================= -->
+<section id="friccoes">
+  <span class="sec-label">06 · Fricções &amp; micro-interações (todas com evidência no CSS/DOM)</span>
+  <h2 class="sec">O toque: lento, suave, invertido</h2>
+  <p class="lead">Nada salta. O vocabulário de interação é feito de crossfades de 0.25–0.4s, zooms lentos, inversões de cor e dessaturações — fricção contemplativa, coerente com a marca. Token dominante: <code>transition: 0.25s</code> (143 ocorrências), seguido de <code>0.3s ease-in-out</code> (all/color/border/opacity) e <code>0.4s</code> no header.</p>
+
+  <table>
+    <tr><th>Elemento</th><th>Interação</th><th>Evidência (CSS raspado)</th></tr>
+    <tr><td>Header inteiro</td><td>Navbar inteligente: some ao rolar para baixo, reaparece ao rolar para cima; transparente sobre hero → branco sólido; logo troca branco↔moss</td><td>body <code>cs-navbar-smart-enabled</code> · header fixo, <code>transition: 0.4s</code>, alturas <code>--cs-header-initial-height/height: 96px</code></td></tr>
+    <tr><td>Botões coloridos</td><td>Inversão âmbar↔teal; demais famílias trocam para o par de hover</td><td><code>.cs-header__cta-link:hover{color:#FDB657;background:#002F3B}</code> + regras <code>button.has-*-background-color:hover</code></td></tr>
+    <tr><td>Links de texto</td><td>Cor → azul; sublinhado surge via <code>border-bottom</code></td><td><code>a:hover{color:#2D90BF}</code> · <code>.entry-content h2 a:hover{border-bottom-color:#2D90BF}</code></td></tr>
+    <tr><td>Imagens-link (posters, vídeos)</td><td>Zoom lento <code>scale(1.1)</code> dentro de máscara</td><td><code>.single-course .large-featured-image a:hover{transform:scale(1.1)}</code> (idem movie-post, event-video)</td></tr>
+    <tr><td>Thumbnails do mega-menu</td><td>Dessaturação a 40% no hover</td><td><code>.cs-mega-menu … .cs-entry:hover{filter:saturate(40%)}</code></td></tr>
+    <tr><td>Títulos em listagens</td><td>Texto esmaece para cinza-névoa</td><td><code>.archive-main-content article:hover{color:#65777f}</code> · título → <code>#819da3</code></td></tr>
+    <tr><td>Labels de categoria sobre card</td><td>Crossfade: estado sólido some, contorno aparece (opacity 0↔1 em camadas)</td><td><code>.cs-meta-category a:hover{opacity:0}</code> + camada irmã <code>{opacity:1}</code> · variante: <code>color:#00a4d6;border-color:#00a4d6;background:transparent</code></td></tr>
+    <tr><td>Seta "role para baixo" (arquivos)</td><td>Empurra 10px para baixo no hover</td><td><code>.archive-intro-section .next-link:hover{transform:translateY(10px)}</code> · transição 0.3s ease-in-out</td></tr>
+    <tr><td>Ícones de categoria (mandalas)</td><td>Swap de imagem em dois estados (linha → preenchido)</td><td>Pares de assets <code>cat01.png ↔ cat01a.png</code> … <code>cat07 ↔ cat07a</code></td></tr>
+    <tr><td>Hambúrguer</td><td>Fundo → preto no hover; abre drawer offcanvas à direita</td><td><code>.cs-header__offcanvas-toggle:hover{background:#000}</code> · painel <code>rgba(255,250,245,.95)</code>, z-index 100</td></tr>
+    <tr><td>Tags</td><td>Inversão para preto/branco</td><td>vars <code>--cs-color-tags-hover: #000 / contraste #fff</code></td></tr>
+    <tr><td>Scroll-to-top</td><td>Botão circular fixo (canto inferior direito), presente em todas as páginas</td><td>var <code>--cs-scroll-to-top-button-border-radius: 50%</code></td></tr>
+    <tr><td>Newsletter submit</td><td>Fundo → ciano <code>#43A0CC</code>; rodapé-webinar → translúcido <code>rgba(34,47,67,.47)</code></td><td>regras <code>input[type=submit]:hover</code> do tema filho</td></tr>
+    <tr><td>Site inteiro (desktop)</td><td>Fade-in de entrada após preloader</td><td><code>.cs-site{opacity:0; transition:opacity .3s ease-in-out}</code> (≥1024px)</td></tr>
+  </table>
+
+  <h3 style="font-size:22px;margin:30px 0 12px">Demos interativas — passe o mouse</h3>
+  <div class="grid g3">
+    <figure>
+      <div style="overflow:hidden"><img src="sand-v2-assets/retrato-poltrona-3.webp" alt="retrato zoom demo" style="width:100%;display:block;transition:transform .4s ease" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"></div>
+      <figcaption>Zoom 1.1 mascarado (retrato vertical da JAYA)</figcaption>
+    </figure>
+    <figure>
+      <img src="sand-v2-assets/login-claro-2.webp" alt="dessaturação demo" style="width:100%;display:block;transition:filter .3s ease-in-out" onmouseover="this.style.filter='saturate(40%)'" onmouseout="this.style.filter='saturate(100%)'">
+      <figcaption>Dessaturação a 40% (padrão do mega-menu)</figcaption>
+    </figure>
+    <figure style="text-align:center;background:#fff;border:1px solid #e7e5dc;padding:26px 10px">
+      <div style="font-size:26px;color:#152d38;display:inline-block;transition:transform .3s ease-in-out;cursor:pointer" onmouseover="this.style.transform='translateY(10px)'" onmouseout="this.style.transform='translateY(0)'">↓</div>
+      <figcaption>Seta convite-ao-scroll: translateY(10px)</figcaption>
+    </figure>
+  </div>
+  <div class="grid g2" style="margin-top:18px">
+    <figure style="background:#fff;border:1px solid #e7e5dc;padding:26px;text-align:center">
+      <img src="sand-v2-assets/logo-jayai-app-claro.webp" alt="ícone de app Jay.AI" style="width:110px" onmouseover="this.src='sand-v2-assets/logo-jayai-app-escuro.webp'" onmouseout="this.src='sand-v2-assets/logo-jayai-app-claro.webp'">
+      <p style="font-size:11px;font-weight:600;letter-spacing:.2em;margin-top:10px;color:#152d38">JAY.AI</p>
+      <figcaption>Ícone de app em dois estados — claro ↔ escuro (<code>28.png</code> ↔ <code>22.png</code>), trocando no hover</figcaption>
+    </figure>
+    <figure style="background:#fff;border:1px solid #e7e5dc;padding:26px;display:flex;flex-direction:column;align-items:center;justify-content:center">
+      <span style="position:relative;display:inline-block;cursor:pointer;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase" onmouseover="this.children[0].style.opacity=0;this.children[1].style.opacity=1" onmouseout="this.children[0].style.opacity=1;this.children[1].style.opacity=0">
+        <span style="background:#1c1c1c;color:#fff;padding:7px 14px;border-radius:4px;transition:opacity .25s;display:inline-block">SCIENCE</span>
+        <span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#00a4d6;border:1px solid #00a4d6;border-radius:4px;opacity:0;transition:opacity .25s">SCIENCE</span>
+      </span>
+      <figcaption style="margin-top:14px">Crossfade do label de categoria: sólido → contorno ciano</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ================= 8. ANIMAÇÕES ================= -->
+<section id="animacoes">
+  <span class="sec-label">07 · Animações</span>
+  <h2 class="sec">A mandala que gira em passos</h2>
+  <p class="lead">A peça-assinatura é o <b>preloader</b>: tela cheia em teal-noite <code>#0A2229</code> com uma mandala SVG dourada cujo padrão gira em <code>steps(8)</code> — rotação "catracada", ritual, não contínua — enquanto camadas piscam em sequência. Só em desktop (≥1024px); ao terminar, o site inteiro entra em fade (0.3s).</p>
+
+  <div class="demo" style="background:#0a2229;justify-content:center;padding:46px">
+    <style>
+      @keyframes rotating{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+      @keyframes blink{0%{opacity:0}80%{opacity:1}}
+      .mandala{width:130px;height:130px;border-radius:50%;position:relative;animation:rotating 1s steps(8) infinite}
+      .mandala::before{content:'';position:absolute;inset:0;border-radius:50%;background:repeating-conic-gradient(#f4cf85 0deg 6deg,transparent 6deg 45deg);-webkit-mask:radial-gradient(circle,transparent 34%,#000 35% 70%,transparent 71%);mask:radial-gradient(circle,transparent 34%,#000 35% 70%,transparent 71%)}
+      .mandala::after{content:'';position:absolute;inset:28%;border-radius:50%;border:1px dotted #f4cf85;animation:blink 1.6s infinite}
+    </style>
+    <div class="mandala" role="img" aria-label="Recriação do preloader SAND"></div>
+    <p style="color:#9fb3ba;font-size:13px;max-width:380px;line-height:1.8">Recriação em CSS puro do comportamento (a arte original é um SVG com <code>#goldPattern</code>). Evidência: <code>#goldPattern image{animation:rotating 1s steps(8) infinite; transform-origin:center}</code> + camadas <code>.cls-2</code> com <code>blink</code>.</p>
+  </div>
+
+  <table style="margin-top:22px">
+    <tr><th>Animação</th><th>Definição raspada</th><th>Onde</th></tr>
+    <tr><td><code>rotating</code></td><td><code>from rotate(0) → to rotate(360deg)</code> · <code>1s steps(8) infinite</code></td><td>Padrão dourado do preloader</td></tr>
+    <tr><td><code>blink</code></td><td><code>0%{opacity:0} 80%{opacity:1}</code></td><td>Camadas da mandala do preloader</td></tr>
+    <tr><td><code>fade</code></td><td><code>0%{opacity:0} 100%{opacity:1}</code></td><td>Entradas suaves genéricas</td></tr>
+    <tr><td><code>spin</code></td><td><code>to{rotate(1turn)}</code></td><td>Loaders circulares</td></tr>
+    <tr><td>Hero slideshow</td><td>slick, autoplay, transição em fade entre 5 slides-colagem 1730×960, dots</td><td>Home (intro-section)</td></tr>
+    <tr><td>Carrosséis de cards/posters</td><td>slick + flickity (ambos detectados no runtime); paginação linha-e-pontos rotulada</td><td>Home, evento, films</td></tr>
+    <tr><td>Lightbox</td><td>prettyPhoto (wp-video-lightbox) para vídeos; play circular com anel branco</td><td>CTA de vídeo, films</td></tr>
+    <tr><td>Navbar</td><td>Hide/reveal com <code>transition: 0.4s</code> em translate</td><td>Global</td></tr>
+  </table>
+  <div class="note">Vocabulário vendor presente mas não-marca: <code>fa-*</code> (FontAwesome), <code>gfadeIn/gslide*/gzoom*</code> (lightbox Gutenberg), <code>progress-bar-stripes</code>, <code>cmplz-fadein</code> (banner de cookies), <code>mc_slideIn</code> (Mailchimp). Não há GSAP/AOS/Lottie — a motion inteira é CSS + jQuery.</div>
+</section>
+<!-- ================= 9. IMAGENS ================= -->
+<section id="imagens">
+  <span class="sec-label">08 · Imagens &amp; direção de arte (arquivos da pasta SAND)</span>
+  <h2 class="sec">Colagem sagrada</h2>
+  <p class="lead">Na v2 esta seção usa só arquivos da pasta SAND (cópias otimizadas em <code>sand-v2-assets/</code>). A direção de arte da JAYA combina: cenas ilustradas com a Jaya e mockups da Área de Membros (banners e logins), retratos verticais, objetos dourados sobre teal-noite e ilustrações botânicas sobre creme.</p>
+
+  <h3 style="font-size:22px;margin:24px 0 10px">Banners — 2172×724, claro e escuro</h3>
+  <div class="grid g2">
+    <figure class="imgbox"><img src="sand-v2-assets/banner-claro.webp" alt="<b>banner claro sand.png</b>" loading="lazy" decoding="async"><figcaption><b>banner claro sand.png</b> — logo Jay.AI · Área de Membros à esquerda; mockups de celular e notebook e retrato à direita, sobre creme.</figcaption></figure>
+    <figure class="imgbox"><img src="sand-v2-assets/banner-escuro.webp" alt="<b>banner escuro SAND.png</b>" loading="lazy" decoding="async"><figcaption><b>banner escuro SAND.png</b> — mesma composição em teal-noite com ouro.</figcaption></figure>
+  </div>
+
+  <h3 style="font-size:22px;margin:28px 0 10px">Telas de login — 1456×1080 (claro em cima, escuro embaixo)</h3>
+  <div class="grid g3">
+    <figure class="imgbox"><img src="sand-v2-assets/login-claro-1.webp" alt="<b>login claro SAND 1</b>" loading="lazy" decoding="async"><figcaption><b>login claro SAND 1</b> — paisagem aquarelada, Jaya sentada lendo.</figcaption></figure>
+    <figure class="imgbox"><img src="sand-v2-assets/login-claro-2.webp" alt="<b>login claro SAND 2</b>" loading="lazy" decoding="async"><figcaption><b>login claro SAND 2</b> — Jaya sorrindo, logo ao centro-topo.</figcaption></figure>
+    <figure class="imgbox"><img src="sand-v2-assets/login-claro-3.webp" alt="<b>login claro SAND 3</b>" loading="lazy" decoding="async"><figcaption><b>login claro SAND 3</b> — mockups de notebook e celular da Área de Membros.</figcaption></figure>
+    <figure class="imgbox"><img src="sand-v2-assets/login-escuro-1.webp" alt="<b>login escuro SAND 1</b>" loading="lazy" decoding="async"><figcaption><b>login escuro SAND 1</b> — versão noturna, Jaya lendo, caminho dourado.</figcaption></figure>
+    <figure class="imgbox"><img src="sand-v2-assets/login-escuro-2.webp" alt="<b>login escuro SAND 2</b>" loading="lazy" decoding="async"><figcaption><b>login escuro SAND 2</b> — Jaya sorrindo, raízes douradas.</figcaption></figure>
+    <figure class="imgbox"><img src="sand-v2-assets/login-escuro-3.webp" alt="<b>login escuro SAND 3</b>" loading="lazy" decoding="async"><figcaption><b>login escuro SAND 3</b> — mockups na versão escura.</figcaption></figure>
+  </div>
+
+  <h3 style="font-size:22px;margin:28px 0 10px">Área de membros — peças verticais 1122×1402</h3>
+  <div class="grid g3">
+    <figure class="imgbox"><img src="sand-v2-assets/membros-claro-1.webp" alt="<b>claro SAND 1</b>" loading="lazy" decoding="async"><figcaption><b>claro SAND 1</b> — logo + notebook e celular sobre mesa, folhas e sol terracota.</figcaption></figure>
+    <figure class="imgbox"><img src="sand-v2-assets/membros-claro-2.webp" alt="<b>claro SAND 2</b>" loading="lazy" decoding="async"><figcaption><b>claro SAND 2</b> — logo + dispositivos em cenário de jardim e montanhas.</figcaption></figure>
+    <figure class="imgbox"><img src="sand-v2-assets/membros-escuro-2.webp" alt="<b>escuro SAND 2</b>" loading="lazy" decoding="async"><figcaption><b>escuro SAND 2</b> — versão noturna com cascatas e lanternas.</figcaption></figure>
+  </div>
+
+  <h3 style="font-size:22px;margin:28px 0 10px">Retratos verticais — 941×1672</h3>
+  <div class="gal gp">
+    <figure><img src="sand-v2-assets/retrato-poltrona-1.webp" alt="retrato poltrona 1" loading="lazy" decoding="async"><figcaption>hero-windsor-sand-v2</figcaption></figure>
+    <figure><img src="sand-v2-assets/retrato-poltrona-2.webp" alt="retrato poltrona 2" loading="lazy" decoding="async"><figcaption>hero-windsor-sand-v3</figcaption></figure>
+    <figure><img src="sand-v2-assets/retrato-poltrona-3.webp" alt="retrato poltrona 3" loading="lazy" decoding="async"><figcaption>hero-windsor-sand-v4</figcaption></figure>
+    <figure><img src="sand-v2-assets/retrato-poltrona-4.webp" alt="retrato poltrona 4" loading="lazy" decoding="async"><figcaption>hero-windsor-sand</figcaption></figure>
+    <figure><img src="sand-v2-assets/jaya-0.webp" alt="jaya 0" loading="lazy" decoding="async"><figcaption>jaya 0</figcaption></figure>
+    <figure><img src="sand-v2-assets/jaya-1.webp" alt="jaya 1" loading="lazy" decoding="async"><figcaption>jaya 1</figcaption></figure>
+    <figure><img src="sand-v2-assets/jaya-2.webp" alt="jaya 2" loading="lazy" decoding="async"><figcaption>jaya 2</figcaption></figure>
+    <figure><img src="sand-v2-assets/jaya-3.webp" alt="jaya 3" loading="lazy" decoding="async"><figcaption>jaya 3</figcaption></figure>
+    <figure><img src="sand-v2-assets/jaya-4.webp" alt="jaya 4" loading="lazy" decoding="async"><figcaption>jaya 4</figcaption></figure>
+    <figure><img src="sand-v2-assets/jaya-5.webp" alt="jaya 5" loading="lazy" decoding="async"><figcaption>jaya 5</figcaption></figure>
+  </div>
+
+  <h3 style="font-size:22px;margin:28px 0 10px">Ensaio de fotos — pôr do sol (jaya01–10)</h3>
+  <div class="gal gp" style="grid-template-columns:repeat(auto-fill,minmax(190px,1fr))">
+    <figure><img src="sand-v2-assets/fotos/jaya01.webp" alt="jaya01" loading="lazy" decoding="async"><figcaption>jaya01</figcaption></figure><figure><img src="sand-v2-assets/fotos/jaya02.webp" alt="jaya02" loading="lazy" decoding="async"><figcaption>jaya02</figcaption></figure><figure><img src="sand-v2-assets/fotos/jaya03.webp" alt="jaya03" loading="lazy" decoding="async"><figcaption>jaya03</figcaption></figure><figure><img src="sand-v2-assets/fotos/jaya04.webp" alt="jaya04" loading="lazy" decoding="async"><figcaption>jaya04</figcaption></figure><figure><img src="sand-v2-assets/fotos/jaya05.webp" alt="jaya05" loading="lazy" decoding="async"><figcaption>jaya05</figcaption></figure><figure><img src="sand-v2-assets/fotos/jaya06.webp" alt="jaya06" loading="lazy" decoding="async"><figcaption>jaya06</figcaption></figure><figure><img src="sand-v2-assets/fotos/jaya07.webp" alt="jaya07" loading="lazy" decoding="async"><figcaption>jaya07</figcaption></figure><figure><img src="sand-v2-assets/fotos/jaya08.webp" alt="jaya08" loading="lazy" decoding="async"><figcaption>jaya08</figcaption></figure><figure><img src="sand-v2-assets/fotos/jaya09.webp" alt="jaya09" loading="lazy" decoding="async"><figcaption>jaya09</figcaption></figure><figure><img src="sand-v2-assets/fotos/jaya10.webp" alt="jaya10" loading="lazy" decoding="async"><figcaption>jaya10</figcaption></figure>
+  </div>
+  <figcaption>Dez fotos 1024×1536 com ilustração botânica e geometria dourada sobrepostas à cena. Arquivos <code>jaya01.png</code> a <code>jaya10.png</code> na raiz da pasta.</figcaption>
+
+  <h3 style="font-size:22px;margin:28px 0 10px">Série Claude do Zero — peças (jaya11–20)</h3>
+  <div class="gal gp" style="grid-template-columns:repeat(auto-fill,minmax(230px,1fr))">
+    <figure><img src="sand-v2-assets/fotos/jaya11.webp" alt="jaya11 · 1122×1402" loading="lazy" decoding="async"><figcaption>jaya11 · 1122×1402</figcaption></figure><figure><img src="sand-v2-assets/fotos/jaya12.webp" alt="jaya12 · 1672×941" loading="lazy" decoding="async"><figcaption>jaya12 · 1672×941</figcaption></figure><figure><img src="sand-v2-assets/fotos/jaya13.webp" alt="jaya13 · 1024×1536" loading="lazy" decoding="async"><figcaption>jaya13 · 1024×1536</figcaption></figure><figure><img src="sand-v2-assets/fotos/jaya14.webp" alt="jaya14 · 1024×1536" loading="lazy" decoding="async"><figcaption>jaya14 · 1024×1536</figcaption></figure><figure><img src="sand-v2-assets/fotos/jaya15.webp" alt="jaya15 · 1024×1536" loading="lazy" decoding="async"><figcaption>jaya15 · 1024×1536</figcaption></figure><figure><img src="sand-v2-assets/fotos/jaya16.webp" alt="jaya16 · 2103×748" loading="lazy" decoding="async"><figcaption>jaya16 · 2103×748</figcaption></figure><figure><img src="sand-v2-assets/fotos/jaya17.webp" alt="jaya17 · 1672×941" loading="lazy" decoding="async"><figcaption>jaya17 · 1672×941</figcaption></figure><figure><img src="sand-v2-assets/fotos/jaya18.webp" alt="jaya18 · 941×1672 (só logo)" loading="lazy" decoding="async"><figcaption>jaya18 · 941×1672 (só logo)</figcaption></figure><figure><img src="sand-v2-assets/fotos/jaya19.webp" alt="jaya19 · 1254×1254" loading="lazy" decoding="async"><figcaption>jaya19 · 1254×1254</figcaption></figure><figure><img src="sand-v2-assets/fotos/jaya20.webp" alt="jaya20 · 1254×1254" loading="lazy" decoding="async"><figcaption>jaya20 · 1254×1254</figcaption></figure>
+  </div>
+  <figcaption>Texto estampado nas peças: "Jaya · Série Claude do Zero · O curso", "Cinco aulas na ordem. Cada uma é pra fazer junto — abra o Claude do lado.", "Inteligência que transforma. Do conceito ao sistema.", @jayaroberta.ai. Texto já estampado é fixo: legenda complementa, não corrige.</figcaption>
+  <div class="note">Estas peças usam marsala e terracota sobre creme dourado, fora das famílias de cor SAND da seção 00. Não ajustei nada, só catalogo. Se elas fazem parte da identidade SAND, falta definir o token de marsala e terracota.</div>
+
+  <h3 style="font-size:22px;margin:28px 0 10px">Destaques — papel creme (01–08)</h3>
+  <div class="gal gp">
+    <figure><img src="sand-v2-assets/destaques/01.webp" alt="01" loading="lazy" decoding="async"><figcaption>01</figcaption></figure><figure><img src="sand-v2-assets/destaques/02.webp" alt="02" loading="lazy" decoding="async"><figcaption>02</figcaption></figure><figure><img src="sand-v2-assets/destaques/03.webp" alt="03" loading="lazy" decoding="async"><figcaption>03</figcaption></figure><figure><img src="sand-v2-assets/destaques/04.webp" alt="04" loading="lazy" decoding="async"><figcaption>04</figcaption></figure><figure><img src="sand-v2-assets/destaques/05.webp" alt="05" loading="lazy" decoding="async"><figcaption>05</figcaption></figure><figure><img src="sand-v2-assets/destaques/06.webp" alt="06" loading="lazy" decoding="async"><figcaption>06</figcaption></figure><figure><img src="sand-v2-assets/destaques/07.webp" alt="07" loading="lazy" decoding="async"><figcaption>07</figcaption></figure><figure><img src="sand-v2-assets/destaques/08.webp" alt="08" loading="lazy" decoding="async"><figcaption>08</figcaption></figure>
+  </div>
+  <figcaption>Emblema de duas linhas em forma de chama, num disco de marsala, laranja ou ameixa sobre padrão ondulado em papel creme. Também fora das famílias SAND (cores quentes).</figcaption>
+
+  <h3 style="font-size:22px;margin:28px 0 10px">Destaques — teal, âmbar e terracota (09–16)</h3>
+  <div class="gal gp">
+    <figure><img src="sand-v2-assets/destaques/09.webp" alt="09" loading="lazy" decoding="async" style="border-radius:50%"><figcaption>09</figcaption></figure><figure><img src="sand-v2-assets/destaques/10.webp" alt="10" loading="lazy" decoding="async" style="border-radius:50%"><figcaption>10</figcaption></figure><figure><img src="sand-v2-assets/destaques/11.webp" alt="11" loading="lazy" decoding="async" style="border-radius:50%"><figcaption>11</figcaption></figure><figure><img src="sand-v2-assets/destaques/12.webp" alt="12" loading="lazy" decoding="async" style="border-radius:50%"><figcaption>12</figcaption></figure><figure><img src="sand-v2-assets/destaques/13.webp" alt="13" loading="lazy" decoding="async" style="border-radius:50%"><figcaption>13</figcaption></figure><figure><img src="sand-v2-assets/destaques/14.webp" alt="14" loading="lazy" decoding="async" style="border-radius:50%"><figcaption>14</figcaption></figure><figure><img src="sand-v2-assets/destaques/15.webp" alt="15" loading="lazy" decoding="async" style="border-radius:50%"><figcaption>15</figcaption></figure><figure><img src="sand-v2-assets/destaques/16.webp" alt="16" loading="lazy" decoding="async" style="border-radius:50%"><figcaption>16</figcaption></figure>
+  </div>
+  <figcaption>Mesmo emblema em discos de 1254×1254: teal-noite com linha branca ou âmbar, terracota com linha teal ou branca, e creme com linha terracota ou teal.</figcaption>
+
+  <h3 style="font-size:22px;margin:28px 0 10px">Destaques — padrões e recortes (17–24)</h3>
+  <div class="gal gp" style="grid-template-columns:repeat(auto-fill,minmax(210px,1fr))">
+    <figure><img src="sand-v2-assets/destaques/17.webp" alt="17" loading="lazy" decoding="async"><figcaption>17</figcaption></figure><figure><img src="sand-v2-assets/destaques/18.webp" alt="18" loading="lazy" decoding="async"><figcaption>18</figcaption></figure><figure><img src="sand-v2-assets/destaques/19.webp" alt="19" loading="lazy" decoding="async"><figcaption>19</figcaption></figure><figure><img src="sand-v2-assets/destaques/20.webp" alt="20" loading="lazy" decoding="async"><figcaption>20</figcaption></figure><figure><img src="sand-v2-assets/destaques/21.webp" alt="21" loading="lazy" decoding="async"><figcaption>21</figcaption></figure><figure><img src="sand-v2-assets/destaques/22.webp" alt="22" loading="lazy" decoding="async"><figcaption>22</figcaption></figure><figure><img src="sand-v2-assets/destaques/23.webp" alt="23" loading="lazy" decoding="async"><figcaption>23</figcaption></figure><figure><img src="sand-v2-assets/destaques/24.webp" alt="24" loading="lazy" decoding="async"><figcaption>24</figcaption></figure>
+  </div>
+  <figcaption>Recortes retangulares do emblema e padrões repetidos em teal com linhas brancas, âmbar ou terracota. Pela pasta (<code>Destaques/</code>) e pelo formato em disco, deduzo que são capas de destaque do Instagram. Se for outro uso, me diga.</figcaption>
+
+  <h3 style="font-size:22px;margin:28px 0 10px">Ilustrações-objeto — dourado sobre teal-noite</h3>
+  <div class="gal gm">
+    <figure><img src="sand-v2-assets/obj-bussola.webp" alt="Bússola dourada da clareza" loading="lazy" decoding="async"><figcaption>Bússola dourada da clareza</figcaption></figure>
+    <figure><img src="sand-v2-assets/obj-caminho.webp" alt="Caminho dourado para a inteligência" loading="lazy" decoding="async"><figcaption>Caminho dourado para a inteligência</figcaption></figure>
+    <figure><img src="sand-v2-assets/obj-cupula.webp" alt="Cúpula protetora com pérola e broto" loading="lazy" decoding="async"><figcaption>Cúpula protetora com pérola e broto</figcaption></figure>
+    <figure><img src="sand-v2-assets/obj-laco.webp" alt="Laço infinito da prática" loading="lazy" decoding="async"><figcaption>Laço infinito da prática</figcaption></figure>
+    <figure><img src="sand-v2-assets/obj-lente.webp" alt="Lente de precisão" loading="lazy" decoding="async"><figcaption>Lente de precisão</figcaption></figure>
+    <figure><img src="sand-v2-assets/obj-ordem.webp" alt="Ordem dourada em camadas translúcidas" loading="lazy" decoding="async"><figcaption>Ordem dourada em camadas translúcidas</figcaption></figure>
+    <figure><img src="sand-v2-assets/obj-perola.webp" alt="Pérola luminosa floresce em papel" loading="lazy" decoding="async"><figcaption>Pérola luminosa floresce em papel</figcaption></figure>
+    <figure><img src="sand-v2-assets/obj-portal.webp" alt="Portal do Primeiro Passo" loading="lazy" decoding="async"><figcaption>Portal do Primeiro Passo</figcaption></figure>
+  </div>
+  <figcaption>Oito objetos 1536×1024 (o "Caminho dourado" é vertical, 941×1672). Nomes tirados dos arquivos.</figcaption>
+
+  <h3 style="font-size:22px;margin:28px 0 10px">Cenários e ilustrações botânicas (creme)</h3>
+  <div class="grid g3">
+    <figure class="imgbox"><img src="sand-v2-assets/obj-arvore.webp" alt="<b>Árvore dourada em paisagem orgânica</b>" loading="lazy" decoding="async"><figcaption><b>Árvore dourada em paisagem orgânica</b> — 2172×724, fundo escuro.</figcaption></figure>
+    <figure class="imgbox"><img src="sand-v2-assets/rodape-paisagem.webp" alt="<b>rodape-paisagem.webp</b>" loading="lazy" decoding="async"><figcaption><b>rodape-paisagem.webp</b> — faixa de paisagem noturna com caminho dourado; usada na capa deste documento.</figcaption></figure>
+    <figure class="imgbox"><img src="sand-v2-assets/bib-hero.webp" alt="<b>biblioteca/sand/hero-biblioteca</b>" loading="lazy" decoding="async"><figcaption><b>biblioteca/sand/hero-biblioteca</b> — ilustração botânica em creme.</figcaption></figure>
+    <figure class="imgbox"><img src="sand-v2-assets/bib-hero2.webp" alt="<b>biblioteca/sand/windsor-hero</b>" loading="lazy" decoding="async"><figcaption><b>biblioteca/sand/windsor-hero</b></figcaption></figure>
+    <figure class="imgbox"><img src="sand-v2-assets/bib-card.webp" alt="<b>biblioteca/sand/windsor-card</b>" loading="lazy" decoding="async"><figcaption><b>biblioteca/sand/windsor-card</b> — 1254×1254.</figcaption></figure>
+    <figure class="imgbox"><img src="sand-v2-assets/bib-rotina.webp" alt="<b>biblioteca/sand/windsor-rotina</b>" loading="lazy" decoding="async"><figcaption><b>biblioteca/sand/windsor-rotina</b> — 1254×1254.</figcaption></figure>
+    <figure class="imgbox"><img src="sand-v2-assets/bib-seguranca.webp" alt="<b>biblioteca/sand/windsor-seguranca</b>" loading="lazy" decoding="async"><figcaption><b>biblioteca/sand/windsor-seguranca</b> — 1254×1254.</figcaption></figure>
+    <figure class="imgbox"><img src="sand-v2-assets/bib-encerramento.webp" alt="<b>biblioteca/sand/windsor-encerramento</b>" loading="lazy" decoding="async"><figcaption><b>biblioteca/sand/windsor-encerramento</b> — 2172×724.</figcaption></figure>
+  </div>
+
+  <h3 style="font-size:22px;margin:28px 0 10px">Formatos da JAYA (medidos nos arquivos originais)</h3>
+  <table>
+    <tr><th>Slot</th><th>Formato original</th><th>Arquivos</th></tr>
+    <tr><td>Banner</td><td>2172×724</td><td><code>banner claro sand.png</code>, <code>banner escuro SAND.png</code></td></tr>
+    <tr><td>Tela de login</td><td>1456×1080</td><td>6 arquivos <code>login claro/escuro SAND 1–3.png</code></td></tr>
+    <tr><td>Área de membros</td><td>1122×1402</td><td><code>claro SAND 1/2.png</code>, <code>escuro SAND 2.png</code></td></tr>
+    <tr><td>Retrato vertical</td><td>941×1672</td><td><code>jaya 0–5.png</code>, <code>hero-windsor-sand*.webp</code></td></tr>
+    <tr><td>Foto de ensaio</td><td>1024×1536</td><td><code>jaya01–10.png</code></td></tr>
+    <tr><td>Peças Claude do Zero</td><td>1024×1536, 1122×1402, 1672×941, 941×1672, 1254×1254 e uma faixa 2103×748</td><td><code>jaya11–20.png</code></td></tr>
+    <tr><td>Destaque</td><td>1254×1254 (16 arquivos) e retangulares de 1375×1144 a 1672×941 (8)</td><td><code>Destaques/01–24.png</code></td></tr>
+    <tr><td>Objeto</td><td>1536×1024 (um em 941×1672, um em 2172×724)</td><td>8 objetos + árvore dourada</td></tr>
+    <tr><td>Logo Jay.AI</td><td>1254×1254</td><td><code>identidade-visual/19–30.png</code></td></tr>
+    <tr><td>Logo Jaya</td><td>varia (de 797×824 a 1792×878)</td><td><code>identidade-visual/31–49.png</code></td></tr>
+  </table>
+
+  <h3 style="font-size:22px;margin:28px 0 10px">Formatos recorrentes — referência do site SAND</h3>
+  <table>
+    <tr><th>Slot</th><th>Formato</th><th>Tratamento</th></tr>
+    <tr><td>Hero/carousel mestre</td><td>1730×960 JPG</td><td>Colagem autoral; overlay <code>rgba(0,0,0,.15–.35)</code>; título branco trackeado por cima (ou já estampado na arte)</td></tr>
+    <tr><td>Poster de filme</td><td>300×480 (27×40 proporção cinema)</td><td>Laurels de festival compostos na arte; carrossel com paginação linha-ponto</td></tr>
+    <tr><td>Thumb de evento/curso</td><td>460×270 · 497×297</td><td>Badges pill sobrepostos; zoom 1.1 no hover; cantos retos</td></tr>
+    <tr><td>Retratos</td><td>Círculo perfeito (50%)</td><td>Anel duplo (sólido+pontilhado) em apresentadores; arco dourado pontilhado no universo podcast</td></tr>
+    <tr><td>Banner de podcast</td><td>Grey-SAND.jpg (dunas cinza)</td><td>Fundo dark #202020; capas em preto+ouro "SOUNDS OF SAND"</td></tr>
+    <tr><td>Screenshots de webinar</td><td>760×382</td><td>Grade de screenshots reais (Zoom) na seção de cursos — humanidade crua, sem retoque</td></tr>
+  </table>
+</section>
+
+<!-- ================= 10. DARK ================= -->
+<section id="dark">
+  <span class="sec-label">09 · Modo escuro editorial — universo "Sounds of SAND"</span>
+  <h2 class="sec">Preto, ouro e voz</h2>
+  <div class="demo" style="background:#202020;flex-direction:column;align-items:flex-start;padding:40px">
+    <p class="serif" style="color:#f4cf85;font-size:15px;letter-spacing:.5em;text-transform:uppercase">Sounds of SAND</p>
+    <h3 class="serif" style="color:#f6f5f0;font-size:38px;margin:8px 0">Arborescence</h3>
+    <p style="color:#cfcfcf;font-size:14.5px;max-width:640px"><b style="color:#fff">00:04</b> A tree is a verb, not a noun · <b style="color:#fff">00:06</b> Branching, brains, and why AI has no roots — timestamps em bold branco, links em <a href="#" style="color:#2d90bf">azul #2D90BF</a>, corpo em cinza-claro sobre <code style="background:#333;color:#f4cf85">#202020</code></p>
+  </div>
+  <figcaption>Página de podcast medida ao vivo: banner de dunas cinza (<code>Grey-SAND.jpg</code>), conteúdo em <code>#202020</code>, h1 Marcellus 55px em <code>#F6F5F0</code>, capas de episódio em carvão com lettering dourado trackeado e retrato circular emoldurado por arco de pontos dourados. O dark mode não é um tema global — é o território sonoro da marca.</figcaption>
+</section>
+
+<!-- ================= 11. STACK ================= -->
+<section id="stack">
+  <span class="sec-label">10 · Stack técnica (fingerprint)</span>
+  <h2 class="sec">Sob o capô</h2>
+  <table>
+    <tr><th>Camada</th><th>Detalhe raspado</th></tr>
+    <tr><td>CMS</td><td>WordPress 7.0.4 + Site Kit by Google 1.183.0 (meta generator)</td></tr>
+    <tr><td>Tema</td><td><b>Blueprint</b> (Codesupply) + tema filho <b>blueprint-child</b> — todo o branding vive no filho (<code>theme.css</code>, <code>style.css</code> ~299KB, CSS por seção ACF: intro, welcome, upcoming-events, cta-section, featured-blogs, topic-categories)</td></tr>
+    <tr><td>Page building</td><td>ACF + blocos Gutenberg custom (classes <code>acf-gutenberg</code>); body <code>cs-navbar-smart-enabled · cs-stick-to-top</code></td></tr>
+    <tr><td>JS</td><td>jQuery 3.7.1 · slick (carrosséis) · Flickity · prettyPhoto/wp-video-lightbox · sem GSAP/AOS/Lottie/Swiper</td></tr>
+    <tr><td>Forms</td><td>Gravity Forms (vars <code>--gf-*</code>) + Mailchimp (mc_slideIn)</td></tr>
+    <tr><td>Plugins visuais</td><td>Powerkit (author box, ícones) · Complianz (cookies) · WooCommerce presente (vars de carrinho)</td></tr>
+    <tr><td>Fontes</td><td>Marcellus + Articulat CF self-hosted no tema filho · Open Sans via Google Fonts · Plus Jakarta Sans no tema pai</td></tr>
+    <tr><td>Volume</td><td>48 stylesheets, ~2,0 MB CSS total, 1.487 custom properties (294 <code>--cs-*</code> resolvidas no root), 31 @keyframes, 122 imagens na home (62 únicas)</td></tr>
+  </table>
+</section>
+<!-- ================= 12. TOKENS ================= -->
+<section id="tokens">
+  <span class="sec-label">11 · Design tokens (JSON copiável)</span>
+  <h2 class="sec">Tokens normalizados</h2>
+  <p class="lead">Consolidação de tudo acima em papéis funcionais — pronto para importar em outro projeto.</p>
+<pre style="background:#0f2e3a;color:#d8e4e8;font-size:12.5px;line-height:1.65;padding:26px;overflow-x:auto;font-family:ui-monospace,Menlo,monospace"><code>{
+  "meta": {
+    "brand": "Science and Nonduality (SAND)",
+    "source": "scienceandnonduality.com",
+    "extractedAt": "2026-08-19",
+    "method": "live DOM/CSSOM scrape + CSS census (48 sheets)"
+  },
+  "color": {
+    "surface": {
+      "page": "#FFFFFF", "cream": "#F6F5F0", "warmWhite": "#FFFAF5",
+      "darkContent": "#202020", "preloader": "#0A2229",
+      "footer": "#0F2E3A", "donation": "#5A8DB6",
+      "offcanvas": "rgba(255,250,245,0.95)",
+      "headerScrolled": "rgba(255,255,255,0.85)", "submenuDark": "rgba(28,28,28,0.85)"
+    },
+    "text": {
+      "primary": "#292929", "heading": "#152D38", "ink": "#002F3B",
+      "excerpt": "#717275", "secondary": "#A3A3A3", "meta": "#517D86",
+      "onDark": "#F6F5F0", "muted-hover": "#65777F", "mist-hover": "#819DA3"
+    },
+    "action": {
+      "button": "#FCB655", "buttonContrast": "#0A2229",
+      "buttonHoverBg": "#002F3B", "buttonHoverText": "#FDB657",
+      "amberSoft": "#F3B867", "amberHot": "#FFA62F", "goldLight": "#F4CF85",
+      "link": "#2D90BF", "linkHover": "#00A4D6", "submitHover": "#43A0CC",
+      "lavender": "#807FA7", "lavenderHover": "#817EAB",
+      "oliveLink": "#587115", "oliveHover": "#57730A"
+    },
+    "support": {
+      "moss": "#656B62", "oliveDeep": "#445120", "sage": "#A3A889",
+      "steelBlue": "#4F92AB", "deepSteel": "#225572", "peach": "#F2D3BC",
+      "darkGreenTeal": "#273E3C", "slate": "#5E7983"
+    },
+    "palette": { "blue": "#59BACC", "green": "#58AD69", "orange": "#FFBC49", "red": "#E32C26" },
+    "badge": {
+      "info": "#5C6693", "primary": "#484F7E", "danger": "#CFA0B1",
+      "success": "#9DB8AD", "warning": "#CAC6B4", "dark": "#000000", "light": "#FAFAFA"
+    },
+    "overlay": { "primary": "rgba(0,0,0,0.15)", "secondary": "rgba(0,0,0,0.35)" },
+    "gray": ["#F8F9FA","#E9ECEF","#DEE2E6","#CED4DA","#ADB5BD","#6C757D","#495057","#343A40","#212529"]
+  },
+  "typography": {
+    "display": { "family": "Marcellus, serif", "weight": 400, "note": "peso único" },
+    "body": { "family": "'Open Sans', sans-serif", "weight": 300, "size": "17-18px", "lineHeight": "1.7-2.2", "letterSpacing": "0.5px" },
+    "framework": { "family": "'plus-jakarta-sans', sans-serif", "role": "defaults Blueprint" },
+    "special": { "family": "'Articulat CF'", "weights": "200-900 + oblique", "role": "peças pontuais" },
+    "scale": {
+      "h1": { "size": "55px", "lineHeight": "1.27-1.3", "family": "Marcellus" },
+      "subtitle": { "size": "26px", "letterSpacing": "0.1em", "family": "Marcellus" },
+      "sectionTitle": { "size": "28-40px", "lineHeight": "1.15" },
+      "wordmark": { "family": "Marcellus", "tracking": "0.85em" },
+      "button": { "size": "13-15px", "weight": 700, "tracking": "3px", "transform": "uppercase" },
+      "menu": { "size": "15px", "weight": 500, "tracking": "1.5px", "transform": "uppercase", "color": "#002F3B" },
+      "label": { "size": "10-13px", "weight": 600, "tracking": "0.15-0.22em", "transform": "uppercase" },
+      "meta": { "size": "18px", "color": "#517D86", "style": "italic em datas de card" }
+    }
+  },
+  "layout": {
+    "headerHeight": "96px",
+    "contentWidth": { "base": "690px", "medium": "840px", "large": "1160px", "block": "544px" },
+    "sectionPadding": "70-100px",
+    "breakpoints": { "md": "768px", "lg": "1024px", "xl": "1200px", "xxl": "1432px", "strategy": "mobile-first" }
+  },
+  "radius": {
+    "button": "0px", "card": "0px", "thumbnail": "0px", "pagination": "0px",
+    "input": "4px", "badge": "4px", "categoryLabel": "4px", "tag": "5px",
+    "circle": "50% (avatar, play, scroll-top, bullets)", "categoryLetter": "26px"
+  },
+  "shadow": { "default": "none (sistema plano)", "modal": "0 10px 20px rgba(0,0,0,.19), 0 6px 6px rgba(0,0,0,.23)" },
+  "motion": {
+    "fast": "0.25s (token dominante, 143x)",
+    "base": "0.3s ease-in-out (all/color/border/opacity)",
+    "header": "0.4s", "slow": "0.5s ease",
+    "imageZoom": "scale(1.1)", "arrowNudge": "translateY(10px)",
+    "menuDesaturate": "saturate(40%)",
+    "preloader": { "rotate": "rotating 1s steps(8) infinite", "layers": "blink 0-80% opacity", "siteFadeIn": "opacity 0.3s ease-in-out" }
+  }
+}</code></pre>
+</section>
+
+<!-- ================= 13. MÉTODO ================= -->
+<section id="metodo">
+  <span class="sec-label">12 · Método, evidência &amp; limites</span>
+  <h2 class="sec">Como isto foi raspado</h2>
+  <div class="grid g2">
+    <div class="card">
+      <h3 style="font-size:19px;margin-bottom:10px">Pipeline</h3>
+      <p style="font-size:14.5px;line-height:1.9">1 · Fetch das 48 stylesheets (~2,0 MB) no contexto da página e parse de <code>:root</code>, <code>@font-face</code>, <code>@keyframes</code>, <code>@media</code>, <code>:hover</code> e <code>transition</code>.<br>2 · Resolução das 294 variáveis <code>--cs-*</code> via <code>getComputedStyle</code> no DOM vivo.<br>3 · Medição direta de elementos reais (h1, botões, menu, meta) em 5 templates.<br>4 · Censo de frequência de cores no CSS do tema filho (o que separa marca de framework).<br>5 · Inventário de 62 imagens únicas + assets decorativos + estados de hover.<br>6 · Captura visual de 12 viewports (home completa, evento, films, podcast, mission, menu).</p>
+    </div>
+    <div class="card">
+      <h3 style="font-size:19px;margin-bottom:10px">Limites declarados (n/i)</h3>
+      <p style="font-size:14.5px;line-height:1.9">· Easing/duração do autoplay dos carrosséis slick: configurado em JS inline não raspado — n/i.<br>· Onde exatamente Articulat CF é aplicada no site SAND: carregada pelo tema filho, uso não observado nos 5 templates auditados. Na v2 ela vem da pasta Fontes.<br>· SVG original da mandala do preloader: inline no DOM; a recriação aqui reproduz o comportamento, não a arte.<br>· v2: as imagens vêm da pasta SAND (cópias otimizadas em <code>sand-v2-assets/</code>, ao lado deste HTML); nada é carregado do site original. Só as fontes ainda vêm do Google Fonts.<br>· Paleta da JAYA (seção 00): medida por amostragem de pixels nos logos, sem arquivo de hex oficial — n/i.<br>· Uso do material: paleta/tipografia servem como referência de estudo; arte, logo e fotos do site são propriedade do SAND; as imagens das seções 00 e 08 são da JAYA.</p>
+    </div>
+  </div>
+  <p style="margin-top:34px;text-align:center;font-size:12px;color:#98978d;letter-spacing:.14em;text-transform:uppercase">Raspagem e documento · Ayla para Jaya · 19 ago 2026 · fonte: scienceandnonduality.com · v2 com a identidade da JAYA · 22 out 2026</p>
+</section>
+
+</main>
+</body>
+</html>

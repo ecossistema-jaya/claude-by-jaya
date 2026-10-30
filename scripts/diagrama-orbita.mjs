@@ -64,9 +64,12 @@ export const CFG = {
 const SAND = {
   fonteTitulo: "Marcellus, Georgia, serif",
   fonteMono: "'Open Sans', sans-serif",
+  /* As cores que mudam com o tema saem como variáveis CSS (--dg-tinta, --dg-sec, --dg-papel),
+     definidas na página: claro = #152D38 / #517D86 / #F6F5F0, escuro = #F6F5F0 / #8FB3BB / #0F2E3A.
+     O dourado #F4CF85 é igual nos dois temas. */
   cores: {
-    tinta: '#152d38', cobre: '#f4cf85', brilho: '#f4cf85', marsala: '#152d38', papel: '#f6f5f0', creme: '#f6f5f0',
-    sec: '#517d86', reflexo: '#f6f5f0', flare: '#f6f5f0', flare2: '#f6f5f0', chipTopo: '#f6f5f0', chipBase: '#f6f5f0', nucleoBase: '#f6f5f0',
+    tinta: 'var(--dg-tinta)', cobre: '#f4cf85', brilho: '#f4cf85', marsala: 'var(--dg-tinta)', papel: 'var(--dg-papel)', creme: 'var(--dg-papel)',
+    sec: 'var(--dg-sec)', reflexo: 'var(--dg-papel)', flare: 'var(--dg-papel)', flare2: 'var(--dg-papel)', chipTopo: 'var(--dg-papel)', chipBase: 'var(--dg-papel)', nucleoBase: 'var(--dg-papel)',
     rimA: '#f4cf85', rimB: '#f4cf85', acento: '#f4cf85', luzDestaque: '#f4cf85', bordaDestaque: '#f4cf85', sombra: '0', ponto: '#f4cf85', opTxt: '1', opCoord: '1',
   },
 };
@@ -426,7 +429,7 @@ export function svgManual() {
 /* CSS do modo SAND: sem sombra, cantos retos, fundo transparente. O painel do método é creme porque
    a seção dele é escura; o do Manual fica solto dentro do card. As animações são as mesmas. */
 export const CSS_SAND = CSS_DIAGRAMA
-  .replace(/\.hero-art \{[\s\S]*?\n  \}\n/, '.hero-art { width: 100%; max-width: 420px; margin: 0 auto; box-sizing: border-box; padding: 8px; background: #f6f5f0; border: 1px solid #d8d5c9; }\n')
+  .replace(/\.hero-art \{[\s\S]*?\n  \}\n/, '.hero-art { width: 100%; max-width: 420px; margin: 0 auto; box-sizing: border-box; padding: 8px; background: var(--dg-papel); border: 1px solid var(--line-2); }\n')
   .replace(/\.manual-art \{[\s\S]*?\n  \}\n/, '.manual-art { padding: 0; display: grid; place-items: center; }\n');
 
 /* ---------- escrita ---------- */

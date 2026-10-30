@@ -34,7 +34,7 @@ const AVULSO = 'C:/Users/Jaya/Projetos/ecosistema-jaya/jaya/diagrama-claude-do-z
 
 export const CFG = {
   aulas: ['Conversar', 'Trabalhar', 'Mostrar a cara', 'Autoconhecimento', 'Landing Page'], // nomes completos (aria-label)
-  rotulos: [['Conversar'], ['Trabalhar'], ['Documento', 'Mestre'], ['Auto', 'conhecimento'], ['Landing', 'Page']], // o que aparece no desenho, uma linha por item
+  rotulos: [['Conversar'], ['Trabalhar'], ['Mostrar', 'a cara'], ['Auto', 'conhecimento'], ['Landing', 'Page']], // o que aparece no desenho, uma linha por item
   destaque: 2, // índice da aula em marsala (a 3, Mostrar a cara)
   orbitar: false, // true: as aulas giram em volta do Claude (sem nomes no desenho)
   periodoOrbita: '90s', // uma volta das aulas, se orbitar; menor = mais rápido

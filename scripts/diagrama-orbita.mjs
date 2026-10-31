@@ -2,12 +2,15 @@
    o diagrama do método (5 aulas em volta do Claude, estilo radar) e o do Manual (o Claude como
    um chip, com 8 recursos ligados por trilhas, estilo placa de circuito).
 
-   Uso:  node scripts/diagrama-orbita.mjs              atualiza a página de oferta + o arquivo avulso
+   Uso:  node scripts/diagrama-orbita.mjs              grava os desenhos SAND em originais/claude-do-zero.html
          node scripts/diagrama-orbita.mjs --bootstrap  só na primeira vez: coloca os marcadores na página
+         node scripts/diagrama-orbita.mjs --terracota  só o arquivo avulso, na paleta terracota antiga
 
    A página (originais/claude-do-zero.html) recebe cada desenho entre marcadores
    (DIAGRAMA:INI/FIM e DIAGRAMA-MANUAL:INI/FIM) e o CSS entre DIAGRAMA-CSS:INI/FIM.
    Não edite o que está entre os marcadores: mude CFG aqui e rode de novo.
+   A paleta da página é a do SAND (item 7). A terracota não escreve mais na página: ela só gera
+   o arquivo avulso, com --terracota.
 
    Como os desenhos são construídos (tudo em um viewBox de 600 x 600, centro em 300,300):
    1. Anéis e marcas: círculos com stroke-dasharray. A marca fina é 1 traço a cada 6 graus
@@ -22,10 +25,9 @@
       traços largos de baixa opacidade, para a animação ficar leve no celular.
    6. Radar, anel de marcas e núcleo giram ou pulsam por CSS (.spin, .spin-rev, .pulse).
       Com "reduzir movimento" no sistema, tudo para.
-   7. Modo SAND (node scripts/diagrama-orbita.mjs --sand): mesmos desenhos na paleta clara do
-      design system (linhas e textos #152D38, secundários #517D86, destaque #F4CF85, fundo
-      transparente). Grava só em public/oferta/nova.html, entre os mesmos marcadores; não toca em
-      originais/claude-do-zero.html nem no arquivo avulso. Sem a flag, nada muda.
+   7. Paleta SAND (padrão para a página): mesmos desenhos na paleta do design system (linhas e
+      textos #152D38 no claro e #F6F5F0 no escuro, secundários #517D86/#8FB3BB, destaque #F4CF85,
+      fundo transparente). As cores que mudam com o tema saem como variáveis CSS (--dg-*).
    8. CFG.orbitar = true faz as aulas girarem em volta do centro (.orbita); cada chip gira ao
       contrário (.contra) para o número ficar em pé. Nesse modo os nomes saem do desenho. */
 import fs from 'node:fs';
@@ -35,7 +37,6 @@ import { pathToFileURL } from 'node:url';
 const ROOT = path.resolve(import.meta.dirname, '..');
 const PAGINA = path.join(ROOT, 'originais', 'claude-do-zero.html');
 const LOGO = path.join(ROOT, 'public', 'icones', 'claude.svg');
-const NOVA = path.join(ROOT, 'public', 'oferta', 'nova.html');
 const AVULSO = 'C:/Users/Jaya/Projetos/ecosistema-jaya/jaya/diagrama-claude-do-zero.html';
 
 export const CFG = {
@@ -448,16 +449,31 @@ function trocar(texto, ini, fim, novo) {
 /* Só roda como script. Importar este arquivo (para testar, por exemplo) não escreve nada. */
 const comoScript = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
 
-if (comoScript && process.argv.includes('--sand')) {
-  /* Modo SAND: só a página nova. Os marcadores DIAGRAMA:INI/FIM, DIAGRAMA-MANUAL:INI/FIM e
-     DIAGRAMA-CSS:INI/FIM precisam existir em public/oferta/nova.html. */
-  usarSand();
-  let h = fs.readFileSync(NOVA, 'utf8');
-  h = trocar(h, '<!-- DIAGRAMA:INI -->', '<!-- DIAGRAMA:FIM -->', blocoMetodo());
-  h = trocar(h, '<!-- DIAGRAMA-MANUAL:INI -->', '<!-- DIAGRAMA-MANUAL:FIM -->', blocoManual());
-  h = trocar(h, '/* DIAGRAMA-CSS:INI */', '/* DIAGRAMA-CSS:FIM */', `/* DIAGRAMA-CSS:INI */${CSS_SAND}  /* DIAGRAMA-CSS:FIM */`);
-  fs.writeFileSync(NOVA, h);
-  console.log('+ diagramas SAND em public/oferta/nova.html');
+if (comoScript && process.argv.includes('--terracota')) {
+  /* Terracota: só o arquivo avulso. Nunca escreve em originais/claude-do-zero.html. */
+  const logo = fs.readFileSync(LOGO, 'utf8');
+  const simbolo = `<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="claude" viewBox="0 0 1200 1200">${logo.slice(logo.indexOf('<g'), logo.lastIndexOf('</svg>'))}</symbol></svg>`;
+  fs.writeFileSync(
+    AVULSO,
+    `<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diagramas Claude, Seu Redator Pessoal</title>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600&family=Petrona:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --card: #fffdf8; --linha: #e7d6be; --areia-bg: #faf4ea; }
+  body { margin: 0; background: var(--areia-bg); display: grid; gap: 28px; justify-items: center; padding: 24px 20px; }
+  .caixa { width: min(640px, 100%); }
+${CSS_DIAGRAMA}
+  .caixa .manual-art { border: 1px solid var(--linha); border-radius: 24px; }
+</style></head>
+<body>
+${simbolo}
+<div class="caixa"><div class="hero-art">${svg()}</div></div>
+<div class="caixa"><div class="manual-art">${svgManual()}</div></div>
+</body></html>
+`,
+  );
+  console.log('+ ' + AVULSO + ' (terracota, a página não foi tocada)');
 } else if (comoScript) {
   if (process.argv.includes('--bootstrap')) {
     let h = fs.readFileSync(PAGINA, 'utf8');
@@ -466,41 +482,18 @@ if (comoScript && process.argv.includes('--sand')) {
       const a = h.indexOf('<div class="manual-art"');
       const fimSvg = h.indexOf('</svg>', a) + '</svg>'.length;
       const fimDiv = h.indexOf('</div>', fimSvg) + '</div>'.length;
-      h = h.slice(0, a) + '<!-- DIAGRAMA-MANUAL:INI -->\n        <!-- DIAGRAMA-MANUAL:FIM -->' + h.slice(fimDiv);
+      h = h.slice(0, a) + '<!-- DIAGRAMA-MANUAL:INI -->' + String.fromCharCode(10) + '        <!-- DIAGRAMA-MANUAL:FIM -->' + h.slice(fimDiv);
       console.log('marcadores do Manual colocados');
     }
     fs.writeFileSync(PAGINA, h);
   }
 
+  /* Padrão: SAND, escrito em originais/claude-do-zero.html entre os marcadores. */
+  usarSand();
   let h = fs.readFileSync(PAGINA, 'utf8');
   h = trocar(h, '<!-- DIAGRAMA:INI -->', '<!-- DIAGRAMA:FIM -->', blocoMetodo());
   h = trocar(h, '<!-- DIAGRAMA-MANUAL:INI -->', '<!-- DIAGRAMA-MANUAL:FIM -->', blocoManual());
-  h = trocar(h, '/* DIAGRAMA-CSS:INI */', '/* DIAGRAMA-CSS:FIM */', cssBloco());
+  h = trocar(h, '/* DIAGRAMA-CSS:INI */', '/* DIAGRAMA-CSS:FIM */', `/* DIAGRAMA-CSS:INI */${CSS_SAND}  /* DIAGRAMA-CSS:FIM */`);
   fs.writeFileSync(PAGINA, h);
-  console.log('+ diagramas na página (' + CFG.aulas.length + ' aulas' + (CFG.orbitar ? ', em órbita, volta em ' + CFG.periodoOrbita : ', paradas') + '; ' + CFG.recursosManual + ' recursos no Manual)');
-
-  // arquivo avulso, para abrir direto no navegador
-  const logo = fs.readFileSync(LOGO, 'utf8');
-  const simbolo = `<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="claude" viewBox="0 0 1200 1200">${logo.slice(logo.indexOf('<g'), logo.lastIndexOf('</svg>'))}</symbol></svg>`;
-  fs.writeFileSync(
-    AVULSO,
-    `<!doctype html>
-  <html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Diagramas Claude, Seu Redator Pessoal</title>
-  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600&family=Petrona:wght@500;600&display=swap" rel="stylesheet">
-  <style>
-    :root { --card: #fffdf8; --linha: #e7d6be; --areia-bg: #faf4ea; }
-    body { margin: 0; background: var(--areia-bg); display: grid; gap: 28px; justify-items: center; padding: 24px 20px; }
-    .caixa { width: min(640px, 100%); }
-  ${CSS_DIAGRAMA}
-    .caixa .manual-art { border: 1px solid var(--linha); border-radius: 24px; }
-  </style></head>
-  <body>
-  ${simbolo}
-  <div class="caixa"><div class="hero-art">${svg()}</div></div>
-  <div class="caixa"><div class="manual-art">${svgManual()}</div></div>
-  </body></html>
-  `,
-  );
-  console.log('+ ' + AVULSO);
+  console.log('+ diagramas SAND em originais/claude-do-zero.html (' + CFG.aulas.length + ' aulas' + (CFG.orbitar ? ', em órbita, volta em ' + CFG.periodoOrbita : ', paradas') + '; ' + CFG.recursosManual + ' recursos no Manual)');
 }

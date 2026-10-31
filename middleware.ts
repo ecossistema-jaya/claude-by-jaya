@@ -109,11 +109,14 @@ function herdarCookies(destino: NextResponse, origem: NextResponse) {
      própria. Cada página e o download conferem sessão Google e convite da
      biblioteca (ou matrícula ativa); só /biblioteca/opengraph-image é pública,
      para a prévia dos links continuar funcionando.
+   - robots.txt, llms.txt, sitemap.xml e .well-known/: arquivos para rastreadores e
+     agentes de IA, que nunca têm cookie. Protegidos viravam 307 para /login (um
+     soft 404); em .well-known o que não existe agora responde 404 de verdade.
    - /claude: apresentação pública do curso. /claude-do-zero é a área do aluno
      e passa pelas mesmas verificações de sessão e autorização das aulas.
    Os HTML em /aulas e todas as outras imagens seguem fechados. */
 export const config = {
   matcher: [
-    '/((?!arquitetura-da-consciencia/?$|consciencia/index\\.html$|api/consciencia/(?:lead|analyze)$|claude/?$|biblioteca(?:/|$)|login|auth/callback|sem-acesso|obrigada/?$|zona-de-genialidade|zona/|deck-arquitetura-da-consciencia|deck/|oferta/|api/zona/|img/login\\.webp|img/login-mobile\\.webp|icones/claude\\.svg|img/og\\.jpg|_next/static|_next/image|_vercel|favicon.ico).*)',
+    '/((?!arquitetura-da-consciencia/?$|consciencia/index\\.html$|api/consciencia/(?:lead|analyze)$|claude/?$|robots\\.txt|llms\\.txt|sitemap\\.xml|\\.well-known/|biblioteca(?:/|$)|login|auth/callback|sem-acesso|obrigada/?$|zona-de-genialidade|zona/|deck-arquitetura-da-consciencia|deck/|oferta/|api/zona/|img/login\\.webp|img/login-mobile\\.webp|icones/claude\\.svg|img/og\\.jpg|_next/static|_next/image|_vercel|favicon.ico).*)',
   ],
 };

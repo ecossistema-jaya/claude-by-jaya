@@ -55,12 +55,14 @@ body{margin:0;background:var(--bg)}
 @media (max-width:1024px){.ft-art{margin-top:32px}}
 /* cabeçalho fixo, sempre com fundo, blur e linha; no celular esconde ao descer e volta ao subir */
 html{scroll-padding-top:88px}
+:root{--hdr-h:79px}
 .hdr{position:fixed;top:0;left:0;right:0;z-index:50;border-bottom:1px solid var(--line);background:rgba(246,245,240,.85);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);transition:background-color .2s,border-color .2s,transform .2s}
 :root[data-theme="dark"] .hdr{background:rgba(10,34,41,.85)}
 .hdr .hdr-in{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:11px;padding-bottom:11px}
 .hdr .logo img{height:56px}
 @media (max-width:768px){
 html{scroll-padding-top:72px}
+:root{--hdr-h:63px}
 .hdr .hdr-in{padding-top:9px;padding-bottom:9px}
 .hdr .logo img{height:44px}
 .hdr.is-hidden{transform:translateY(-100%)}
@@ -108,10 +110,10 @@ h1,h2,summary{letter-spacing:normal}
 /* topo e faixa "por dentro do método" (hero-e-mecanismo.html) */
 /* ---------- HERO ---------- */
 .hx{position:relative;background:var(--bg);overflow:hidden}
-.hx-photo{position:absolute;top:0;right:0;width:60%;height:660px}
-.hx-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 38%;display:block}
+.hx-photo{position:absolute;top:var(--hdr-h);right:0;width:60%;bottom:0}
+.hx-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 28%;display:block}
 .hx-photo::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(to right,var(--bg) 0%,rgba(var(--bg-rgb),.92) 16%,rgba(var(--bg-rgb),0) 46%)}
-.hx-photo::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(to top,var(--bg) 0%,rgba(var(--bg-rgb),0) 26%)}
+.hx-photo::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(to top,var(--bg) 0%,rgba(var(--bg-rgb),0) 14%)}
 .hx-geo{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none}
 .hx-vert{position:absolute;left:24px;top:110px;transform:rotate(180deg);z-index:3;writing-mode:vertical-rl;font:600 11px/1 'Open Sans',sans-serif;letter-spacing:.32em;text-transform:uppercase;color:var(--title)}
 .hx-wrap{position:relative;z-index:3;max-width:1120px;margin:0 auto;padding:96px 40px 0;min-height:600px;box-sizing:border-box}
@@ -143,10 +145,23 @@ h1,h2,summary{letter-spacing:normal}
 .hx-card.hx-cta .hx-arrow{background:#FCB655;color:#0A2229}
 .hx-card.hx-cta:hover{border-color:#FCB655}
 
+/* asteriscos do Claude flutuando no fundo do hero: o mesmo efeito da tela de login do curso */
+@keyframes hxFloat{0%{transform:translateY(-15px) rotate(-15deg)}50%{transform:translateY(30px) rotate(15deg)}100%{transform:translateY(-30px) rotate(-15deg)}}
+.hx-float{position:absolute;z-index:2;pointer-events:none;aspect-ratio:1/1;background:url(/icones/claude.svg) 50% center/contain no-repeat;animation:hxFloat 8s ease-in-out infinite}
+.hx-float.f1{top:400px;left:2%;width:clamp(56px,5.5vw,84px);opacity:.16;animation-delay:0s}
+.hx-float.f2{top:190px;left:46%;width:clamp(88px,9vw,140px);opacity:.12;animation-delay:1.5s}
+.hx-float.f3{top:112px;right:6%;width:clamp(40px,4vw,68px);opacity:.2;animation-delay:3s}
+:root[data-theme="dark"] .hx-float.f1{opacity:.22}
+:root[data-theme="dark"] .hx-float.f2{opacity:.16}
+:root[data-theme="dark"] .hx-float.f3{opacity:.28}
+@media (prefers-reduced-motion:reduce){.hx-float{animation:none}}
 @media (max-width:900px){
-  .hx-photo{position:relative;width:100%;height:440px}
+  .hx-photo{position:relative;top:auto;bottom:auto;width:100%;height:440px}
   .hx-photo::before{display:none}
   .hx-vert{display:none}
+  .hx-float.f1{top:96px;left:5%;width:64px}
+  .hx-float.f2{display:none}
+  .hx-float.f3{top:104px;right:6%;width:44px}
   .hx-wrap{padding:0 16px;min-height:0;margin-top:-40px}
   .hx-h1{font-size:40px}
   .hx-sub{font-size:21px}
@@ -257,6 +272,9 @@ h1,h2,summary{letter-spacing:normal}
       </g>
     </svg>
   </div>
+  <span class="hx-float f1" aria-hidden="true"></span>
+  <span class="hx-float f2" aria-hidden="true"></span>
+  <span class="hx-float f3" aria-hidden="true"></span>
   <span class="hx-vert" aria-hidden="true">A IA escreve · A voz é sua</span>
 
   <div class="hx-wrap">

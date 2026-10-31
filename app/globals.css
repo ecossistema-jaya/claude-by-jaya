@@ -685,6 +685,44 @@ a {
   height: 40px;
 }
 
+/* ---------- capa e login no visual SAND ----------
+   Mesma receita do curso: .curso-sand redefine os tokens só dentro do container, sem mexer no :root.
+   Aqui o corpo também vai em Marcellus, como nas artes da capa e do login. A caixa de login e os
+   cards ficam em branco translúcido com linha SAND, no lugar do creme quente. Vale para as telas
+   que usam o .login (login, sem-acesso, obrigada) e para a capa com os bônus (.pagina-capa). */
+.login.curso-sand,
+.pagina-capa {
+  --font-b: 'Marcellus', Georgia, serif;
+}
+
+.pagina-capa {
+  background: var(--bg);
+  min-height: 100dvh;
+}
+
+.login.curso-sand .caixa {
+  background: rgba(255, 255, 255, 0.92);
+  border-color: rgba(229, 227, 218, 0.9);
+  box-shadow: 0 18px 50px rgba(10, 34, 41, 0.22);
+}
+
+/* o recado de erro continua vinho: teal não diz "erro" */
+.login.curso-sand .codigo .erro {
+  color: #86050c;
+}
+
+.pagina-capa .sair {
+  background: rgba(255, 255, 255, 0.88);
+}
+
+.pagina-capa .cartao {
+  background: rgba(255, 255, 255, 0.86);
+}
+
+.pagina-capa .cartao:hover {
+  background: rgba(255, 255, 255, 0.96);
+}
+
 /* ---------- páginas guiadas das aulas 1 e 2 ---------- */
 
 .course-page {

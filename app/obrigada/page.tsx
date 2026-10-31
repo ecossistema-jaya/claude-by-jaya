@@ -15,7 +15,7 @@ const SUPORTE =
 
 export default function Obrigada() {
   return (
-    <main className="login">
+    <main className="login curso-sand">
       <span className="claude-float f1" aria-hidden="true" />
       <span className="claude-float f2" aria-hidden="true" />
       <span className="claude-float f3" aria-hidden="true" />

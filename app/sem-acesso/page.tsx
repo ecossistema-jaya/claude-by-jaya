@@ -25,7 +25,7 @@ export default async function SemAcesso({
       : 'Essa conta Google não está na lista de alunos. Se você se inscreveu com outro email, entre com ele. Se acha que é engano, me chame que eu libero.';
 
   return (
-    <main className="login">
+    <main className="login curso-sand">
       <div className="caixa">
         <div className="eyebrow">{eyebrow}</div>
         <h1>Conta não liberada</h1>

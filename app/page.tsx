@@ -68,7 +68,7 @@ export default async function Home() {
   const eu = data.user?.email ? await buscarAluno(supabase, data.user.email) : null;
 
   return (
-    <>
+    <div className="curso-sand pagina-capa">
       <main className="capa">
       <span className="claude-float f1" aria-hidden="true" />
       <span className="claude-float f2" aria-hidden="true" />
@@ -173,6 +173,6 @@ export default async function Home() {
           →
         </span>
       </Link>
-    </>
+    </div>
   );
 }

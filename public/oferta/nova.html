@@ -59,19 +59,16 @@ body{margin:0;background:var(--bg)}
 .ft-mini{margin:0;font:400 12px/1.7 'Open Sans',sans-serif;letter-spacing:.5px;color:var(--text-2)}
 .ft-art{aspect-ratio:3/1;margin-top:-16.7%;background:var(--ft-img) center bottom/100% 100% no-repeat;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 24%);mask-image:linear-gradient(to bottom,transparent 0,#000 24%)}
 @media (max-width:1024px){.ft-art{margin-top:32px}}
-/* cabeçalho fixo: transparente no início; depois de 40px de rolagem ganha fundo, blur e linha */
+/* cabeçalho fixo, sempre com fundo, blur e linha; no celular esconde ao descer e volta ao subir */
 html{scroll-padding-top:88px}
-.hdr{position:fixed;top:0;left:0;right:0;z-index:50;border-bottom:1px solid transparent;background:transparent;transition:background-color .2s,border-color .2s,backdrop-filter .2s,-webkit-backdrop-filter .2s,transform .2s}
-.hdr.is-scrolled{background:rgba(246,245,240,.85);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom-color:var(--line)}
-:root[data-theme="dark"] .hdr.is-scrolled{background:rgba(10,34,41,.85)}
+.hdr{position:fixed;top:0;left:0;right:0;z-index:50;border-bottom:1px solid var(--line);background:rgba(246,245,240,.85);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);transition:background-color .2s,border-color .2s,transform .2s}
+:root[data-theme="dark"] .hdr{background:rgba(10,34,41,.85)}
 .hdr .hdr-in{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:11px;padding-bottom:11px}
 .hdr .logo img{height:56px}
 @media (max-width:768px){
 html{scroll-padding-top:72px}
 .hdr .hdr-in{padding-top:9px;padding-bottom:9px}
 .hdr .logo img{height:44px}
-.hdr{background:rgba(246,245,240,.85);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom-color:var(--line)}
-:root[data-theme="dark"] .hdr{background:rgba(10,34,41,.85)}
 .hdr.is-hidden{transform:translateY(-100%)}
 }
 @media (prefers-reduced-motion:reduce){.hdr{transition:none}.hdr.is-hidden{transform:none}}
@@ -984,7 +981,7 @@ Se você sente que sabe muito, tem ideia demais e entrega de menos, me conta aqu
     });
   })();
 
-  /* Cabeçalho fixo: ganha fundo depois de 40px; no celular esconde ao descer e volta ao subir. */
+  /* Cabeçalho fixo: no celular esconde ao descer e volta ao subir (nunca no início da página). */
   (function () {
     var h = document.querySelector('.hdr');
     if (!h) return;
@@ -993,7 +990,6 @@ Se você sente que sabe muito, tem ideia demais e entrega de menos, me conta aqu
     function atualizar() {
       agendado = false;
       var y = window.scrollY;
-      h.classList.toggle('is-scrolled', y > 40);
       if (!celular.matches || reduzir.matches || y <= 40) { h.classList.remove('is-hidden'); ultimo = y; return; }
       if (y > ultimo + 6 && y > 80) { h.classList.add('is-hidden'); ultimo = y; }
       else if (y < ultimo - 6) { h.classList.remove('is-hidden'); ultimo = y; }

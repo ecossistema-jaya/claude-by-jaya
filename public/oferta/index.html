@@ -155,6 +155,30 @@ h1,h2,summary{letter-spacing:normal}
 :root[data-theme="dark"] .hx-float.f2{opacity:.16}
 :root[data-theme="dark"] .hx-float.f3{opacity:.28}
 @media (prefers-reduced-motion:reduce){.hx-float{animation:none}}
+/* asteriscos do Claude nas outras seções: ficam atrás do conteúdo (z-index -1 dentro da seção isolada),
+   nas margens laterais; abaixo de 1200px ficam menores, dentro do respiro lateral de 40px; no celular sobra um só, no topo, alternando o lado */
+.sec,.mx{position:relative;isolation:isolate;overflow:clip}
+.sf{position:absolute;z-index:-1;pointer-events:none;aspect-ratio:1/1;width:clamp(48px,5vw,76px);background:url(/icones/claude.svg) 50% center/contain no-repeat;opacity:.14;animation:hxFloat 8s ease-in-out infinite}
+.sf.p1{top:10%;left:1.5%;animation-delay:0s}
+.sf.p2{top:62%;right:1.5%;animation-delay:2s}
+.sf.p3{top:14%;right:1.5%;animation-delay:1s}
+.sf.p4{top:66%;left:1.5%;animation-delay:3s}
+.mx .sf,#metodo .sf,#oferta .sf{opacity:.24}
+:root[data-theme="dark"] .sf{opacity:.2}
+:root[data-theme="dark"] .mx .sf,:root[data-theme="dark"] #metodo .sf,:root[data-theme="dark"] #oferta .sf{opacity:.24}
+@media (max-width:1199px){
+  .sf{width:36px}
+  .sf.p1,.sf.p4{left:2px}
+  .sf.p2,.sf.p3{right:2px}
+}
+@media (max-width:760px){
+  .sf{width:40px}
+  .sf.p1,.sf.p3{top:8px}
+  .sf.p1{left:auto;right:6%}
+  .sf.p3{right:auto;left:6%}
+  .sf.p2,.sf.p4{display:none}
+}
+@media (prefers-reduced-motion:reduce){.sf{animation:none}}
 @media (max-width:900px){
   .hx-photo{position:relative;top:auto;bottom:auto;width:100%;height:440px}
   .hx-photo::before{display:none}
@@ -308,6 +332,7 @@ h1,h2,summary{letter-spacing:normal}
 </section>
 
 <section id="prova" class="sec" style="padding: 96px 0; background: var(--bg-alt);">
+<span class="sf p1" aria-hidden="true"></span><span class="sf p2" aria-hidden="true"></span>
 <div class="wrap" style="display: flex; flex-direction: column; gap: 32px;">
 <div style="display: flex; flex-direction: column; gap: 12px; max-width: 720px;">
 <span class="rot">Mesma tarefa, duas respostas</span>
@@ -367,6 +392,7 @@ Se você sente que sabe muito, tem ideia demais e entrega de menos, me conta aqu
 </section>
 
 <section class="sec" style="padding: 96px 0;">
+<span class="sf p3" aria-hidden="true"></span><span class="sf p4" aria-hidden="true"></span>
 <div class="wrap" style="display: flex; flex-direction: column; gap: 36px; max-width: 880px;">
 <h2 class="h2" style="margin: 0; font-family: Marcellus, serif; font-weight: 400; font-size: 40px; line-height: 1.15; color: var(--title);">Você conhece esse cansaço.</h2>
 <div>
@@ -380,6 +406,7 @@ Se você sente que sabe muito, tem ideia demais e entrega de menos, me conta aqu
 </section>
 
 <section class="mx">
+<span class="sf p1" aria-hidden="true"></span><span class="sf p2" aria-hidden="true"></span>
   <div class="mx-wrap">
     <span class="mx-eyebrow">Por dentro do método</span>
     <h2 class="mx-h2">O seu documento entra. A sua voz sai.</h2>
@@ -471,6 +498,7 @@ Se você sente que sabe muito, tem ideia demais e entrega de menos, me conta aqu
 </section>
 
 <section id="metodo" class="sec" style="padding: 96px 0; background: var(--band); color: #f6f5f0;">
+<span class="sf p3" aria-hidden="true"></span><span class="sf p4" aria-hidden="true"></span>
 <div class="wrap" style="display: flex; flex-direction: column; gap: 40px;">
 <div style="display: flex; flex-direction: column; gap: 12px; max-width: 760px;">
 <span class="rot rot-escuro">Método A Sua Cara</span>
@@ -637,6 +665,7 @@ Se você sente que sabe muito, tem ideia demais e entrega de menos, me conta aqu
 </section>
 
 <section class="sec" style="padding: 96px 0;">
+<span class="sf p1" aria-hidden="true"></span><span class="sf p2" aria-hidden="true"></span>
 <div class="wrap" style="display: flex; flex-direction: column; gap: 36px;">
 <div style="display: flex; flex-direction: column; gap: 12px; max-width: 760px;">
 <span class="rot">5 bônus</span>
@@ -821,6 +850,7 @@ Se você sente que sabe muito, tem ideia demais e entrega de menos, me conta aqu
 </section>
 
 <section class="sec" style="padding: 96px 0; background: var(--bg-alt);">
+<span class="sf p3" aria-hidden="true"></span><span class="sf p4" aria-hidden="true"></span>
 <div class="wrap" style="display: flex; flex-direction: column; gap: 32px;">
 <h2 class="h2" style="margin: 0; font-family: Marcellus, serif; font-weight: 400; font-size: 40px; line-height: 1.15; color: var(--title);">Quem já fez.</h2>
 <div class="duas">
@@ -852,6 +882,7 @@ Se você sente que sabe muito, tem ideia demais e entrega de menos, me conta aqu
 </section>
 
 <section class="sec" style="padding: 96px 0;">
+<span class="sf p1" aria-hidden="true"></span><span class="sf p2" aria-hidden="true"></span>
 <div class="wrap" style="display: flex; flex-direction: column; gap: 48px;">
 <div class="prof">
 <figure class="retrato"><img src="/oferta/img/professora-jaya-sand.webp" alt="Jaya Roberta sorrindo, de blusa verde-azulada, apoiada num muro com folhas e um círculo dourado ao fundo" width="760" height="760" loading="lazy"></figure>
@@ -876,6 +907,7 @@ Se você sente que sabe muito, tem ideia demais e entrega de menos, me conta aqu
 </section>
 
 <section id="oferta" class="sec" style="padding: 96px 0; background: var(--band); color: #f6f5f0;">
+<span class="sf p3" aria-hidden="true"></span><span class="sf p4" aria-hidden="true"></span>
 <div class="wrap offer">
 <div style="display: flex; flex-direction: column; gap: 20px;">
 <span class="rot rot-escuro">O que você leva</span>
@@ -904,6 +936,7 @@ Se você sente que sabe muito, tem ideia demais e entrega de menos, me conta aqu
 </section>
 
 <section class="sec" style="padding: 96px 0;">
+<span class="sf p1" aria-hidden="true"></span><span class="sf p2" aria-hidden="true"></span>
 <div class="wrap" style="max-width: 880px; display: flex; flex-direction: column; gap: 24px;">
 <h2 class="h2" style="margin: 0; font-family: Marcellus, serif; font-weight: 400; font-size: 40px; line-height: 1.15; color: var(--title);">Perguntas frequentes</h2>
 <div>
@@ -919,6 +952,7 @@ Se você sente que sabe muito, tem ideia demais e entrega de menos, me conta aqu
 </section>
 
 <section class="sec" style="padding: 104px 0; background: var(--bg-alt); text-align: center;">
+<span class="sf p3" aria-hidden="true"></span><span class="sf p4" aria-hidden="true"></span>
 <div class="wrap" style="display: flex; flex-direction: column; align-items: center; gap: 22px;">
 <h2 class="h2" style="margin: 0; font-family: Marcellus, serif; font-weight: 400; font-size: 40px; line-height: 1.15; max-width: 760px; color: var(--title);">Pare de se apresentar ao Claude a cada conversa.</h2>
 <p style="margin: 0; font-size: 19px; color: var(--text-2); max-width: 620px;">Mostre a sua cara uma vez. Atualize quando a vida mudar. Deixe o resto da tarde para o que só você faz.</p>

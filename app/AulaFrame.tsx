@@ -31,7 +31,7 @@ export default function AulaFrame({
   titulo: string;
   deck?: boolean;
   courseNumber?: number;
-  /* só o curso (recursos, guia): o botão voltar usa os tokens SAND; o admin e o atlas seguem como estão */
+  /* só o curso (recursos, guias, atlas): o botão voltar usa os tokens SAND; o admin segue como está */
   sand?: boolean;
 }) {
   const ref = useRef<HTMLIFrameElement>(null);

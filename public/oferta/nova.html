@@ -96,6 +96,8 @@ h1,h2,summary{letter-spacing:normal}
 .rot-escuro{color:#f4cf85}
 .retrato{margin:0;width:100%;max-width:320px;box-sizing:border-box;padding:8px;border:1px solid #f4cf85;border-radius:50%}
 .retrato img{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;object-position:50% 8%;border:1px dotted #f4cf85;box-sizing:border-box;border-radius:50%}
+/* a seção do método é escura nos dois temas: a órbita usa ali as cores do tema escuro, sem painel (só nesta seção) */
+#metodo .hero-art{--dg-tinta:#F6F5F0;--dg-sec:#8FB3BB;--dg-papel:var(--band)}
 /* topo e faixa "por dentro do método" (hero-e-mecanismo.html) */
 /* ---------- HERO ---------- */
 .hx{position:relative;background:var(--bg);overflow:hidden}
@@ -177,7 +179,7 @@ h1,h2,summary{letter-spacing:normal}
 /* foto da professora e diagrama em órbita, vindos de index.html */
 .prof{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:40px;align-items:center}
 /* DIAGRAMA-CSS:INI */
-  .hero-art { width: 100%; max-width: 420px; margin: 0 auto; box-sizing: border-box; padding: 8px; background: var(--dg-papel); border: 1px solid var(--line-2); }
+  .hero-art { width: 100%; max-width: 420px; margin: 0 auto; }
   .orbit { width: 100%; height: auto; display: block; }
   .manual-art { padding: 0; display: grid; place-items: center; }
   .manual-art svg { width: 100%; height: auto; max-height: 350px; display: block; }

@@ -426,10 +426,11 @@ export function svgManual() {
     </svg>`;
 }
 
-/* CSS do modo SAND: sem sombra, cantos retos, fundo transparente. O painel do método é creme porque
-   a seção dele é escura; o do Manual fica solto dentro do card. As animações são as mesmas. */
+/* CSS do modo SAND: sem sombra, cantos retos, fundo transparente. Nenhum dos dois desenhos tem painel
+   próprio: a órbita fica direto sobre a seção escura do método, o Manual solto no card. As
+   animações são as mesmas. */
 export const CSS_SAND = CSS_DIAGRAMA
-  .replace(/\.hero-art \{[\s\S]*?\n  \}\n/, '.hero-art { width: 100%; max-width: 420px; margin: 0 auto; box-sizing: border-box; padding: 8px; background: var(--dg-papel); border: 1px solid var(--line-2); }\n')
+  .replace(/\.hero-art \{[\s\S]*?\n  \}\n/, '.hero-art { width: 100%; max-width: 420px; margin: 0 auto; }\n')
   .replace(/\.manual-art \{[\s\S]*?\n  \}\n/, '.manual-art { padding: 0; display: grid; place-items: center; }\n');
 
 /* ---------- escrita ---------- */

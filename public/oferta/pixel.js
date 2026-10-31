@@ -2,7 +2,7 @@
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
 fbq('init','976405741684117');
 fbq('track','PageView');
-fbq('track','ViewContent',{content_name:'Claude do Zero',content_type:'product',value:297,currency:'BRL'});
+fbq('track','ViewContent',{content_name:'Claude, Seu Redator Pessoal',content_type:'product',value:297,currency:'BRL'});
 
 /* Repasse de UTMs, src e sck para o checkout da Hotmart e evento ClickCheckout no clique.
    InitiateCheckout e Purchase chegam do servidor da Hotmart; o clique usa evento próprio para não contar em dobro. */
@@ -35,7 +35,7 @@ fbq('track','ViewContent',{content_name:'Claude do Zero',content_type:'product',
         link.addEventListener('click', function () {
           if (typeof fbq === 'function') {
             fbq('trackCustom', 'ClickCheckout', {
-              content_name: 'Claude do Zero',
+              content_name: 'Claude, Seu Redator Pessoal',
               posicao: link.getAttribute('data-posicao') || ''
             });
           }

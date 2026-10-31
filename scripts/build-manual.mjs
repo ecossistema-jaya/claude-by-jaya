@@ -84,16 +84,19 @@ if (fs.existsSync(ASSETS)) {
    origem abaixo. Os dois GIFs de pixel-art têm um único frame e vêm com fundo preto
    chapado, que destoa do creme da página: viram PNG com esse fundo recortado (ver
    recortarFundo abaixo) para o card branco aparecer atrás. */
+const V = 'oferta/img/versoes-sand/';
 const SECOES = {
-  projects: 'imagens/01.png',
-  memoria: 'imagens/16.png',
-  artifacts: 'imagens/20.png',
-  web: 'imagens/21.png',
-  arquivos: 'imagens/42-1.png',
-  conectores: 'imagens/44-1.png',
+  projects: V + 'projects-sand.png',
+  memoria: V + 'momoria-sand.png', // o arquivo de origem se chama "momoria"
+  artifacts: V + 'artifacts-sand.png',
+  web: V + 'web-sand.png',
+  arquivos: V + 'arquivos-sand.png',
+  conectores: V + 'conectores-sand.png',
   office: 'imagens/assets-claude-code/assests-claude-code3.gif',
   agentes: 'imagens/assets-claude-code/assests-claude-code4.gif',
 };
+/* altura de saída quando não é a padrão (900): mantém as dimensões que a página já servia */
+const ALTURA = { artifacts: 622, web: 617 };
 
 const PUBLIC = path.join(ROOT, 'public');
 const DEST_IMG = path.join(DEST, 'img');
@@ -170,10 +173,10 @@ for (const [secao, relativo] of Object.entries(SECOES)) {
     if (sprite) {
       await recortarFundo(origem, destino);
     } else {
-      /* 900px de altura: o dobro dos 460 em que a figura aparece, para telas 2x. */
+      /* 900px de altura (ou ALTURA acima): o dobro dos 460 em que a figura aparece, para telas 2x. */
       await sharp(origem)
-        .resize({ height: 900, withoutEnlargement: true })
-        .webp({ quality: 78 })
+        .resize({ height: ALTURA[secao] ?? 900, withoutEnlargement: true })
+        .webp({ quality: 80 })
         .toFile(destino);
     }
   }

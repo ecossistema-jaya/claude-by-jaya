@@ -50,3 +50,6 @@ originais/sanddesignsystem.html
 # Material visual do SAND (documento de referência), fora do site e do repositório.
 docs/sand/
 docs/sand-v2-assets/
+
+# Versões SAND das imagens do curso (PNG de trabalho): só os webp finais entram no git.
+public/oferta/img/versoes-sand/

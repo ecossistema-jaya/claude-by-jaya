@@ -25,11 +25,14 @@ export default function AulaFrame({
   titulo,
   deck = false,
   courseNumber,
+  sand = false,
 }: {
   src: string;
   titulo: string;
   deck?: boolean;
   courseNumber?: number;
+  /* só o curso (recursos, guia): o botão voltar usa os tokens SAND; o admin e o atlas seguem como estão */
+  sand?: boolean;
 }) {
   const ref = useRef<HTMLIFrameElement>(null);
   const resizeObserverRef = useRef<ResizeObserver | null>(null);
@@ -77,11 +80,14 @@ export default function AulaFrame({
 
   if (courseNumber) {
     return (
-      <div className="course-page">
+      <div className="course-page curso-sand">
         <header className="course-topbar">
           <Link href="/" className="course-brand" aria-label="Voltar ao índice do curso">
-            <small>Curso</small>
-            Claude, Seu Redator Pessoal
+            <img className="course-logo" src="/oferta/logo-jayai-teal.webp" alt="Jay.AI" width={600} height={345} />
+            <span>
+              <small>Curso</small>
+              Claude, Seu Redator Pessoal
+            </span>
           </Link>
           <div className="course-position">
             Aula {String(courseNumber).padStart(2, '0')} de {AULAS.length}
@@ -178,7 +184,7 @@ export default function AulaFrame({
 
   return (
     <>
-      <Link href="/" className="voltar">
+      <Link href="/" className={sand ? 'voltar curso-sand' : 'voltar'}>
         ← índice
       </Link>
       {/* sem focus() programático no iframe: com ele o Chrome engole as setas

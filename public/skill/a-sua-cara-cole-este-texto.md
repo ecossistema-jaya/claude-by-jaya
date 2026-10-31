@@ -9,7 +9,7 @@ Presente da masterclass **Primeira Conversa** · Jay.AI
 Existem dois caminhos. Escolha um.
 
 **Caminho A — você tem Claude pago e sabe criar um Projeto**
-Use o arquivo `minha-personalidade.skill`. Abra o Claude, vá em Configurações → Capacidades → Skills, faça o upload do arquivo, e depois é só pedir numa conversa nova: *"roda a skill minha-personalidade"*.
+Use o arquivo `a-sua-cara.skill`. Abra o Claude, vá em Configurações → Capacidades → Skills, faça o upload do arquivo, e depois é só pedir numa conversa nova: *"roda a skill a-sua-cara"*.
 
 **Caminho B — você quer o jeito simples, e funciona em qualquer versão**
 Abra uma conversa **nova** no Claude ou no ChatGPT e cole todo o texto que está entre as linhas abaixo. A entrevista começa sozinha.

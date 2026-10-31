@@ -7,61 +7,66 @@
 <title>8 recursos do Claude</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=DM+Sans:wght@400;500;600;700&family=La+Belle+Aurore&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Marcellus+SC&family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
 <style>
   :root{
     color-scheme:light;
-    --wine:#781119;--wine-dark:#4f070d;--ink:#30221e;--muted:#6d5c52;
-    --cream:#fbf1e5;--paper:#fffaf4;--gold:#d49659;--line:#e8cdb2;--peach:#f6d9bd;
-    --orange:#c45e22;--ok:#5b7a4e;--beta:#b07414
+    /* SAND: tokens do tema claro da página de vendas (originais/claude-do-zero.html) */
+    --bg:#F6F5F0; --bg-alt:#EFEDE4; --card:#FFFFFF; --text:#292929; --title:#152D38; --text-2:#3B4246; --muted:#606864;
+    --sec:#517D86; --sec2:#3F6670; --line:#E5E3DA; --line-2:#D8D5C9; --hl:#225572; --gold:#F4CF85; --amber:#FCB655; --ink-dark:#0A2229;
+    /* nomes antigos do manual, apontando para os tokens SAND */
+    --wine:var(--title); --wine-dark:var(--ink-dark); --ink:var(--text); --cream:var(--bg); --paper:var(--card); --peach:var(--bg-alt);
+    --orange:var(--sec2); --ok:var(--sec2); --beta:var(--hl);
   }
+  /* Marcellus não tem itálico: sem isso o navegador inventa uma inclinação */
+  h1 em,h2 em,h3 em,h4 em{font-style:normal;}
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{margin:0;background:var(--cream);color:var(--ink);font-family:"DM Sans",Arial,Helvetica,sans-serif;line-height:1.55}
+  body{margin:0;background:var(--cream);color:var(--ink);font-family:'Open Sans',Arial,sans-serif;line-height:1.55}
   @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-  a:focus-visible,summary:focus-visible{outline:2px solid var(--orange);outline-offset:3px;border-radius:6px}
+  a:focus-visible,summary:focus-visible{outline:2px solid var(--orange);outline-offset:3px;border-radius:0}
 
   .shell{max-width:1180px;margin:auto;padding:24px}
-  .page{background:var(--paper);border:1px solid rgba(212,150,89,.3);border-radius:28px;overflow:hidden;box-shadow:0 18px 60px rgba(94,44,24,.12)}
+  .page{background:var(--paper);border:1px solid rgba(244,207,133,.3);border-radius:0;overflow:hidden;box-shadow:none}
 
   /* ---- hero ---- */
-  .hero{min-height:670px;position:relative;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:40px;padding:72px;overflow:hidden;background:radial-gradient(circle at 82% 18%,rgba(255,244,206,.95),transparent 24%),linear-gradient(115deg,#fae6d0 0%,#f9e9d9 50%,#f0c588 100%)}
-  .hero:before,.hero:after{content:"";position:absolute;border:1px solid rgba(148,78,33,.16);border-radius:50%;pointer-events:none}
-  .hero:before{height:690px;width:690px;right:-360px;top:-180px;box-shadow:0 0 0 28px transparent,0 0 0 29px rgba(148,78,33,.11),0 0 0 58px transparent,0 0 0 59px rgba(148,78,33,.08)}
+  .hero{min-height:670px;position:relative;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:40px;padding:72px;overflow:hidden;background:var(--bg-alt)}
+  .hero:before,.hero:after{content:"";position:absolute;border:1px solid rgba(21,45,56,.16);border-radius:50%;pointer-events:none}
+  .hero:before{height:690px;width:690px;right:-360px;top:-180px;box-shadow:none}
   .hero:after{height:420px;width:420px;left:-230px;bottom:-250px}
   .hero-copy,.hero-art{position:relative;z-index:1}
-  .brand{display:flex;align-items:center;gap:12px;color:var(--wine);font-family:"Cormorant Garamond",Georgia,serif;font-size:26px;font-weight:700;letter-spacing:.06em}
+  .brand{display:flex;align-items:center;gap:12px;color:var(--wine);font-family:'Marcellus',Georgia,serif;font-size:26px;font-weight:400;letter-spacing:.06em}
   .mark{width:34px;height:34px;flex:none;display:block}
   .eyebrow{margin:38px 0 10px;color:var(--wine);font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase}
-  .hero h1{font-family:"Cormorant Garamond",Georgia,serif;color:var(--wine);font-size:clamp(52px,7vw,92px);line-height:.82;letter-spacing:-.055em;margin:0;max-width:610px;text-wrap:balance}
-  .hero h1 em{display:block;color:var(--orange);font-style:italic;font-size:.68em;letter-spacing:-.035em;margin:12px 0 0 46px}
-  .lead{max-width:52ch;font-size:18px;margin:30px 0;color:#4f4038}
+  .hero h1{font-family:'Marcellus',Georgia,serif;color:var(--wine);font-size:clamp(52px,7vw,92px);line-height:1.08;letter-spacing:0;margin:0;max-width:610px;text-wrap:balance}
+  .hero h1 em{display:block;color:var(--orange);font-style:normal;font-size:.68em;letter-spacing:0;margin:12px 0 0 46px}
+  .lead{max-width:52ch;font-size:18px;margin:30px 0;color:var(--text-2)}
   .lead strong{color:var(--orange)}
-  .scribble{font-family:"La Belle Aurore",cursive;font-size:25px;color:#a74f21;margin-top:28px;transform:rotate(-2deg)}
-  .stamp{display:inline-flex;align-items:center;gap:8px;margin-top:26px;padding:7px 14px;border:1px solid rgba(120,17,25,.28);border-radius:99px;background:rgba(255,250,244,.7);color:var(--wine);font-size:11px;font-weight:700;letter-spacing:.13em;text-transform:uppercase}
+  .scribble{font-family:'Marcellus',Georgia,serif;font-size:25px;color:var(--hl);margin-top:28px;transform:rotate(-2deg)}
+  .stamp{display:inline-flex;align-items:center;gap:8px;margin-top:26px;padding:7px 14px;border:1px solid rgba(21,45,56,.28);border-radius:0;background:rgba(255,255,255,.7);color:var(--wine);font-size:11px;font-weight:700;letter-spacing:.13em;text-transform:uppercase}
   .stamp b{color:var(--orange)}
-  .cover-art{width:300px;display:block;margin:0 auto;border-radius:24px;box-shadow:20px 20px 0 rgba(124,17,25,.12);transform:rotate(3deg)}
-  .sun{position:absolute;width:150px;height:150px;border-radius:50%;right:70px;top:58px;background:radial-gradient(circle,#fff5d6 0 35%,rgba(255,235,184,.55) 36% 58%,transparent 59%)}
+  .cover-art{width:300px;display:block;margin:0 auto;border-radius:0;box-shadow:none;transform:rotate(3deg)}
+  .sun{position:absolute;width:150px;height:150px;border-radius:50%;right:70px;top:58px;background:radial-gradient(circle,#F4CF85 0 35%,rgba(244,207,133,.55) 36% 58%,transparent 59%)}
 
   /* ---- nav ---- */
-  .nav{display:flex;flex-wrap:wrap;gap:8px;padding:16px 42px;border-top:1px solid rgba(124,17,25,.12);border-bottom:1px solid rgba(124,17,25,.12);background:rgba(255,250,244,.94);position:sticky;top:0;z-index:3}
-  .nav a{text-decoration:none;color:var(--wine);border:1px solid #e6c4aa;border-radius:99px;padding:6px 11px;font-size:12px;font-weight:600}
+  .nav{display:flex;flex-wrap:wrap;gap:8px;padding:16px 42px;border-top:1px solid rgba(21,45,56,.12);border-bottom:1px solid rgba(21,45,56,.12);background:rgba(255,255,255,.94);position:sticky;top:0;z-index:3}
+  .nav a{text-decoration:none;color:var(--wine);border:1px solid var(--line-2);border-radius:0;padding:6px 11px;font-size:12px;font-weight:600}
   .nav a:hover{background:var(--wine);color:#fff}
 
   /* ---- content ---- */
   .content{padding:76px 72px}
   .intro{display:grid;grid-template-columns:.7fr 1.3fr;gap:50px;align-items:start;margin-bottom:64px}
   .section-label{color:var(--orange);font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700}
-  .intro h2,.final h2{font:600 clamp(38px,5vw,62px)/.95 "Cormorant Garamond",Georgia,serif;color:var(--wine);margin:12px 0;text-wrap:balance}
+  .intro h2,.final h2{font:400 clamp(38px,5vw,62px)/1.1 'Marcellus',Georgia,serif;color:var(--wine);margin:12px 0;text-wrap:balance}
   .intro p{font-size:17px;color:var(--muted);margin:10px 0;max-width:62ch}
-  .principle{padding:24px;border-left:2px solid var(--gold);background:#fff5e9;font:600 25px/1.15 "Cormorant Garamond",Georgia,serif;color:var(--wine);border-radius:0 16px 16px 0;text-wrap:balance}
+  .principle{padding:24px;border-left:2px solid var(--gold);background:var(--card);font:600 25px/1.15 'Marcellus',Georgia,serif;color:var(--wine);border-radius:0;text-wrap:balance}
 
   /* ---- strip ---- */
-  .visual-caption{font:600 27px/1.1 "Cormorant Garamond",Georgia,serif;color:var(--wine);margin:0 0 6px}
+  .visual-caption{font:600 27px/1.1 'Marcellus',Georgia,serif;color:var(--wine);margin:0 0 6px}
   .visual-note{margin:0 0 18px;color:var(--muted);font-size:14px;max-width:64ch}
   .visual-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin:0 0 70px;padding:0;list-style:none}
   .visual-strip figure{margin:0;display:flex;flex-direction:column;gap:8px}
-  .visual-strip img{width:100%;aspect-ratio:9/11;object-fit:cover;object-position:top;border-radius:14px;border:1px solid var(--line);display:block}
+  .visual-strip img{width:100%;aspect-ratio:9/11;object-fit:cover;object-position:top;border-radius:0;border:1px solid var(--line);display:block}
   .visual-strip figcaption{font-size:11px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
 
   /* ---- resources ---- */
@@ -69,50 +74,50 @@
   .resource{grid-template-columns:210px 1fr}
   .lateral{display:flex;flex-direction:column;gap:20px}
   .shot{margin:0}
-  .shot img{display:block;width:100%;border-radius:14px;border:1px solid var(--line);background:#fff}
-  .shot.pixel img{width:120px;padding:12px;border-radius:12px;background:#fff;image-rendering:pixelated}
-  .number{font:600 64px/.8 "Cormorant Garamond",Georgia,serif;color:var(--orange);letter-spacing:-.06em}
-  .resource h3{font:600 clamp(32px,4vw,45px)/.98 "Cormorant Garamond",Georgia,serif;color:var(--wine);margin:0 0 12px;text-wrap:balance}
-  .resource h3 span{display:inline-block;font-family:"DM Sans",Arial,sans-serif;font-size:12px;font-weight:700;color:var(--orange);letter-spacing:.16em;text-transform:uppercase;margin-left:10px;vertical-align:middle}
+  .shot img{display:block;width:100%;border-radius:0;border:1px solid var(--line);background:var(--card)}
+  .shot.pixel img{width:120px;padding:12px;border-radius:0;background:var(--card);image-rendering:pixelated}
+  .number{font:600 64px/.8 'Marcellus',Georgia,serif;color:var(--orange);letter-spacing:-.06em}
+  .resource h3{font:400 clamp(32px,4vw,45px)/1.1 'Marcellus',Georgia,serif;color:var(--wine);margin:0 0 12px;text-wrap:balance}
+  .resource h3 span{display:inline-block;font-family:'Open Sans',Arial,sans-serif;font-size:12px;font-weight:700;color:var(--orange);letter-spacing:.16em;text-transform:uppercase;margin-left:10px;vertical-align:middle}
   .description{font-size:18px;max-width:68ch;margin:0 0 22px}
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-  .box{background:#fff7ed;border:1px solid #efd9c3;border-radius:16px;padding:18px 20px}
+  .box{background:var(--card);border:1px solid var(--line-2);border-radius:0;padding:18px 20px}
   .box h4{margin:0 0 8px;color:var(--wine);font-size:12px;letter-spacing:.11em;text-transform:uppercase}
   .box p{margin:0;color:var(--muted);font-size:14px}
   .box p + p{margin-top:8px}
-  .prompt{grid-column:1/-1;background:var(--wine-dark);color:#fff3e8;border-radius:16px;padding:20px 22px;position:relative;overflow:hidden}
-  .prompt:after{content:"✦";position:absolute;right:22px;top:6px;color:#f6bf76;font-size:34px}
-  .prompt h4{margin:0 0 8px;color:#f8c27a;font-size:11px;letter-spacing:.16em;text-transform:uppercase}
-  .prompt p{margin:0;font-size:15px;max-width:88ch;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;line-height:1.55}
+  .prompt{grid-column:1/-1;background:var(--wine-dark);color:var(--card);border-radius:0;padding:20px 22px;position:relative;overflow:hidden}
+  .prompt:after{content:"✦";position:absolute;right:22px;top:6px;color:var(--gold);font-size:34px}
+  .prompt h4{margin:0 0 8px;color:var(--gold);font-size:11px;letter-spacing:.16em;text-transform:uppercase}
+  .prompt p{margin:0;font-size:15px;max-width:88ch;font-family:'Open Sans',Arial,sans-serif;line-height:1.55}
 
   /* ---- fineprint ---- */
   .fineprint{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:2px}
-  .chip{display:inline-block;padding:5px 11px;border-radius:99px;font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;border:1px solid var(--line);background:#fffaf4;color:var(--muted)}
+  .chip{display:inline-block;padding:5px 11px;border-radius:0;font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;border:1px solid var(--line);background:var(--card);color:var(--muted)}
 
   /* ---- tables ---- */
-  .scroller{overflow-x:auto;border-radius:18px;border:1px solid var(--line);margin-top:18px}
+  .scroller{overflow-x:auto;border-radius:0;border:1px solid var(--line);margin-top:18px}
   .matrix{margin-top:18px}
   table{width:100%;border-collapse:collapse;font-size:14px;min-width:520px}
-  th{background:var(--wine);color:#fff5e9;text-align:left;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:14px 16px;font-weight:700}
+  th{background:var(--wine);color:var(--card);text-align:left;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:14px 16px;font-weight:700}
   td{padding:15px 16px;border-top:1px solid var(--line);vertical-align:top}
-  tr:nth-child(even) td{background:#fff8f0}
+  tr:nth-child(even) td{background:var(--card)}
   td:first-child{color:var(--wine);font-weight:700;white-space:nowrap}
   .status{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;white-space:nowrap}
   .status.ok{color:var(--ok)}
   .status.beta{color:var(--beta)}
 
   /* ---- final ---- */
-  .final{margin:68px -72px -76px;padding:70px 72px;background:linear-gradient(135deg,#6b0d15,#8d1a20 52%,#b24e22);color:#fff7ed;position:relative;overflow:hidden}
-  .final:after{content:"";position:absolute;width:500px;height:500px;border:1px solid rgba(255,228,187,.25);border-radius:50%;right:-270px;top:-270px;box-shadow:0 0 0 28px transparent,0 0 0 29px rgba(255,228,187,.18),0 0 0 58px transparent,0 0 0 59px rgba(255,228,187,.12)}
+  .final{margin:68px -72px -76px;padding:70px 72px;background:var(--ink-dark);color:#F6F5F0;position:relative;overflow:hidden}
+  .final:after{content:"";position:absolute;width:500px;height:500px;border:1px solid rgba(244,207,133,.25);border-radius:50%;right:-270px;top:-270px;box-shadow:none}
   .final>*{position:relative;z-index:1}
-  .final .section-label{color:#f8c27a}
-  .final h2{color:#fff7ed;max-width:20ch}
+  .final .section-label{color:var(--gold)}
+  .final h2{color:var(--card);max-width:20ch}
   .final p{max-width:62ch;font-size:17px}
   .checklist{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px}
-  .check{border:1px solid rgba(255,245,230,.28);border-radius:14px;padding:16px;background:rgba(58,0,8,.18);font-size:14px}
-  .check b{display:block;color:#f9c480;font-size:11px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}
+  .check{border:1px solid rgba(244,207,133,.28);border-radius:0;padding:16px;background:rgba(10,34,41,.18);font-size:14px}
+  .check b{display:block;color:var(--gold);font-size:11px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}
 
-  .footer{padding:22px 72px;background:#4f070d;color:#f6d4b6;font-size:12px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:15px}
+  .footer{padding:22px 72px;background:#0A2229;color:var(--gold);font-size:12px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:15px}
 
   @media(max-width:760px){
     .shell{padding:0}.page{border-radius:0}
@@ -133,7 +138,7 @@
     .hero h1 em{margin-left:20px}
   }
   @media print{
-    body{background:#fff}.shell{padding:0;max-width:none}
+    body{background:var(--card)}.shell{padding:0;max-width:none}
     .page{border:none;box-shadow:none}.nav{display:none}
     .hero{page-break-after:always}.resource{break-inside:avoid}.final{break-before:page}
   }
@@ -145,12 +150,7 @@
   <section class="hero">
     <div class="sun" aria-hidden="true"></div>
     <div class="hero-copy">
-      <div class="brand">
-        <svg class="mark" viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="#c45e22" stroke-width="4.4" stroke-linecap="round">
-          <path d="M24 5v11M24 32v11M5 24h11M32 24h11M10.5 10.5l7.8 7.8M29.7 29.7l7.8 7.8M37.5 10.5l-7.8 7.8M18.3 29.7l-7.8 7.8"/>
-        </svg>
-        JAYA
-      </div>
+      <div class="brand"><img src="/oferta/logo-jayai-teal.webp" alt="Jay.AI" width="600" height="345" style="display:block;height:44px;width:auto"></div>
       <div class="eyebrow">Manual de trabalho · Claude AI</div>
       <h1>8 recursos<em>para sair do “chat” e entrar no sistema.</em></h1>
       <p class="lead">O Claude pode ser um excelente interlocutor. Mas, quando você aprende a usar seus recursos de verdade, ele vira uma camada de <strong>organização, criação, análise e execução</strong> no seu trabalho.</p>
@@ -292,7 +292,7 @@
 
     <section>
       <div class="section-label">Escolha rápida</div>
-      <h2 style="font:600 clamp(34px,4.4vw,47px)/.95 'Cormorant Garamond',Georgia,serif;color:var(--wine);margin:10px 0 0">Qual recurso abre primeiro?</h2>
+      <h2 style="font:400 clamp(34px,4.4vw,47px)/1.1 'Marcellus',Georgia,serif;color:var(--wine);margin:10px 0 0">Qual recurso abre primeiro?</h2>
       <div class="scroller matrix"><table>
         <thead><tr><th>Se você precisa…</th><th>Comece por</th><th>O ganho real</th></tr></thead>
         <tbody>
